@@ -1,0 +1,44 @@
+id,source_start,source_end,final_start,section,question,topic,answer_status,edit_action,visual_asset,chapter,notes
+1,00:14:17,,,PHP и ООП,Что такое readonly-класс в PHP?,PHP,REVIEW,review,code-readonly,PHP и ООП,
+2,00:15:45,,,PHP и ООП,Для чего нужен интерфейс?,ООП,REVIEW,review,comparison-oop,PHP и ООП,Общий тайминг с вопросами 3 и 4
+3,00:15:45,,,PHP и ООП,Для чего нужен абстрактный класс?,ООП,REVIEW,review,comparison-oop,PHP и ООП,Общий тайминг с вопросами 2 и 4
+4,00:15:45,,,PHP и ООП,Для чего нужен trait?,ООП,REVIEW,review,comparison-oop,PHP и ООП,Общий тайминг с вопросами 2 и 3
+5,00:16:42,,,PHP и ООП,Что происходит при передаче объекта в метод?,PHP,REVIEW,review,object-semantics,PHP и ООП,
+6,00:17:54,,,PHP и ООП,Чем DateTimeImmutable лучше или хуже DateTime и какие есть нюансы?,PHP,REVIEW,review,datetime-code,PHP и ООП,
+7,00:18:50,,,Архитектура,Как работать с исключениями в слоистой архитектуре и DDD?,Архитектура,REVIEW,review,exception-layers,Архитектура и DDD,
+8,00:19:23,,,Архитектура,Где лучше ловить исключения?,Архитектура,REVIEW,review,exception-layers,Архитектура и DDD,
+9,00:21:30,,,Symfony,Как работает DI-контейнер Symfony и что он даёт?,Symfony,REVIEW,review,symfony-di,Symfony и DI,
+10,00:21:30,,,Принципы,В чём заключается Dependency Inversion Principle?,SOLID,REVIEW,review,dip-di,Symfony и DI,
+11,00:23:00,,,Symfony,Когда использовать autowiring а когда прямое конфигурирование сервисов?,Symfony,REVIEW,review,autowiring,Symfony и DI,
+12,00:24:38,,,Symfony,Когда нужно явное конфигурирование сервисов вместо атрибутов и autowiring?,Symfony,REVIEW,review,service-config,Symfony и DI,
+13,00:26:26,,,Паттерны,Что можешь рассказать про Event Subscriber?,Паттерны,REVIEW,review,event-subscriber,Паттерны и Messenger,
+14,00:26:26,,,Паттерны,Что можешь рассказать про middleware?,Паттерны,REVIEW,review,middleware-flow,Паттерны и Messenger,
+15,00:26:26,,,Паттерны,Что можешь рассказать про паттерн «Декоратор»?,Паттерны,REVIEW,review,decorator-code,Паттерны и Messenger,
+16,00:27:13,,,Паттерны,Зачем нужен middleware?,Паттерны,REVIEW,review,middleware-flow,Паттерны и Messenger,
+17,00:28:29,,,Symfony,Чем полезен Symfony Messenger кроме работы с очередями?,Symfony,REVIEW,review,messenger-bus,Паттерны и Messenger,Приоритетная проверка ответа
+18,00:30:02,,,Symfony,Когда нужен собственный consumer вместо consumer Symfony Messenger?,Symfony,REVIEW,review,custom-consumer,Паттерны и Messenger,Приоритетная проверка ответа
+19,00:31:11,,,Очереди,В каком режиме кроме опроса может работать RabbitMQ?,RabbitMQ,REVIEW,review,rabbitmq-modes,Очереди,
+R1,00:36:04,,,Повреждённый звук,Как в Doctrine работают Unit of Work persist flush и clear?,Doctrine,REVIEW,reconstruct,doctrine-uow,Doctrine и база,Формулировка восстановлена по контексту
+R2,00:37:45,,,Повреждённый звук,Почему рекомендуется вызывать flush один раз за запрос?,Doctrine,REVIEW,reconstruct,doctrine-flush,Doctrine и база,Формулировка восстановлена по контексту
+R3,00:38:05,,,Повреждённый звук,Какие плюсы и минусы у ленивой загрузки в Doctrine?,Doctrine,REVIEW,reconstruct,lazy-loading,Doctrine и база,Формулировка восстановлена по контексту
+20,00:38:52,,,Doctrine и база,Когда при работе с Doctrine нужно явно использовать транзакции?,Doctrine,REVIEW,reconstruct,transactions,Doctrine и база,Попадает в повреждённый блок
+R4,00:40:01,,,Повреждённый звук,Какие плюсы и минусы у UUID по сравнению с автоинкрементным идентификатором?,Базы данных,REVIEW,reconstruct,uuid-vs-sequence,Doctrine и база,Проверить кто задал вопрос
+21,00:42:47,,,Doctrine и база,Для чего нужны индексы и какие виды индексов бывают?,PostgreSQL,REVIEW,review,indexes,Doctrine и база,Проверить момент восстановления звука
+22,00:44:05,,,Архитектура,Что такое чистая архитектура?,Архитектура,REVIEW,review,clean-architecture,Архитектура и DDD,
+23,00:45:03,,,Архитектура,Каковы базовые принципы чистой архитектуры?,Архитектура,REVIEW,review,clean-architecture,Архитектура и DDD,
+24,00:45:42,,,Архитектура,Чем доменный сервис отличается от application-сервиса?,DDD,REVIEW,review,domain-vs-application,Архитектура и DDD,
+25,00:48:10,,,Архитектура,Можно ли контроллеру обращаться напрямую в репозиторий?,Архитектура,REVIEW,review,controller-repository,Архитектура и DDD,
+26,00:48:47,,,Архитектура,Чем DTO отличается от Entity и для чего они используются?,Архитектура,REVIEW,review,dto-vs-entity,Архитектура и DDD,
+27,00:49:37,,,Архитектура,Как выделять границы модулей при разделении монолита?,Архитектура,REVIEW,review,module-boundaries,Архитектура и DDD,
+28,00:49:37,,,Архитектура,Как организовать взаимодействие между модулями?,Архитектура,REVIEW,review,module-communication,Архитектура и DDD,
+29,00:52:46,,,Архитектура,Где должен располагаться интерфейс репозитория в слоистой архитектуре?,Архитектура,REVIEW,review,repository-interface,Архитектура и DDD,
+30,00:53:59,,,Кэширование,Что такое стратегия кэширования Cache Aside?,Кэширование,REVIEW,review,cache-aside,Кэширование,Приоритетная проверка ответа
+31,00:56:36,,,Безопасность,Чем аутентификация отличается от авторизации?,Авторизация,REVIEW,review,authn-authz,Авторизация,
+32,00:57:29,,,Безопасность,Что такое JWT-токен?,Авторизация,REVIEW,review,jwt,Авторизация,
+33,00:57:39,,,Базы данных,С чего начать оптимизацию медленного запроса с фильтрацией по таблице на 10 млн строк?,Оптимизация запросов,REVIEW,review,query-plan,PostgreSQL и оптимизация,
+34,00:58:09,,,Принципы,Что такое SOLID?,SOLID,REVIEW,review,solid-overview,SOLID и принципы,
+35,00:58:24,,,Принципы,В чём заключается Single Responsibility Principle?,SOLID,REVIEW,review,srp,SOLID и принципы,
+36,01:00:04,,,Принципы,Обязательно ли всегда соблюдать SOLID?,SOLID,REVIEW,review,solid-tradeoffs,SOLID и принципы,
+37,01:00:57,,,Принципы,Что такое DRY?,Принципы,REVIEW,review,dry,SOLID и принципы,
+38,01:01:08,,,Принципы,Есть ли ощущение что DRY и KISS противоречат друг другу?,Принципы,REVIEW,review,dry-kiss,SOLID и принципы,
+

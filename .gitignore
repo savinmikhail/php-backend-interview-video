@@ -1,0 +1,16 @@
+# Keep large and generated media outside Git.
+media/
+exports/
+renders/
+proxies/
+*.mp4
+*.mov
+*.mkv
+*.wav
+*.aiff
+*.psd
+*.aep
+*.prproj
+
+.DS_Store
+

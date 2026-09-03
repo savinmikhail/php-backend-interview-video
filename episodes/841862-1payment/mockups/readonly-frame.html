@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Readonly class — video frame mockup</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --ink: #f8f5ff;
+      --muted: #c8bedc;
+      --panel: rgba(20, 13, 40, .78);
+      --panel-strong: rgba(15, 10, 30, .94);
+      --line: rgba(255, 255, 255, .14);
+      --purple: #9b5cff;
+      --pink: #f357c6;
+      --cyan: #71e4ff;
+      --green: #82f4b1;
+      --red: #ff7b91;
+      --yellow: #ffd36d;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      display: grid;
+      place-items: center;
+      gap: 18px;
+      padding: 24px;
+      background: #0b0811;
+      color: var(--ink);
+    }
+
+    .toolbar {
+      width: min(94vw, 1280px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      color: #d8d1e3;
+      font-size: 14px;
+    }
+
+    .toolbar__group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    button {
+      appearance: none;
+      border: 1px solid #393143;
+      border-radius: 999px;
+      padding: 9px 14px;
+      background: #17121e;
+      color: #d8d1e3;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    button[aria-pressed="true"] {
+      border-color: #a45fff;
+      background: #34204b;
+      color: #fff;
+    }
+
+    .stage-shell {
+      width: min(94vw, 1280px);
+      display: grid;
+      place-items: center;
+    }
+
+    .stage {
+      container-type: size;
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 22px;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 77% 22%, rgba(244, 229, 255, .88) 0 9%, rgba(178, 113, 255, .48) 21%, transparent 42%),
+        radial-gradient(circle at 18% 78%, rgba(245, 73, 195, .86), transparent 31%),
+        radial-gradient(circle at 55% 58%, rgba(81, 21, 145, .86), transparent 42%),
+        linear-gradient(125deg, #170326, #551082 48%, #4e0b92 72%, #b38df0);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, .52);
+    }
+
+    .stage::before,
+    .stage::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: 46%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      filter: blur(66px);
+      opacity: .48;
+      animation: drift 13s ease-in-out infinite alternate;
+    }
+
+    .stage::before {
+      left: 22%;
+      top: 15%;
+      background: #1c001f;
+    }
+
+    .stage::after {
+      right: -8%;
+      bottom: -28%;
+      background: #9e23ff;
+      animation-delay: -6s;
+    }
+
+    @keyframes drift {
+      to { transform: translate3d(9%, -5%, 0) scale(1.12); }
+    }
+
+    .safe-frame {
+      position: absolute;
+      inset: 4.4%;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 2.4cqh;
+    }
+
+    .question {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 1.5cqw;
+      min-height: 16cqh;
+      padding: 2.1cqh 2.1cqw;
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 2.3cqh;
+      background: linear-gradient(105deg, rgba(24, 15, 47, .94), rgba(64, 32, 95, .78));
+      box-shadow: 0 16px 45px rgba(25, 3, 55, .28), inset 0 1px rgba(255, 255, 255, .08);
+      backdrop-filter: blur(22px);
+    }
+
+    .question::after {
+      content: "";
+      position: absolute;
+      right: 8.6cqw;
+      bottom: -1.7cqh;
+      width: 3.5cqh;
+      height: 3.5cqh;
+      transform: rotate(45deg);
+      border-right: 1px solid rgba(255, 255, 255, .16);
+      border-bottom: 1px solid rgba(255, 255, 255, .16);
+      background: #3e205d;
+    }
+
+    .question__number {
+      display: grid;
+      place-items: center;
+      width: 7.5cqh;
+      aspect-ratio: 1;
+      border-radius: 1.8cqh;
+      background: linear-gradient(145deg, #a865ff, #6f36cf);
+      box-shadow: 0 8px 24px rgba(112, 48, 207, .48);
+      font-size: 3.2cqh;
+      font-weight: 850;
+    }
+
+    .question__copy { min-width: 0; }
+
+    .eyebrow {
+      margin-bottom: .5cqh;
+      color: #d4bfff;
+      font-size: 1.65cqh;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 44ch;
+      font-size: clamp(22px, 4.25cqh, 52px);
+      line-height: 1.04;
+      letter-spacing: -.035em;
+    }
+
+    .speaker-chip {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: .85cqw;
+      padding: .75cqh .85cqw;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .1);
+      color: #e8def5;
+      white-space: nowrap;
+      font-size: 1.55cqh;
+      font-weight: 750;
+    }
+
+    .speaker-chip__dot {
+      width: 1.2cqh;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 0 .7cqh rgba(113, 228, 255, .12), 0 0 18px rgba(113, 228, 255, .7);
+    }
+
+    .content {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1.35fr .92fr;
+      gap: 1.8cqw;
+      padding: 2.1cqh 1.9cqw;
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 2.5cqh;
+      background: linear-gradient(130deg, rgba(14, 9, 29, .9), rgba(28, 17, 50, .72));
+      box-shadow: 0 24px 60px rgba(15, 2, 34, .34);
+      backdrop-filter: blur(28px);
+    }
+
+    .content__main,
+    .content__aside {
+      min-width: 0;
+      min-height: 0;
+    }
+
+    .content__main {
+      display: grid;
+      align-content: center;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: .7cqw;
+      margin-bottom: 1.2cqh;
+      color: #c9bddd;
+      font-size: 1.7cqh;
+      font-weight: 800;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .section-label::before {
+      content: "";
+      width: 3.2cqw;
+      height: .42cqh;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--pink), var(--purple));
+    }
+
+    pre {
+      margin: 0;
+      padding: 2.2cqh 1.6cqw;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 1.8cqh;
+      background: rgba(7, 6, 16, .88);
+      color: #f8f6ff;
+      box-shadow: inset 0 1px rgba(255, 255, 255, .06);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: clamp(13px, 2.05cqh, 25px);
+      line-height: 1.42;
+      white-space: pre-wrap;
+    }
+
+    .kw { color: #d7a4ff; }
+    .type { color: #77dfff; }
+    .prop { color: #ffd982; }
+    .comment { color: #8f83a5; }
+    .error { color: var(--red); }
+
+    .content__aside {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      align-content: center;
+      gap: 1.2cqh;
+    }
+
+    .takeaways {
+      display: grid;
+      align-content: center;
+      gap: 1.1cqh;
+    }
+
+    .takeaway {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 1cqw;
+      min-height: 7.4cqh;
+      padding: 1.05cqh 1cqw;
+      border: 1px solid rgba(255, 255, 255, .11);
+      border-radius: 1.45cqh;
+      background: rgba(255, 255, 255, .065);
+    }
+
+    .takeaway__icon {
+      display: grid;
+      place-items: center;
+      width: 4.4cqh;
+      aspect-ratio: 1;
+      border-radius: 1.2cqh;
+      background: rgba(155, 92, 255, .2);
+      font-size: 2.2cqh;
+    }
+
+    .takeaway strong {
+      display: block;
+      margin-bottom: .15cqh;
+      font-size: 2cqh;
+      line-height: 1.1;
+    }
+
+    .takeaway span {
+      display: block;
+      color: var(--muted);
+      font-size: 1.55cqh;
+      line-height: 1.2;
+    }
+
+    .media-view {
+      display: none;
+      height: 100%;
+      min-height: 0;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stage[data-view="diagram"] .code-view { display: none; }
+    .stage[data-view="diagram"] .media-view { display: flex; }
+
+    .diagram {
+      width: 100%;
+      height: 100%;
+      max-height: 44cqh;
+      object-fit: contain;
+      filter: drop-shadow(0 18px 30px rgba(0, 0, 0, .3));
+    }
+
+    .speaker-row {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      min-height: 13cqh;
+    }
+
+    .person {
+      display: flex;
+      align-items: center;
+      gap: 1cqw;
+      min-width: 0;
+    }
+
+    .person--interviewer { flex-direction: row-reverse; text-align: right; opacity: .76; }
+
+    .avatar {
+      position: relative;
+      flex: none;
+      width: 10.5cqh;
+      aspect-ratio: 1;
+      overflow: hidden;
+      border: .42cqh solid rgba(255, 255, 255, .88);
+      border-radius: 50%;
+      background: #261638;
+      box-shadow: 0 0 0 .58cqh rgba(243, 87, 198, .28), 0 0 34px rgba(243, 87, 198, .55);
+    }
+
+    .person--interviewer .avatar {
+      box-shadow: 0 0 0 .45cqh rgba(113, 228, 255, .13), 0 0 22px rgba(113, 228, 255, .25);
+    }
+
+    .avatar--author {
+      border-radius: 42% 42% 50% 50%;
+      background-image: url("references/current-layout.png");
+      background-repeat: no-repeat;
+      /* The reference is a full 16:9 frame. Zoom and anchor the crop on the
+         illustrated face so the same asset survives both aspect ratios. */
+      background-size: 760% auto;
+      background-position: 1% 86%;
+    }
+
+    .avatar--interviewer {
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 50% 38%, #d8b99e 0 19%, transparent 20%),
+                  radial-gradient(circle at 50% 74%, #6b6f9b 0 36%, transparent 37%),
+                  linear-gradient(145deg, #63d8ee, #27396e);
+    }
+
+    .avatar--interviewer::before {
+      content: "";
+      position: absolute;
+      left: 33%;
+      top: 17%;
+      width: 34%;
+      height: 27%;
+      border-radius: 50% 50% 42% 42%;
+      background: #2f2733;
+    }
+
+    .avatar--interviewer::after {
+      content: "?";
+      position: absolute;
+      right: 8%;
+      bottom: 5%;
+      display: grid;
+      place-items: center;
+      width: 3.2cqh;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: #152039;
+      color: #94edff;
+      font-size: 1.8cqh;
+      font-weight: 900;
+    }
+
+    .person__name {
+      font-size: 2.05cqh;
+      font-weight: 850;
+      line-height: 1.05;
+    }
+
+    .person__state {
+      display: flex;
+      align-items: center;
+      gap: .6cqw;
+      margin-top: .45cqh;
+      color: #d6cce6;
+      font-size: 1.5cqh;
+      font-weight: 650;
+    }
+
+    .person--interviewer .person__state { justify-content: flex-end; }
+
+    .wave {
+      display: inline-flex;
+      align-items: center;
+      gap: .22cqw;
+      height: 2cqh;
+    }
+
+    .wave i {
+      display: block;
+      width: .24cqw;
+      min-width: 2px;
+      height: 38%;
+      border-radius: 999px;
+      background: var(--pink);
+      animation: talk .75s ease-in-out infinite alternate;
+    }
+
+    .wave i:nth-child(2) { height: 92%; animation-delay: -.25s; }
+    .wave i:nth-child(3) { height: 58%; animation-delay: -.5s; }
+    .wave i:nth-child(4) { height: 78%; animation-delay: -.1s; }
+
+    @keyframes talk { to { transform: scaleY(.45); } }
+
+    .stage[data-layout="short"] {
+      width: min(52vw, 480px);
+      aspect-ratio: 9 / 16;
+    }
+
+    .stage[data-layout="short"] .safe-frame {
+      inset: 4.5% 5.5% 8%;
+      grid-template-rows: auto 1fr auto;
+      gap: 2cqh;
+    }
+
+    .stage[data-layout="short"] .question {
+      grid-template-columns: auto 1fr;
+      min-height: 14cqh;
+      padding: 1.6cqh 4.2cqw;
+      border-radius: 2cqh;
+    }
+
+    .stage[data-layout="short"] .question__number {
+      width: 5.7cqh;
+      border-radius: 1.35cqh;
+      font-size: 2.4cqh;
+    }
+
+    .stage[data-layout="short"] .question::after,
+    .stage[data-layout="short"] .speaker-chip { display: none; }
+
+    .stage[data-layout="short"] h1 {
+      max-width: 22ch;
+      font-size: 3.15cqh;
+      line-height: 1.05;
+    }
+
+    .stage[data-layout="short"] .eyebrow { font-size: 1.15cqh; }
+
+    .stage[data-layout="short"] .content {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+      gap: 1.8cqh;
+      padding: 2.1cqh 4.3cqw;
+      border-radius: 2.2cqh;
+    }
+
+    .stage[data-layout="short"] .section-label {
+      margin-bottom: 1cqh;
+      font-size: 1.25cqh;
+    }
+
+    .stage[data-layout="short"] pre {
+      padding: 1.6cqh 3.5cqw;
+      border-radius: 1.6cqh;
+      font-size: 1.42cqh;
+      line-height: 1.38;
+    }
+
+    .stage[data-layout="short"] .takeaways {
+      grid-template-columns: 1fr;
+      gap: .75cqh;
+    }
+
+    .stage[data-layout="short"] .takeaway {
+      min-height: 5.8cqh;
+      gap: 2.3cqw;
+      padding: .8cqh 2.8cqw;
+    }
+
+    .stage[data-layout="short"] .takeaway__icon { width: 3.3cqh; font-size: 1.7cqh; }
+    .stage[data-layout="short"] .takeaway strong { font-size: 1.55cqh; }
+    .stage[data-layout="short"] .takeaway span { font-size: 1.15cqh; }
+    .stage[data-layout="short"] .diagram { max-height: 54cqh; }
+
+    .stage[data-layout="short"] .speaker-row {
+      min-height: 9.4cqh;
+      align-items: center;
+    }
+
+    .stage[data-layout="short"] .person { gap: 2.1cqw; }
+    .stage[data-layout="short"] .avatar { width: 7.6cqh; }
+    .stage[data-layout="short"] .person__name { font-size: 1.55cqh; }
+    .stage[data-layout="short"] .person__state { font-size: 1.1cqh; }
+    .stage[data-layout="short"] .wave { height: 1.5cqh; }
+    .stage[data-layout="short"] .wave i { width: .65cqw; }
+
+    .note {
+      width: min(94vw, 1280px);
+      margin: 0;
+      color: #91899d;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 700px) {
+      body { padding: 14px; }
+      .toolbar { align-items: flex-start; flex-direction: column; }
+      .stage[data-layout="short"] { width: min(88vw, 480px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar" aria-label="Настройки макета">
+    <div class="toolbar__group">
+      <button type="button" data-layout-button="wide" aria-pressed="true">16:9 · YouTube</button>
+      <button type="button" data-layout-button="short" aria-pressed="false">9:16 · Shorts</button>
+    </div>
+    <div class="toolbar__group">
+      <button type="button" data-view-button="code" aria-pressed="true">Код + тезисы</button>
+      <button type="button" data-view-button="diagram" aria-pressed="false">Адаптивная схема</button>
+    </div>
+  </div>
+
+  <main class="stage-shell">
+    <section class="stage" data-layout="wide" data-view="code" aria-label="Макет кадра видео">
+      <div class="safe-frame">
+        <header class="question">
+          <div class="question__number">01</div>
+          <div class="question__copy">
+            <div class="eyebrow">PHP · Вопрос собеседования</div>
+            <h1>Что такое readonly-класс в PHP?</h1>
+          </div>
+          <div class="speaker-chip">
+            <span class="speaker-chip__dot"></span>
+            Интервьюер
+          </div>
+        </header>
+
+        <section class="content">
+          <div class="content__main code-view">
+            <div class="section-label">Главная идея</div>
+            <pre><code><span class="kw">readonly class</span> <span class="type">User</span>
+{
+    <span class="kw">public function</span> __construct(
+        <span class="kw">public string</span> <span class="prop">$name</span>,
+        <span class="kw">public</span> <span class="type">Address</span> <span class="prop">$address</span>,
+    ) {}
+}
+
+<span class="prop">$user</span>-&gt;name = <span class="error">'Alex'</span>; <span class="comment">// Error</span></code></pre>
+          </div>
+
+          <div class="content__main media-view">
+            <svg class="diagram" viewBox="0 0 760 410" role="img" aria-label="Readonly защищает свойства от повторного присваивания, но вложенный объект может изменяться">
+              <defs>
+                <linearGradient id="card" x1="0" x2="1">
+                  <stop stop-color="#6f36cf"/>
+                  <stop offset="1" stop-color="#a85eff"/>
+                </linearGradient>
+                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#12041f" flood-opacity=".5"/>
+                </filter>
+              </defs>
+              <rect x="24" y="38" width="290" height="326" rx="28" fill="url(#card)" filter="url(#shadow)"/>
+              <text x="56" y="92" fill="#e9dcff" font-size="21" font-weight="750">readonly class</text>
+              <text x="56" y="132" fill="white" font-size="34" font-weight="850">User</text>
+              <rect x="55" y="165" width="228" height="64" rx="16" fill="#25133f" fill-opacity=".72"/>
+              <text x="78" y="204" fill="#ffd982" font-size="24" font-family="monospace">name: Mikhail</text>
+              <text x="248" y="204" fill="#fff" font-size="24">🔒</text>
+              <rect x="55" y="246" width="228" height="82" rx="16" fill="#25133f" fill-opacity=".72"/>
+              <text x="78" y="280" fill="#77dfff" font-size="22" font-family="monospace">address</text>
+              <text x="248" y="280" fill="#fff" font-size="24">🔒</text>
+              <text x="78" y="309" fill="#cbbde1" font-size="17">ссылка зафиксирована</text>
+
+              <path d="M316 286 C380 286 390 235 438 235" stroke="#d8b7ff" stroke-width="5" fill="none" stroke-linecap="round"/>
+              <path d="M425 220 L445 235 L425 250" stroke="#d8b7ff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <rect x="448" y="126" width="280" height="224" rx="28" fill="#111022" stroke="#71e4ff" stroke-opacity=".7" stroke-width="2" filter="url(#shadow)"/>
+              <text x="480" y="180" fill="#77dfff" font-size="31" font-weight="850">Address</text>
+              <rect x="480" y="210" width="216" height="68" rx="16" fill="#1c2940"/>
+              <text x="503" y="252" fill="#fff" font-size="22" font-family="monospace">city: Moscow</text>
+              <text x="650" y="252" fill="#82f4b1" font-size="25">✎</text>
+              <text x="480" y="315" fill="#82f4b1" font-size="19" font-weight="750">Внутреннее состояние изменяемо</text>
+              <rect x="406" y="38" width="322" height="54" rx="27" fill="#ffcf68"/>
+              <text x="567" y="73" text-anchor="middle" fill="#2a1728" font-size="21" font-weight="900">readonly ≠ deep immutable</text>
+            </svg>
+          </div>
+
+          <aside class="content__aside code-view">
+            <div class="section-label">Что запомнить</div>
+            <div class="takeaways">
+              <div class="takeaway">
+                <div class="takeaway__icon">🔒</div>
+                <div><strong>Одно присваивание</strong><span>После инициализации изменить нельзя</span></div>
+              </div>
+              <div class="takeaway">
+                <div class="takeaway__icon">T</div>
+                <div><strong>Только typed properties</strong><span>Нет static и dynamic properties</span></div>
+              </div>
+              <div class="takeaway">
+                <div class="takeaway__icon">↳</div>
+                <div><strong>Не deep immutable</strong><span>Вложенный объект может меняться</span></div>
+              </div>
+            </div>
+          </aside>
+
+          <aside class="content__aside media-view">
+            <div class="section-label">Ключевой нюанс</div>
+            <div class="takeaways">
+              <div class="takeaway">
+                <div class="takeaway__icon">🔒</div>
+                <div><strong>Ссылка защищена</strong><span>Нельзя присвоить другой Address</span></div>
+              </div>
+              <div class="takeaway">
+                <div class="takeaway__icon">✎</div>
+                <div><strong>Объект не заморожен</strong><span>Его состояние всё ещё изменяемо</span></div>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <footer class="speaker-row">
+          <div class="person person--author">
+            <div class="avatar avatar--author" aria-hidden="true"></div>
+            <div>
+              <div class="person__name">Михаил</div>
+              <div class="person__state">
+                <span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                отвечает
+              </div>
+            </div>
+          </div>
+
+          <div class="person person--interviewer">
+            <div class="avatar avatar--interviewer" aria-hidden="true"></div>
+            <div>
+              <div class="person__name">Интервьюер</div>
+              <div class="person__state">слушает</div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </section>
+  </main>
+
+  <p class="note">
+    Вопрос остаётся репликой интервьюера; ответ не дублируется текстом. Центральная зона показывает один смысловой слой за раз. В режиме Shorts композиция перестраивается, а SVG/картинки используют contain и не обрезаются.
+  </p>
+
+  <script>
+    const stage = document.querySelector('.stage');
+    const layoutButtons = document.querySelectorAll('[data-layout-button]');
+    const viewButtons = document.querySelectorAll('[data-view-button]');
+
+    function setChoice(buttons, active) {
+      buttons.forEach((button) => {
+        button.setAttribute('aria-pressed', String(button === active));
+      });
+    }
+
+    layoutButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        stage.dataset.layout = button.dataset.layoutButton;
+        setChoice(layoutButtons, button);
+      });
+    });
+
+    viewButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        stage.dataset.view = button.dataset.viewButton;
+        setChoice(viewButtons, button);
+      });
+    });
+  </script>
+</body>
+</html>

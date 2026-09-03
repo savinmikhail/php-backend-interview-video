@@ -131,7 +131,7 @@
     .question {
       position: relative;
       display: grid;
-      grid-template-columns: auto 1fr auto;
+      grid-template-columns: auto 1fr;
       align-items: center;
       gap: 1.5cqw;
       min-height: 16cqh;
@@ -143,41 +143,34 @@
       backdrop-filter: blur(22px);
     }
 
-    .question::after {
-      content: "";
-      position: absolute;
-      right: 8.6cqw;
-      bottom: -1.7cqh;
-      width: 3.5cqh;
-      height: 3.5cqh;
-      transform: rotate(45deg);
-      border-right: 1px solid rgba(255, 255, 255, .16);
-      border-bottom: 1px solid rgba(255, 255, 255, .16);
-      background: #3e205d;
-    }
-
     .question__number {
-      display: grid;
-      place-items: center;
-      width: 7.5cqh;
-      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .45cqh;
+      min-width: 11cqh;
+      height: 7.5cqh;
+      padding: 0 1.3cqh;
       border-radius: 1.8cqh;
       background: linear-gradient(145deg, #a865ff, #6f36cf);
       box-shadow: 0 8px 24px rgba(112, 48, 207, .48);
+      white-space: nowrap;
+    }
+
+    .question__number-current {
       font-size: 3.2cqh;
       font-weight: 850;
+      line-height: 1;
+    }
+
+    .question__number-total {
+      color: rgba(255, 255, 255, .66);
+      font-size: 1.65cqh;
+      font-weight: 750;
+      line-height: 1;
     }
 
     .question__copy { min-width: 0; }
-
-    .eyebrow {
-      margin-bottom: .5cqh;
-      color: #d4bfff;
-      font-size: 1.65cqh;
-      font-weight: 800;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-    }
 
     h1 {
       margin: 0;
@@ -185,29 +178,6 @@
       font-size: clamp(22px, 4.25cqh, 52px);
       line-height: 1.04;
       letter-spacing: -.035em;
-    }
-
-    .speaker-chip {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      gap: .85cqw;
-      padding: .75cqh .85cqw;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, .1);
-      color: #e8def5;
-      white-space: nowrap;
-      font-size: 1.55cqh;
-      font-weight: 750;
-    }
-
-    .speaker-chip__dot {
-      width: 1.2cqh;
-      aspect-ratio: 1;
-      border-radius: 50%;
-      background: var(--cyan);
-      box-shadow: 0 0 0 .7cqh rgba(113, 228, 255, .12), 0 0 18px rgba(113, 228, 255, .7);
     }
 
     .content {
@@ -274,6 +244,15 @@
     .prop { color: #ffd982; }
     .comment { color: #8f83a5; }
     .error { color: var(--red); }
+    .runtime-error {
+      display: block;
+      margin: 1.5cqh -1.6cqw -2.2cqh;
+      padding: 1.15cqh 1.6cqw 1.35cqh;
+      border-top: 1px solid rgba(255, 123, 145, .44);
+      background: rgba(255, 72, 109, .09);
+      color: #ff9daf;
+      font-size: .82em;
+    }
 
     .content__aside {
       display: grid;
@@ -282,10 +261,15 @@
       gap: 1.2cqh;
     }
 
+    .content__aside.code-view {
+      grid-template-rows: 1fr;
+      align-items: center;
+    }
+
     .takeaways {
       display: grid;
       align-content: center;
-      gap: 1.1cqh;
+      gap: 1.35cqh;
     }
 
     .takeaway {
@@ -293,8 +277,8 @@
       grid-template-columns: auto 1fr;
       align-items: center;
       gap: 1cqw;
-      min-height: 7.4cqh;
-      padding: 1.05cqh 1cqw;
+      min-height: 8.8cqh;
+      padding: 1.25cqh 1.15cqw;
       border: 1px solid rgba(255, 255, 255, .11);
       border-radius: 1.45cqh;
       background: rgba(255, 255, 255, .065);
@@ -303,24 +287,24 @@
     .takeaway__icon {
       display: grid;
       place-items: center;
-      width: 4.4cqh;
+      width: 5cqh;
       aspect-ratio: 1;
       border-radius: 1.2cqh;
       background: rgba(155, 92, 255, .2);
-      font-size: 2.2cqh;
+      font-size: 2.45cqh;
     }
 
     .takeaway strong {
       display: block;
       margin-bottom: .15cqh;
-      font-size: 2cqh;
+      font-size: 2.35cqh;
       line-height: 1.1;
     }
 
     .takeaway span {
       display: block;
       color: var(--muted);
-      font-size: 1.55cqh;
+      font-size: 1.85cqh;
       line-height: 1.2;
     }
 
@@ -473,28 +457,21 @@
     }
 
     .stage[data-layout="short"] .question {
-      grid-template-columns: auto 1fr;
+      grid-template-columns: 1fr;
       min-height: 14cqh;
       padding: 1.6cqh 4.2cqw;
       border-radius: 2cqh;
     }
 
     .stage[data-layout="short"] .question__number {
-      width: 5.7cqh;
-      border-radius: 1.35cqh;
-      font-size: 2.4cqh;
+      display: none;
     }
-
-    .stage[data-layout="short"] .question::after,
-    .stage[data-layout="short"] .speaker-chip { display: none; }
 
     .stage[data-layout="short"] h1 {
       max-width: 22ch;
       font-size: 3.15cqh;
       line-height: 1.05;
     }
-
-    .stage[data-layout="short"] .eyebrow { font-size: 1.15cqh; }
 
     .stage[data-layout="short"] .content {
       grid-template-columns: 1fr;
@@ -516,20 +493,25 @@
       line-height: 1.38;
     }
 
+    .stage[data-layout="short"] .runtime-error {
+      margin: 1.2cqh -3.5cqw -1.6cqh;
+      padding: 1cqh 3.5cqw 1.15cqh;
+    }
+
     .stage[data-layout="short"] .takeaways {
       grid-template-columns: 1fr;
       gap: .75cqh;
     }
 
     .stage[data-layout="short"] .takeaway {
-      min-height: 5.8cqh;
+      min-height: 6.7cqh;
       gap: 2.3cqw;
-      padding: .8cqh 2.8cqw;
+      padding: 1cqh 2.8cqw;
     }
 
-    .stage[data-layout="short"] .takeaway__icon { width: 3.3cqh; font-size: 1.7cqh; }
-    .stage[data-layout="short"] .takeaway strong { font-size: 1.55cqh; }
-    .stage[data-layout="short"] .takeaway span { font-size: 1.15cqh; }
+    .stage[data-layout="short"] .takeaway__icon { width: 3.8cqh; font-size: 1.9cqh; }
+    .stage[data-layout="short"] .takeaway strong { font-size: 1.8cqh; }
+    .stage[data-layout="short"] .takeaway span { font-size: 1.35cqh; }
     .stage[data-layout="short"] .diagram { max-height: 54cqh; }
 
     .stage[data-layout="short"] .speaker-row {
@@ -543,14 +525,6 @@
     .stage[data-layout="short"] .person__state { font-size: 1.1cqh; }
     .stage[data-layout="short"] .wave { height: 1.5cqh; }
     .stage[data-layout="short"] .wave i { width: .65cqw; }
-
-    .note {
-      width: min(94vw, 1280px);
-      margin: 0;
-      color: #91899d;
-      font-size: 13px;
-      line-height: 1.5;
-    }
 
     @media (max-width: 700px) {
       body { padding: 14px; }
@@ -567,7 +541,7 @@
     </div>
     <div class="toolbar__group">
       <button type="button" data-view-button="code" aria-pressed="true">Код + тезисы</button>
-      <button type="button" data-view-button="diagram" aria-pressed="false">Адаптивная схема</button>
+      <button type="button" data-view-button="diagram" aria-pressed="false">Схема объектов</button>
     </div>
   </div>
 
@@ -575,20 +549,17 @@
     <section class="stage" data-layout="wide" data-view="code" aria-label="Макет кадра видео">
       <div class="safe-frame">
         <header class="question">
-          <div class="question__number">01</div>
-          <div class="question__copy">
-            <div class="eyebrow">PHP · Вопрос собеседования</div>
-            <h1>Что такое readonly-класс в PHP?</h1>
+          <div class="question__number" aria-label="Вопрос 1 из 58">
+            <span class="question__number-current">01</span>
+            <span class="question__number-total">/ 58</span>
           </div>
-          <div class="speaker-chip">
-            <span class="speaker-chip__dot"></span>
-            Интервьюер
+          <div class="question__copy">
+            <h1>Что такое readonly-класс в PHP?</h1>
           </div>
         </header>
 
         <section class="content">
           <div class="content__main code-view">
-            <div class="section-label">Главная идея</div>
             <pre><code><span class="kw">readonly class</span> <span class="type">User</span>
 {
     <span class="kw">public function</span> __construct(
@@ -597,7 +568,7 @@
     ) {}
 }
 
-<span class="prop">$user</span>-&gt;name = <span class="error">'Alex'</span>; <span class="comment">// Error</span></code></pre>
+<span class="prop">$user</span>-&gt;name = <span class="error">'Alex'</span>;<span class="runtime-error">Error: Cannot modify readonly property User::$name</span></code></pre>
           </div>
 
           <div class="content__main media-view">
@@ -637,7 +608,6 @@
           </div>
 
           <aside class="content__aside code-view">
-            <div class="section-label">Что запомнить</div>
             <div class="takeaways">
               <div class="takeaway">
                 <div class="takeaway__icon">🔒</div>
@@ -692,10 +662,6 @@
       </div>
     </section>
   </main>
-
-  <p class="note">
-    Вопрос остаётся репликой интервьюера; ответ не дублируется текстом. Центральная зона показывает один смысловой слой за раз. В режиме Shorts композиция перестраивается, а SVG/картинки используют contain и не обрезаются.
-  </p>
 
   <script>
     const stage = document.querySelector('.stage');

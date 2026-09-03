@@ -38,6 +38,7 @@
     .toolbar {
       width: min(94vw, 1280px);
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
@@ -182,9 +183,6 @@
 
     .content {
       min-height: 0;
-      display: grid;
-      grid-template-columns: 1.35fr .92fr;
-      gap: 1.8cqw;
       padding: 2.1cqh 1.9cqw;
       border: 1px solid rgba(255, 255, 255, .14);
       border-radius: 2.5cqh;
@@ -192,6 +190,44 @@
       box-shadow: 0 24px 60px rgba(15, 2, 34, .34);
       backdrop-filter: blur(28px);
     }
+
+    .state-panel {
+      display: none;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      grid-template-columns: 1.35fr .92fr;
+      gap: 1.8cqw;
+      animation: panel-in .32s ease-out both;
+    }
+
+    .stage[data-state="rules"] .state-panel--rules,
+    .stage[data-state="benefits"] .state-panel--benefits,
+    .stage[data-state="nuance"] .state-panel--nuance {
+      display: grid;
+    }
+
+    @keyframes panel-in {
+      from { opacity: 0; transform: translateY(1.2cqh); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .stage[data-state="question"] .safe-frame {
+      grid-template-rows: 1fr auto;
+    }
+
+    .stage[data-state="question"] .question {
+      min-height: 0;
+      align-content: center;
+      padding-inline: 5cqw;
+    }
+
+    .stage[data-state="question"] h1 {
+      max-width: 23ch;
+      font-size: 6.2cqh;
+    }
+
+    .stage[data-state="question"] .content { display: none; }
 
     .content__main,
     .content__aside {
@@ -261,9 +297,20 @@
       gap: 1.2cqh;
     }
 
-    .content__aside.code-view {
+    .state-panel--rules .content__aside,
+    .state-panel--nuance .content__aside {
       grid-template-rows: 1fr;
       align-items: center;
+    }
+
+    .state-panel--nuance {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr auto;
+      gap: 1.4cqh;
+    }
+
+    .state-panel--nuance .takeaways {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .takeaways {
@@ -308,24 +355,169 @@
       line-height: 1.2;
     }
 
-    .media-view {
-      display: none;
+    .object-explainer {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      grid-template-rows: auto auto auto;
+      align-content: center;
+      align-items: center;
+      gap: 1.2cqh 1cqw;
       height: 100%;
       min-height: 0;
+    }
+
+    .object-badge {
+      grid-column: 1 / -1;
+      justify-self: center;
+      padding: .85cqh 1.1cqw;
+      border-radius: 999px;
+      background: var(--yellow);
+      color: #2a1728;
+      font-size: 2.25cqh;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .object-card {
+      display: grid;
+      gap: 1cqh;
+      min-width: 0;
+      padding: 1.7cqh 1.1cqw;
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 1.8cqh;
+      background: rgba(9, 8, 24, .82);
+      box-shadow: 0 14px 30px rgba(5, 1, 17, .25);
+    }
+
+    .object-card--readonly {
+      border-color: rgba(178, 113, 255, .55);
+      background: linear-gradient(145deg, rgba(121, 52, 211, .8), rgba(79, 29, 137, .8));
+    }
+
+    .object-card--mutable { border-color: rgba(113, 228, 255, .52); }
+
+    .object-card__kind {
+      color: #d9c9f4;
+      font-size: 1.9cqh;
+      font-weight: 800;
+    }
+
+    .object-card--mutable .object-card__kind { color: var(--cyan); }
+
+    .object-card__name {
+      font-size: 3.35cqh;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .object-property {
+      display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
+      gap: .6cqw;
+      min-width: 0;
+      padding: 1cqh .8cqw;
+      border-radius: 1.1cqh;
+      background: rgba(7, 6, 18, .48);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 2.05cqh;
     }
 
-    .stage[data-view="diagram"] .code-view { display: none; }
-    .stage[data-view="diagram"] .media-view { display: flex; }
-
-    .diagram {
-      width: 100%;
-      height: 100%;
-      max-height: 44cqh;
-      object-fit: contain;
-      filter: drop-shadow(0 18px 30px rgba(0, 0, 0, .3));
+    .object-property small {
+      color: var(--muted);
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: 1.55cqh;
     }
+
+    .object-arrow {
+      color: #d8b7ff;
+      font-size: 4.8cqh;
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    .mutation-example {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 1cqw;
+      padding: 1.2cqh 1cqw;
+      border: 1px solid rgba(130, 244, 177, .35);
+      border-radius: 1.25cqh;
+      background: rgba(30, 119, 74, .12);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 2.05cqh;
+    }
+
+    .mutation-example strong {
+      color: var(--green);
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: 1.85cqh;
+    }
+
+    .benefits-layout {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: 2cqh;
+      min-height: 0;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      align-items: stretch;
+      gap: 1.5cqw;
+    }
+
+    .benefit {
+      display: grid;
+      align-content: center;
+      gap: 1.2cqh;
+      min-width: 0;
+      padding: 2.4cqh 1.5cqw;
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 2cqh;
+      background: linear-gradient(145deg, rgba(255, 255, 255, .09), rgba(155, 92, 255, .08));
+    }
+
+    .benefit__icon {
+      display: grid;
+      place-items: center;
+      width: 7cqh;
+      aspect-ratio: 1;
+      border-radius: 1.6cqh;
+      background: rgba(155, 92, 255, .22);
+      font-size: 3.4cqh;
+    }
+
+    .benefit strong {
+      font-size: 3.7cqh;
+      line-height: 1.08;
+    }
+
+    .benefit span {
+      color: var(--muted);
+      font-size: 2.7cqh;
+      line-height: 1.3;
+    }
+
+    .benefits-caveat {
+      display: flex;
+      align-items: center;
+      gap: 1cqw;
+      min-height: 9cqh;
+      padding: 1.8cqh 1.45cqw;
+      border: 1px solid rgba(255, 211, 109, .24);
+      border-radius: 1.5cqh;
+      background: rgba(255, 211, 109, .08);
+      color: #efe3bf;
+      font-size: 2.8cqh;
+      line-height: 1.3;
+    }
+
+    .benefits-caveat strong { color: var(--yellow); }
 
     .speaker-row {
       display: flex;
@@ -339,9 +531,17 @@
       align-items: center;
       gap: 1cqw;
       min-width: 0;
+      opacity: .46;
+      transition: opacity .25s ease, transform .25s ease;
     }
 
-    .person--interviewer { flex-direction: row-reverse; text-align: right; opacity: .76; }
+    .person--interviewer { flex-direction: row-reverse; text-align: right; }
+
+    .stage[data-state="question"] .person--interviewer,
+    .stage:not([data-state="question"]) .person--author {
+      opacity: 1;
+      transform: translateY(-.35cqh);
+    }
 
     .avatar {
       position: relative;
@@ -422,6 +622,10 @@
 
     .person--interviewer .person__state { justify-content: flex-end; }
 
+    .speaker-state { display: none; align-items: center; gap: .6cqw; }
+    .stage[data-state="question"] .speaker-state--question { display: flex; }
+    .stage:not([data-state="question"]) .speaker-state--answer { display: flex; }
+
     .wave {
       display: inline-flex;
       align-items: center;
@@ -442,6 +646,7 @@
     .wave i:nth-child(2) { height: 92%; animation-delay: -.25s; }
     .wave i:nth-child(3) { height: 58%; animation-delay: -.5s; }
     .wave i:nth-child(4) { height: 78%; animation-delay: -.1s; }
+    .person--interviewer .wave i { background: var(--cyan); }
 
     @keyframes talk { to { transform: scaleY(.45); } }
 
@@ -474,11 +679,28 @@
     }
 
     .stage[data-layout="short"] .content {
+      padding: 2.1cqh 4.3cqw;
+      border-radius: 2.2cqh;
+    }
+
+    .stage[data-layout="short"] .state-panel {
       grid-template-columns: 1fr;
       grid-template-rows: auto auto;
       gap: 1.8cqh;
-      padding: 2.1cqh 4.3cqw;
-      border-radius: 2.2cqh;
+    }
+
+    .stage[data-layout="short"][data-state="question"] .safe-frame {
+      grid-template-rows: 1fr auto;
+    }
+
+    .stage[data-layout="short"][data-state="question"] .question {
+      min-height: 0;
+      padding: 4cqh 6cqw;
+    }
+
+    .stage[data-layout="short"][data-state="question"] h1 {
+      max-width: 17ch;
+      font-size: 5.2cqh;
     }
 
     .stage[data-layout="short"] .section-label {
@@ -512,7 +734,81 @@
     .stage[data-layout="short"] .takeaway__icon { width: 3.8cqh; font-size: 1.9cqh; }
     .stage[data-layout="short"] .takeaway strong { font-size: 1.8cqh; }
     .stage[data-layout="short"] .takeaway span { font-size: 1.35cqh; }
-    .stage[data-layout="short"] .diagram { max-height: 54cqh; }
+    .stage[data-layout="short"] .object-explainer {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(5, auto);
+      gap: .8cqh;
+    }
+
+    .stage[data-layout="short"] .object-badge {
+      grid-column: 1;
+      padding: .7cqh 3cqw;
+      font-size: 1.45cqh;
+    }
+
+    .stage[data-layout="short"] .object-card {
+      gap: .55cqh;
+      padding: 1.05cqh 3cqw;
+      border-radius: 1.35cqh;
+    }
+
+    .stage[data-layout="short"] .object-card__kind { font-size: 1.1cqh; }
+    .stage[data-layout="short"] .object-card__name { font-size: 1.9cqh; }
+
+    .stage[data-layout="short"] .object-property {
+      padding: .7cqh 2.3cqw;
+      font-size: 1.25cqh;
+    }
+
+    .stage[data-layout="short"] .object-property small { font-size: 1cqh; }
+
+    .stage[data-layout="short"] .object-arrow {
+      justify-self: center;
+      transform: rotate(90deg);
+      font-size: 3.2cqh;
+    }
+
+    .stage[data-layout="short"] .mutation-example {
+      grid-column: 1;
+      grid-template-columns: 1fr;
+      gap: .45cqh;
+      padding: .85cqh 2.5cqw;
+      font-size: 1.15cqh;
+    }
+
+    .stage[data-layout="short"] .mutation-example strong { font-size: 1.05cqh; }
+
+    .stage[data-layout="short"] .benefits-layout {
+      grid-template-rows: 1fr auto;
+      gap: 1.4cqh;
+    }
+
+    .stage[data-layout="short"] .benefits-grid {
+      grid-template-columns: 1fr;
+      gap: 1.1cqh;
+    }
+
+    .stage[data-layout="short"] .benefit {
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      align-content: initial;
+      gap: 2.6cqw;
+      padding: 1.5cqh 3.2cqw;
+    }
+
+    .stage[data-layout="short"] .benefit__icon {
+      grid-row: 1 / 3;
+      width: 5cqh;
+      font-size: 2.45cqh;
+    }
+
+    .stage[data-layout="short"] .benefit strong { font-size: 1.9cqh; }
+    .stage[data-layout="short"] .benefit span { font-size: 1.35cqh; }
+
+    .stage[data-layout="short"] .benefits-caveat {
+      padding: 1.15cqh 3cqw;
+      font-size: 1.55cqh;
+    }
 
     .stage[data-layout="short"] .speaker-row {
       min-height: 9.4cqh;
@@ -529,6 +825,7 @@
     @media (max-width: 700px) {
       body { padding: 14px; }
       .toolbar { align-items: flex-start; flex-direction: column; }
+      .toolbar__group--states { margin-left: 0; }
       .stage[data-layout="short"] { width: min(88vw, 480px); }
     }
   </style>
@@ -539,14 +836,16 @@
       <button type="button" data-layout-button="wide" aria-pressed="true">16:9 · YouTube</button>
       <button type="button" data-layout-button="short" aria-pressed="false">9:16 · Shorts</button>
     </div>
-    <div class="toolbar__group">
-      <button type="button" data-view-button="code" aria-pressed="true">Код + тезисы</button>
-      <button type="button" data-view-button="diagram" aria-pressed="false">Схема объектов</button>
+    <div class="toolbar__group toolbar__group--states" aria-label="Состояние вопроса">
+      <button type="button" data-state-button="question" aria-pressed="true">1 · Вопрос</button>
+      <button type="button" data-state-button="rules" aria-pressed="false">2 · Как работает</button>
+      <button type="button" data-state-button="benefits" aria-pressed="false">3 · Зачем</button>
+      <button type="button" data-state-button="nuance" aria-pressed="false">4 · Readonly ≠ immutable</button>
     </div>
   </div>
 
   <main class="stage-shell">
-    <section class="stage" data-layout="wide" data-view="code" aria-label="Макет кадра видео">
+    <section class="stage" data-layout="wide" data-state="question" aria-label="Макет кадра видео">
       <div class="safe-frame">
         <header class="question">
           <div class="question__number" aria-label="Вопрос 1 из 58">
@@ -559,8 +858,9 @@
         </header>
 
         <section class="content">
-          <div class="content__main code-view">
-            <pre><code><span class="kw">readonly class</span> <span class="type">User</span>
+          <section class="state-panel state-panel--rules" aria-label="Как работает readonly-класс">
+            <div class="content__main">
+              <pre><code><span class="kw">readonly class</span> <span class="type">User</span>
 {
     <span class="kw">public function</span> __construct(
         <span class="kw">public string</span> <span class="prop">$name</span>,
@@ -569,45 +869,9 @@
 }
 
 <span class="prop">$user</span>-&gt;name = <span class="error">'Alex'</span>;<span class="runtime-error">Error: Cannot modify readonly property User::$name</span></code></pre>
-          </div>
+            </div>
 
-          <div class="content__main media-view">
-            <svg class="diagram" viewBox="0 0 760 410" role="img" aria-label="Readonly защищает свойства от повторного присваивания, но вложенный объект может изменяться">
-              <defs>
-                <linearGradient id="card" x1="0" x2="1">
-                  <stop stop-color="#6f36cf"/>
-                  <stop offset="1" stop-color="#a85eff"/>
-                </linearGradient>
-                <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#12041f" flood-opacity=".5"/>
-                </filter>
-              </defs>
-              <rect x="24" y="38" width="290" height="326" rx="28" fill="url(#card)" filter="url(#shadow)"/>
-              <text x="56" y="92" fill="#e9dcff" font-size="21" font-weight="750">readonly class</text>
-              <text x="56" y="132" fill="white" font-size="34" font-weight="850">User</text>
-              <rect x="55" y="165" width="228" height="64" rx="16" fill="#25133f" fill-opacity=".72"/>
-              <text x="78" y="204" fill="#ffd982" font-size="24" font-family="monospace">name: Mikhail</text>
-              <text x="248" y="204" fill="#fff" font-size="24">🔒</text>
-              <rect x="55" y="246" width="228" height="82" rx="16" fill="#25133f" fill-opacity=".72"/>
-              <text x="78" y="280" fill="#77dfff" font-size="22" font-family="monospace">address</text>
-              <text x="248" y="280" fill="#fff" font-size="24">🔒</text>
-              <text x="78" y="309" fill="#cbbde1" font-size="17">ссылка зафиксирована</text>
-
-              <path d="M316 286 C380 286 390 235 438 235" stroke="#d8b7ff" stroke-width="5" fill="none" stroke-linecap="round"/>
-              <path d="M425 220 L445 235 L425 250" stroke="#d8b7ff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-
-              <rect x="448" y="126" width="280" height="224" rx="28" fill="#111022" stroke="#71e4ff" stroke-opacity=".7" stroke-width="2" filter="url(#shadow)"/>
-              <text x="480" y="180" fill="#77dfff" font-size="31" font-weight="850">Address</text>
-              <rect x="480" y="210" width="216" height="68" rx="16" fill="#1c2940"/>
-              <text x="503" y="252" fill="#fff" font-size="22" font-family="monospace">city: Moscow</text>
-              <text x="650" y="252" fill="#82f4b1" font-size="25">✎</text>
-              <text x="480" y="315" fill="#82f4b1" font-size="19" font-weight="750">Внутреннее состояние изменяемо</text>
-              <rect x="406" y="38" width="322" height="54" rx="27" fill="#ffcf68"/>
-              <text x="567" y="73" text-anchor="middle" fill="#2a1728" font-size="21" font-weight="900">readonly ≠ deep immutable</text>
-            </svg>
-          </div>
-
-          <aside class="content__aside code-view">
+          <aside class="content__aside">
             <div class="takeaways">
               <div class="takeaway">
                 <div class="takeaway__icon">🔒</div>
@@ -623,20 +887,81 @@
               </div>
             </div>
           </aside>
+          </section>
 
-          <aside class="content__aside media-view">
-            <div class="section-label">Ключевой нюанс</div>
-            <div class="takeaways">
-              <div class="takeaway">
-                <div class="takeaway__icon">🔒</div>
-                <div><strong>Ссылка защищена</strong><span>Нельзя присвоить другой Address</span></div>
+          <section class="state-panel state-panel--benefits" aria-label="Зачем использовать readonly-класс">
+            <div class="benefits-layout">
+              <div class="benefits-grid">
+                <article class="benefit">
+                  <div class="benefit__icon">↺</div>
+                  <strong>Меньше мутаций</strong>
+                  <span>Меньше неожиданных переходов состояния</span>
+                </article>
+                <article class="benefit">
+                  <div class="benefit__icon">◇</div>
+                  <strong>Проще рассуждать</strong>
+                  <span>Объект легче понимать, проверять и тестировать</span>
+                </article>
+                <article class="benefit">
+                  <div class="benefit__icon">∞</div>
+                  <strong>Полезно в long-running</strong>
+                  <span>Меньше риска протекания состояния между задачами</span>
+                </article>
               </div>
-              <div class="takeaway">
-                <div class="takeaway__icon">✎</div>
-                <div><strong>Объект не заморожен</strong><span>Его состояние всё ещё изменяемо</span></div>
+              <div class="benefits-caveat">
+                <strong>Важно:</strong>
+                readonly снижает риск случайного накопления состояния, но не является общей защитой от memory leaks.
               </div>
             </div>
-          </aside>
+          </section>
+
+          <section class="state-panel state-panel--nuance" aria-label="Readonly не означает полную неизменяемость">
+            <div class="content__main object-explainer">
+              <div class="object-badge">readonly ≠ deep immutable</div>
+
+              <article class="object-card object-card--readonly">
+                <div class="object-card__kind">readonly class</div>
+                <div class="object-card__name">User</div>
+                <div class="object-property">
+                  <span>$name</span>
+                  <span>🔒</span>
+                </div>
+                <div class="object-property">
+                  <span>$address</span>
+                  <small>ссылка защищена 🔒</small>
+                </div>
+              </article>
+
+              <div class="object-arrow" aria-hidden="true">→</div>
+
+              <article class="object-card object-card--mutable">
+                <div class="object-card__kind">обычный mutable-класс</div>
+                <div class="object-card__name">Address</div>
+                <div class="object-property">
+                  <span>$city</span>
+                  <span>'Moscow'</span>
+                </div>
+              </article>
+
+              <div class="mutation-example">
+                <span>$user-&gt;address-&gt;city = <span class="error">'Berlin'</span>;</span>
+                <strong>Допустимо: меняется объект Address</strong>
+              </div>
+            </div>
+
+            <aside class="content__aside">
+              <div class="takeaways">
+                <div class="takeaway">
+                  <div class="takeaway__icon">🔒</div>
+                  <div><strong>Ссылка защищена</strong><span>Нельзя присвоить другой Address</span></div>
+                </div>
+                <div class="takeaway">
+                  <div class="takeaway__icon">↻</div>
+                  <div><strong>Объект не заморожен</strong><span>Его состояние всё ещё изменяемо</span></div>
+                </div>
+              </div>
+            </aside>
+          </section>
         </section>
 
         <footer class="speaker-row">
@@ -645,8 +970,11 @@
             <div>
               <div class="person__name">Михаил</div>
               <div class="person__state">
-                <span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-                отвечает
+                <span class="speaker-state speaker-state--question">слушает</span>
+                <span class="speaker-state speaker-state--answer">
+                  <span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                  отвечает
+                </span>
               </div>
             </div>
           </div>
@@ -655,7 +983,13 @@
             <div class="avatar avatar--interviewer" aria-hidden="true"></div>
             <div>
               <div class="person__name">Интервьюер</div>
-              <div class="person__state">слушает</div>
+              <div class="person__state">
+                <span class="speaker-state speaker-state--question">
+                  <span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                  задаёт вопрос
+                </span>
+                <span class="speaker-state speaker-state--answer">слушает</span>
+              </div>
             </div>
           </div>
         </footer>
@@ -666,7 +1000,7 @@
   <script>
     const stage = document.querySelector('.stage');
     const layoutButtons = document.querySelectorAll('[data-layout-button]');
-    const viewButtons = document.querySelectorAll('[data-view-button]');
+    const stateButtons = document.querySelectorAll('[data-state-button]');
 
     function setChoice(buttons, active) {
       buttons.forEach((button) => {
@@ -681,10 +1015,10 @@
       });
     });
 
-    viewButtons.forEach((button) => {
+    stateButtons.forEach((button) => {
       button.addEventListener('click', () => {
-        stage.dataset.view = button.dataset.viewButton;
-        setChoice(viewButtons, button);
+        stage.dataset.state = button.dataset.stateButton;
+        setChoice(stateButtons, button);
       });
     });
   </script>

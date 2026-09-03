@@ -8,9 +8,11 @@ proxies/
 *.mkv
 *.wav
 *.aiff
+*.m4a
 *.psd
 *.aep
 *.prproj
 
 .DS_Store
-
+node_modules/
+video/public/generated/

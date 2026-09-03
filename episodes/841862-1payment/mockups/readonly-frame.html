@@ -35,6 +35,23 @@
       color: var(--ink);
     }
 
+    body.capture-mode {
+      display: block;
+      min-height: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #000;
+    }
+
+    body.capture-mode .toolbar { display: none; }
+
+    body.capture-mode .stage-shell { width: 100vw; }
+
+    body.capture-mode .stage {
+      width: 100vw;
+      border-radius: 0;
+    }
+
     .toolbar {
       width: min(94vw, 1280px);
       display: flex;
@@ -202,6 +219,7 @@
     }
 
     .stage[data-state="rules"] .state-panel--rules,
+    .stage[data-state="constraints"] .state-panel--constraints,
     .stage[data-state="benefits"] .state-panel--benefits,
     .stage[data-state="nuance"] .state-panel--nuance {
       display: grid;
@@ -355,6 +373,73 @@
       line-height: 1.2;
     }
 
+    .takeaway code {
+      display: inline-block;
+      margin-top: .5cqh;
+      color: #e4c6ff;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 1.65cqh;
+    }
+
+    .state-panel--constraints {
+      grid-template-columns: 1fr;
+    }
+
+    .constraints-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: stretch;
+      gap: 1.35cqw;
+      min-height: 0;
+    }
+
+    .constraint-card {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 1.3cqh;
+      min-width: 0;
+      padding: 2.2cqh 1.35cqw;
+      border: 1px solid rgba(255, 123, 145, .3);
+      border-radius: 1.8cqh;
+      background: linear-gradient(145deg, rgba(255, 72, 109, .1), rgba(255, 255, 255, .045));
+    }
+
+    .constraint-card__number {
+      color: var(--red);
+      font-size: 1.65cqh;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .constraint-card strong {
+      font-size: 2.8cqh;
+      line-height: 1.08;
+    }
+
+    .constraint-code {
+      display: grid;
+      align-content: center;
+      gap: 1.2cqh;
+      min-height: 17cqh;
+      padding: 1.8cqh 1.1cqw;
+      border: 1px solid rgba(255, 255, 255, .09);
+      border-radius: 1.35cqh;
+      background: rgba(7, 6, 16, .72);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 2cqh;
+      line-height: 1.35;
+    }
+
+    .constraint-error {
+      padding-top: 1cqh;
+      border-top: 1px solid rgba(255, 123, 145, .35);
+      color: #ff9daf;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: 1.7cqh;
+      font-weight: 750;
+    }
+
     .object-explainer {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -436,24 +521,45 @@
       line-height: 1;
     }
 
-    .mutation-example {
+    .mutation-compare {
       grid-column: 1 / -1;
       display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1cqw;
-      padding: 1.2cqh 1cqw;
-      border: 1px solid rgba(130, 244, 177, .35);
-      border-radius: 1.25cqh;
-      background: rgba(30, 119, 74, .12);
-      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-      font-size: 2.05cqh;
     }
 
-    .mutation-example strong {
-      color: var(--green);
+    .mutation-case {
+      display: grid;
+      gap: .7cqh;
+      min-width: 0;
+      padding: 1.1cqh 1cqw;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 1.25cqh;
+      background: rgba(255, 255, 255, .05);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: 1.75cqh;
+    }
+
+    .mutation-case--error {
+      border-color: rgba(255, 123, 145, .35);
+      background: rgba(255, 72, 109, .09);
+    }
+
+    .mutation-case--ok {
+      border-color: rgba(130, 244, 177, .35);
+      background: rgba(30, 119, 74, .12);
+    }
+
+    .mutation-case strong {
       font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-      font-size: 1.85cqh;
+      font-size: 1.55cqh;
+      line-height: 1.2;
+    }
+
+    .mutation-case--error strong { color: #ff9daf; }
+
+    .mutation-case--ok strong {
+      color: var(--green);
     }
 
     .benefits-layout {
@@ -543,6 +649,18 @@
       transform: translateY(-.35cqh);
     }
 
+    .stage[data-speaker="author"] .person--interviewer,
+    .stage[data-speaker="interviewer"] .person--author {
+      opacity: .46;
+      transform: none;
+    }
+
+    .stage[data-speaker="author"] .person--author,
+    .stage[data-speaker="interviewer"] .person--interviewer {
+      opacity: 1;
+      transform: translateY(-.35cqh);
+    }
+
     .avatar {
       position: relative;
       flex: none;
@@ -623,8 +741,20 @@
     .person--interviewer .person__state { justify-content: flex-end; }
 
     .speaker-state { display: none; align-items: center; gap: .6cqw; }
-    .stage[data-state="question"] .speaker-state--question { display: flex; }
-    .stage:not([data-state="question"]) .speaker-state--answer { display: flex; }
+    .stage[data-state="question"] .person--author .speaker-state--listening,
+    .stage[data-state="question"] .speaker-state--interviewer-speaking,
+    .stage:not([data-state="question"]) .speaker-state--author-speaking,
+    .stage:not([data-state="question"]) .person--interviewer .speaker-state--listening {
+      display: flex;
+    }
+
+    .stage[data-speaker] .person .speaker-state { display: none; }
+    .stage[data-speaker="author"] .person--author .speaker-state--author-speaking,
+    .stage[data-speaker="author"] .person--interviewer .speaker-state--listening,
+    .stage[data-speaker="interviewer"] .person--interviewer .speaker-state--interviewer-speaking,
+    .stage[data-speaker="interviewer"] .person--author .speaker-state--listening {
+      display: flex;
+    }
 
     .wave {
       display: inline-flex;
@@ -734,6 +864,35 @@
     .stage[data-layout="short"] .takeaway__icon { width: 3.8cqh; font-size: 1.9cqh; }
     .stage[data-layout="short"] .takeaway strong { font-size: 1.8cqh; }
     .stage[data-layout="short"] .takeaway span { font-size: 1.35cqh; }
+    .stage[data-layout="short"] .takeaway code { font-size: 1.2cqh; }
+
+    .stage[data-layout="short"] .constraints-grid {
+      grid-template-columns: 1fr;
+      gap: 1.05cqh;
+    }
+
+    .stage[data-layout="short"] .constraint-card {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto;
+      gap: .55cqh;
+      padding: 1.25cqh 3cqw;
+    }
+
+    .stage[data-layout="short"] .constraint-card__number { font-size: 1.05cqh; }
+    .stage[data-layout="short"] .constraint-card strong { font-size: 1.75cqh; }
+
+    .stage[data-layout="short"] .constraint-code {
+      min-height: 0;
+      gap: .7cqh;
+      padding: 1cqh 2.4cqw;
+      font-size: 1.2cqh;
+    }
+
+    .stage[data-layout="short"] .constraint-error {
+      padding-top: .65cqh;
+      font-size: 1.05cqh;
+    }
+
     .stage[data-layout="short"] .object-explainer {
       grid-template-columns: 1fr;
       grid-template-rows: repeat(5, auto);
@@ -768,15 +927,19 @@
       font-size: 3.2cqh;
     }
 
-    .stage[data-layout="short"] .mutation-example {
+    .stage[data-layout="short"] .mutation-compare {
       grid-column: 1;
       grid-template-columns: 1fr;
-      gap: .45cqh;
+      gap: .65cqh;
+    }
+
+    .stage[data-layout="short"] .mutation-case {
+      gap: .35cqh;
       padding: .85cqh 2.5cqw;
       font-size: 1.15cqh;
     }
 
-    .stage[data-layout="short"] .mutation-example strong { font-size: 1.05cqh; }
+    .stage[data-layout="short"] .mutation-case strong { font-size: 1.05cqh; }
 
     .stage[data-layout="short"] .benefits-layout {
       grid-template-rows: 1fr auto;
@@ -839,8 +1002,9 @@
     <div class="toolbar__group toolbar__group--states" aria-label="Состояние вопроса">
       <button type="button" data-state-button="question" aria-pressed="true">1 · Вопрос</button>
       <button type="button" data-state-button="rules" aria-pressed="false">2 · Как работает</button>
-      <button type="button" data-state-button="benefits" aria-pressed="false">3 · Зачем</button>
-      <button type="button" data-state-button="nuance" aria-pressed="false">4 · Readonly ≠ immutable</button>
+      <button type="button" data-state-button="constraints" aria-pressed="false">3 · Ограничения</button>
+      <button type="button" data-state-button="benefits" aria-pressed="false">4 · Зачем</button>
+      <button type="button" data-state-button="nuance" aria-pressed="false">5 · Readonly ≠ immutable</button>
     </div>
   </div>
 
@@ -878,15 +1042,50 @@
                 <div><strong>Одно присваивание</strong><span>После инициализации изменить нельзя</span></div>
               </div>
               <div class="takeaway">
-                <div class="takeaway__icon">T</div>
-                <div><strong>Только typed properties</strong><span>Нет static и dynamic properties</span></div>
+                <div class="takeaway__icon">C</div>
+                <div><strong>Все свойства readonly</strong><span>Модификатор класса применяется ко всем свойствам</span></div>
               </div>
               <div class="takeaway">
-                <div class="takeaway__icon">↳</div>
-                <div><strong>Не deep immutable</strong><span>Вложенный объект может меняться</span></div>
+                <div class="takeaway__icon">P</div>
+                <div>
+                  <strong>Readonly-свойство</strong>
+                  <span>Можно пометить одно свойство, не весь класс</span>
+                  <code>public readonly string $name;</code>
+                </div>
               </div>
             </div>
           </aside>
+          </section>
+
+          <section class="state-panel state-panel--constraints" aria-label="Ограничения readonly-класса">
+            <div class="constraints-grid">
+              <article class="constraint-card">
+                <div class="constraint-card__number">Ограничение 01</div>
+                <strong>У свойства должен быть тип</strong>
+                <div class="constraint-code">
+                  <span><span class="kw">readonly class</span> <span class="type">User</span> {<br>&nbsp;&nbsp;<span class="kw">public</span> <span class="prop">$name</span>;<br>}</span>
+                  <span class="constraint-error">✕ Readonly property User::$name must have type</span>
+                </div>
+              </article>
+
+              <article class="constraint-card">
+                <div class="constraint-card__number">Ограничение 02</div>
+                <strong>Свойство не может быть static</strong>
+                <div class="constraint-code">
+                  <span><span class="kw">public static string</span><br><span class="prop">$name</span>;</span>
+                  <span class="constraint-error">✕ Static property User::$name cannot be readonly</span>
+                </div>
+              </article>
+
+              <article class="constraint-card">
+                <div class="constraint-card__number">Ограничение 03</div>
+                <strong>Нельзя создать dynamic property</strong>
+                <div class="constraint-code">
+                  <span><span class="prop">$user</span>-&gt;extra = 1;</span>
+                  <span class="constraint-error">✕ Cannot create dynamic property User::$extra</span>
+                </div>
+              </article>
+            </div>
           </section>
 
           <section class="state-panel state-panel--benefits" aria-label="Зачем использовать readonly-класс">
@@ -943,9 +1142,15 @@
                 </div>
               </article>
 
-              <div class="mutation-example">
-                <span>$user-&gt;address-&gt;city = <span class="error">'Berlin'</span>;</span>
-                <strong>Допустимо: меняется объект Address</strong>
+              <div class="mutation-compare">
+                <div class="mutation-case mutation-case--error">
+                  <span>$user-&gt;name = <span class="error">'Alex'</span>;</span>
+                  <strong>ERROR — меняется readonly-свойство</strong>
+                </div>
+                <div class="mutation-case mutation-case--ok">
+                  <span>$user-&gt;address-&gt;city = <span class="type">'Berlin'</span>;</span>
+                  <strong>OK — меняется объект Address</strong>
+                </div>
               </div>
             </div>
 
@@ -970,8 +1175,8 @@
             <div>
               <div class="person__name">Михаил</div>
               <div class="person__state">
-                <span class="speaker-state speaker-state--question">слушает</span>
-                <span class="speaker-state speaker-state--answer">
+                <span class="speaker-state speaker-state--listening">слушает</span>
+                <span class="speaker-state speaker-state--author-speaking">
                   <span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
                   отвечает
                 </span>
@@ -984,11 +1189,11 @@
             <div>
               <div class="person__name">Интервьюер</div>
               <div class="person__state">
-                <span class="speaker-state speaker-state--question">
+                <span class="speaker-state speaker-state--interviewer-speaking">
                   <span class="wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-                  задаёт вопрос
+                  говорит
                 </span>
-                <span class="speaker-state speaker-state--answer">слушает</span>
+                <span class="speaker-state speaker-state--listening">слушает</span>
               </div>
             </div>
           </div>
@@ -1001,6 +1206,7 @@
     const stage = document.querySelector('.stage');
     const layoutButtons = document.querySelectorAll('[data-layout-button]');
     const stateButtons = document.querySelectorAll('[data-state-button]');
+    const params = new URLSearchParams(window.location.search);
 
     function setChoice(buttons, active) {
       buttons.forEach((button) => {
@@ -1021,6 +1227,21 @@
         setChoice(stateButtons, button);
       });
     });
+
+    if (params.get('capture') === '1') {
+      document.body.classList.add('capture-mode');
+      stage.dataset.layout = params.get('layout') === 'short' ? 'short' : 'wide';
+
+      const requestedState = params.get('state');
+      if (requestedState && document.querySelector(`[data-state-button="${requestedState}"]`)) {
+        stage.dataset.state = requestedState;
+      }
+
+      const requestedSpeaker = params.get('speaker');
+      if (requestedSpeaker === 'author' || requestedSpeaker === 'interviewer') {
+        stage.dataset.speaker = requestedSpeaker;
+      }
+    }
   </script>
 </body>
 </html>

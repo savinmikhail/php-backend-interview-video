@@ -2,6 +2,7 @@ import {Composition} from 'remotion';
 import {ReadonlyInterview} from './ReadonlyInterview';
 import {OopConstructsInterview} from './OopConstructsInterview';
 import {QuestionBatchInterview} from './QuestionBatchInterview';
+import {ReviewSlide} from './ReviewSlide';
 import {DEV_FPS, oopTimeline, PRODUCTION_FPS, questionBatchTimeline, readonlyTimeline} from './timeline';
 
 const productionTimeline = readonlyTimeline(PRODUCTION_FPS);
@@ -13,6 +14,24 @@ const questionBatchDevTimeline = questionBatchTimeline(DEV_FPS);
 
 export const RemotionRoot = () => (
   <>
+    <Composition
+      id="ReviewSlide"
+      component={ReviewSlide}
+      durationInFrames={30}
+      fps={PRODUCTION_FPS}
+      width={1920}
+      height={1080}
+      defaultProps={{format: 'wide' as const, slideId: '06-enum'}}
+    />
+    <Composition
+      id="ReviewSlideShort"
+      component={ReviewSlide}
+      durationInFrames={30}
+      fps={PRODUCTION_FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{format: 'short' as const, slideId: '06-enum'}}
+    />
     <Composition
       id="ReadonlyInterview"
       component={ReadonlyInterview}

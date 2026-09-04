@@ -18,7 +18,9 @@
     "render:questions-03-05:dev": "remotion render src/index.ts QuestionBatchInterviewDev ../renders/questions-03-05-remotion-dev.mp4 --codec=h264 --crf=18",
     "render:questions-03-05": "remotion render src/index.ts QuestionBatchInterview ../renders/questions-03-05-remotion.mp4 --codec=h264 --crf=18",
     "render:questions-03-05:short:dev": "remotion render src/index.ts QuestionBatchInterviewShortDev ../renders/questions-03-05-remotion-short-dev.mp4 --codec=h264 --crf=18",
-    "render:questions-03-05:short": "remotion render src/index.ts QuestionBatchInterviewShort ../renders/questions-03-05-remotion-short.mp4 --codec=h264 --crf=18"
+    "render:questions-03-05:short": "remotion render src/index.ts QuestionBatchInterviewShort ../renders/questions-03-05-remotion-short.mp4 --codec=h264 --crf=18",
+    "render:review-stills": "bash scripts/render-review-stills.sh",
+    "render:full-review": "bash scripts/assemble-full-review.sh"
   },
   "dependencies": {
     "@remotion/media": "4.0.520",

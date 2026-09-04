@@ -107,6 +107,7 @@ export const InterviewShell = ({
   counter,
   question,
   showHeader = true,
+  bareVisual = false,
 }: {
   children: ReactNode;
   format: Format;
@@ -114,6 +115,7 @@ export const InterviewShell = ({
   counter: string;
   question: ReactNode;
   showHeader?: boolean;
+  bareVisual?: boolean;
 }) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
@@ -133,7 +135,7 @@ export const InterviewShell = ({
       />
       <main className={`stage ${showHeader ? '' : 'stage--question'}`}>
         {showHeader && <QuestionHeader counter={counter} question={question} />}
-        <section className={`visual ${showHeader ? '' : 'visual--question'}`}>{children}</section>
+        <section className={`visual ${showHeader ? '' : 'visual--question'} ${bareVisual ? 'visual--bare' : ''}`}>{children}</section>
         <footer className="speakers">
           <SpeakerBadge kind="mikhail" active={speaker === 'mikhail'} frame={animationFrame} />
           <SpeakerBadge kind="interviewer" active={speaker === 'interviewer'} frame={animationFrame} />

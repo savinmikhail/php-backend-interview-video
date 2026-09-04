@@ -82,6 +82,7 @@
 }
 
 .visual--question { display: grid; place-items: center; }
+.visual--bare { border: 0; background: transparent; }
 .question-slide { text-align: center; }
 .question-slide .eyebrow { display: inline-block; padding: 11px 20px; border-radius: 999px; background: rgba(255,255,255,.12); color: #dfcaff; font-size: 27px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
 .question-slide h1 { margin: 26px 0 0; font-size: 92px; line-height: 1.04; letter-spacing: -4px; }

@@ -3,6 +3,7 @@ import {ReadonlyInterview} from './ReadonlyInterview';
 import {OopConstructsInterview} from './OopConstructsInterview';
 import {QuestionBatchInterview} from './QuestionBatchInterview';
 import {ReviewSlide} from './ReviewSlide';
+import {BaseReview} from './BaseReview';
 import {DEV_FPS, oopTimeline, PRODUCTION_FPS, questionBatchTimeline, readonlyTimeline} from './timeline';
 
 const productionTimeline = readonlyTimeline(PRODUCTION_FPS);
@@ -14,6 +15,15 @@ const questionBatchDevTimeline = questionBatchTimeline(DEV_FPS);
 
 export const RemotionRoot = () => (
   <>
+    <Composition
+      id="BaseReviewDev"
+      component={BaseReview}
+      durationInFrames={120}
+      fps={DEV_FPS}
+      width={1920}
+      height={1080}
+      defaultProps={{format: 'wide' as const}}
+    />
     <Composition
       id="ReviewSlide"
       component={ReviewSlide}

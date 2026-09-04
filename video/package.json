@@ -3,12 +3,17 @@
   "private": true,
   "scripts": {
     "assets:readonly": "bash scripts/prepare-readonly-assets.sh",
+    "assets:oop": "bash scripts/prepare-oop-assets.sh",
     "studio": "remotion studio src/index.ts",
     "check": "tsc --noEmit",
     "render:readonly:dev": "remotion render src/index.ts ReadonlyInterviewDev ../renders/readonly-remotion-dev.mp4 --codec=h264 --crf=18",
     "render:readonly": "remotion render src/index.ts ReadonlyInterview ../renders/readonly-remotion.mp4 --codec=h264 --crf=18",
     "render:readonly:short:dev": "remotion render src/index.ts ReadonlyInterviewShortDev ../renders/readonly-remotion-short-dev.mp4 --codec=h264 --crf=18",
-    "render:readonly:short": "remotion render src/index.ts ReadonlyInterviewShort ../renders/readonly-remotion-short.mp4 --codec=h264 --crf=18"
+    "render:readonly:short": "remotion render src/index.ts ReadonlyInterviewShort ../renders/readonly-remotion-short.mp4 --codec=h264 --crf=18",
+    "render:oop:dev": "remotion render src/index.ts OopConstructsInterviewDev ../renders/oop-constructs-remotion-dev.mp4 --codec=h264 --crf=18",
+    "render:oop": "remotion render src/index.ts OopConstructsInterview ../renders/oop-constructs-remotion.mp4 --codec=h264 --crf=18",
+    "render:oop:short:dev": "remotion render src/index.ts OopConstructsInterviewShortDev ../renders/oop-constructs-remotion-short-dev.mp4 --codec=h264 --crf=18",
+    "render:oop:short": "remotion render src/index.ts OopConstructsInterviewShort ../renders/oop-constructs-remotion-short.mp4 --codec=h264 --crf=18"
   },
   "dependencies": {
     "@remotion/media": "4.0.520",

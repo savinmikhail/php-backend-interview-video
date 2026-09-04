@@ -1,147 +1,36 @@
-import type {CSSProperties, ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import {Audio} from '@remotion/media';
 import {
   AbsoluteFill,
-  Easing,
-  Img,
-  interpolate,
   Sequence,
   staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from 'remotion';
 import {
+  enter,
+  InterviewShell,
+  type Format,
+  type SlideProps,
+} from './InterviewShell';
+import {
   PRODUCTION_FPS,
   readonlyTimeline,
   speakerAt,
-  type Speaker,
 } from './timeline';
 
-type Format = 'wide' | 'short';
 type Props = {format: Format};
-type SlideProps = Props & {speaker: Speaker};
-
-const enter = (frame: number): CSSProperties => ({
-  opacity: interpolate(frame, [0, 12], [0.72, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  }),
-  transform: `translateY(${interpolate(frame, [0, 14], [24, 0], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-    easing: Easing.out(Easing.cubic),
-  })}px)`,
-});
-
-const Wave = ({frame, active}: {frame: number; active: boolean}) => (
-  <span className="wave" aria-hidden="true">
-    {[0, 1, 2, 3].map((index) => (
-      <i
-        key={index}
-        style={{
-          height: active
-            ? 8 + Math.abs(Math.sin(frame * 0.28 + index * 1.7)) * 18
-            : 7,
-        }}
-      />
-    ))}
-  </span>
-);
-
-const Avatar = ({kind}: {kind: Speaker}) =>
-  kind === 'mikhail' ? (
-    <span className="avatar avatar--mikhail">
-      <Img
-        className="avatar__image"
-        src={staticFile('generated/current-layout.png')}
-      />
-    </span>
-  ) : (
-    <span className="avatar avatar--interviewer">
-      <span className="anonymous-head" />
-      <span className="anonymous-body" />
-      <b>?</b>
-    </span>
-  );
-
-const SpeakerBadge = ({
-  kind,
-  active,
-  frame,
-}: {
-  kind: Speaker;
-  active: boolean;
-  frame: number;
-}) => (
-  <div className={`speaker speaker--${kind} ${active ? 'is-active' : ''}`}>
-    {kind === 'mikhail' && <Avatar kind={kind} />}
-    <div className="speaker__copy">
-      <strong>{kind === 'mikhail' ? 'Михаил' : 'Интервьюер'}</strong>
-      <span>
-        <Wave frame={frame} active={active} />
-        {active ? 'говорит' : 'слушает'}
-      </span>
-    </div>
-    {kind === 'interviewer' && <Avatar kind={kind} />}
-  </div>
-);
-
-const QuestionHeader = () => (
-  <header className="question-header">
-    <div className="counter"><b>01</b><span>/ 58</span></div>
-    <h1>Что такое readonly-класс в PHP?</h1>
-  </header>
-);
-
-const Shell = ({
-  children,
-  format,
-  speaker,
-  showHeader = true,
-}: {
-  children: ReactNode;
-  format: Format;
-  speaker: Speaker;
-  showHeader?: boolean;
-}) => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
-  const animationFrame = frame * PRODUCTION_FPS / fps;
-  const driftX = Math.sin(animationFrame / 95) * 52;
-  const driftY = Math.cos(animationFrame / 118) * 34;
-
-  return (
-    <AbsoluteFill className={`composition composition--${format}`}>
-      <div
-        className="mist mist--one"
-        style={{transform: `translate(${driftX}px, ${driftY}px) scale(1.08)`}}
-      />
-      <div
-        className="mist mist--two"
-        style={{transform: `translate(${-driftX * 0.7}px, ${-driftY}px) scale(1.12)`}}
-      />
-      <main className={`stage ${showHeader ? '' : 'stage--question'}`}>
-        {showHeader && <QuestionHeader />}
-        <section className={`visual ${showHeader ? '' : 'visual--question'}`}>{children}</section>
-        <footer className="speakers">
-          <SpeakerBadge kind="mikhail" active={speaker === 'mikhail'} frame={animationFrame} />
-          <SpeakerBadge kind="interviewer" active={speaker === 'interviewer'} frame={animationFrame} />
-        </footer>
-      </main>
-    </AbsoluteFill>
-  );
-};
 
 const QuestionSlide = ({format, speaker}: SlideProps) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   return (
-    <Shell format={format} speaker={speaker} showHeader={false}>
+    <InterviewShell format={format} speaker={speaker} counter="1" question="Что такое readonly-класс в PHP?" showHeader={false}>
       <div className="question-slide" style={enter(frame * PRODUCTION_FPS / fps)}>
         <div className="eyebrow">Вопрос 1 из 58</div>
         <h1>Что такое<br /><em>readonly-класс</em> в PHP?</h1>
       </div>
-    </Shell>
+    </InterviewShell>
   );
 };
 
@@ -160,7 +49,7 @@ const RulesSlide = ({format, speaker}: SlideProps) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   return (
-    <Shell format={format} speaker={speaker}>
+    <InterviewShell format={format} speaker={speaker} counter="1" question="Что такое readonly-класс в PHP?">
       <div className="rules-layout" style={enter(frame * PRODUCTION_FPS / fps)}>
         <div className="code-card">
           <pre><code><span className="kw">readonly class</span> <span className="type">User</span>{`\n{\n`}  <span className="kw">public function</span> __construct({`\n`}    <span className="kw">public string</span> <span className="var">$name</span>,{`\n`}    <span className="kw">public Address</span> <span className="var">$address</span>,{`\n`}  ) {'{}'}{`\n}`}{`\n\n`}<span className="var">$user</span>-&gt;name = <span className="str">'Alex'</span>;</code></pre>
@@ -177,7 +66,7 @@ const RulesSlide = ({format, speaker}: SlideProps) => {
           />
         </div>
       </div>
-    </Shell>
+    </InterviewShell>
   );
 };
 
@@ -192,7 +81,7 @@ const BenefitsSlide = ({format, speaker}: SlideProps) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   return (
-    <Shell format={format} speaker={speaker}>
+    <InterviewShell format={format} speaker={speaker} counter="1" question="Что такое readonly-класс в PHP?">
       <div className="benefits" style={enter(frame * PRODUCTION_FPS / fps)}>
         <div className="benefits__grid">
           <Benefit icon="↺" title="Меньше мутаций" text="Меньше неожиданных переходов состояния" />
@@ -202,7 +91,7 @@ const BenefitsSlide = ({format, speaker}: SlideProps) => {
         </div>
         <div className="benefits__caveat"><strong>Важно:</strong> readonly снижает риск случайного накопления состояния, но не является общей защитой от memory leaks.</div>
       </div>
-    </Shell>
+    </InterviewShell>
   );
 };
 
@@ -218,7 +107,7 @@ const NuanceSlide = ({format, speaker}: SlideProps) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   return (
-    <Shell format={format} speaker={speaker}>
+    <InterviewShell format={format} speaker={speaker} counter="1" question="Что такое readonly-класс в PHP?">
       <div className="nuance" style={enter(frame * PRODUCTION_FPS / fps)}>
         <h2>readonly <span>≠</span> deep immutable</h2>
         <div className="object-comparison">
@@ -249,7 +138,7 @@ const NuanceSlide = ({format, speaker}: SlideProps) => {
           />
         </div>
       </div>
-    </Shell>
+    </InterviewShell>
   );
 };
 

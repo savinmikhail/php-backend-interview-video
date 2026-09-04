@@ -11,6 +11,14 @@ export const readonlyTimeline = (fps: number) => ({
   nuance: {from: seconds(60, fps), duration: seconds(28, fps)},
 });
 
+export const oopTimeline = (fps: number) => ({
+  duration: seconds(55, fps),
+  question: {from: seconds(0, fps), duration: seconds(5, fps)},
+  interface: {from: seconds(5, fps), duration: seconds(17, fps)},
+  abstract: {from: seconds(22, fps), duration: seconds(15, fps)},
+  trait: {from: seconds(37, fps), duration: seconds(18, fps)},
+});
+
 export type Speaker = 'mikhail' | 'interviewer';
 
 export const speakerAt = (frame: number, fps: number): Speaker => {
@@ -20,3 +28,6 @@ export const speakerAt = (frame: number, fps: number): Speaker => {
   if (frame < seconds(60, fps)) return 'mikhail';
   return 'interviewer';
 };
+
+export const speakerAtOop = (frame: number, fps: number): Speaker =>
+  frame < seconds(5, fps) ? 'interviewer' : 'mikhail';

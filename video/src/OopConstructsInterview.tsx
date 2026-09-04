@@ -15,7 +15,7 @@ import {
 import {TypeRelationshipDiagram, type RelationshipVariant} from './TypeRelationshipDiagram';
 import {oopTimeline, PRODUCTION_FPS, speakerAtOop} from './timeline';
 
-type Props = {format: Format};
+type Props = {format: Format; withAudio?: boolean};
 
 const question = <>Интерфейс, абстрактный класс, trait — что для чего?</>;
 
@@ -46,7 +46,7 @@ const DiagramSlide = ({format, speaker, variant}: SlideProps & {variant: Relatio
   );
 };
 
-export const OopConstructsInterview = ({format}: Props) => {
+export const OopConstructsInterview = ({format, withAudio = true}: Props) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const timeline = oopTimeline(fps);
@@ -54,7 +54,7 @@ export const OopConstructsInterview = ({format}: Props) => {
 
   return (
     <AbsoluteFill>
-      <Audio src={staticFile('generated/oop-constructs-audio.m4a')} />
+      {withAudio && <Audio src={staticFile('generated/oop-constructs-audio.m4a')} />}
       <Sequence from={timeline.question.from} durationInFrames={timeline.question.duration} name="Вопрос">
         <QuestionSlide format={format} speaker={speaker} />
       </Sequence>

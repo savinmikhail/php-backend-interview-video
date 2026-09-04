@@ -4,6 +4,7 @@ import {OopConstructsInterview} from './OopConstructsInterview';
 import {QuestionBatchInterview} from './QuestionBatchInterview';
 import {ReviewSlide} from './ReviewSlide';
 import {BaseReview} from './BaseReview';
+import {FullInterviewReview} from './FullInterviewReview';
 import {DEV_FPS, oopTimeline, PRODUCTION_FPS, questionBatchTimeline, readonlyTimeline} from './timeline';
 
 const productionTimeline = readonlyTimeline(PRODUCTION_FPS);
@@ -15,6 +16,24 @@ const questionBatchDevTimeline = questionBatchTimeline(DEV_FPS);
 
 export const RemotionRoot = () => (
   <>
+    <Composition
+      id="FullInterviewReviewDev"
+      component={FullInterviewReview}
+      durationInFrames={49130}
+      fps={DEV_FPS}
+      width={1920}
+      height={1080}
+      defaultProps={{format: 'wide'}}
+    />
+    <Composition
+      id="FullInterviewReview"
+      component={FullInterviewReview}
+      durationInFrames={147390}
+      fps={PRODUCTION_FPS}
+      width={1920}
+      height={1080}
+      defaultProps={{format: 'wide'}}
+    />
     <Composition
       id="BaseReviewDev"
       component={BaseReview}

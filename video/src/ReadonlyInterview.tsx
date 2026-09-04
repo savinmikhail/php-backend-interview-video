@@ -19,7 +19,7 @@ import {
   speakerAt,
 } from './timeline';
 
-type Props = {format: Format};
+type Props = {format: Format; withAudio?: boolean};
 
 const QuestionSlide = ({format, speaker}: SlideProps) => {
   const frame = useCurrentFrame();
@@ -142,7 +142,7 @@ const NuanceSlide = ({format, speaker}: SlideProps) => {
   );
 };
 
-export const ReadonlyInterview = ({format}: Props) => {
+export const ReadonlyInterview = ({format, withAudio = true}: Props) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const timeline = readonlyTimeline(fps);
@@ -150,7 +150,7 @@ export const ReadonlyInterview = ({format}: Props) => {
 
   return (
     <AbsoluteFill>
-      <Audio src={staticFile('generated/readonly-audio.m4a')} />
+      {withAudio && <Audio src={staticFile('generated/readonly-audio.m4a')} />}
       <Sequence from={timeline.question.from} durationInFrames={timeline.question.duration} name="Вопрос">
         <QuestionSlide format={format} speaker={speaker} />
       </Sequence>

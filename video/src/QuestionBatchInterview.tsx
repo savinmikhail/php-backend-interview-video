@@ -20,7 +20,7 @@ import {
   speakerAtQuestionBatch,
 } from './timeline';
 
-type Props = {format: Format};
+type Props = {format: Format; withAudio?: boolean};
 
 const objectQuestion = 'Что происходит при передаче объекта в метод?';
 const dateTimeQuestion = 'DateTimeImmutable лучше или хуже DateTime?';
@@ -327,7 +327,7 @@ const ExceptionCorrectionSlide = ({format, speaker}: SlideProps) => {
   );
 };
 
-export const QuestionBatchInterview = ({format}: Props) => {
+export const QuestionBatchInterview = ({format, withAudio = true}: Props) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const timeline = questionBatchTimeline(fps);
@@ -335,7 +335,7 @@ export const QuestionBatchInterview = ({format}: Props) => {
 
   return (
     <AbsoluteFill>
-      <Audio src={staticFile('generated/questions-03-05-audio.m4a')} />
+      {withAudio && <Audio src={staticFile('generated/questions-03-05-audio.m4a')} />}
 
       <Sequence from={timeline.objectQuestion.from} durationInFrames={timeline.objectQuestion.duration} name="03 · Вопрос">
         <QuestionSlide format={format} speaker={speaker} counter="3" eyebrow="Вопрос 3 из 58">

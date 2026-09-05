@@ -3,7 +3,7 @@ import {InterviewShell, type Format} from './InterviewShell';
 import {TOTAL_QUESTIONS, type Speaker} from './timeline';
 
 type Tone = 'purple' | 'cyan' | 'green' | 'amber' | 'red';
-type Pattern = 'question' | 'columns' | 'grid' | 'flow' | 'stack';
+type Pattern = 'question' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum';
 
 type Card = {
   label?: string;
@@ -43,9 +43,7 @@ const s = (
 ): ReviewSlideDefinition => ({id, counter, title, pattern, cards, footer, badge, speaker: 'mikhail'});
 
 export const reviewSlides: ReviewSlideDefinition[] = [
-  s('06-enum', '6', 'Для чего и когда использовать enum?', 'columns', [
-    {label: 'Открытая строка', title: 'Пропускает лишнее', code: ["changeStatus(0);      // '0'", "changeStatus('canceled');"], lines: ['Coercion и опечатки проходят глубже'], tone: 'red'},
-    {label: 'Закрытый тип', title: 'Типобезопасный набор', code: ["enum OrderStatus: string", "Paid · Cancelled", "0 → TypeError", "'canceled' → ValueError"], lines: ['Параметр принимает только case'], tone: 'green'},
+  s('06-enum', '6', 'Для чего и когда использовать enum?', 'enum', [
   ], 'Конечный набор доменных вариантов — хороший кандидат для enum'),
 
   q('07-question', '7', 'Как работает DI-контейнер Symfony и что он даёт?'),
@@ -391,6 +389,42 @@ const CardView = ({card}: {card: Card}) => (
   </article>
 );
 
+const EnumComparison = () => (
+  <div className="enum-comparison">
+    <article className="enum-card enum-card--string">
+      <div className="enum-card__label">Открытая строка · weak mode</div>
+      <h2>Пропускает лишнее</h2>
+      <pre className="enum-card__definition"><code><span className="syntax-keyword">function</span> <span className="syntax-name">changeStatus</span>(<span className="syntax-type">string</span> <span className="syntax-variable">$status</span>): <span className="syntax-type">void</span> {'{}'}</code></pre>
+      <div className="enum-examples">
+        <div className="enum-example enum-example--warning">
+          <code><span className="syntax-name">changeStatus</span>(<span className="syntax-number">0</span>);</code>
+          <span><code><span className="syntax-variable">$status</span> === <span className="syntax-string">'0'</span></code></span>
+        </div>
+        <div className="enum-example enum-example--warning">
+          <code><span className="syntax-name">changeStatus</span>(<span className="syntax-string">'canceled'</span>);</code>
+          <span>опечатка принята</span>
+        </div>
+      </div>
+    </article>
+
+    <article className="enum-card enum-card--typed">
+      <div className="enum-card__label">Закрытый тип</div>
+      <h2>Типобезопасный набор</h2>
+      <pre className="enum-card__definition"><code><span className="syntax-keyword">enum</span> <span className="syntax-type">OrderStatus</span>: <span className="syntax-type">string</span> {'{'}{`\n`}  <span className="syntax-keyword">case</span> <span className="syntax-name">Paid</span> = <span className="syntax-string">'paid'</span>;{`\n`}  <span className="syntax-keyword">case</span> <span className="syntax-name">Cancelled</span> = <span className="syntax-string">'cancelled'</span>;{`\n`}{'}'}</code></pre>
+      <div className="enum-examples">
+        <div className="enum-example enum-example--error">
+          <code><span className="syntax-name">changeStatus</span>(<span className="syntax-number">0</span>);</code>
+          <span>TypeError</span>
+        </div>
+        <div className="enum-example enum-example--error">
+          <code><span className="syntax-type">OrderStatus</span>::<span className="syntax-name">from</span>(<span className="syntax-string">'canceled'</span>);</code>
+          <span>ValueError</span>
+        </div>
+      </div>
+    </article>
+  </div>
+);
+
 export const ReviewSlide = ({
   format,
   slideId,
@@ -406,6 +440,17 @@ export const ReviewSlide = ({
         <div className="rr-question">
           <span>Вопрос {slide.counter} из {TOTAL_QUESTIONS}</span>
           <h1>{slide.title}</h1>
+        </div>
+      </InterviewShell>
+    );
+  }
+
+  if (slide.pattern === 'enum') {
+    return (
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
+        <div className="rr-slide rr-slide--enum">
+          <EnumComparison />
+          {slide.footer && <div className="rr-footer">{slide.footer}</div>}
         </div>
       </InterviewShell>
     );

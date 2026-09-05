@@ -82,13 +82,17 @@ flowchart LR
 ┌──────────────────────────────────────────────────────────────┐
 │ 06/32  Для чего и когда использовать enum?                   │
 ├──────────────────────────────┬───────────────────────────────┤
-│ changeStatus(string $status) │ enum OrderStatus: string      │
-│                              │ {                             │
+│ ОТКРЫТАЯ СТРОКА · WEAK MODE │ enum OrderStatus: string      │
+│ changeStatus(string $status) │ {                              │
+│                              │ {                              │
 │ changeStatus(0);             │   case Paid = 'paid';         │
-│ → $status === '0'            │   case Cancelled = 'cancelled';│
-│                              │ }                             │
-│ changeStatus('canceled');    │ changeStatus(0); → TypeError │
-│ → строка принята             │ from('canceled'); → ValueError│
+│ → $status === '0'            │   case Cancelled =            │
+│                              │     'cancelled';               │
+│ changeStatus('canceled');    │ }                              │
+│ → опечатка принята           │                                │
+│                              │ changeStatus(0) → TypeError   │
+│                              │ OrderStatus::from('canceled') │
+│                              │   → ValueError                 │
 ├──────────────────────────────┼───────────────────────────────┤
 │ СТРОКИ ПРОПУСКАЮТ ЛИШНЕЕ     │ ТИПОБЕЗОПАСНЫЙ НАБОР          │
 │ Coercion и опечатки          │ Параметр принимает только case│
@@ -110,9 +114,13 @@ flowchart LR
 │ → строка принята            │
 ├─────────────── ↓ ────────────┤
 │ enum OrderStatus: string    │
-│ Paid · Cancelled            │
-│ 0 → TypeError               │
-│ 'canceled' → ValueError     │
+│ case Paid = 'paid'          │
+│ case Cancelled =            │
+│   'cancelled'               │
+│ changeStatus(0)             │
+│ → TypeError                 │
+│ OrderStatus::from(          │
+│   'canceled') → ValueError  │
 ├──────────────────────────────┤
 │ Типобезопасный набор        │
 │ доменных значений           │
@@ -149,7 +157,11 @@ flowchart LR
 ## Материалы и производство
 
 - Новый компонент не нужен: достаточно существующих карточек и code-блоков.
-- Код: `OrderStatus` с тремя case.
+- Для этого состояния используется специализированная компоновка поверх
+  существующей сетки карточек: она сопоставляет одинаковые входы построчно и
+  сохраняет читаемый PHP-синтаксис в обоих форматах.
+- Код: строковая сигнатура, `OrderStatus` с двумя case и два недопустимых
+  входа.
 - SVG/изображения не нужны.
 - Исправление на экране: нет до проверки оригинального ответа.
 - Досъёмка, переозвучка и синтетическая замена ответа: не планируются.

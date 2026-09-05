@@ -132,9 +132,11 @@ flowchart LR
 
 ## Состояние 2 — контейнер строит object graph
 
-Польза: превращает перечисление Reflection/конструкторов в наблюдаемую связь
-трёх сервисов.  
-Экранный текст: минимальный конструктор и граф зависимостей.  
+Польза: превращает перечисление Reflection/конструкторов в реальный PHP-код и
+показывает, как каждый type-hint разрешается в конкретную реализацию.
+
+Экранный текст: класс `Checkout`, две связи interface → implementation и
+результат создания сервиса.
 Дополняет речь: контейнер не «даёт Reflection», а знает, как создать и связать
 сервисы.  
 Не дублируем: полный класс и конфигурацию каждого сервиса.
@@ -145,15 +147,17 @@ flowchart LR
 ┌──────────────────────────────────────────────────────────────┐
 │ 07/32  Как работает DI-контейнер Symfony?                    │
 ├──────────────────────────────┬───────────────────────────────┤
-│ final class Checkout         │          Checkout            │
-│ {                            │           /    \             │
-│   __construct(              │ PaymentGateway  Logger       │
-│     PaymentGatewayInterface  │   Interface      Interface   │
-│       $gateway,              │       ↓              ↓      │
-│     LoggerInterface $logger  │ StripeGateway  MonologLogger │
-│   ) {}                       │                              │
-│ }                            │ Контейнер создаёт и связывает │
-│                              │ object graph                 │
+│ final class Checkout         │ DEFINITIONS + AUTOWIRING     │
+│ {                            │ PaymentGatewayInterface      │
+│   public function            │          → StripeGateway     │
+│     __construct(             │ LoggerInterface              │
+│       private                │          → MonologLogger     │
+│         PaymentGatewayInterface                           │
+│         $gateway,            │ Результат                    │
+│       private LoggerInterface│ new Checkout($gateway,       │
+│         $logger,             │              $logger)        │
+│     ) {}                     │                              │
+│ }                            │                              │
 ├──────────────────────────────┴───────────────────────────────┤
 │ Михаил · говорит                      Интервьюер · слушает   │
 └──────────────────────────────────────────────────────────────┘
@@ -165,17 +169,22 @@ flowchart LR
 ┌──────────────────────────────┐
 │ 07/32 · DI-контейнер        │
 ├──────────────────────────────┤
-│ Checkout::__construct(      │
-│   PaymentGatewayInterface   │
-│     $gateway,               │
-│   LoggerInterface $logger   │
-│ )                           │
-├─────────────── ↓ ────────────┤
-│ Checkout                    │
-│ ├─ PaymentGatewayInterface  │
-│ │  └─ StripeGateway         │
-│ └─ LoggerInterface          │
-│    └─ MonologLogger         │
+│ final class Checkout        │
+│ {                           │
+│   public function           │
+│     __construct(            │
+│       PaymentGatewayInterface│
+│         $gateway,           │
+│       LoggerInterface       │
+│         $logger,            │
+│     ) {}                    │
+│ }                           │
+├──────────────────────────────┤
+│ PaymentGatewayInterface     │
+│       → StripeGateway       │
+│ LoggerInterface             │
+│       → MonologLogger       │
+│ new Checkout(...)           │
 ├──────────────────────────────┤
 │ создаёт · связывает · выдаёт │
 ├──────────────────────────────┤
@@ -185,9 +194,11 @@ flowchart LR
 
 ## Состояние 3 — сборка, freshness check и использование в запросах
 
-Польза: разделяет Reflection/разбор definitions, проверку свежести в `dev` и
-исполнение контейнера при обычном запросе.  
-Экранный текст: две фазы и короткая метка `Уточнение ответа`.  
+Польза: показывает путь от service discovery до PHP-класса контейнера, а
+затем — как несколько запросов используют этот же сгенерированный код.
+
+Экранный текст: discovery → resolve → compile, рамка generated container и
+стрелки от запросов.
 Дополняет речь: показывает конкретный результат компиляции — PHP-класс в
 кэше.  
 Не дублируем: сравнение с Yii — оно раскрывается отдельным следующим
@@ -199,17 +210,17 @@ flowchart LR
 ┌──────────────────────────────────────────────────────────────┐
 │ 07/32  Как работает DI-контейнер Symfony?                    │
 ├──────────────────────────────────────────────────────────────┤
-│ УТОЧНЕНИЕ ОТВЕТА                                            │
 │                                                              │
-│ СБОРКА / WARMUP                    RUNTIME                   │
-│ definitions + type-hints           Request 1 ─┐             │
-│           ↓                        Request 2 ─┼─→ cached PHP │
-│ resolve + optimize + compile       Request N ─┘   container │
-│           ↓                                                  │
-│ var/cache/...Container.php                                   │
+│ SERVICE DISCOVERY → RESOLVE             → COMPILE + DUMP     │
+│ App\: resource      autowire              App_KernelProd... │
+│     '../src/'       autoconfigure          PHP class         │
+│                     type-hints · Reflection                  │
 │                                                              │
-│ dev/debug: freshness check                                    │
-│ stale → пересобрать · fresh → использовать cached container  │
+│ Request 1 ─┐       ┌───────────────────────────────┐          │
+│ Request 2 ─┼──────→│ generated PHP container       │ → reuse  │
+│ Request N ─┘       │ return new Checkout(...)      │          │
+│                    └───────────────────────────────┘          │
+│ cache stale → rebuild · cache fresh → reuse                  │
 ├──────────────────────────────────────────────────────────────┤
 │ Михаил · говорит                      Интервьюер · слушает   │
 └──────────────────────────────────────────────────────────────┘
@@ -219,20 +230,24 @@ flowchart LR
 
 ```text
 ┌──────────────────────────────┐
-│ 07/32 · Уточнение ответа    │
+│ 07/32 · Сборка и runtime   │
 ├──────────────────────────────┤
-│ СБОРКА                      │
-│ definitions + type-hints    │
-│          ↓                   │
-│ resolve · optimize · compile│
-│          ↓                   │
-│ cached PHP container        │
-│ dev: rebuild when stale     │
-├─────────────── ↓ ────────────┤
-│ RUNTIME                     │
-│ request 1 ─┐                │
-│ request 2 ─┼→ тот же код    │
-│ request N ─┘                │
+│ SERVICE DISCOVERY           │
+│ App\: resource: '../src/'  │
+│           ↓                 │
+│ RESOLVE                     │
+│ autowire · autoconfigure    │
+│ type-hints · Reflection     │
+│           ↓                 │
+│ COMPILE + DUMP              │
+│ App_KernelProdContainer.php │
+├──────────────────────────────┤
+│ Request 1 ─┐                │
+│ Request 2 ─┼─→ ┌──────────┐ │
+│ Request N ─┘    │ generated│ │
+│                 │ container│ │
+│                 └──────────┘ │
+│ fresh → reuse · stale → build│
 ├──────────────────────────────┤
 │ Михаил        Интервьюер     │
 └──────────────────────────────┘
@@ -317,21 +332,23 @@ flowchart LR
   build/runtime → сравнение стратегий.
 - На вводной `21:21–21:37` остаётся базовый экран; возможные сокращения
   определяет монтажёр после просмотра оригинала.
-- Маркер уточнения, cached PHP и обе фазы остаются в безопасной зоне.
+- Cached PHP и обе фазы остаются в безопасной зоне; отдельный маркер
+  «Уточнение ответа» не нужен, поскольку экранная графика систематически
+  дополняет звучащие ответы.
 
 ## Материалы и производство
 
 - Нужны переиспользуемые dependency graph/flow и двухколоночное сравнение.
 - Код: короткий constructor `Checkout`.
 - SVG: простые линии графа, без внешних изображений.
-- Уточнение на экране: да, формулировка приведена выше.
+- Техническое дополнение на экране: да, без отдельной мета-подписи.
 - Досъёмка, переозвучка и синтетическая замена ответа: не планируются.
 
 ## Ревью
 
 - [x] Таймкоды предварительно сверены с транскриптом.
 - [x] Технические дополнения проверены по Symfony Docs.
-- [x] Существенное уточнение явно маркируется.
+- [x] Техническое дополнение визуально отделено от речи структурой экрана.
 - [x] Экран не превращён в разбор compiler passes.
 - [x] 16:9 и 9:16 описаны отдельно.
 - [ ] Точные моменты смены состояний сверены с исходным аудио при реализации.

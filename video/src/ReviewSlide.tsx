@@ -3,7 +3,7 @@ import {InterviewShell, type Format} from './InterviewShell';
 import {TOTAL_QUESTIONS, type Speaker} from './timeline';
 
 type Tone = 'purple' | 'cyan' | 'green' | 'amber' | 'red';
-type Pattern = 'question' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum';
+type Pattern = 'question' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile';
 
 type Card = {
   label?: string;
@@ -47,15 +47,10 @@ export const reviewSlides: ReviewSlideDefinition[] = [
   ], 'Конечный набор доменных вариантов — хороший кандидат для enum'),
 
   q('07-question', '7', 'Как работает DI-контейнер Symfony и что он даёт?'),
-  s('07-graph', '7', 'Контейнер строит object graph', 'columns', [
-    {label: 'Type-hints', title: 'Checkout::__construct()', code: ['PaymentGatewayInterface $gateway', 'LoggerInterface $logger'], tone: 'purple'},
-    {label: 'Definitions + autowiring', title: 'Связанные реализации', code: ['Checkout', '├─ StripeGateway', '└─ MonologLogger'], tone: 'cyan'},
-  ], 'Контейнер знает, как создать сервис и все его зависимости'),
-  s('07-compile', '7', 'Сборка и runtime — разные фазы', 'flow', [
-    {label: 'Build / warmup', title: 'definitions + type-hints', lines: ['Reflection и анализ metadata'], tone: 'purple'},
-    {label: 'Compile', title: 'resolve · optimize · dump', code: ['var/cache/...Container.php'], tone: 'amber'},
-    {label: 'Runtime', title: 'generated PHP container', lines: ['Request 1 · Request 2 · Request N'], tone: 'green'},
-  ], 'dev/debug: проверить freshness → пересобрать, если cache stale', 'Уточнение ответа'),
+  s('07-graph', '7', 'Контейнер строит object graph', 'di-graph', [],
+    'Контейнер создаёт Checkout и передаёт выбранные реализации'),
+  s('07-compile', '7', 'Сборка и runtime — разные фазы', 'di-compile', [],
+    'dev/debug: cache stale → rebuild · cache fresh → reuse'),
   s('07-tradeoff', '7', 'Две стратегии затрат', 'columns', [
     {label: 'Symfony', title: 'Compile + PHP dump', lines: ['Цена warmup / rebuild', 'Повторно используем generated container'], tone: 'purple'},
     {label: 'Runtime-resolved DI', title: 'Resolve при выполнении', lines: ['Definitions читаются в runtime', 'Нет compiled-container artifact'], tone: 'cyan'},
@@ -425,6 +420,70 @@ const EnumComparison = () => (
   </div>
 );
 
+const DiObjectGraph = () => (
+  <div className="di-graph-layout">
+    <pre className="di-source-code"><code><span className="syntax-keyword">final class</span> <span className="syntax-type">Checkout</span>{`\n`}{'{'}{`\n`}  <span className="syntax-keyword">public function</span> <span className="syntax-name">__construct</span>({`\n`}    <span className="syntax-keyword">private</span> <span className="syntax-type">PaymentGatewayInterface</span> <span className="syntax-variable">$gateway</span>,{`\n`}    <span className="syntax-keyword">private</span> <span className="syntax-type">LoggerInterface</span> <span className="syntax-variable">$logger</span>,{`\n`}  ) {'{}'}{`\n`}{'}'}</code></pre>
+
+    <aside className="di-bindings">
+      <div className="di-bindings__label">Definitions + autowiring</div>
+      <div className="di-binding">
+        <code>PaymentGatewayInterface</code>
+        <span>→</span>
+        <strong>StripeGateway</strong>
+      </div>
+      <div className="di-binding">
+        <code>LoggerInterface</code>
+        <span>→</span>
+        <strong>MonologLogger</strong>
+      </div>
+      <div className="di-created-service">
+        <span>Результат</span>
+        <code><span className="syntax-keyword">new</span> <span className="syntax-type">Checkout</span>(<span className="syntax-variable">$gateway</span>, <span className="syntax-variable">$logger</span>)</code>
+      </div>
+    </aside>
+  </div>
+);
+
+const DiCompileRuntime = () => (
+  <div className="di-compile-layout">
+    <section className="di-build-pipeline">
+      <article className="di-build-step di-build-step--discovery">
+        <span>1 · Service discovery</span>
+        <code><span className="syntax-type">App\:</span>{`\n`}  <span className="syntax-name">resource</span>: <span className="syntax-string">'../src/'</span></code>
+        <p>Регистрирует классы как services</p>
+      </article>
+      <div className="di-build-arrow">→</div>
+      <article className="di-build-step di-build-step--resolve">
+        <span>2 · Resolve</span>
+        <strong>autowire · autoconfigure</strong>
+        <p>type-hints · Reflection · tags</p>
+      </article>
+      <div className="di-build-arrow">→</div>
+      <article className="di-build-step di-build-step--compile">
+        <span>3 · Compile + dump</span>
+        <code><span className="syntax-type">App_KernelProdContainer</span>.php</code>
+        <p>Готовый PHP-класс в cache</p>
+      </article>
+    </section>
+
+    <section className="di-runtime-flow">
+      <div className="di-requests" aria-label="Несколько запросов используют один сгенерированный контейнер">
+        <code>Request 1 ─┐</code>
+        <code>Request 2 ─┼──→</code>
+        <code>Request N ─┘</code>
+      </div>
+      <article className="di-generated-container">
+        <span>generated PHP container</span>
+        <code><span className="syntax-keyword">return new</span> <span className="syntax-type">Checkout</span>({`\n`}  <span className="syntax-variable">$this</span>-&gt;<span className="syntax-name">getStripeGatewayService</span>(),{`\n`}  <span className="syntax-variable">$this</span>-&gt;<span className="syntax-name">getLoggerService</span>(),{`\n`});</code>
+      </article>
+      <div className="di-runtime-result">
+        <strong>reuse</strong>
+        <span>без повторного разбора definitions</span>
+      </div>
+    </section>
+  </div>
+);
+
 export const ReviewSlide = ({
   format,
   slideId,
@@ -450,6 +509,18 @@ export const ReviewSlide = ({
       <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
         <div className="rr-slide rr-slide--enum">
           <EnumComparison />
+          {slide.footer && <div className="rr-footer">{slide.footer}</div>}
+        </div>
+      </InterviewShell>
+    );
+  }
+
+  if (slide.pattern === 'di-graph' || slide.pattern === 'di-compile') {
+    return (
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
+        <div className={`rr-slide rr-slide--${slide.pattern}`}>
+          {slide.badge && <div className="rr-badge">{slide.badge}</div>}
+          {slide.pattern === 'di-graph' ? <DiObjectGraph /> : <DiCompileRuntime />}
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
         </div>
       </InterviewShell>

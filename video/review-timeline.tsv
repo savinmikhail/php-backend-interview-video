@@ -2,8 +2,8 @@
 00:14:17	00:15:45	video:../renders/readonly-remotion-dev.mp4
 00:15:45	00:16:42	video:../renders/oop-constructs-remotion-dev.mp4
 00:16:42	00:20:59	video:../renders/questions-03-05-remotion-dev.mp4
-00:20:59	00:21:10	06-enum
-00:21:21	00:21:42	07-question
+00:20:59	00:21:23	06-enum
+00:21:37	00:21:42	07-question
 00:21:42	00:22:16	07-graph
 00:22:16	00:22:37	07-compile
 00:22:37	00:23:00	07-tradeoff

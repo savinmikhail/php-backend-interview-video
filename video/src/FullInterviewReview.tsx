@@ -54,8 +54,8 @@ const outputSecondToSourceSecond = (outputSecond: number) =>
 // Keep these entries in sync with review-timeline.tsv. The earlier animated
 // sequences are mounted separately below and therefore are not duplicated here.
 const reviewSegments: ReviewSegment[] = [
-  {start: '00:20:59', end: '00:21:10', slideId: '06-enum'},
-  {start: '00:21:21', end: '00:21:42', slideId: '07-question'},
+  {start: '00:20:59', end: '00:21:23', slideId: '06-enum'},
+  {start: '00:21:37', end: '00:21:42', slideId: '07-question'},
   {start: '00:21:42', end: '00:22:16', slideId: '07-graph'},
   {start: '00:22:16', end: '00:22:37', slideId: '07-compile'},
   {start: '00:22:37', end: '00:23:00', slideId: '07-tradeoff'},

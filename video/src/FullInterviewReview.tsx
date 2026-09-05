@@ -132,7 +132,7 @@ const reviewSegments: ReviewSegment[] = [
 
 const occupiedSegments = [
   {start: '00:14:17', end: '00:15:45'},
-  {start: '00:15:45', end: '00:16:40'},
+  {start: '00:15:45', end: '00:16:42'},
   {start: '00:16:42', end: '00:20:52'},
   ...reviewSegments,
 ].sort((left, right) => timestampToSeconds(left.start) - timestampToSeconds(right.start));
@@ -218,7 +218,7 @@ export const FullInterviewReview = ({format, withAudio = true}: Props) => {
       <Sequence
         name="02 · Interface / abstract class / trait"
         from={sourceTimestampToOutputFrame('00:15:45', fps)}
-        durationInFrames={55 * fps}
+        durationInFrames={57 * fps}
         premountFor={fps}
       >
         <OopConstructsInterview format={format} withAudio={false} />

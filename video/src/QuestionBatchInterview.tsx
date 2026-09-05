@@ -141,57 +141,6 @@ const ObjectIdentitySlide = ({format, speaker}: SlideProps) => {
   );
 };
 
-const OutcomeCard = ({
-  title,
-  functionName,
-  body,
-  result,
-  kind,
-}: {
-  title: string;
-  functionName: string;
-  body: ReactNode;
-  result: string;
-  kind: 'good' | 'neutral';
-}) => (
-  <article className={`outcome-card outcome-card--${kind}`}>
-    <h2>{title}</h2>
-    <pre><code><span className="kw">function</span> {functionName}(<span className="type">User</span> <span className="var">$arg</span>) {'{'}{`\n`}  {body}{`\n`}{'}'}{`\n\n`}<span className="var">$user</span> = <span className="kw">new</span> <span className="type">User</span>(<span className="str">'Mikhail'</span>);{`\n`}{functionName}(<span className="var">$user</span>);</code></pre>
-    <div className="outcome-card__result">
-      <span>После вызова</span>
-      <code>$user-&gt;name</code>
-      <strong>{result}</strong>
-    </div>
-  </article>
-);
-
-const ObjectOutcomesSlide = ({format, speaker}: SlideProps) => {
-  const {frame, fps} = useAnimationFrame();
-
-  return (
-    <InterviewShell format={format} speaker={speaker} counter="3" question={objectQuestion}>
-      <div className="outcomes-layout" style={enter(frame)}>
-        <OutcomeCard
-          title="Мутация объекта"
-          functionName="rename"
-          body={<><span className="var">$arg</span>-&gt;name = <span className="str">'Alex'</span>;</>}
-          result="'Alex'"
-          kind="good"
-        />
-        <div style={reveal(frame, 2 * fps)}>
-          <OutcomeCard
-            title="Новый объект внутри функции"
-            functionName="replace"
-            body={<><span className="var">$arg</span> = <span className="kw">new</span> <span className="type">User</span>(<span className="str">'Alex'</span>);</>}
-            result="'Mikhail'"
-            kind="neutral"
-          />
-        </div>
-      </div>
-    </InterviewShell>
-  );
-};
-
 const DateTimeComparisonSlide = ({format, speaker}: SlideProps) => {
   const {frame, fps} = useAnimationFrame();
 
@@ -351,9 +300,6 @@ export const QuestionBatchInterview = ({format, withAudio = true}: Props) => {
       </Sequence>
       <Sequence from={timeline.objectAtmosphere.from} durationInFrames={timeline.objectAtmosphere.duration} name="03 · Живой разговор">
         <BareScene format={format} speaker={speaker} />
-      </Sequence>
-      <Sequence from={timeline.objectOutcomes.from} durationInFrames={timeline.objectOutcomes.duration} name="03 · Два результата">
-        <ObjectOutcomesSlide format={format} speaker={speaker} />
       </Sequence>
       <Sequence from={timeline.transitionToDateTime.from} durationInFrames={timeline.transitionToDateTime.duration} name="Переход к DateTime">
         <BareScene format={format} speaker={speaker} />

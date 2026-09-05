@@ -3,7 +3,7 @@ import {InterviewShell, type Format} from './InterviewShell';
 import {TOTAL_QUESTIONS, type Speaker} from './timeline';
 
 type Tone = 'purple' | 'cyan' | 'green' | 'amber' | 'red';
-type Pattern = 'question' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile';
+type Pattern = 'question' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile' | 'decorator-code';
 
 type Card = {
   label?: string;
@@ -80,11 +80,8 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {title: 'Middleware B', lines: ['before ↓  ↑ after'], tone: 'cyan'},
     {title: 'Handler', tone: 'green'},
   ], 'Не только Laravel: PSR-15, Symfony Messenger и другие pipelines', 'Уточнение ответа'),
-  s('09-decorator', '9', 'Decorator сохраняет контракт сервиса', 'flow', [
-    {label: 'Client', title: 'PaymentGatewayInterface', tone: 'purple'},
-    {label: 'Decorator', title: 'MetricsGateway', lines: ['метрики · логирование · cache'], tone: 'amber'},
-    {label: 'Implementation', title: 'StripeGateway', tone: 'cyan'},
-  ], 'Поведение добавляется вокруг вызова без изменения клиента'),
+  s('09-decorator', '9', 'Decorator сохраняет контракт сервиса', 'decorator-code', [],
+    'Тот же интерфейс · поведение до и после делегирования'),
 
   q('10-question', '10', 'Чем полезен Symfony Messenger, кроме очередей?'),
   s('10-bus', '10', 'Message bus не равен очереди', 'flow', [
@@ -484,6 +481,25 @@ const DiCompileRuntime = () => (
   </div>
 );
 
+const DecoratorCode = () => (
+  <pre className="decorator-code"><code>
+    <span><span className="syntax-keyword">final class</span> <span className="syntax-type">MetricsGateway</span> <span className="syntax-keyword">implements</span> <span className="syntax-type">PaymentGatewayInterface</span></span>
+    <span>{'{'}</span>
+    <span className="code-line--indent-1"><span className="syntax-keyword">public function</span> <span className="syntax-name">__construct</span>(</span>
+    <span className="code-line--indent-2"><span className="syntax-keyword">private</span> <span className="syntax-type">PaymentGatewayInterface</span> <span className="syntax-variable">$inner</span>,</span>
+    <span className="code-line--indent-2"><span className="syntax-keyword">private</span> <span className="syntax-type">Metrics</span> <span className="syntax-variable">$metrics</span>,</span>
+    <span className="code-line--indent-1">) {'{}'}</span>
+    <span className="code-line--indent-1"><span className="syntax-keyword">public function</span> <span className="syntax-name">pay</span>(<span className="syntax-type">Money</span> <span className="syntax-variable">$amount</span>): <span className="syntax-type">Receipt</span></span>
+    <span className="code-line--indent-1">{'{'}</span>
+    <span className="code-line--indent-2"><span className="syntax-variable">$this</span>-&gt;<span className="syntax-name">metrics</span>-&gt;<span className="syntax-name">start</span>(); <span className="syntax-comment">// до</span></span>
+    <span className="code-line--indent-2"><span className="syntax-variable">$receipt</span> = <span className="syntax-variable">$this</span>-&gt;<span className="syntax-name">inner</span>-&gt;<span className="syntax-name">pay</span>(<span className="syntax-variable">$amount</span>); <span className="syntax-comment">// делегирование</span></span>
+    <span className="code-line--indent-2"><span className="syntax-variable">$this</span>-&gt;<span className="syntax-name">metrics</span>-&gt;<span className="syntax-name">success</span>(); <span className="syntax-comment">// после</span></span>
+    <span className="code-line--indent-2"><span className="syntax-keyword">return</span> <span className="syntax-variable">$receipt</span>;</span>
+    <span className="code-line--indent-1">{'}'}</span>
+    <span>{'}'}</span>
+  </code></pre>
+);
+
 export const ReviewSlide = ({
   format,
   slideId,
@@ -521,6 +537,17 @@ export const ReviewSlide = ({
         <div className={`rr-slide rr-slide--${slide.pattern}`}>
           {slide.badge && <div className="rr-badge">{slide.badge}</div>}
           {slide.pattern === 'di-graph' ? <DiObjectGraph /> : <DiCompileRuntime />}
+          {slide.footer && <div className="rr-footer">{slide.footer}</div>}
+        </div>
+      </InterviewShell>
+    );
+  }
+
+  if (slide.pattern === 'decorator-code') {
+    return (
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
+        <div className="rr-slide rr-slide--decorator-code">
+          <DecoratorCode />
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
         </div>
       </InterviewShell>

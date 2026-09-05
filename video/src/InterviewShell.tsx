@@ -8,7 +8,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from 'remotion';
-import {PRODUCTION_FPS, type Speaker} from './timeline';
+import {PRODUCTION_FPS, TOTAL_QUESTIONS, type Speaker} from './timeline';
 
 export type Format = 'wide' | 'short';
 export type SlideProps = {format: Format; speaker: Speaker};
@@ -163,7 +163,7 @@ const QuestionHeader = ({counter, question}: {counter: string; question: ReactNo
   <header className="question-header">
     <div className="counter">
       <b>{counter.padStart(2, '0')}</b>
-      <span>/ 58</span>
+      <span>/ {TOTAL_QUESTIONS}</span>
     </div>
     <h1>{question}</h1>
   </header>

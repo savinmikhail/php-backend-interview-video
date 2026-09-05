@@ -17,6 +17,7 @@ import {
   PRODUCTION_FPS,
   readonlyTimeline,
   speakerAt,
+  TOTAL_QUESTIONS,
 } from './timeline';
 
 type Props = {format: Format; withAudio?: boolean};
@@ -27,7 +28,7 @@ const QuestionSlide = ({format, speaker}: SlideProps) => {
   return (
     <InterviewShell format={format} speaker={speaker} counter="1" question="Что такое readonly-класс в PHP?" showHeader={false}>
       <div className="question-slide" style={enter(frame * PRODUCTION_FPS / fps)}>
-        <div className="eyebrow">Вопрос 1 из 58</div>
+        <div className="eyebrow">Вопрос 1 из {TOTAL_QUESTIONS}</div>
         <h1>Что такое<br /><em>readonly-класс</em> в PHP?</h1>
       </div>
     </InterviewShell>

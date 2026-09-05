@@ -45,7 +45,7 @@ flowchart LR
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 21/58  Может ли Controller вызвать Repository напрямую?      │
+│ 21/32  Может ли Controller вызвать Repository напрямую?      │
 ├──────────────────────────────────────────────────────────────┤
 │ GET /users/42 → Controller → UserRepository::get(42)        │
 │                       коротко · понятно · мало кода          │
@@ -60,7 +60,7 @@ flowchart LR
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 21/58  Trade-off: сегодня две строки, завтра use case        │
+│ 21/32  Trade-off: сегодня две строки, завтра use case        │
 ├─────────────────────────────┬────────────────────────────────┤
 │ DIRECT                      │ APPLICATION BOUNDARY           │
 │ Controller → Repository     │ Controller → GetUser → Port   │

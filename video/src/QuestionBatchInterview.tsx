@@ -18,6 +18,7 @@ import {
   PRODUCTION_FPS,
   questionBatchTimeline,
   speakerAtQuestionBatch,
+  TOTAL_QUESTIONS,
 } from './timeline';
 
 type Props = {format: Format; withAudio?: boolean};
@@ -338,7 +339,7 @@ export const QuestionBatchInterview = ({format, withAudio = true}: Props) => {
       {withAudio && <Audio src={staticFile('generated/questions-03-05-audio.m4a')} />}
 
       <Sequence from={timeline.objectQuestion.from} durationInFrames={timeline.objectQuestion.duration} name="03 · Вопрос">
-        <QuestionSlide format={format} speaker={speaker} counter="3" eyebrow="Вопрос 3 из 58">
+        <QuestionSlide format={format} speaker={speaker} counter="3" eyebrow={`Вопрос 3 из ${TOTAL_QUESTIONS}`}>
           Что происходит при передаче<br />объекта в метод?
         </QuestionSlide>
       </Sequence>
@@ -359,7 +360,7 @@ export const QuestionBatchInterview = ({format, withAudio = true}: Props) => {
       </Sequence>
 
       <Sequence from={timeline.dateTimeQuestion.from} durationInFrames={timeline.dateTimeQuestion.duration} name="04 · Вопрос">
-        <QuestionSlide format={format} speaker={speaker} counter="4" eyebrow="Вопрос 4 из 58">
+        <QuestionSlide format={format} speaker={speaker} counter="4" eyebrow={`Вопрос 4 из ${TOTAL_QUESTIONS}`}>
           <span>DateTimeImmutable</span><br />лучше или хуже <span>DateTime</span>?
         </QuestionSlide>
       </Sequence>
@@ -374,7 +375,7 @@ export const QuestionBatchInterview = ({format, withAudio = true}: Props) => {
         <BareScene format={format} speaker={speaker} />
       </Sequence>
       <Sequence from={timeline.exceptionQuestion.from} durationInFrames={timeline.exceptionQuestion.duration} name="05 · Вопрос">
-        <QuestionSlide format={format} speaker={speaker} counter="5" eyebrow="Вопрос 5 из 58">
+        <QuestionSlide format={format} speaker={speaker} counter="5" eyebrow={`Вопрос 5 из ${TOTAL_QUESTIONS}`}>
           Как работать с исключениями<br />в слоях и DDD?
         </QuestionSlide>
       </Sequence>

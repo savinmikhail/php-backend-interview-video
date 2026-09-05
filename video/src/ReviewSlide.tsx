@@ -1,6 +1,6 @@
 import type {ReactNode} from 'react';
 import {InterviewShell, type Format} from './InterviewShell';
-import type {Speaker} from './timeline';
+import {TOTAL_QUESTIONS, type Speaker} from './timeline';
 
 type Tone = 'purple' | 'cyan' | 'green' | 'amber' | 'red';
 type Pattern = 'question' | 'columns' | 'grid' | 'flow' | 'stack';
@@ -404,7 +404,7 @@ export const ReviewSlide = ({
     return (
       <InterviewShell format={format} speaker={slide.speaker ?? 'interviewer'} counter={slide.counter} question="" showHeader={false}>
         <div className="rr-question">
-          <span>Вопрос {slide.counter} из 58</span>
+          <span>Вопрос {slide.counter} из {TOTAL_QUESTIONS}</span>
           <h1>{slide.title}</h1>
         </div>
       </InterviewShell>

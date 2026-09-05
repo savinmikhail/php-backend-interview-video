@@ -72,7 +72,7 @@ flowchart LR
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 12/58                                                        │
+│ 12/32                                                        │
 │ Что такое Compiler Pass в Symfony?                           │
 │                                                              │
 │ Звук вопроса повреждён · формулировка восстановлена текстом  │
@@ -85,7 +85,7 @@ flowchart LR
 
 ```text
 ┌──────────────────────────────┐
-│ 12/58                        │
+│ 12/32                        │
 │ Что такое Compiler Pass     │
 │ в Symfony?                  │
 ├──────────────────────────────┤
@@ -104,7 +104,7 @@ flowchart LR
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 12/58  Compiler Pass работает при сборке контейнера          │
+│ 12/32  Compiler Pass работает при сборке контейнера          │
 ├────────────────────┬─────────────────────┬───────────────────┤
 │ SERVICE DEFINITIONS│ process(            │ COMPILED CONTAINER│
 │ SendEmailMessage   │  ContainerBuilder   │ MessageRegistry   │
@@ -123,7 +123,7 @@ flowchart LR
 
 ```text
 ┌──────────────────────────────┐
-│ 12/58 · Compiler Pass       │
+│ 12/32 · Compiler Pass       │
 ├──────────────────────────────┤
 │ TAGGED DEFINITIONS          │
 │ SendEmail · app.message     │

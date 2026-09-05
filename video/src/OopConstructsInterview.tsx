@@ -13,7 +13,7 @@ import {
   type SlideProps,
 } from './InterviewShell';
 import {TypeRelationshipDiagram, type RelationshipVariant} from './TypeRelationshipDiagram';
-import {oopTimeline, PRODUCTION_FPS, speakerAtOop} from './timeline';
+import {oopTimeline, PRODUCTION_FPS, speakerAtOop, TOTAL_QUESTIONS} from './timeline';
 
 type Props = {format: Format; withAudio?: boolean};
 
@@ -25,7 +25,7 @@ const QuestionSlide = ({format, speaker}: SlideProps) => {
   return (
     <InterviewShell format={format} speaker={speaker} counter="2" question={question} showHeader={false}>
       <div className="question-slide oop-question" style={enter(frame * PRODUCTION_FPS / fps)}>
-        <div className="eyebrow">Вопрос 2 из 58</div>
+        <div className="eyebrow">Вопрос 2 из {TOTAL_QUESTIONS}</div>
         <h1>
           <span>Интерфейс,</span>{' '}
           <span>абстрактный класс,</span>{' '}

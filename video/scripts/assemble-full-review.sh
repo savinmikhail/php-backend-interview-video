@@ -12,6 +12,9 @@ BASE_LOOP="$VIDEO_DIR/public/generated/base-review-loop.mp4"
 OUTPUT="${2:-$PROJECT_DIR/renders/841862-full-review.mp4}"
 CONCAT_FILE="$SEGMENTS_DIR/concat.txt"
 SOURCE_DURATION="${REVIEW_DURATION:-4913}"
+INTRO_END=826
+PROJECT_SECTION_START=3765
+PROJECT_SECTION_END=4640
 
 if [[ ! -f "$SOURCE_VIDEO" ]]; then
   echo "Source video not found: $SOURCE_VIDEO" >&2
@@ -44,7 +47,7 @@ encode_common=(
 )
 
 segment_number=0
-cursor=0
+cursor="$INTRO_END"
 
 append_segment() {
   local path="$1"
@@ -108,6 +111,18 @@ while IFS=$'\t' read -r start_stamp end_stamp source; do
   end="$(timestamp_to_seconds "$end_stamp")"
   (( start >= SOURCE_DURATION )) && break
   (( end > SOURCE_DURATION )) && end="$SOURCE_DURATION"
+  (( end <= INTRO_END )) && continue
+  (( start < INTRO_END )) && start="$INTRO_END"
+
+  if (( start < PROJECT_SECTION_END && end > PROJECT_SECTION_START )); then
+    echo "Visual segment overlaps the removed project section: $start_stamp–$end_stamp" >&2
+    exit 1
+  fi
+
+  if (( cursor < PROJECT_SECTION_START && start >= PROJECT_SECTION_END )); then
+    render_base "$cursor" "$PROJECT_SECTION_START"
+    cursor="$PROJECT_SECTION_END"
+  fi
 
   render_base "$cursor" "$start"
   if [[ "$source" == video:* ]]; then
@@ -118,6 +133,10 @@ while IFS=$'\t' read -r start_stamp end_stamp source; do
   cursor="$end"
 done < "$TIMELINE"
 
+if (( cursor < PROJECT_SECTION_START && SOURCE_DURATION > PROJECT_SECTION_END )); then
+  render_base "$cursor" "$PROJECT_SECTION_START"
+  cursor="$PROJECT_SECTION_END"
+fi
 render_base "$cursor" "$SOURCE_DURATION"
 
 echo "Joining $segment_number segments"

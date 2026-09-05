@@ -1,10 +1,17 @@
 import {useCurrentFrame, useVideoConfig} from 'remotion';
 import {InterviewShell, type Format} from './InterviewShell';
 
-export const BaseReview = ({format}: {format: Format}) => {
+export const BaseReview = ({
+  format,
+  speakerFrame,
+}: {
+  format: Format;
+  speakerFrame?: number;
+}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
-  const speaker = Math.floor(frame / (6 * fps)) % 2 === 0 ? 'mikhail' : 'interviewer';
+  const frameForSpeaker = speakerFrame ?? frame;
+  const speaker = Math.floor(frameForSpeaker / (6 * fps)) % 2 === 0 ? 'mikhail' : 'interviewer';
 
   return (
     <InterviewShell
@@ -14,6 +21,7 @@ export const BaseReview = ({format}: {format: Format}) => {
       question=""
       showHeader={false}
       bareVisual
+      animateMikhail
     >
       <div />
     </InterviewShell>

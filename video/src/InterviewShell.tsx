@@ -1,8 +1,8 @@
 import type {CSSProperties, ReactNode} from 'react';
 import {
   AbsoluteFill,
+  CanvasImage,
   Easing,
-  Img,
   interpolate,
   staticFile,
   useCurrentFrame,
@@ -52,14 +52,67 @@ const Wave = ({frame, active}: {frame: number; active: boolean}) => (
   </span>
 );
 
-const Avatar = ({kind}: {kind: Speaker}) =>
-  kind === 'mikhail' ? (
+type MouthState = 'closed' | 'half' | 'open' | 'o';
+
+const mouthPattern: MouthState[] = [
+  'half',
+  'open',
+  'half',
+  'closed',
+  'half',
+  'o',
+  'half',
+  'open',
+];
+
+const MikhailAvatar = ({
+  active,
+  frame,
+  animated,
+}: {
+  active: boolean;
+  frame: number;
+  animated: boolean;
+}) => {
+  const mouthState = active && animated
+    ? mouthPattern[Math.floor(frame / 16) % mouthPattern.length]
+    : 'closed';
+
+  return (
     <span className="avatar avatar--mikhail">
-      <Img
+      <CanvasImage
         className="avatar__image"
-        src={staticFile('generated/current-layout.png')}
+        src={staticFile('avatars/mikhail-v1.png')}
       />
+      {mouthState !== 'o' && (
+        <span className="avatar__mouth-crop">
+          <CanvasImage
+            className="avatar__mouth-image"
+            src={staticFile(`avatars/mikhail-mouth-${mouthState}-v1.png`)}
+          />
+        </span>
+      )}
     </span>
+  );
+};
+
+const Avatar = ({
+  kind,
+  active,
+  frame,
+  animateMikhail,
+}: {
+  kind: Speaker;
+  active: boolean;
+  frame: number;
+  animateMikhail: boolean;
+}) =>
+  kind === 'mikhail' ? (
+    <MikhailAvatar
+      active={active}
+      frame={frame}
+      animated={animateMikhail}
+    />
   ) : (
     <span className="avatar avatar--interviewer">
       <span className="anonymous-head" />
@@ -72,13 +125,22 @@ const SpeakerBadge = ({
   kind,
   active,
   frame,
+  animateMikhail,
 }: {
   kind: Speaker;
   active: boolean;
   frame: number;
+  animateMikhail: boolean;
 }) => (
   <div className={`speaker speaker--${kind} ${active ? 'is-active' : ''}`}>
-    {kind === 'mikhail' && <Avatar kind={kind} />}
+    {kind === 'mikhail' && (
+      <Avatar
+        kind={kind}
+        active={active}
+        frame={frame}
+        animateMikhail={animateMikhail}
+      />
+    )}
     <div className="speaker__copy">
       <strong>{kind === 'mikhail' ? 'Михаил' : 'Интервьюер'}</strong>
       <span>
@@ -86,7 +148,14 @@ const SpeakerBadge = ({
         {active ? 'говорит' : 'слушает'}
       </span>
     </div>
-    {kind === 'interviewer' && <Avatar kind={kind} />}
+    {kind === 'interviewer' && (
+      <Avatar
+        kind={kind}
+        active={active}
+        frame={frame}
+        animateMikhail={animateMikhail}
+      />
+    )}
   </div>
 );
 
@@ -108,6 +177,7 @@ export const InterviewShell = ({
   question,
   showHeader = true,
   bareVisual = false,
+  animateMikhail = false,
 }: {
   children: ReactNode;
   format: Format;
@@ -116,6 +186,7 @@ export const InterviewShell = ({
   question: ReactNode;
   showHeader?: boolean;
   bareVisual?: boolean;
+  animateMikhail?: boolean;
 }) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
@@ -137,8 +208,18 @@ export const InterviewShell = ({
         {showHeader && <QuestionHeader counter={counter} question={question} />}
         <section className={`visual ${showHeader ? '' : 'visual--question'} ${bareVisual ? 'visual--bare' : ''}`}>{children}</section>
         <footer className="speakers">
-          <SpeakerBadge kind="mikhail" active={speaker === 'mikhail'} frame={animationFrame} />
-          <SpeakerBadge kind="interviewer" active={speaker === 'interviewer'} frame={animationFrame} />
+          <SpeakerBadge
+            kind="mikhail"
+            active={speaker === 'mikhail'}
+            frame={animationFrame}
+            animateMikhail={animateMikhail}
+          />
+          <SpeakerBadge
+            kind="interviewer"
+            active={speaker === 'interviewer'}
+            frame={animationFrame}
+            animateMikhail={animateMikhail}
+          />
         </footer>
       </main>
     </AbsoluteFill>

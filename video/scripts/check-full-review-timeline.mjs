@@ -9,6 +9,9 @@ const source = readFileSync('src/FullInterviewReview.tsx', 'utf8');
 const componentSegments = [...source.matchAll(
   /start: '([^']+)', end: '([^']+)', slideId: '([^']+)'/g,
 )].map((match) => [match[1], match[2], match[3]].join('|'));
+const authoredLayers = [...source.matchAll(
+  /<ReviewSlide format=\{format\} slideId="([^"]+)"/g,
+)].map((match) => match[1]);
 
 const missing = tsvSegments.filter((segment) => !componentSegments.includes(segment));
 const extra = componentSegments.filter((segment) => !tsvSegments.includes(segment));
@@ -20,4 +23,17 @@ if (missing.length > 0 || extra.length > 0 || tsvSegments.length !== componentSe
   process.exit(1);
 }
 
-console.log(`Full review timeline: ${componentSegments.length} slide segments match`);
+const tsvIds = tsvSegments.map((segment) => segment.split('|')[2]);
+const missingLayers = tsvIds.filter((slideId) => !authoredLayers.includes(slideId));
+const duplicateLayers = authoredLayers.filter(
+  (slideId, index) => authoredLayers.indexOf(slideId) !== index,
+);
+
+if (missingLayers.length > 0 || duplicateLayers.length > 0 || authoredLayers.length !== tsvIds.length) {
+  console.error('FullInterviewReview layers are not authored one-by-one');
+  if (missingLayers.length > 0) console.error('Missing layers:', missingLayers);
+  if (duplicateLayers.length > 0) console.error('Duplicate layers:', duplicateLayers);
+  process.exit(1);
+}
+
+console.log(`Full review timeline: ${componentSegments.length} slide segments and layers match`);

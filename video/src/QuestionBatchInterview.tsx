@@ -190,7 +190,7 @@ const DateTimePitfallSlide = ({format, speaker}: SlideProps) => {
 };
 
 const ExceptionTypesSlide = ({format, speaker}: SlideProps) => {
-  const {frame, fps} = useAnimationFrame();
+  const {frame} = useAnimationFrame();
 
   return (
     <InterviewShell format={format} speaker={speaker} counter="5" question="Исключение должно сообщать смысл сбоя">
@@ -202,12 +202,12 @@ const ExceptionTypesSlide = ({format, speaker}: SlideProps) => {
         </article>
         <div className="exception-divider">→</div>
         <div className="exception-semantic">
-          <article style={reveal(frame, 4 * fps)}>
+          <article style={reveal(frame, 6 * PRODUCTION_FPS)}>
             <span>Бизнес-отказ</span>
             <strong>PaymentDeclined</strong>
             <p>Можно обработать отдельным сценарием</p>
           </article>
-          <article style={reveal(frame, 9 * fps)}>
+          <article style={reveal(frame, 6 * PRODUCTION_FPS)}>
             <span>Сбой зависимости</span>
             <strong>PaymentGatewayUnavailable</strong>
             <p>Техническая причина выражена типом</p>

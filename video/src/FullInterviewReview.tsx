@@ -54,7 +54,7 @@ const outputSecondToSourceSecond = (outputSecond: number) =>
 // Keep these entries in sync with review-timeline.tsv. The earlier animated
 // sequences are mounted separately below and therefore are not duplicated here.
 const reviewSegments: ReviewSegment[] = [
-  {start: '00:20:57', end: '00:21:10', slideId: '06-enum'},
+  {start: '00:20:59', end: '00:21:10', slideId: '06-enum'},
   {start: '00:21:21', end: '00:21:42', slideId: '07-question'},
   {start: '00:21:42', end: '00:22:16', slideId: '07-graph'},
   {start: '00:22:16', end: '00:22:37', slideId: '07-compile'},
@@ -133,7 +133,7 @@ const reviewSegments: ReviewSegment[] = [
 const occupiedSegments = [
   {start: '00:14:17', end: '00:15:45'},
   {start: '00:15:45', end: '00:16:42'},
-  {start: '00:16:42', end: '00:20:52'},
+  {start: '00:16:42', end: '00:20:59'},
   ...reviewSegments,
 ].sort((left, right) => timestampToSeconds(left.start) - timestampToSeconds(right.start));
 
@@ -226,7 +226,7 @@ export const FullInterviewReview = ({format, withAudio = true}: Props) => {
       <Sequence
         name="03–05 · Objects / DateTime / exceptions"
         from={sourceTimestampToOutputFrame('00:16:42', fps)}
-        durationInFrames={250 * fps}
+        durationInFrames={257 * fps}
         premountFor={fps}
       >
         <QuestionBatchInterview format={format} withAudio={false} />

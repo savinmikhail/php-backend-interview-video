@@ -21,7 +21,7 @@ export const oopTimeline = (fps: number) => ({
 });
 
 export const questionBatchTimeline = (fps: number) => ({
-  duration: seconds(250, fps),
+  duration: seconds(257, fps),
   objectQuestion: {from: seconds(0, fps), duration: seconds(6, fps)},
   objectMutation: {from: seconds(6, fps), duration: seconds(17, fps)},
   objectIdentity: {from: seconds(23, fps), duration: seconds(14, fps)},
@@ -30,11 +30,11 @@ export const questionBatchTimeline = (fps: number) => ({
   dateTimeQuestion: {from: seconds(71, fps), duration: seconds(9, fps)},
   dateTimeComparison: {from: seconds(80, fps), duration: seconds(6, fps)},
   dateTimePitfall: {from: seconds(86, fps), duration: seconds(6, fps)},
-  exceptionContext: {from: seconds(92, fps), duration: seconds(31, fps)},
-  exceptionQuestion: {from: seconds(123, fps), duration: seconds(14, fps)},
+  exceptionContext: {from: seconds(92, fps), duration: seconds(38, fps)},
+  exceptionQuestion: {from: seconds(130, fps), duration: seconds(7, fps)},
   exceptionTypes: {from: seconds(137, fps), duration: seconds(22, fps)},
   exceptionFollowUp: {from: seconds(159, fps), duration: seconds(8, fps)},
-  exceptionCorrection: {from: seconds(167, fps), duration: seconds(83, fps)},
+  exceptionCorrection: {from: seconds(167, fps), duration: seconds(90, fps)},
 });
 
 export type Speaker = 'mikhail' | 'interviewer';

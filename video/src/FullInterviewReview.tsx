@@ -59,7 +59,7 @@ const reviewSegments: ReviewSegment[] = [
   {start: '00:21:42', end: '00:22:16', slideId: '07-graph'},
   {start: '00:22:16', end: '00:22:37', slideId: '07-compile'},
   {start: '00:22:37', end: '00:23:00', slideId: '07-tradeoff'},
-  {start: '00:23:00', end: '00:23:37', slideId: '08-question'},
+  {start: '00:23:09', end: '00:23:37', slideId: '08-question'},
   {start: '00:23:37', end: '00:24:12', slideId: '08-axes'},
   {start: '00:24:12', end: '00:26:06', slideId: '08-rules'},
   {start: '00:26:26', end: '00:26:39', slideId: '09-question'},

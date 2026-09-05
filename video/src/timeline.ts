@@ -23,8 +23,8 @@ export const oopTimeline = (fps: number) => ({
 export const questionBatchTimeline = (fps: number) => ({
   duration: seconds(250, fps),
   objectQuestion: {from: seconds(0, fps), duration: seconds(6, fps)},
-  objectMutation: {from: seconds(6, fps), duration: seconds(16, fps)},
-  objectIdentity: {from: seconds(22, fps), duration: seconds(15, fps)},
+  objectMutation: {from: seconds(6, fps), duration: seconds(17, fps)},
+  objectIdentity: {from: seconds(23, fps), duration: seconds(14, fps)},
   objectAtmosphere: {from: seconds(37, fps), duration: seconds(24, fps)},
   objectOutcomes: {from: seconds(61, fps), duration: seconds(6, fps)},
   transitionToDateTime: {from: seconds(67, fps), duration: seconds(4, fps)},

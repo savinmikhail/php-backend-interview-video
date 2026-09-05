@@ -16,8 +16,8 @@ export const oopTimeline = (fps: number) => ({
   duration: seconds(55, fps),
   question: {from: seconds(0, fps), duration: seconds(5, fps)},
   interface: {from: seconds(5, fps), duration: seconds(17, fps)},
-  abstract: {from: seconds(22, fps), duration: seconds(15, fps)},
-  trait: {from: seconds(37, fps), duration: seconds(18, fps)},
+  abstract: {from: seconds(22, fps), duration: seconds(17, fps)},
+  trait: {from: seconds(39, fps), duration: seconds(16, fps)},
 });
 
 export const questionBatchTimeline = (fps: number) => ({

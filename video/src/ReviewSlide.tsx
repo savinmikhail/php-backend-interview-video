@@ -533,7 +533,7 @@ const DoctrinePersist = () => (
       <div className="doctrine-state doctrine-state--green"><small>Unit of Work</small><strong>MANAGED</strong><span>scheduled: INSERT</span></div>
       <div className="doctrine-zero-sql"><strong>SQL-запросов: 0</strong><span>persist() только регистрирует объект</span></div>
     </section>
-    <div className="doctrine-footer">Generated ID гарантирован после successful <code>flush()</code></div>
+    <div className="doctrine-footer">ID может появиться до <code>flush()</code>; после успешного <code>flush()</code> он гарантирован</div>
   </div>
 );
 

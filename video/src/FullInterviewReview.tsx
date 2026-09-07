@@ -33,6 +33,7 @@ const INTRO_END = timestampToSeconds('00:13:46');
 const PROJECT_SECTION_START = timestampToSeconds('01:02:45');
 const PROJECT_SECTION_END = timestampToSeconds('01:17:20');
 const SOURCE_DURATION = timestampToSeconds('01:21:53');
+const FULL_REVIEW_AUDIO = 'generated/full-review-audio-loud.wav';
 export const FULL_REVIEW_DURATION = SOURCE_DURATION
   - INTRO_END
   - (PROJECT_SECTION_END - PROJECT_SECTION_START);
@@ -182,7 +183,7 @@ export const FullInterviewReview = ({format, withAudio = true}: Props) => {
   durationInFrames={firstAudioDuration * fps}
   premountFor={fps}>
             <Audio
-              src={staticFile('generated/full-review-audio.m4a')}
+              src={staticFile(FULL_REVIEW_AUDIO)}
               trimBefore={INTRO_END * fps}
             />
           </Sequence>
@@ -192,7 +193,7 @@ export const FullInterviewReview = ({format, withAudio = true}: Props) => {
   durationInFrames={(SOURCE_DURATION - PROJECT_SECTION_END) * fps}
   premountFor={fps}>
             <Audio
-              src={staticFile('generated/full-review-audio.m4a')}
+              src={staticFile(FULL_REVIEW_AUDIO)}
               trimBefore={PROJECT_SECTION_END * fps}
             />
           </Sequence>

@@ -3,7 +3,7 @@ import {InterviewShell, type Format} from './InterviewShell';
 import {TOTAL_QUESTIONS, type Speaker} from './timeline';
 
 type Tone = 'purple' | 'cyan' | 'green' | 'amber' | 'red';
-type Pattern = 'question' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile' | 'decorator-code';
+type Pattern = 'question' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile' | 'decorator-code' | 'compiler-pass-code';
 
 type Card = {
   label?: string;
@@ -40,7 +40,8 @@ const s = (
   cards: Card[],
   footer?: ReactNode,
   badge?: string,
-): ReviewSlideDefinition => ({id, counter, title, pattern, cards, footer, badge, speaker: 'mikhail'});
+  speaker: Speaker = 'mikhail',
+): ReviewSlideDefinition => ({id, counter, title, pattern, cards, footer, badge, speaker});
 
 export const reviewSlides: ReviewSlideDefinition[] = [
   s('06-enum', '6', 'Для чего и когда использовать enum?', 'enum', [
@@ -96,34 +97,24 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {title: 'Close DB', lines: ['after'], tone: 'cyan'},
   ], 'Сквозная логика без изменения handler'),
 
-  s('11-question', '11', 'Когда нужен свой consumer?', 'columns', [
-    {label: 'Гипотеза', title: '«Ради manual ack»', lines: ['Но ack доступен и в pull, и в push'], tone: 'red'},
-    {label: 'Настоящий критерий', title: 'Нужен другой runtime', lines: ['Lifecycle · topology · протокол'], tone: 'green'},
-  ], 'Способ доставки и гарантия подтверждения — разные решения', 'Исправление'),
-  s('11-pull-push', '11', 'RabbitMQ: pull и push', 'columns', [
-    {label: 'basic.get', title: 'Pull', lines: ['Клиент запрашивает следующее сообщение', 'Manual ack доступен'], tone: 'purple'},
-    {label: 'basic.consume', title: 'Push', lines: ['Broker доставляет живому consumer', 'Manual ack доступен'], tone: 'cyan'},
-  ]),
-  s('11-symfony', '11', 'Transport, broker и process manager', 'flow', [
-    {label: 'Process manager', title: 'Запускает и перезапускает worker', lines: ['memory/time limits — lifecycle'], tone: 'purple'},
-    {label: 'Symfony receiver', title: 'Получает сообщения', lines: ['AMQP transport не вызывает blocking consume()'], tone: 'amber'},
-    {label: 'RabbitMQ', title: 'Хранит и доставляет', lines: ['Consumer в UI зависит от режима'], tone: 'cyan'},
-  ], 'Broker не «будит» остановленный PHP-процесс', 'Исправление ответа'),
-  s('11-custom', '11', 'Когда расширять стандартный consumer', 'stack', [
-    {title: '1 · Оставить стандартный handler', lines: ['Если отличается только бизнес-обработка'], tone: 'green'},
-    {title: '2 · Настроить transport', lines: ['Routing · retry · topology'], tone: 'cyan'},
-    {title: '3 · Свой runtime / transport', lines: ['Только если стандартные lifecycle и protocol не подходят'], tone: 'amber'},
-  ]),
-
+  q('11-question', '11', 'Когда писать свой consumer вместо Messenger?'),
+  s('11-pull-push', '11', 'Messenger polling или RabbitMQ subscription', 'columns', [
+    {label: 'Symfony AMQP transport · get()', title: 'Polling', lines: ['Worker сам запрашивает следующее сообщение'], tone: 'purple'},
+    {label: 'RabbitMQ · basic.consume', title: 'Push / subscription', lines: ['Broker доставляет зарегистрированному consumer'], tone: 'cyan'},
+  ], 'Критерий этого кейса — broker-driven push вместо polling', undefined, 'interviewer'),
+  s('11-symfony', '11', 'Почему consumer не виден в RabbitMQ UI?', 'columns', [
+    {label: 'Symfony AMQP transport', title: 'Получает через get()', lines: ['Неблокирующий fetch', 'Message или empty → следующий цикл'], tone: 'purple'},
+    {label: 'RabbitMQ', title: 'Нет basic.consume', lines: ['Значит, нет зарегистрированной subscription'], tone: 'cyan'},
+  ], 'get() не регистрирует subscription в RabbitMQ'),
+  s('11-runtime', '11', 'get() и consume() меняют способ ожидания', 'columns', [
+    {label: 'Polling · basic.get', title: 'Worker спрашивает очередь', lines: ['empty → пауза → новый get()', 'Периодические пустые запросы'], tone: 'purple'},
+    {label: 'Subscription · basic.consume', title: 'Worker ждёт delivery', lines: ['Подписка по открытому соединению', 'Без холостого polling'], tone: 'cyan'},
+  ], 'basic.consume снижает холостую нагрузку, но не устраняет утечки PHP-worker', undefined, 'interviewer'),
   s('12-question', '12', 'Что такое Compiler Pass в Symfony?', 'stack', [
     {label: 'Повреждён звук интервьюера', title: 'Вопрос восстановлен текстом', lines: ['Ответ и исходная атмосфера сохранены'], tone: 'amber'},
   ]),
-  s('12-compile', '12', 'Compiler Pass меняет definitions при сборке', 'flow', [
-    {title: 'Tagged services', code: ['app.consumer'], tone: 'purple'},
-    {title: 'process(ContainerBuilder)', lines: ['найти · проверить · связать'], tone: 'amber'},
-    {title: 'Modified definitions', lines: ['registry / topology'], tone: 'cyan'},
-    {title: 'Compiled container', tone: 'green'},
-  ], 'Точка расширения compilation контейнера', 'Уточнение ответа'),
+  s('12-compile', '12', 'Compiler Pass проверяет контейнер при сборке', 'compiler-pass-code', [],
+    'Ошибка конфигурации обнаружена до запуска приложения'),
 
   s('13-question', '13', 'Unit of Work: persist, flush и clear', 'stack', [
     {label: 'Повреждён звук интервьюера', title: 'Вопрос восстановлен текстом', lines: ['Что делает каждый вызов и как меняются entity states'], tone: 'amber'},
@@ -500,6 +491,44 @@ const DecoratorCode = () => (
   </code></pre>
 );
 
+const CompilerPassCode = () => (
+  <div className="compiler-pass-layout">
+    <pre className="compiler-pass-code"><code>
+      <span><span className="syntax-keyword">final class</span> <span className="syntax-type">UniqueQueuePass</span> <span className="syntax-keyword">implements</span> <span className="syntax-type">CompilerPassInterface</span></span>
+      <span>{'{'}</span>
+      <span className="code-line--indent-1"><span className="syntax-keyword">public function</span> <span className="syntax-name">process</span>(<span className="syntax-type">ContainerBuilder</span> <span className="syntax-variable">$container</span>): <span className="syntax-type">void</span></span>
+      <span className="code-line--indent-1">{'{'}</span>
+      <span className="code-line--indent-2"><span className="syntax-variable">$queues</span> = [];</span>
+      <span className="code-line--indent-2"><span className="syntax-variable">$consumers</span> = <span className="syntax-variable">$container</span>-&gt;<span className="syntax-name">findTaggedServiceIds</span>(<span className="syntax-string">'app.consumer'</span>);</span>
+      <span className="code-line--indent-2"><span className="syntax-keyword">foreach</span> (<span className="syntax-variable">$consumers</span> <span className="syntax-keyword">as</span> <span className="syntax-variable">$tags</span>) {'{'}</span>
+      <span className="code-line--indent-3"><span className="syntax-variable">$queue</span> = <span className="syntax-variable">$tags</span>[<span className="syntax-number">0</span>][<span className="syntax-string">'queue'</span>];</span>
+      <span className="code-line--indent-3"><span className="syntax-keyword">if</span> (<span className="syntax-name">isset</span>(<span className="syntax-variable">$queues</span>[<span className="syntax-variable">$queue</span>])) {'{'}</span>
+      <span className="code-line--indent-4"><span className="syntax-keyword">throw new</span> <span className="syntax-type">LogicException</span>(<span className="syntax-string">"Duplicate queue: $queue"</span>);</span>
+      <span className="code-line--indent-3">{'}'}</span>
+      <span className="code-line--indent-3"><span className="syntax-variable">$queues</span>[<span className="syntax-variable">$queue</span>] = <span className="syntax-keyword">true</span>;</span>
+      <span className="code-line--indent-2">{'}'}</span>
+      <span className="code-line--indent-1">{'}'}</span>
+      <span>{'}'}</span>
+    </code></pre>
+
+    <aside className="compiler-pass-example">
+      <div className="compiler-pass-example__label">Конфликт конфигурации</div>
+      <article className="compiler-pass-service compiler-pass-service--purple">
+        <strong>EmailConsumer</strong>
+        <code>queue: emails</code>
+      </article>
+      <article className="compiler-pass-service compiler-pass-service--cyan">
+        <strong>RetryConsumer</strong>
+        <code>queue: emails</code>
+      </article>
+      <div className="compiler-pass-error">
+        <span>build failed</span>
+        <code>Duplicate queue: emails</code>
+      </div>
+    </aside>
+  </div>
+);
+
 export const ReviewSlide = ({
   format,
   slideId,
@@ -548,6 +577,17 @@ export const ReviewSlide = ({
       <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
         <div className="rr-slide rr-slide--decorator-code">
           <DecoratorCode />
+          {slide.footer && <div className="rr-footer">{slide.footer}</div>}
+        </div>
+      </InterviewShell>
+    );
+  }
+
+  if (slide.pattern === 'compiler-pass-code') {
+    return (
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
+        <div className="rr-slide rr-slide--compiler-pass-code">
+          <CompilerPassCode />
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
         </div>
       </InterviewShell>

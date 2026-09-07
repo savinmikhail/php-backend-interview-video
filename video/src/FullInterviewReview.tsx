@@ -70,11 +70,11 @@ const reviewSegments: ReviewSegment[] = [
   {start: '00:28:26', end: '00:28:51', slideId: '10-question'},
   {start: '00:28:51', end: '00:29:20', slideId: '10-bus'},
   {start: '00:29:20', end: '00:29:57', slideId: '10-middleware'},
-  {start: '00:29:57', end: '00:31:10', slideId: '11-question'},
-  {start: '00:31:11', end: '00:31:28', slideId: '11-pull-push'},
-  {start: '00:31:48', end: '00:33:31', slideId: '11-symfony'},
-  {start: '00:33:31', end: '00:34:45', slideId: '11-custom'},
-  {start: '00:34:45', end: '00:34:53', slideId: '12-question'},
+  {start: '00:30:11', end: '00:31:17', slideId: '11-question'},
+  {start: '00:31:17', end: '00:31:28', slideId: '11-pull-push'},
+  {start: '00:31:55', end: '00:32:27', slideId: '11-symfony'},
+  {start: '00:32:27', end: '00:33:38', slideId: '11-runtime'},
+  {start: '00:34:50', end: '00:34:53', slideId: '12-question'},
   {start: '00:34:53', end: '00:35:08', slideId: '12-compile'},
   {start: '00:35:16', end: '00:36:04', slideId: '13-question'},
   {start: '00:36:04', end: '00:36:33', slideId: '13-persist'},
@@ -252,7 +252,7 @@ export const FullInterviewReview = ({format, withAudio = true}: Props) => {
       <Sequence name="11-question" from={slideFrom('11-question', fps)} durationInFrames={slideDuration('11-question', fps)} premountFor={fps}><ReviewSlide format={format} slideId="11-question" /></Sequence>
       <Sequence name="11-pull-push" from={slideFrom('11-pull-push', fps)} durationInFrames={slideDuration('11-pull-push', fps)} premountFor={fps}><ReviewSlide format={format} slideId="11-pull-push" /></Sequence>
       <Sequence name="11-symfony" from={slideFrom('11-symfony', fps)} durationInFrames={slideDuration('11-symfony', fps)} premountFor={fps}><ReviewSlide format={format} slideId="11-symfony" /></Sequence>
-      <Sequence name="11-custom" from={slideFrom('11-custom', fps)} durationInFrames={slideDuration('11-custom', fps)} premountFor={fps}><ReviewSlide format={format} slideId="11-custom" /></Sequence>
+      <Sequence name="11-runtime" from={slideFrom('11-runtime', fps)} durationInFrames={slideDuration('11-runtime', fps)} premountFor={fps}><ReviewSlide format={format} slideId="11-runtime" /></Sequence>
       <Sequence name="12-question" from={slideFrom('12-question', fps)} durationInFrames={slideDuration('12-question', fps)} premountFor={fps}><ReviewSlide format={format} slideId="12-question" /></Sequence>
       <Sequence name="12-compile" from={slideFrom('12-compile', fps)} durationInFrames={slideDuration('12-compile', fps)} premountFor={fps}><ReviewSlide format={format} slideId="12-compile" /></Sequence>
       <Sequence name="13-question" from={slideFrom('13-question', fps)} durationInFrames={slideDuration('13-question', fps)} premountFor={fps}><ReviewSlide format={format} slideId="13-question" /></Sequence>

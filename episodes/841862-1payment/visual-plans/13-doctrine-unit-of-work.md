@@ -14,7 +14,8 @@ Shorts: `да — полноценный самостоятельный техн
   - `35:16–36:04` — вопрос интервьюера не сохранился в аудио/STT полностью;
   - `36:04–36:33` — Unit of Work и `persist()`;
   - `36:33–36:58` — `flush()` и change sets;
-  - `36:58–37:41` — `clear()`, identity map и long-running batches.
+  - `36:58–37:32` — `clear()`, identity map и long-running batches;
+  - с `37:32` начинается следующий вопрос.
 - Технические источники:
   - [Doctrine ORM — Architecture](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/architecture.html);
   - [Doctrine ORM — Working with Objects](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/working-with-objects.html);
@@ -44,12 +45,15 @@ Shorts: `да — полноценный самостоятельный техн
   `persist()`.
 - `flush()` вычисляет изменения и синхронизирует managed/new/removed entities с
   БД, но identity map остаётся; это не эквивалент `clear()`.
+- В `onFlush` рассчитанный change set читается через
+  `getEntityChangeSet()`. Если listener создаёт новую mapped entity, одного
+  `persist()` недостаточно: её change set надо вычислить явно.
 - `clear()` отсоединяет все entities от EntityManager, поэтому последующие
   изменения этих объектов уже не попадут в БД автоматически.
 
 ### Намеренно не показываем
 
-- Внутренние массивы UnitOfWork, commit order и все entity states.
+- Внутренний commit order и редко используемые entity states.
 - Различия sequence/identity/custom ID generators — оставляем только безопасное
   правило о generated ID.
 - Cascade persist, orphanRemoval и partial clear.
@@ -68,15 +72,21 @@ Shorts: `да — полноценный самостоятельный техн
 | Базовый экран | `35:08–35:59` | не иллюстрировать технически разговор о связи | Base scene |
 | 1. Вопрос | `35:59–36:04` | показать постановку вопроса | Question |
 | 2. Unit of Work и persist | `36:04–36:33` | показать state transition без SQL | State flow |
-| 3. flush | `36:33–36:58` | показать synchronization и исправить `flush = clear` | Pipeline + correction |
-| 4. clear и batch | `36:58–37:41` | показать detach и практическую пользу | Before/after + code |
+| 3a. onFlush | `36:33–36:43` | показать реальный change set и его формат | Code + output |
+| 3b. AuditLog в onFlush | `36:43–36:51` | показать `persist()` + `computeChangeSet()` | Code + steps |
+| 3c. После flush | `36:51–36:58` | исправить смешение `flush()` и `clear()` | Before/after correction |
+| 4a. clear | `36:58–37:07` | показать `MANAGED → DETACHED` | Code + state flow |
+| 4b. clear в batch | `37:07–37:32` | показать освобождение Identity Map | Code + memory state |
 
 ```mermaid
 flowchart LR
   B["Связь · базовый экран"] --> Q["1 · Вопрос"]
   Q --> P["2 · persist"]
-  P --> F["3 · flush"]
-  F --> C["4 · clear"]
+  P --> F1["3a · onFlush"]
+  F1 --> F2["3b · AuditLog"]
+  F2 --> F3["3c · результат flush"]
+  F3 --> C1["4a · clear"]
+  C1 --> C2["4b · batch"]
 ```
 
 ## Состояние 1 — вопрос
@@ -114,11 +124,12 @@ flowchart LR
 ┌──────────────────────────────────────────────────────────────┐
 │ 13/32  Unit of Work · persist()                              │
 ├───────────────────────┬──────────────────────────────────────┤
-│ $user = new User();    │ ENTITY STATE                        │
-│                        │ NEW ── persist($user) ──→ MANAGED   │
-│ $em->persist($user);   │                         scheduled    │
-│                        │                                      │
-│ SQL: —                 │ Unit of Work отслеживает объект      │
+│ $uow = $em->getUnitOfWork(); │ ENTITY STATE                  │
+│ getEntityState($user)        │ NEW ─ persist($user) → MANAGED│
+│   === STATE_NEW;             │ scheduled: INSERT             │
+│ $em->persist($user);         │                               │
+│ getEntityState($user)        │ SQL-запросов: 0               │
+│   === STATE_MANAGED;         │ persist только регистрирует   │
 ├───────────────────────┴──────────────────────────────────────┤
 │ Generated ID гарантирован после successful flush             │
 ├──────────────────────────────────────────────────────────────┤
@@ -132,38 +143,37 @@ flowchart LR
 ┌──────────────────────────────┐
 │ 13/32 · persist()           │
 ├──────────────────────────────┤
-│ $user = new User();         │
-│ $em->persist($user);        │
+│ getEntityState($user)       │
+│   === STATE_NEW             │
+│ persist($user)              │
+│ getEntityState($user)       │
+│   === STATE_MANAGED         │
 ├──────────────────────────────┤
 │ NEW                        │
 │  ↓ persist                 │
 │ MANAGED · scheduled        │
 ├──────────────────────────────┤
-│ SQL: —                     │
+│ SQL-запросов: 0            │
 │ ID: гарантирован после flush│
 ├──────────────────────────────┤
 │ Михаил        Интервьюер     │
 └──────────────────────────────┘
 ```
 
-## Состояние 3 — `flush()` синхронизирует
+## Состояние 3a — читаем change set в `onFlush`
 
 ### Wireframe 16:9
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 13/32  flush()                                  ИСПРАВЛЕНИЕ │
+│ 13/32  onFlush: читаем рассчитанные изменения               │
 ├──────────────────────────────────────────────────────────────┤
-│ MANAGED ENTITIES → compute change sets → SQL                 │
-│                                      ┌ BEGIN                 │
-│ new User      → INSERT               │ INSERT / UPDATE       │
-│ changed Order → UPDATE               │ COMMIT                │
-│                                      └ transaction           │
-├──────────────────────────────┬───────────────────────────────┤
-│ Синхронизация завершена      │ entities остаются MANAGED    │
-│ pending operations обработаны│ identity map НЕ очищена      │
-├──────────────────────────────┴───────────────────────────────┤
-│ flush() ≠ clear()                                           │
+│ $uow->getScheduledEntityUpdates() │ [                       │
+│ $uow->getEntityChangeSet($entity) │  'email' => [           │
+│                                   │   0 => old@example.com  │
+│                                   │   1 => new@example.com  │
+│                                   │  ]                      │
+│                                   │ ]                       │
 ├──────────────────────────────────────────────────────────────┤
 │ Михаил · говорит                      Интервьюер · слушает  │
 └──────────────────────────────────────────────────────────────┘
@@ -173,40 +183,53 @@ flowchart LR
 
 ```text
 ┌──────────────────────────────┐
-│ 13/32 · ИСПРАВЛЕНИЕ        │
-│ flush() ≠ clear()           │
+│ 13/32 · onFlush            │
 ├──────────────────────────────┤
-│ compute change sets         │
-│          ↓                  │
-│ INSERT / UPDATE / DELETE    │
-│          ↓                  │
-│ transaction                │
+│ getScheduledEntityUpdates()│
+│ getEntityChangeSet()       │
 ├──────────────────────────────┤
-│ entities: MANAGED          │
-│ identity map: остаётся     │
+│ email:                     │
+│ 0 · old → old@example.com  │
+│ 1 · new → new@example.com  │
 ├──────────────────────────────┤
 │ Михаил        Интервьюер     │
 └──────────────────────────────┘
 ```
 
-## Состояние 4 — `clear()` отсоединяет
+## Состояние 3b — новая entity внутри `onFlush`
+
+Показываем воспроизводимый listener-кейс: создаём `AuditLog`, регистрируем его
+через `persist()` и явно вызываем `computeChangeSet()` с metadata, чтобы mapped
+changes новой entity вошли в текущий flush.
+
+```php
+$auditLog = AuditLog::from($entity, $changes);
+$em->persist($auditLog);
+$metadata = $em->getClassMetadata(AuditLog::class);
+$uow->computeChangeSet(
+    $metadata, $auditLog,
+);
+```
+
+## Состояние 3c — результат `flush()`
+
+- Крупное исправление: `Обработанные change sets очищены, но managed entities
+  остаются`.
+- Очищено: `entityChangeSets: []`, `scheduledUpdates: []`.
+- Сохранено: `User#42: MANAGED`, `Identity Map: сохранена`.
+- Вывод: `flush()` синхронизирует с БД, `clear()` отсоединяет объекты.
+
+## Состояние 4a — `clear()` отсоединяет
 
 ### Wireframe 16:9
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 13/32  clear() и long-running batch                          │
+│ 13/32  clear() отсоединяет entities                          │
 ├──────────────────────────────┬───────────────────────────────┤
-│ ДО clear()                   │ ПОСЛЕ clear()                 │
-│ Identity Map                 │ Identity Map                  │
-│ #1 User · MANAGED            │ empty                         │
-│ #2 User · MANAGED            │ #1 User · DETACHED            │
-│ ... #1000                    │ ... можно собрать GC          │
-├──────────────────────────────┴───────────────────────────────┤
-│ foreach ($rows as $i => $row) {                              │
-│   process($row);                                             │
-│   if ($i % 100 === 0) { $em->flush(); $em->clear(); }        │
-│ }                                                            │
+│ $em->contains($user); // true │ MANAGED                     │
+│ $em->clear();                │          → DETACHED           │
+│ $em->contains($user); // false│ Identity Map → empty        │
 ├──────────────────────────────────────────────────────────────┤
 │ Михаил · говорит                      Интервьюер · слушает  │
 └──────────────────────────────────────────────────────────────┘
@@ -218,27 +241,40 @@ flowchart LR
 ┌──────────────────────────────┐
 │ 13/32 · clear()             │
 ├──────────────────────────────┤
-│ BEFORE                     │
-│ #1 … #1000 · MANAGED       │
-│ Identity Map заполнена     │
-├──────────── clear() ─────────┤
-│ AFTER                      │
-│ entities · DETACHED        │
-│ Identity Map · empty       │
+│ contains($user) // true    │
+│ clear()                    │
+│ contains($user) // false   │
 ├──────────────────────────────┤
-│ batch: flush(); clear();   │
+│ MANAGED → DETACHED         │
+│ Identity Map → empty       │
 ├──────────────────────────────┤
 │ Михаил        Интервьюер     │
 └──────────────────────────────┘
 ```
+
+## Состояние 4b — long-running batch
+
+```php
+foreach ($rows as $i => $row) {
+    process($row);
+    if ($i % 100 === 0) {
+        $em->flush();
+        $em->clear();
+    }
+}
+```
+
+Рядом Identity Map проходит путь `100 managed entities → flush() → clear() →
+empty`; это объясняет пользу для памяти без повторного разбора механики карты.
 
 ## Финальный экранный текст
 
 | Элемент | Текст |
 |---|---|
 | persist | `NEW → MANAGED · SQL ещё нет` |
-| flush | `Вычислить изменения → синхронизировать с БД` |
-| Исправление | `flush() ≠ clear()` |
+| onFlush | `getEntityChangeSet(): field => [0 => old, 1 => new]` |
+| Audit listener | `persist($auditLog) + computeChangeSet(...)` |
+| Исправление | `Change sets очищены, managed entities остаются` |
 | clear | `Detach всех entities · очистить identity map` |
 | Batch | `flush(); clear();` |
 
@@ -246,22 +282,24 @@ flowchart LR
 
 - В `persist()` entity перемещается из NEW в MANAGED, а SQL-индикатор остаётся
   пустым.
-- В `flush()` change sets превращаются в SQL внутри одной transaction-панели;
-  карточки entities визуально остаются в identity map.
+- В `flush()` последовательно показываются listener, создание `AuditLog` и
+  итоговое состояние Unit of Work.
 - В `clear()` карточки выходят из identity map и меняют статус на DETACHED.
 
 ## Shorts
 
 - Хук: `persist, flush и clear — три разных действия`.
 - Вертикальный порядок: вопрос → persist → flush → clear.
-- Обязательно сохранить исправление `flush() ≠ clear()`.
+- Обязательно сохранить исправление про очищенные change sets и оставшиеся
+  managed entities.
 - Вторичный текст о generated ID можно убрать, если не помещается без уменьшения.
 
 ## Материалы и производство
 
 - Нужны переиспользуемые state cards и identity-map container; уникальная
   иллюстрация не требуется.
-- Код: четыре короткие строки `new/persist/flush/clear` и compact batch loop.
+- Код: реальные вызовы `getEntityState()`, `getEntityChangeSet()`,
+  `computeChangeSet()`, `contains()` и compact batch loop.
 - SVG: стрелки переходов состояния.
 - Исправление на экране: `flush() ≠ clear(); entities остаются managed`.
 - Ремонт звука выполняется отдельно и не маркируется на слайде.
@@ -274,4 +312,4 @@ flowchart LR
 - [x] Следующий вопрос про частоту flush не смешан с этим.
 - [x] 16:9 и 9:16 спроектированы отдельно.
 - [ ] Точная формулировка и вход вопроса проверены по исходному видео.
-- [ ] Принято пользователем до начала кода.
+- [x] Принято пользователем до начала кода.

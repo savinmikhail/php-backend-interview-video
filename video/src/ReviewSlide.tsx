@@ -110,15 +110,11 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {label: 'Polling · basic.get', title: 'Worker спрашивает очередь', lines: ['empty → пауза → новый get()', 'Периодические пустые запросы'], tone: 'purple'},
     {label: 'Subscription · basic.consume', title: 'Worker ждёт delivery', lines: ['Подписка по открытому соединению', 'Без холостого polling'], tone: 'cyan'},
   ], 'basic.consume снижает холостую нагрузку, но не устраняет утечки PHP-worker', undefined, 'interviewer'),
-  s('12-question', '12', 'Что такое Compiler Pass в Symfony?', 'stack', [
-    {label: 'Повреждён звук интервьюера', title: 'Вопрос восстановлен текстом', lines: ['Ответ и исходная атмосфера сохранены'], tone: 'amber'},
-  ]),
+  q('12-question', '12', 'Что такое Compiler Pass в Symfony?'),
   s('12-compile', '12', 'Compiler Pass проверяет контейнер при сборке', 'compiler-pass-code', [],
     'Ошибка конфигурации обнаружена до запуска приложения'),
 
-  s('13-question', '13', 'Unit of Work: persist, flush и clear', 'stack', [
-    {label: 'Повреждён звук интервьюера', title: 'Вопрос восстановлен текстом', lines: ['Что делает каждый вызов и как меняются entity states'], tone: 'amber'},
-  ]),
+  q('13-question', '13', 'Unit of Work: persist, flush и clear'),
   s('13-persist', '13', 'persist() регистрирует entity', 'flow', [
     {label: 'Entity state', title: 'NEW', tone: 'purple'},
     {label: 'persist()', title: 'Unit of Work', lines: ['запланировать insert'], tone: 'amber'},

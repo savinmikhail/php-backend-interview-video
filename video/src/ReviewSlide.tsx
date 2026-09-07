@@ -1,9 +1,10 @@
 import type {ReactNode} from 'react';
+import {Easing, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
 import {InterviewShell, type Format} from './InterviewShell';
 import {TOTAL_QUESTIONS, type Speaker} from './timeline';
 
 type Tone = 'purple' | 'cyan' | 'green' | 'amber' | 'red';
-type Pattern = 'question' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile' | 'decorator-code' | 'compiler-pass-code';
+type Pattern = 'question' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile' | 'decorator-code' | 'compiler-pass-code' | 'doctrine';
 
 type Card = {
   label?: string;
@@ -115,38 +116,22 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     'Ошибка конфигурации обнаружена до запуска приложения'),
 
   q('13-question', '13', 'Unit of Work: persist, flush и clear'),
-  s('13-persist', '13', 'persist() регистрирует entity', 'flow', [
-    {label: 'Entity state', title: 'NEW', tone: 'purple'},
-    {label: 'persist()', title: 'Unit of Work', lines: ['запланировать insert'], tone: 'amber'},
-    {label: 'После регистрации', title: 'MANAGED', lines: ['SQL ещё не выполнен'], tone: 'green'},
-  ], 'ID до успешного flush зависит от generator strategy'),
-  s('13-flush', '13', 'flush() синхронизирует Unit of Work с БД', 'flow', [
-    {title: 'Managed entities', tone: 'purple'},
-    {title: 'Compute change sets', tone: 'amber'},
-    {title: 'SQL', lines: ['INSERT · UPDATE · DELETE'], tone: 'cyan'},
-    {title: 'Transaction', tone: 'green'},
-  ], <><strong>flush() ≠ clear()</strong> · entities остаются managed</>, 'Исправление ответа'),
-  s('13-clear', '13', 'clear() отсоединяет entities', 'columns', [
-    {label: 'До clear()', title: 'Identity Map', lines: ['Entity A · Entity B · Entity C', 'MANAGED'], tone: 'purple'},
-    {label: 'После clear()', title: 'Пустой EntityManager', lines: ['Все entities → DETACHED'], tone: 'cyan'},
-  ], <code>batch: flush(); clear();</code>),
+  s('13-persist', '13', 'persist() регистрирует entity', 'doctrine', []),
+  s('13-flush-listener', '13', 'onFlush: читаем рассчитанные изменения', 'doctrine', []),
+  s('13-flush-audit', '13', 'Новая entity внутри onFlush', 'doctrine', []),
+  s('13-flush-result', '13', 'Что остаётся после flush()', 'doctrine', []),
+  s('13-clear', '13', 'clear() отсоединяет entities', 'doctrine', []),
+  s('13-clear-batch', '13', 'clear() освобождает Identity Map', 'doctrine', []),
 
-  q('14-question', '14', 'Почему flush обычно вызывают один раз?'),
-  s('14-boundary', '14', 'Одна осмысленная граница записи', 'flow', [
-    {title: 'Unit of Work', lines: ['накапливает изменения'], tone: 'purple'},
-    {title: 'flush()', lines: ['вычисляет change sets'], tone: 'amber'},
-    {title: 'Одна transaction', lines: ['синхронизация с БД'], tone: 'green'},
-  ], 'Один flush — разумный default, но не запрет на несколько'),
+  q('14-question', '14', 'Почему не стоит делать flush в репозитории?'),
+  s('14-identity', '14', 'Identity Map убирает повторный SELECT', 'doctrine', []),
+  s('14-layers', '14', 'Один ID → один managed-объект', 'doctrine', []),
+  s('14-boundary', '14', 'flush() — граница всей операции', 'doctrine', []),
 
-  s('15-lazy', '15', 'Lazy loading: relation загружается по обращению', 'flow', [
-    {title: 'Order loaded', code: ['$order'], tone: 'purple'},
-    {title: 'Relation proxy', code: ['$order->items'], lines: ['SQL пока нет'], tone: 'amber'},
-    {title: 'Первое обращение', lines: ['SELECT items …'], tone: 'cyan'},
-  ], 'Плюс: не загружаем то, чем не воспользовались'),
-  s('15-n-plus-one', '15', 'Главный риск — N+1', 'columns', [
-    {label: 'Lazy в цикле', title: '1 query + N queries', code: ['SELECT orders', 'foreach → SELECT items'], tone: 'red'},
-    {label: 'Если relation нужна', title: 'Fetch join / eager query', code: ['orders JOIN items'], tone: 'green'},
-  ]),
+  q('15-question', '15', 'Lazy loading — какие плюсы?'),
+  s('15-lazy', '15', 'Не используем relation — не загружаем её', 'doctrine', []),
+  s('15-n-plus-one', '15', 'Перебор lazy relation создаёт N+1', 'doctrine', []),
+  s('15-fetch-join', '15', 'Relation нужна всем — загружаем явно', 'doctrine', []),
   s('15-extra-lazy', '15', 'EXTRA_LAZY для больших коллекций', 'columns', [
     {label: 'Обычная коллекция', title: 'count() может загрузить всё', lines: ['Много объектов в память'], tone: 'red'},
     {label: 'EXTRA_LAZY', title: 'count() отдельным SQL', code: ['SELECT COUNT(*) …'], lines: ['Collection не инициализируется целиком'], tone: 'green'},
@@ -525,6 +510,431 @@ const CompilerPassCode = () => (
   </div>
 );
 
+const PhpCode = ({children, tone = 'purple'}: {children: ReactNode; tone?: Tone}) => (
+  <pre className={`doctrine-code doctrine-code--${tone}`}><code>{children}</code></pre>
+);
+
+const DoctrinePersist = () => (
+  <div className="doctrine-two-column">
+    <PhpCode>
+      <span><span className="syntax-variable">$uow</span> = <span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">getUnitOfWork</span>();</span>
+      <span>&nbsp;</span>
+      <span><span className="syntax-variable">$uow</span>-&gt;<span className="syntax-name">getEntityState</span>(<span className="syntax-variable">$user</span>)</span>
+      <span className="code-line--indent-1">=== <span className="syntax-type">UnitOfWork</span>::<span className="syntax-name">STATE_NEW</span>; <span className="syntax-comment">// true</span></span>
+      <span>&nbsp;</span>
+      <span><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">persist</span>(<span className="syntax-variable">$user</span>);</span>
+      <span>&nbsp;</span>
+      <span><span className="syntax-variable">$uow</span>-&gt;<span className="syntax-name">getEntityState</span>(<span className="syntax-variable">$user</span>)</span>
+      <span className="code-line--indent-1">=== <span className="syntax-type">UnitOfWork</span>::<span className="syntax-name">STATE_MANAGED</span>; <span className="syntax-comment">// true</span></span>
+    </PhpCode>
+    <section className="doctrine-state-panel doctrine-state-panel--persist">
+      <div className="doctrine-state doctrine-state--purple"><small>entity state</small><strong>NEW</strong></div>
+      <div className="doctrine-arrow-step"><code>persist($user)</code><span>→</span></div>
+      <div className="doctrine-state doctrine-state--green"><small>Unit of Work</small><strong>MANAGED</strong><span>scheduled: INSERT</span></div>
+      <div className="doctrine-zero-sql"><strong>SQL-запросов: 0</strong><span>persist() только регистрирует объект</span></div>
+    </section>
+    <div className="doctrine-footer">Generated ID гарантирован после successful <code>flush()</code></div>
+  </div>
+);
+
+const DoctrineFlushListener = () => (
+  <div className="doctrine-two-column doctrine-two-column--listener">
+    <PhpCode>
+      <span><span className="syntax-variable">$uow</span> = <span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">getUnitOfWork</span>();</span>
+      <span>&nbsp;</span>
+      <span><span className="syntax-keyword">foreach</span> (</span>
+      <span className="code-line--indent-1"><span className="syntax-variable">$uow</span>-&gt;<span className="syntax-name">getScheduledEntityUpdates</span>()</span>
+      <span className="code-line--indent-1"><span className="syntax-keyword">as</span> <span className="syntax-variable">$entity</span></span>
+      <span>) {'{'}</span>
+      <span className="code-line--indent-1"><span className="syntax-variable">$changes</span> = <span className="syntax-variable">$uow</span></span>
+      <span className="code-line--indent-2">-&gt;<span className="syntax-name">getEntityChangeSet</span>(<span className="syntax-variable">$entity</span>);</span>
+      <span>{'}'}</span>
+    </PhpCode>
+    <section className="change-set-card">
+      <div className="change-set-card__label">Результат для User#42</div>
+      <code className="change-set-output">
+        <span>[</span>
+        <span className="code-line--indent-1"><span className="syntax-string">'email'</span> =&gt; [</span>
+        <span className="code-line--indent-2"><b className="change-set-index change-set-index--old">0 · old</b> <span className="syntax-string">'old@example.com'</span>,</span>
+        <span className="code-line--indent-2"><b className="change-set-index change-set-index--new">1 · new</b> <span className="syntax-string">'new@example.com'</span>,</span>
+        <span className="code-line--indent-1">],</span>
+        <span>]</span>
+      </code>
+      <p><code>onFlush</code> уже видит рассчитанные change sets</p>
+    </section>
+  </div>
+);
+
+const DoctrineFlushAudit = () => (
+  <div className="doctrine-two-column doctrine-two-column--audit">
+    <PhpCode>
+      <span><span className="syntax-variable">$auditLog</span> = <span className="syntax-type">AuditLog</span>::<span className="syntax-name">from</span>(</span>
+      <span className="code-line--indent-1"><span className="syntax-variable">$entity</span>, <span className="syntax-variable">$changes</span>,</span>
+      <span>);</span>
+      <span>&nbsp;</span>
+      <span><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">persist</span>(<span className="syntax-variable">$auditLog</span>);</span>
+      <span><span className="syntax-variable">$metadata</span> = <span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">getClassMetadata</span>(</span>
+      <span className="code-line--indent-1"><span className="syntax-type">AuditLog</span>::class,</span>
+      <span>);</span>
+      <span><span className="syntax-variable">$uow</span>-&gt;<span className="syntax-name">computeChangeSet</span>(</span>
+      <span className="code-line--indent-1"><span className="syntax-variable">$metadata</span>, <span className="syntax-variable">$auditLog</span>,</span>
+      <span>);</span>
+    </PhpCode>
+    <section className="audit-steps">
+      <article><span>1</span><div><strong>Создаём AuditLog</strong><p>внутри <code>onFlush</code></p></div></article>
+      <article><span>2</span><div><strong><code>persist()</code></strong><p>регистрирует новую entity</p></div></article>
+      <article><span>3</span><div><strong><code>computeChangeSet()</code></strong><p>добавляет её mapped changes в текущий flush</p></div></article>
+    </section>
+  </div>
+);
+
+const DoctrineFlushResult = () => (
+  <div className="doctrine-result-layout">
+    <div className="doctrine-correction"><small>Исправление</small><span>Обработанные change sets очищены, но managed entities остаются</span></div>
+    <section className="doctrine-result-card doctrine-result-card--cleared">
+      <small>Очищено после успешной синхронизации</small>
+      <code>entityChangeSets: []</code>
+      <code>scheduledUpdates: []</code>
+    </section>
+    <section className="doctrine-result-card doctrine-result-card--kept">
+      <small>Остаётся в EntityManager</small>
+      <code>User#42: MANAGED</code>
+      <code>Identity Map: сохранена</code>
+    </section>
+    <div className="doctrine-footer"><code>flush()</code> синхронизирует с БД — <code>clear()</code> отсоединяет объекты</div>
+  </div>
+);
+
+const DoctrineClear = () => (
+  <div className="doctrine-two-column doctrine-two-column--clear">
+    <PhpCode>
+      <span><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">contains</span>(<span className="syntax-variable">$user</span>); <span className="syntax-comment">// true</span></span>
+      <span>&nbsp;</span>
+      <span><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">clear</span>();</span>
+      <span>&nbsp;</span>
+      <span><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">contains</span>(<span className="syntax-variable">$user</span>); <span className="syntax-comment">// false</span></span>
+    </PhpCode>
+    <section className="clear-state-flow">
+      <div><small>до clear()</small><strong>MANAGED</strong><span>Identity Map содержит User#42</span></div>
+      <b>→</b>
+      <div><small>после clear()</small><strong>DETACHED</strong><span>Identity Map → empty</span></div>
+    </section>
+  </div>
+);
+
+const DoctrineClearBatch = () => (
+  <div className="doctrine-two-column doctrine-two-column--batch">
+    <PhpCode tone="cyan">
+      <span><span className="syntax-keyword">foreach</span> (<span className="syntax-variable">$rows</span> <span className="syntax-keyword">as</span> <span className="syntax-variable">$i</span> =&gt; <span className="syntax-variable">$row</span>) {'{'}</span>
+      <span className="code-line--indent-1"><span className="syntax-name">process</span>(<span className="syntax-variable">$row</span>);</span>
+      <span>&nbsp;</span>
+      <span className="code-line--indent-1"><span className="syntax-keyword">if</span> (<span className="syntax-variable">$i</span> % <span className="syntax-number">100</span> === <span className="syntax-number">0</span>) {'{'}</span>
+      <span className="code-line--indent-2"><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">flush</span>();</span>
+      <span className="code-line--indent-2"><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">clear</span>();</span>
+      <span className="code-line--indent-1">{'}'}</span>
+      <span>{'}'}</span>
+    </PhpCode>
+    <section className="batch-memory">
+      <div className="batch-memory__entities"><span>User#1</span><span>User#2</span><span>…</span><span>User#100</span></div>
+      <div className="batch-memory__map"><small>Identity Map</small><strong>100 managed entities</strong></div>
+      <div className="batch-memory__clear">flush() → clear()</div>
+      <div className="batch-memory__empty"><strong>empty</strong><span>объекты можно освободить</span></div>
+    </section>
+  </div>
+);
+
+const DoctrineIdentity = () => (
+  <div className="identity-comparison">
+    <section className="identity-card identity-card--doctrine">
+      <div className="identity-card__label">Doctrine ORM</div>
+      <PhpCode tone="green">
+        <span><span className="syntax-variable">$a</span> = <span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">find</span>(<span className="syntax-type">User</span>::class, <span className="syntax-number">42</span>); <span className="syntax-comment">// SELECT</span></span>
+        <span><span className="syntax-variable">$b</span> = <span className="syntax-variable">$repository</span>-&gt;<span className="syntax-name">find</span>(<span className="syntax-number">42</span>); <span className="syntax-comment">// Identity Map</span></span>
+        <span><span className="syntax-variable">$a</span> === <span className="syntax-variable">$b</span>; <span className="syntax-comment">// true</span></span>
+      </PhpCode>
+      <div className="identity-result"><strong>SELECT ×1</strong><span>Один ID → один PHP-объект</span></div>
+    </section>
+    <section className="identity-card identity-card--laravel">
+      <div className="identity-card__label">Laravel Eloquent</div>
+      <PhpCode tone="red">
+        <span><span className="syntax-variable">$a</span> = <span className="syntax-type">User</span>::<span className="syntax-name">find</span>(<span className="syntax-number">42</span>); <span className="syntax-comment">// SELECT</span></span>
+        <span><span className="syntax-variable">$b</span> = <span className="syntax-type">User</span>::<span className="syntax-name">find</span>(<span className="syntax-number">42</span>); <span className="syntax-comment">// SELECT</span></span>
+        <span><span className="syntax-variable">$a</span> === <span className="syntax-variable">$b</span>; <span className="syntax-comment">// false</span></span>
+      </PhpCode>
+      <div className="identity-result"><strong>SELECT ×2</strong><span>Два экземпляра модели</span></div>
+    </section>
+    <div className="doctrine-footer doctrine-footer--quiet">Для поиска по primary key; произвольный DQL всё ещё может выполнить SQL</div>
+  </div>
+);
+
+const DoctrineLayers = () => (
+  <div className="identity-layers">
+    <section className="identity-callers">
+      <code>ProfileService ── repo→find(42) ─┐</code>
+      <code>BillingService ── repo→find(42) ─┼──→</code>
+      <code>AuditService ──── repo→find(42) ─┘</code>
+    </section>
+    <section className="identity-map-box">
+      <small>Identity Map</small>
+      <strong>User#42</strong>
+      <span>один managed-объект</span>
+    </section>
+    <section className="identity-changes">
+      <div><code>email</code><span>old → new</span></div>
+      <div><code>plan</code><span>basic → pro</span></div>
+      <div><code>updatedAt</code><span>12:30 → 12:31</span></div>
+    </section>
+    <div className="identity-benefits"><strong>SELECT ×1</strong><strong>один согласованный объект</strong><strong>один итоговый change set</strong></div>
+  </div>
+);
+
+const DoctrineBoundary = () => (
+  <div className="doctrine-two-column doctrine-two-column--boundary">
+    <PhpCode tone="green">
+      <span><span className="syntax-variable">$user</span> = <span className="syntax-variable">$users</span>-&gt;<span className="syntax-name">get</span>(<span className="syntax-number">42</span>);</span>
+      <span>&nbsp;</span>
+      <span><span className="syntax-variable">$profile</span>-&gt;<span className="syntax-name">changeEmail</span>(<span className="syntax-variable">$user</span>);</span>
+      <span><span className="syntax-variable">$billing</span>-&gt;<span className="syntax-name">upgradePlan</span>(<span className="syntax-variable">$user</span>);</span>
+      <span>&nbsp;</span>
+      <span><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">flush</span>();</span>
+    </PhpCode>
+    <section className="boundary-flow">
+      <article><small>Repository</small><strong>возвращает / регистрирует</strong></article>
+      <span>↓</span>
+      <article><small>Application service</small><strong>видит всю операцию</strong></article>
+      <span>↓</span>
+      <article className="boundary-flow__commit"><small>flush()</small><strong>одна transaction</strong></article>
+    </section>
+    <div className="doctrine-footer">Один <code>flush()</code> — разумный default на логическую операцию, а не запрет</div>
+  </div>
+);
+
+const LazyBenefit = () => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+
+  return (
+    <div className="lazy-code-layout">
+      <PhpCode tone="cyan">
+        <span
+          className="lazy-code-line lazy-code-line--cyan"
+          style={{
+            opacity: interpolate(frame, [0, fps * 0.35], [0.35, 1], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+              easing: Easing.bezier(0.16, 1, 0.3, 1),
+            }),
+          }}
+        ><span className="syntax-variable">$order</span> = <span className="syntax-variable">$orders</span>-&gt;<span className="syntax-name">find</span>(<span className="syntax-number">42</span>);</span>
+        <span>&nbsp;</span>
+        <span
+          style={{
+            opacity: interpolate(frame, [fps * 0.9, fps * 1.25], [0.28, 1], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+              easing: Easing.bezier(0.16, 1, 0.3, 1),
+            }),
+          }}
+        ><span className="syntax-keyword">echo</span> <span className="syntax-variable">$order</span>-&gt;<span className="syntax-name">getNumber</span>();</span>
+        <span>&nbsp;</span>
+        <span
+          className="syntax-comment"
+          style={{
+            opacity: interpolate(frame, [fps * 2.0, fps * 2.45], [0, 1], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+              easing: Easing.bezier(0.16, 1, 0.3, 1),
+            }),
+          }}
+        >// getItems() не вызывается</span>
+      </PhpCode>
+
+      <section className="lazy-sql-panel lazy-sql-panel--success">
+        <div className="lazy-sql-panel__label">SQL log</div>
+        <code
+          className="lazy-sql-row lazy-sql-row--base"
+          style={{
+            opacity: interpolate(frame, [fps * 0.3, fps * 0.75], [0, 1], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+              easing: Easing.bezier(0.16, 1, 0.3, 1),
+            }),
+            translate: `${interpolate(frame, [fps * 0.3, fps * 0.75], [18, 0], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+              easing: Easing.bezier(0.16, 1, 0.3, 1),
+            })}px 0px`,
+          }}
+        >SELECT * FROM orders WHERE id = 42;</code>
+        <div aria-hidden="true" />
+        <div
+          className="lazy-query-count lazy-query-count--success"
+          style={{
+            opacity: interpolate(frame, [fps * 2.0, fps * 2.55], [0, 1], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+              easing: Easing.bezier(0.16, 1, 0.3, 1),
+            }),
+            scale: interpolate(frame, [fps * 2.0, fps * 2.55], [0.96, 1], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+              easing: Easing.spring({damping: 180}),
+              output: 'perceptual-scale',
+            }),
+          }}
+        ><strong>0</strong><span>запросов к items</span></div>
+      </section>
+
+      <div className="doctrine-footer">Нет обращения к relation → нет лишнего <code>SELECT</code></div>
+    </div>
+  );
+};
+
+const LazyNPlusOne = () => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const relationQueries = Math.min(3, Math.max(0, Math.floor((frame - fps * 1.8) / fps) + 1));
+  const counter = frame >= fps * 5 ? '1 + N' : `1 + ${relationQueries}`;
+  const queryRows = [42, 43, 44];
+
+  return (
+    <div className="lazy-code-layout">
+      <PhpCode tone="red">
+        <span><span className="syntax-variable">$orders</span> = <span className="syntax-variable">$repo</span>-&gt;<span className="syntax-name">findRecent</span>();</span>
+        <span>&nbsp;</span>
+        <span><span className="syntax-keyword">foreach</span> (<span className="syntax-variable">$orders</span> <span className="syntax-keyword">as</span> <span className="syntax-variable">$order</span>) {'{'}</span>
+        <span
+          className="code-line--indent-1 lazy-code-line lazy-code-line--red"
+          style={{
+            opacity: interpolate(frame, [fps * 1.25, fps * 1.8], [0.35, 1], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+              easing: Easing.bezier(0.16, 1, 0.3, 1),
+            }),
+          }}
+        ><span className="syntax-keyword">foreach</span> (<span className="syntax-variable">$order</span>-&gt;<span className="syntax-name">getItems</span>() <span className="syntax-keyword">as</span> <span className="syntax-variable">$item</span>) {'{'}</span>
+        <span className="code-line--indent-2"><span className="syntax-name">render</span>(<span className="syntax-variable">$item</span>);</span>
+        <span className="code-line--indent-1">{'}'}</span>
+        <span>{'}'}</span>
+      </PhpCode>
+
+      <section className="lazy-sql-panel lazy-sql-panel--danger">
+        <div className="lazy-sql-panel__label">SQL log</div>
+        <code
+          className="lazy-sql-row lazy-sql-row--base"
+          style={{
+            opacity: interpolate(frame, [fps * 0.25, fps * 0.7], [0, 1], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+              easing: Easing.bezier(0.16, 1, 0.3, 1),
+            }),
+          }}
+        >SELECT * FROM orders;</code>
+        <div className="lazy-sql-list">
+          {queryRows.map((orderId, index) => {
+            const at = fps * (1.8 + index);
+            return (
+              <code
+                className="lazy-sql-row lazy-sql-row--relation"
+                key={orderId}
+                style={{
+                  opacity: interpolate(frame, [at, at + fps * 0.35], [0, 1], {
+                    extrapolateLeft: 'clamp',
+                    extrapolateRight: 'clamp',
+                    easing: Easing.bezier(0.16, 1, 0.3, 1),
+                  }),
+                  translate: `${interpolate(frame, [at, at + fps * 0.35], [16, 0], {
+                    extrapolateLeft: 'clamp',
+                    extrapolateRight: 'clamp',
+                    easing: Easing.bezier(0.16, 1, 0.3, 1),
+                  })}px 0px`,
+                }}
+              >SELECT * FROM items WHERE order_id = {orderId};</code>
+            );
+          })}
+          <code
+            className="lazy-sql-more"
+            style={{
+              opacity: interpolate(frame, [fps * 4.8, fps * 5.2], [0, 1], {
+                extrapolateLeft: 'clamp',
+                extrapolateRight: 'clamp',
+              }),
+            }}
+          >… ещё по запросу на каждый Order</code>
+        </div>
+        <div className="lazy-query-count lazy-query-count--danger"><strong>{counter}</strong><span>SQL-запросов</span></div>
+      </section>
+
+      <div className="doctrine-footer doctrine-footer--danger">Перебор lazy relation скрывает N дополнительных <code>SELECT</code></div>
+    </div>
+  );
+};
+
+const LazyFetchJoin = () => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+
+  return (
+    <div className="lazy-code-layout">
+      <PhpCode tone="green">
+        <span><span className="syntax-keyword">SELECT</span> o, i</span>
+        <span><span className="syntax-keyword">FROM</span> <span className="syntax-type">App\Entity\Order</span> o</span>
+        <span className="lazy-code-line lazy-code-line--green"><span className="syntax-keyword">JOIN</span> o.items i</span>
+      </PhpCode>
+
+      <section className="lazy-sql-panel lazy-sql-panel--success">
+        <div className="lazy-sql-panel__label">SQL log</div>
+        <code
+          className="lazy-sql-row lazy-sql-row--fetch"
+          style={{
+            opacity: interpolate(frame, [fps * 0.7, fps * 1.25], [0, 1], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+              easing: Easing.bezier(0.16, 1, 0.3, 1),
+            }),
+            translate: `${interpolate(frame, [fps * 0.7, fps * 1.25], [18, 0], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+              easing: Easing.bezier(0.16, 1, 0.3, 1),
+            })}px 0px`,
+          }}
+        >SELECT o.*, i.* FROM orders o JOIN items i …;</code>
+        <div aria-hidden="true" />
+        <div
+          className="lazy-query-count lazy-query-count--success"
+          style={{
+            opacity: interpolate(frame, [fps * 1.35, fps * 1.85], [0, 1], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+              easing: Easing.bezier(0.16, 1, 0.3, 1),
+            }),
+          }}
+        ><strong>1</strong><span>явный запрос</span></div>
+      </section>
+
+      <div className="doctrine-footer">Relation нужна всем → загружаем её явно</div>
+    </div>
+  );
+};
+
+const DoctrineSlide = ({slideId}: {slideId: string}) => {
+  switch (slideId) {
+    case '13-persist': return <DoctrinePersist />;
+    case '13-flush-listener': return <DoctrineFlushListener />;
+    case '13-flush-audit': return <DoctrineFlushAudit />;
+    case '13-flush-result': return <DoctrineFlushResult />;
+    case '13-clear': return <DoctrineClear />;
+    case '13-clear-batch': return <DoctrineClearBatch />;
+    case '14-identity': return <DoctrineIdentity />;
+    case '14-layers': return <DoctrineLayers />;
+    case '14-boundary': return <DoctrineBoundary />;
+    case '15-lazy': return <LazyBenefit />;
+    case '15-n-plus-one': return <LazyNPlusOne />;
+    case '15-fetch-join': return <LazyFetchJoin />;
+    default: return null;
+  }
+};
+
 export const ReviewSlide = ({
   format,
   slideId,
@@ -585,6 +995,17 @@ export const ReviewSlide = ({
         <div className="rr-slide rr-slide--compiler-pass-code">
           <CompilerPassCode />
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
+        </div>
+      </InterviewShell>
+    );
+  }
+
+  if (slide.pattern === 'doctrine') {
+    return (
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
+        <div className="rr-slide rr-slide--doctrine">
+          {slide.badge && <div className="rr-badge">{slide.badge}</div>}
+          <DoctrineSlide slideId={slide.id} />
         </div>
       </InterviewShell>
     );

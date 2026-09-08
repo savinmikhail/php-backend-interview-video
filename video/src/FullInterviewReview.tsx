@@ -98,7 +98,7 @@ const reviewSegments: ReviewSegment[] = [
   {start: '00:48:59', end: '00:49:09', slideId: '22-entity'},
   {start: '00:49:09', end: '00:49:29', slideId: '22-dto'},
   {start: '00:49:29', end: '00:49:37', slideId: '22-correction'},
-  {start: '00:49:37', end: '00:50:34', slideId: '23-question'},
+  {start: '00:50:14', end: '00:50:34', slideId: '23-question'},
   {start: '00:50:34', end: '00:51:01', slideId: '23-boundary'},
   {start: '00:51:01', end: '00:51:32', slideId: '23-deployment'},
   {start: '00:51:32', end: '00:52:42', slideId: '23-monolith'},

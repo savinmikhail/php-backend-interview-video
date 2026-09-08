@@ -206,7 +206,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {label: 'DTO', title: 'Не обязан быть readonly', lines: ['Главное — перенос данных'], tone: 'cyan'},
   ], undefined, 'Уточнение ответа'),
 
-  q('23-question', '23', 'Как выделять модули, связывать их и деплоить?'),
+  q('23-question', '23', 'Как выделять модули из монолита и как разделять их работу между собой?'),
   s('23-boundary', '23', 'Хорошая граница модуля', 'columns', [
     {label: 'Внутри', title: 'Высокая cohesion', lines: ['Связанные бизнес-правила рядом'], tone: 'purple'},
     {label: 'Снаружи', title: 'Низкая coupling', lines: ['Маленький стабильный контракт'], tone: 'cyan'},

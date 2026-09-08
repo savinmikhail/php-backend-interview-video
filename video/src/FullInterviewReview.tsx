@@ -106,8 +106,9 @@ const reviewSegments: ReviewSegment[] = [
   {start: '00:52:57', end: '00:53:01', slideId: '24-location'},
   {start: '00:53:01', end: '00:53:19', slideId: '24-dependency'},
   {start: '00:53:35', end: '00:53:41', slideId: '25-question'},
-  {start: '00:53:41', end: '00:53:59', slideId: '25-classes'},
-  {start: '00:53:59', end: '00:54:14', slideId: '25-aside'},
+  {start: '00:53:43', end: '00:53:48', slideId: '25-aside-question'},
+  {start: '00:53:48', end: '00:54:09', slideId: '25-classes'},
+  {start: '00:54:09', end: '00:54:14', slideId: '25-aside'},
   {start: '00:54:14', end: '00:54:50', slideId: '25-writes'},
   {start: '00:54:50', end: '00:55:21', slideId: '25-choice'},
   {start: '00:56:36', end: '00:57:21', slideId: '26-auth'},
@@ -277,9 +278,10 @@ export const FullInterviewReview = ({format, withAudio = true}: Props) => {
       <Sequence name="23-deployment" from={slideFrom('23-deployment', fps)} durationInFrames={slideDuration('23-deployment', fps)} premountFor={fps}><ReviewSlide format={format} slideId="23-deployment" /></Sequence>
       <Sequence name="23-monolith" from={slideFrom('23-monolith', fps)} durationInFrames={slideDuration('23-monolith', fps)} premountFor={fps}><ReviewSlide format={format} slideId="23-monolith" /></Sequence>
       <Sequence name="24-question" from={slideFrom('24-question', fps)} durationInFrames={slideDuration('24-question', fps)} premountFor={fps}><ReviewSlide format={format} slideId="24-question" /></Sequence>
-      <Sequence name="24-dependency" from={slideFrom('24-dependency', fps)} durationInFrames={slideDuration('24-dependency', fps)} premountFor={fps}><ReviewSlide format={format} slideId="24-dependency" /></Sequence>
       <Sequence name="24-location" from={slideFrom('24-location', fps)} durationInFrames={slideDuration('24-location', fps)} premountFor={fps}><ReviewSlide format={format} slideId="24-location" /></Sequence>
+      <Sequence name="24-dependency" from={slideFrom('24-dependency', fps)} durationInFrames={slideDuration('24-dependency', fps)} premountFor={fps}><ReviewSlide format={format} slideId="24-dependency" /></Sequence>
       <Sequence name="25-question" from={slideFrom('25-question', fps)} durationInFrames={slideDuration('25-question', fps)} premountFor={fps}><ReviewSlide format={format} slideId="25-question" /></Sequence>
+      <Sequence name="25-aside-question" from={slideFrom('25-aside-question', fps)} durationInFrames={slideDuration('25-aside-question', fps)} premountFor={fps}><ReviewSlide format={format} slideId="25-aside-question" /></Sequence>
       <Sequence name="25-classes" from={slideFrom('25-classes', fps)} durationInFrames={slideDuration('25-classes', fps)} premountFor={fps}><ReviewSlide format={format} slideId="25-classes" /></Sequence>
       <Sequence name="25-aside" from={slideFrom('25-aside', fps)} durationInFrames={slideDuration('25-aside', fps)} premountFor={fps}><ReviewSlide format={format} slideId="25-aside" /></Sequence>
       <Sequence name="25-writes" from={slideFrom('25-writes', fps)} durationInFrames={slideDuration('25-writes', fps)} premountFor={fps}><ReviewSlide format={format} slideId="25-writes" /></Sequence>

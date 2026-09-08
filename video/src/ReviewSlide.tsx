@@ -172,6 +172,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {label: 'Ядро', title: 'Business rules', lines: ['Не знает о внешних деталях'], tone: 'green'},
   ], 'Граница нужна ради направления зависимостей, а не ради папок'),
 
+  q('20-question', '20', 'Доменный сервис и application service — что для чего?'),
   s('20-levels', '20', 'Domain Service и Application Service', 'columns', [
     {label: 'Application', title: 'Оркестрирует use case', lines: ['Загрузить · вызвать · сохранить · отправить'], tone: 'purple'},
     {label: 'Domain', title: 'Выражает бизнес-решение', lines: ['Правило, не принадлежащее одной entity'], tone: 'cyan'},

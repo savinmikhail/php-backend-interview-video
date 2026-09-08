@@ -87,9 +87,10 @@ const reviewSegments: ReviewSegment[] = [
   {start: '00:43:54', end: '00:44:05', slideId: '18-forms'},
   {start: '00:44:11', end: '00:45:12', slideId: '19-question'},
   {start: '00:45:12', end: '00:45:42', slideId: '19-rule'},
-  {start: '00:45:42', end: '00:46:54', slideId: '20-levels'},
-  {start: '00:46:54', end: '00:47:28', slideId: '20-usecase'},
-  {start: '00:47:28', end: '00:48:03', slideId: '20-criterion'},
+  {start: '00:46:06', end: '00:46:52', slideId: '20-question'},
+  {start: '00:46:52', end: '00:47:28', slideId: '20-levels'},
+  {start: '00:47:28', end: '00:48:03', slideId: '20-usecase'},
+  {start: '00:48:03', end: '00:48:10', slideId: '20-criterion'},
   {start: '00:48:10', end: '00:48:38', slideId: '21-direct'},
   {start: '00:48:38', end: '00:48:47', slideId: '21-boundary'},
   {start: '00:48:47', end: '00:49:09', slideId: '22-entity'},
@@ -258,6 +259,7 @@ export const FullInterviewReview = ({format, withAudio = true}: Props) => {
       <Sequence name="18-forms" from={slideFrom('18-forms', fps)} durationInFrames={slideDuration('18-forms', fps)} premountFor={fps}><ReviewSlide format={format} slideId="18-forms" /></Sequence>
       <Sequence name="19-question" from={slideFrom('19-question', fps)} durationInFrames={slideDuration('19-question', fps)} premountFor={fps}><ReviewSlide format={format} slideId="19-question" /></Sequence>
       <Sequence name="19-rule" from={slideFrom('19-rule', fps)} durationInFrames={slideDuration('19-rule', fps)} premountFor={fps}><ReviewSlide format={format} slideId="19-rule" /></Sequence>
+      <Sequence name="20-question" from={slideFrom('20-question', fps)} durationInFrames={slideDuration('20-question', fps)} premountFor={fps}><ReviewSlide format={format} slideId="20-question" /></Sequence>
       <Sequence name="20-levels" from={slideFrom('20-levels', fps)} durationInFrames={slideDuration('20-levels', fps)} premountFor={fps}><ReviewSlide format={format} slideId="20-levels" /></Sequence>
       <Sequence name="20-usecase" from={slideFrom('20-usecase', fps)} durationInFrames={slideDuration('20-usecase', fps)} premountFor={fps}><ReviewSlide format={format} slideId="20-usecase" /></Sequence>
       <Sequence name="20-criterion" from={slideFrom('20-criterion', fps)} durationInFrames={slideDuration('20-criterion', fps)} premountFor={fps}><ReviewSlide format={format} slideId="20-criterion" /></Sequence>

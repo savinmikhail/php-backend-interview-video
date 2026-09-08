@@ -35,6 +35,40 @@
 .rr-slide--stack .rr-cards { grid-template-columns: 1fr; }
 .rr-slide--flow .rr-cards { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); align-items: stretch; }
 
+.composition--wide .rr-slide--stack {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  gap: 16px;
+}
+
+.composition--wide .rr-slide--stack .rr-cards {
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 16px;
+}
+
+.composition--wide .rr-slide--stack .rr-card { padding: 14px 28px; }
+.composition--wide .rr-slide--stack .rr-card__label {
+  margin-bottom: 4px;
+  font-size: 16px;
+  line-height: 1.1;
+}
+.composition--wide .rr-slide--stack .rr-card h2 {
+  margin-bottom: 4px;
+  font-size: 30px;
+  line-height: 1.08;
+}
+.composition--wide .rr-slide--stack .rr-card p {
+  margin-top: 0;
+  font-size: 20px;
+  line-height: 1.2;
+}
+.composition--wide .rr-slide--stack .rr-footer {
+  min-height: 58px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  font-size: 22px;
+}
+
 .enum-comparison {
   min-height: 0;
   display: grid;

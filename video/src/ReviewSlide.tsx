@@ -1,11 +1,11 @@
 import type {ReactNode} from 'react';
-import {Easing, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
+import {Easing, interpolate, interpolateColors, useCurrentFrame, useVideoConfig} from 'remotion';
 import {InterviewShell, type Format} from './InterviewShell';
 import {PhpCodeBlock, PhpTokens, PhpLines} from './PhpCodeBlock';
 import {TOTAL_QUESTIONS, type Speaker} from './timeline';
 
 type Tone = 'purple' | 'cyan' | 'green' | 'amber' | 'red';
-type Pattern = 'question' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile' | 'decorator-code' | 'compiler-pass-code' | 'controller-code' | 'doctrine' | 'uuid';
+type Pattern = 'question' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile' | 'decorator-code' | 'compiler-pass-code' | 'controller-code' | 'cache-aside-code' | 'cache-triangle' | 'doctrine' | 'uuid';
 
 type Card = {
   label?: string;
@@ -230,24 +230,17 @@ export const reviewSlides: ReviewSlideDefinition[] = [
 
   q('25-question', '25', 'С редисом, с кэшом работал?'),
   q('25-aside-question', '25', 'Что такое Cache Aside?'),
-  s('25-classes', '25', 'Не смешиваем две группы стратегий', 'columns', [
-    {label: 'Read/write pattern', title: 'Cache Aside · Read Through', lines: ['Кто загружает данные в cache'], tone: 'purple'},
-    {label: 'Write policy', title: 'Write Through · Write Behind', lines: ['Когда обновляется source of truth'], tone: 'cyan'},
-  ], undefined, 'Уточнение ответа'),
-  s('25-aside', '25', 'Cache Aside', 'flow', [
-    {title: 'Cache GET', lines: ['hit → вернуть'], tone: 'purple'},
-    {title: 'miss → DB', lines: ['прочитать источник истины'], tone: 'cyan'},
-    {title: 'Cache SET', lines: ['сохранить результат'], tone: 'green'},
-  ], 'При записи: DB update → invalidate cache', 'Исправление ответа'),
+  s('25-classes', '25', 'Четыре паттерна — два разных вопроса', 'columns', [
+    {label: 'Read miss', title: 'Cache Aside · Read Through', lines: ['Кто загружает данные в cache'], tone: 'purple'},
+    {label: 'Write path', title: 'Write Through · Write Behind', lines: ['Когда запись попадает в database'], tone: 'cyan'},
+  ], 'Паттерны можно комбинировать · список не исчерпывающий'),
+  s('25-aside', '25', 'Cache Aside — загрузка по требованию', 'cache-aside-code', [],
+    'При записи: DB update → cache delete', 'Исправление ответа'),
   s('25-writes', '25', 'Две write-стратегии', 'columns', [
     {label: 'WRITE-THROUGH', title: 'DB + cache до success', tradeoffs: [{text: 'Выше write latency', kind: 'minus'}, {text: 'После успеха данные свежие', kind: 'plus'}], tone: 'green'},
     {label: 'WRITE-BEHIND', title: 'Cache / queue → async DB', tradeoffs: [{text: 'Ниже write latency', kind: 'plus'}, {text: 'Сложнее failure recovery', kind: 'minus'}], tone: 'amber'},
   ], 'База остаётся источником истины'),
-  s('25-choice', '25', 'Кэш всегда создаёт trade-off', 'grid', [
-    {title: 'Freshness', lines: ['Допустимы stale data?'], tone: 'purple'},
-    {title: 'Write latency', lines: ['Можно ждать два слоя?'], tone: 'cyan'},
-    {title: 'Failure recovery', lines: ['Кто чинит рассинхронизацию?'], tone: 'amber'},
-  ], 'Критичные данные не храним только в Redis'),
+  s('25-choice', '25', 'Выбор стратегии — баланс трёх требований', 'cache-triangle', []),
 
   s('26-auth', '26', 'Authentication ≠ Authorization', 'columns', [
     {label: 'AUTHENTICATION · AuthN', title: 'Кто ты?', code: ['credentials → identity'], tone: 'purple'},
@@ -318,11 +311,6 @@ export const reviewSlides: ReviewSlideDefinition[] = [
 ];
 
 export const defaultReviewSlide = reviewSlides[0];
-    {card.tradeoffs && <div className="rr-tradeoffs">{card.tradeoffs.map(({text, kind}) => (
-      <div key={text} className={`rr-tradeoff rr-tradeoff--${kind}`}>
-        <b>{kind === 'plus' ? '+' : '−'}</b><span>{text}</span>
-      </div>
-    ))}</div>}
 
 const CardView = ({card}: {card: Card}) => (
   <article className={`rr-card rr-card--${card.tone ?? 'purple'}`}>
@@ -330,6 +318,11 @@ const CardView = ({card}: {card: Card}) => (
     <h2>{card.title}</h2>
     {card.code && <pre><code>{card.codeLanguage === 'php' ? <PhpTokens code={card.code.join('\n')} /> : card.code.join('\n')}</code></pre>}
     {card.lines?.map((line) => <p key={line}>{line}</p>)}
+    {card.tradeoffs && <div className="rr-tradeoffs">{card.tradeoffs.map(({text, kind}) => (
+      <div key={text} className={`rr-tradeoff rr-tradeoff--${kind}`}>
+        <b>{kind === 'plus' ? '+' : '−'}</b><span>{text}</span>
+      </div>
+    ))}</div>}
   </article>
 );
 
@@ -1072,6 +1065,108 @@ const LazyFetchJoin = () => {
   );
 };
 
+const CacheAsideCode = () => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const trace = [
+    {label: 'Cache', value: 'GET product:42 → MISS', tone: 'amber', at: 0.08},
+    {label: 'Database', value: 'SELECT product WHERE id = 42', tone: 'cyan', at: 0.34},
+    {label: 'Cache', value: 'SET product:42', tone: 'green', at: 0.60},
+  ];
+
+  return (
+    <div className="cache-aside-code-layout">
+      <PhpCode tone="cyan"><PhpLines code={`$value = $cache->get($key);
+
+if ($value === null) {
+  $value = $products->find($id);
+  $cache->set($key, $value);
+}
+
+return $value;`} lineProps={{
+          0: {className: 'cache-code-line', style: {backgroundColor: interpolateColors(frame, [0, fps * 0.08, fps * 0.32, fps * 0.48, fps * 5], ['rgba(255,205,101,0)', 'rgba(255,205,101,.20)', 'rgba(255,205,101,.20)', 'rgba(255,205,101,0)', 'rgba(255,205,101,0)'], {easing: Easing.bezier(0.16, 1, 0.3, 1)})}},
+          2: {className: 'cache-code-line', style: {backgroundColor: interpolateColors(frame, [0, fps * 0.08, fps * 0.18, fps * 0.32, fps * 0.48, fps * 5], ['rgba(255,205,101,0)', 'rgba(255,205,101,0)', 'rgba(255,205,101,.20)', 'rgba(255,205,101,.20)', 'rgba(255,205,101,0)', 'rgba(255,205,101,0)'], {easing: Easing.bezier(0.16, 1, 0.3, 1)})}},
+          3: {className: 'cache-code-line', style: {backgroundColor: interpolateColors(frame, [0, fps * 0.30, fps * 0.38, fps * 0.58, fps * 0.72, fps * 5], ['rgba(91,220,247,0)', 'rgba(91,220,247,0)', 'rgba(91,220,247,.20)', 'rgba(91,220,247,.20)', 'rgba(91,220,247,0)', 'rgba(91,220,247,0)'], {easing: Easing.bezier(0.16, 1, 0.3, 1)})}},
+          4: {className: 'cache-code-line', style: {backgroundColor: interpolateColors(frame, [0, fps * 0.56, fps * 0.64, fps * 0.82, fps * 0.96, fps * 5], ['rgba(111,239,192,0)', 'rgba(111,239,192,0)', 'rgba(111,239,192,.20)', 'rgba(111,239,192,.20)', 'rgba(111,239,192,0)', 'rgba(111,239,192,0)'], {easing: Easing.bezier(0.16, 1, 0.3, 1)})}},
+        }} /></PhpCode>
+
+      <section className="cache-trace-panel">
+        <div className="cache-trace-panel__label">Execution trace</div>
+        <div className="cache-trace-list">
+          {trace.map((step, index) => (
+            <article
+              className={`cache-trace-step cache-trace-step--${step.tone}`}
+              key={`${step.label}-${step.value}`}
+              style={{
+                opacity: interpolate(frame, [fps * step.at, fps * (step.at + 0.18)], [0, 1], {
+                  extrapolateLeft: 'clamp',
+                  extrapolateRight: 'clamp',
+                  easing: Easing.bezier(0.16, 1, 0.3, 1),
+                }),
+                translate: `${interpolate(frame, [fps * step.at, fps * (step.at + 0.18)], [18, 0], {
+                  extrapolateLeft: 'clamp',
+                  extrapolateRight: 'clamp',
+                  easing: Easing.bezier(0.16, 1, 0.3, 1),
+                })}px 0`,
+              }}
+            >
+              <span>{index + 1}</span>
+              <div><small>{step.label}</small><code>{step.value}</code></div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <div className="doctrine-footer cache-aside-footer">При записи: <code><PhpTokens code={`DB update`} /></code> → <code><PhpTokens code={`cache delete`} /></code></div>
+    </div>
+  );
+};
+
+const CacheTradeoffTriangle = () => (
+  <div className="cache-triangle-layout">
+    <svg className="cache-triangle-lines" viewBox="0 0 1000 560" preserveAspectRatio="none" aria-hidden="true">
+      <path className="cache-triangle-lines__outline" d="M500 54 L118 500 L882 500 Z" />
+      <path className="cache-triangle-lines__spokes" d="M500 292 L500 54 M500 292 L118 500 M500 292 L882 500" />
+    </svg>
+
+    <article className="cache-axis cache-axis--freshness">
+      <small>CONSISTENCY</small>
+      <strong>Freshness</strong>
+      <span>Допустимы stale data?</span>
+    </article>
+
+    <article className="cache-axis cache-axis--recovery">
+      <small>RELIABILITY</small>
+      <strong>Recovery</strong>
+      <span>Что будет при частичном сбое?</span>
+    </article>
+
+    <article className="cache-axis cache-axis--latency">
+      <small>PERFORMANCE</small>
+      <strong>Visibility latency</strong>
+      <span>Когда клиент увидит запись?</span>
+    </article>
+
+    <div className="cache-triangle-center">
+      <small>проверяем все три</small>
+      <strong>Caching strategy</strong>
+    </div>
+
+    <div className="cache-edge cache-edge--sync">
+      <code>sync write</code>
+      <span>свежее · медленнее</span>
+    </div>
+    <div className="cache-edge cache-edge--async">
+      <code>async write</code>
+      <span>быстрее · сложнее recovery</span>
+    </div>
+    <div className="cache-edge cache-edge--invalidate">
+      <code>invalidate</code>
+      <span>возможен stale window</span>
+    </div>
+  </div>
+);
+
 const DoctrineTransactionImplicit = () => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
@@ -1473,6 +1568,27 @@ export const ReviewSlide = ({
         <div className="rr-slide rr-slide--controller-code">
           <ControllerReadCode />
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
+        </div>
+      </InterviewShell>
+    );
+  }
+
+  if (slide.pattern === 'cache-aside-code') {
+    return (
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
+        <div className="rr-slide rr-slide--cache-aside-code">
+          {slide.badge && <div className="rr-badge">{slide.badge}</div>}
+          <CacheAsideCode />
+        </div>
+      </InterviewShell>
+    );
+  }
+
+  if (slide.pattern === 'cache-triangle') {
+    return (
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
+        <div className="rr-slide rr-slide--cache-triangle">
+          <CacheTradeoffTriangle />
         </div>
       </InterviewShell>
     );

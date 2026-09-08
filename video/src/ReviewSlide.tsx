@@ -1069,9 +1069,9 @@ const CacheAsideCode = () => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const trace = [
-    {label: 'Cache', value: 'GET product:42 → MISS', tone: 'amber', at: 0.08},
-    {label: 'Database', value: 'SELECT product WHERE id = 42', tone: 'cyan', at: 0.34},
-    {label: 'Cache', value: 'SET product:42', tone: 'green', at: 0.60},
+    {label: 'Cache', value: 'GET product:42 → MISS', tone: 'amber', at: 0.35},
+    {label: 'Database', value: 'SELECT product WHERE id = 42', tone: 'cyan', at: 1.65},
+    {label: 'Cache', value: 'SET product:42', tone: 'green', at: 3.05},
   ];
 
   return (
@@ -1084,10 +1084,10 @@ if ($value === null) {
 }
 
 return $value;`} lineProps={{
-          0: {className: 'cache-code-line', style: {backgroundColor: interpolateColors(frame, [0, fps * 0.08, fps * 0.32, fps * 0.48, fps * 5], ['rgba(255,205,101,0)', 'rgba(255,205,101,.20)', 'rgba(255,205,101,.20)', 'rgba(255,205,101,0)', 'rgba(255,205,101,0)'], {easing: Easing.bezier(0.16, 1, 0.3, 1)})}},
-          2: {className: 'cache-code-line', style: {backgroundColor: interpolateColors(frame, [0, fps * 0.08, fps * 0.18, fps * 0.32, fps * 0.48, fps * 5], ['rgba(255,205,101,0)', 'rgba(255,205,101,0)', 'rgba(255,205,101,.20)', 'rgba(255,205,101,.20)', 'rgba(255,205,101,0)', 'rgba(255,205,101,0)'], {easing: Easing.bezier(0.16, 1, 0.3, 1)})}},
-          3: {className: 'cache-code-line', style: {backgroundColor: interpolateColors(frame, [0, fps * 0.30, fps * 0.38, fps * 0.58, fps * 0.72, fps * 5], ['rgba(91,220,247,0)', 'rgba(91,220,247,0)', 'rgba(91,220,247,.20)', 'rgba(91,220,247,.20)', 'rgba(91,220,247,0)', 'rgba(91,220,247,0)'], {easing: Easing.bezier(0.16, 1, 0.3, 1)})}},
-          4: {className: 'cache-code-line', style: {backgroundColor: interpolateColors(frame, [0, fps * 0.56, fps * 0.64, fps * 0.82, fps * 0.96, fps * 5], ['rgba(111,239,192,0)', 'rgba(111,239,192,0)', 'rgba(111,239,192,.20)', 'rgba(111,239,192,.20)', 'rgba(111,239,192,0)', 'rgba(111,239,192,0)'], {easing: Easing.bezier(0.16, 1, 0.3, 1)})}},
+          0: {className: 'cache-code-line', style: {backgroundColor: interpolateColors(frame, [0, fps * 0.15, fps * 0.35, fps * 0.95, fps * 1.25, fps * 5], ['rgba(255,205,101,0)', 'rgba(255,205,101,0)', 'rgba(255,205,101,.20)', 'rgba(255,205,101,.20)', 'rgba(255,205,101,0)', 'rgba(255,205,101,0)'], {easing: Easing.bezier(0.16, 1, 0.3, 1)})}},
+          2: {className: 'cache-code-line', style: {backgroundColor: interpolateColors(frame, [0, fps * 0.45, fps * 0.60, fps * 0.95, fps * 1.25, fps * 5], ['rgba(255,205,101,0)', 'rgba(255,205,101,0)', 'rgba(255,205,101,.20)', 'rgba(255,205,101,.20)', 'rgba(255,205,101,0)', 'rgba(255,205,101,0)'], {easing: Easing.bezier(0.16, 1, 0.3, 1)})}},
+          3: {className: 'cache-code-line', style: {backgroundColor: interpolateColors(frame, [0, fps * 1.45, fps * 1.65, fps * 2.35, fps * 2.65, fps * 5], ['rgba(91,220,247,0)', 'rgba(91,220,247,0)', 'rgba(91,220,247,.20)', 'rgba(91,220,247,.20)', 'rgba(91,220,247,0)', 'rgba(91,220,247,0)'], {easing: Easing.bezier(0.16, 1, 0.3, 1)})}},
+          4: {className: 'cache-code-line', style: {backgroundColor: interpolateColors(frame, [0, fps * 2.85, fps * 3.05, fps * 3.65, fps * 4, fps * 5], ['rgba(111,239,192,0)', 'rgba(111,239,192,0)', 'rgba(111,239,192,.20)', 'rgba(111,239,192,.20)', 'rgba(111,239,192,0)', 'rgba(111,239,192,0)'], {easing: Easing.bezier(0.16, 1, 0.3, 1)})}},
         }} /></PhpCode>
 
       <section className="cache-trace-panel">
@@ -1098,12 +1098,12 @@ return $value;`} lineProps={{
               className={`cache-trace-step cache-trace-step--${step.tone}`}
               key={`${step.label}-${step.value}`}
               style={{
-                opacity: interpolate(frame, [fps * step.at, fps * (step.at + 0.18)], [0, 1], {
+                opacity: interpolate(frame, [fps * step.at, fps * (step.at + 0.30)], [0, 1], {
                   extrapolateLeft: 'clamp',
                   extrapolateRight: 'clamp',
                   easing: Easing.bezier(0.16, 1, 0.3, 1),
                 }),
-                translate: `${interpolate(frame, [fps * step.at, fps * (step.at + 0.18)], [18, 0], {
+                translate: `${interpolate(frame, [fps * step.at, fps * (step.at + 0.30)], [18, 0], {
                   extrapolateLeft: 'clamp',
                   extrapolateRight: 'clamp',
                   easing: Easing.bezier(0.16, 1, 0.3, 1),

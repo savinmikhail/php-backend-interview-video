@@ -158,11 +158,12 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {title: 'GiST', lines: ['ranges · geometry · nearest'], tone: 'amber'},
     {title: 'BRIN', lines: ['огромные коррелированные таблицы'], tone: 'green'},
   ]),
-  s('18-forms', '18', 'Форма индекса — не новый access method', 'grid', [
+  s('18-forms', '18', 'Формы индекса и физический порядок', 'grid', [
     {title: 'Multicolumn', code: ['(tenant_id, created_at)'], tone: 'purple'},
     {title: 'INCLUDE', lines: ['covering index'], tone: 'cyan'},
     {title: 'Partial', code: ["WHERE status = 'active'"], tone: 'amber'},
-  ], 'Сначала запрос и EXPLAIN, затем структура индекса', 'Уточнение ответа'),
+    {title: 'Clustered', lines: ['Физический порядок строк по ключу', 'В PostgreSQL требует повторного CLUSTER'], tone: 'green'},
+  ]),
 
   q('19-question', '19', 'Что такое чистая архитектура?'),
   s('19-rule', '19', 'Зависимости исходного кода направлены внутрь', 'stack', [

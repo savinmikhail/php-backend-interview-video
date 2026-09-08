@@ -9,6 +9,7 @@ import {
   useVideoConfig,
 } from 'remotion';
 import {PRODUCTION_FPS, TOTAL_QUESTIONS, type Speaker} from './timeline';
+import {useReviewSpeaker} from './speakerTimeline';
 
 export type Format = 'wide' | 'short';
 export type SlideProps = {format: Format; speaker: Speaker};
@@ -190,6 +191,8 @@ export const InterviewShell = ({
 }) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
+  const reviewSpeaker = useReviewSpeaker();
+  const activeSpeaker = reviewSpeaker ?? speaker;
   const animationFrame = frame * PRODUCTION_FPS / fps;
   const driftX = Math.sin(animationFrame / 95) * 52;
   const driftY = Math.cos(animationFrame / 118) * 34;
@@ -210,13 +213,13 @@ export const InterviewShell = ({
         <footer className="speakers">
           <SpeakerBadge
             kind="mikhail"
-            active={speaker === 'mikhail'}
+            active={activeSpeaker === 'mikhail'}
             frame={animationFrame}
             animateMikhail={animateMikhail}
           />
           <SpeakerBadge
             kind="interviewer"
-            active={speaker === 'interviewer'}
+            active={activeSpeaker === 'interviewer'}
             frame={animationFrame}
             animateMikhail={animateMikhail}
           />

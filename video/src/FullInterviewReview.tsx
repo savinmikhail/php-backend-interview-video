@@ -12,6 +12,7 @@ import {OopConstructsInterview} from './OopConstructsInterview';
 import {QuestionBatchInterview} from './QuestionBatchInterview';
 import {ReadonlyInterview} from './ReadonlyInterview';
 import {ReviewSlide} from './ReviewSlide';
+import {ReviewSpeakerProvider, speakerAtReviewSecond} from './speakerTimeline';
 import {
   reviewDurationSeconds,
   reviewSecondToSourceSecond,
@@ -165,10 +166,13 @@ const BaseTrack = ({format}: {format: Format}) => {
 };
 
 export const FullInterviewReview = ({format, withAudio = true}: Props) => {
+  const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
+  const speaker = speakerAtReviewSecond(frame / fps);
 
   return (
-    <AbsoluteFill>
+    <ReviewSpeakerProvider speaker={speaker}>
+      <AbsoluteFill>
       {withAudio && <Audio src={staticFile(FULL_REVIEW_AUDIO)} />}
 
       <Sequence
@@ -286,6 +290,7 @@ export const FullInterviewReview = ({format, withAudio = true}: Props) => {
       <Sequence name="30-basics" from={slideFrom('30-basics', fps)} durationInFrames={slideDuration('30-basics', fps)} premountFor={fps}><ReviewSlide format={format} slideId="30-basics" /></Sequence>
       <Sequence name="30-copy" from={slideFrom('30-copy', fps)} durationInFrames={slideDuration('30-copy', fps)} premountFor={fps}><ReviewSlide format={format} slideId="30-copy" /></Sequence>
       <Sequence name="30-criterion" from={slideFrom('30-criterion', fps)} durationInFrames={slideDuration('30-criterion', fps)} premountFor={fps}><ReviewSlide format={format} slideId="30-criterion" /></Sequence>
-    </AbsoluteFill>
+      </AbsoluteFill>
+    </ReviewSpeakerProvider>
   );
 };

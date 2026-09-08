@@ -100,3 +100,20 @@ npm run render:timing -- 18-question
 ```
 
 Монтажные вырезы хранятся только в `video/src/editorial-cuts.json`.
+
+### Активный говорящий
+
+Подсветка аватаров в полном review генерируется из
+`episodes/841862-1payment/transcription.txt`. Скрипт нормализует исходные
+speaker labels, применяет известные исправления диаризации и переводит
+source-интервалы в review-шкалу через тот же `editorial-cuts.json`:
+
+```bash
+cd video
+npm run speakers:generate
+npm run speaker:at -- 32:21.05
+```
+
+Результат хранится в `video/src/generated/speaker-timeline.json` и проверяется
+командой `npm run check`. Ручные исключения с причиной находятся в
+`video/speaker-diarization.config.json`; сам generated-файл вручную не правится.

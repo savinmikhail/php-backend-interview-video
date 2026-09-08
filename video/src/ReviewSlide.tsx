@@ -205,10 +205,11 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {label: 'Внутри', title: 'Высокая cohesion', lines: ['Связанные бизнес-правила рядом'], tone: 'purple'},
     {label: 'Снаружи', title: 'Низкая coupling', lines: ['Маленький стабильный контракт'], tone: 'cyan'},
   ]),
-  s('23-deployment', '23', 'Логическая граница не диктует deployment', 'columns', [
-    {title: 'Module', lines: ['Граница модели и ownership'], tone: 'purple'},
-    {title: 'Microservice', lines: ['Независимый процесс и deployment'], tone: 'amber'},
-  ], 'Module ≠ microservice', 'Уточнение ответа'),
+  s('23-deployment', '23', 'Что я имел в виду под отдельным сервисом логов', 'flow', [
+    {label: 'Источники', title: 'Другие сервисы', code: ['REST · JSON-RPC'], tone: 'purple'},
+    {label: 'Log service', title: 'Принимает логи', lines: ['Единая точка записи и чтения'], tone: 'cyan'},
+    {label: 'Хранилища', title: 'Elastic · Kafka · ClickHouse', tone: 'green'},
+  ], 'Поисковые endpoints · фильтры · выдача логов', 'Уточнение ответа'),
   s('23-monolith', '23', 'Начать можно с modular monolith', 'flow', [
     {title: 'Module A', lines: ['Command · Query · Event'], tone: 'purple'},
     {title: 'In-process contracts', lines: ['Явные границы'], tone: 'cyan'},

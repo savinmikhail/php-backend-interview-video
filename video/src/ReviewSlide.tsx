@@ -193,9 +193,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
   s('21-direct', '21', 'Для простого чтения отдельный сервис избыточен', 'controller-code', []),
 
   q('22-question', '22', 'DTO против Entity — что для чего?'),
-  s('22-entity', '22', 'Entity — не просто ORM-объект', 'stack', [
-    {label: 'ENTITY', title: 'Identity + lifecycle + invariants', code: ['Order #42', 'status: Paid'], lines: ['Поведение защищает допустимые переходы'], tone: 'purple'},
-  ]),
+  s('22-entity', '22', 'Entity — не просто ORM-объект', 'stack', []),
   s('22-dto', '22', 'DTO переносит данные через границу', 'flow', [
     {title: 'HTTP request', tone: 'purple'},
     {title: 'CreateOrderDto', code: ['customerId · items'], tone: 'cyan'},
@@ -507,6 +505,33 @@ public function show(
 const ControllerReadCode = () => (
   <div className="controller-code-layout">
     <PhpCodeBlock className="controller-code" code={controllerReadSource} />
+  </div>
+);
+
+const RichEntity = () => (
+  <div className="rich-entity-layout">
+    <pre className="doctrine-code rich-entity-code"><code><PhpLines code={`final class Order
+{
+  private OrderStatus $status = OrderStatus::Draft;
+
+  public function __construct(
+    private readonly OrderId $id,
+  ) {}
+
+  public function pay(): void
+  {
+    if ($this->status !== OrderStatus::Draft) {
+      throw new OrderCannotBePaid();
+    }
+
+    $this->status = OrderStatus::Paid;
+  }
+}`} /></code></pre>
+    <div className="takeaways rich-entity-points">
+      <div className="takeaway"><div><strong>Identity</strong><span><code>$id</code> сохраняется при изменении заказа</span></div></div>
+      <div className="takeaway"><div><strong>Lifecycle</strong><span><code>Draft → Paid</code> через <code>pay()</code></span></div></div>
+      <div className="takeaway"><div><strong>Invariants</strong><span>Оплатить можно только <code>Draft</code></span></div></div>
+    </div>
   </div>
 );
 
@@ -1389,6 +1414,14 @@ export const ReviewSlide = ({
           <CompilerPassCode />
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
         </div>
+      </InterviewShell>
+    );
+  }
+
+  if (slide.id === '22-entity') {
+    return (
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
+        <div className="rr-slide rr-slide--rich-entity"><RichEntity /></div>
       </InterviewShell>
     );
   }

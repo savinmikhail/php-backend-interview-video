@@ -9,6 +9,7 @@ Shorts: `да`
 
 - `questions.txt`, пункт 32.
 - `transcription.txt`, `48:47–49:37`.
+- Карточка вопроса: source-time `48:55–48:59`, review-time `33:24–33:28`.
 - [Martin Fowler — Data Transfer Object](https://martinfowler.com/eaaCatalog/dataTransferObject.html).
 - [Doctrine ORM — Architecture](https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/architecture.html).
 
@@ -37,13 +38,43 @@ Shorts: `да`
 
 | № | Таймкод | Функция |
 |---|---|---|
-| 1 | `48:47–49:09` | Entity: identity и правила |
+| 0 | source `48:55–48:59` · review `33:24–33:28` | удержать формулировку вопроса |
+| 1 | source `48:59–49:09` · review `33:28–33:38` | Entity: identity и правила |
 | 2 | `49:09–49:29` | DTO: данные через границу |
 | 3 | `49:29–49:37` | снять ложные обязательные признаки |
 
 ```mermaid
 flowchart LR
-  E["1 · Entity"] --> D["2 · DTO"] --> C["3 · Уточнение"]
+  Q["0 · Вопрос"] --> E["1 · Entity"] --> D["2 · DTO"] --> C["3 · Уточнение"]
+```
+
+## Состояние 0 — вопрос
+
+Польза: удержать точную формулировку перед ответом кандидата.
+
+Экранный текст: `DTO против Entity — что для чего?`
+
+### Wireframe 16:9
+
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ 22/32                                                        │
+│                                                              │
+│              DTO против Entity — что для чего?               │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+```
+
+### Wireframe 9:16
+
+```text
+┌──────────────────────────────┐
+│ 22/32                        │
+│                              │
+│ DTO против Entity —          │
+│ что для чего?                │
+│                              │
+└──────────────────────────────┘
 ```
 
 ## Состояние 1 — Entity

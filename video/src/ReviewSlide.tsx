@@ -198,6 +198,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {title: 'Repository', tone: 'cyan'},
   ], 'Это командное архитектурное решение, а не запрет Symfony'),
 
+  q('22-question', '22', 'DTO против Entity — что для чего?'),
   s('22-entity', '22', 'Entity — не просто ORM-объект', 'stack', [
     {label: 'ENTITY', title: 'Identity + lifecycle + invariants', code: ['Order #42', 'status: Paid'], lines: ['Поведение защищает допустимые переходы'], tone: 'purple'},
   ]),

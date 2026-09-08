@@ -216,7 +216,8 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {title: 'Module B', tone: 'green'},
   ], 'Выносить в отдельный deployment — когда есть измеримая причина'),
 
-  s('24-question', '24', 'Где хранить интерфейс репозитория?', 'columns', [
+  q('24-question', '24', 'Где хранить интерфейс репозитория?'),
+  s('24-location', '24', 'Где хранить интерфейс репозитория?', 'columns', [
     {title: 'Domain?', lines: ['Если контракт нужен доменной политике'], tone: 'purple'},
     {title: 'Application?', lines: ['Если контракт нужен use case'], tone: 'cyan'},
   ], 'Вопрос не про универсальную папку — он про владельца абстракции'),

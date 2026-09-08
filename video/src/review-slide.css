@@ -766,6 +766,156 @@
 .boundary-flow__commit { border-color: rgba(111,239,192,.62) !important; background: rgba(24,103,79,.28) !important; }
 .boundary-flow__commit small { color: #8ff3c9 !important; }
 
+.transaction-implicit-layout,
+.transaction-explicit-layout {
+  min-height: 0;
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 18px;
+}
+
+.transaction-uow-panel {
+  min-width: 0;
+  padding: 24px;
+  display: grid;
+  align-content: center;
+  gap: 14px;
+  border: 2px solid rgba(91,220,247,.62);
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(16,77,103,.34), rgba(21,24,63,.74));
+}
+
+.transaction-panel-label,
+.transaction-cases__label {
+  color: #79e6ff;
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: .9px;
+  text-transform: uppercase;
+}
+
+.transaction-entities {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.transaction-entities span {
+  min-width: 0;
+  padding: 13px 14px;
+  border: 2px solid rgba(169,105,255,.50);
+  border-radius: 12px;
+  background: rgba(116,48,185,.24);
+  text-align: center;
+  font: 750 18px/1.15 'JetBrains Mono', Menlo, monospace;
+}
+
+.transaction-code-focus {
+  margin: 0 -10px;
+  padding: 7px 10px;
+  border-radius: 9px;
+  background: rgba(111,239,192,.15);
+}
+
+.transaction-flush {
+  display: grid;
+  place-items: center;
+  gap: 2px;
+  color: #8ff3c9;
+}
+
+.transaction-flush code { font: 850 22px 'JetBrains Mono', Menlo, monospace; }
+.transaction-flush span { font-size: 23px; line-height: .8; }
+
+.transaction-trace {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+
+.transaction-trace__step {
+  position: relative;
+  padding: 12px 15px;
+  border: 2px solid rgba(111,239,192,.60);
+  border-radius: 11px;
+  background: rgba(24,103,79,.28);
+  color: #b5f8df;
+  font: 850 17px 'JetBrains Mono', Menlo, monospace;
+}
+
+.transaction-trace__step--insert {
+  border-color: rgba(91,220,247,.58);
+  background: rgba(16,77,103,.28);
+  color: #a9efff;
+}
+
+.transaction-trace__step:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  left: calc(100% + 7px);
+  top: 50%;
+  translate: 0 -50%;
+  color: #d8a8ff;
+  font: 900 18px Inter, Arial, sans-serif;
+}
+
+.transaction-footer--success {
+  border-color: rgba(111,239,192,.52);
+  background: rgba(24,103,79,.24);
+  color: #c9f9e7;
+}
+
+.transaction-explicit-layout {
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+  padding-top: 34px;
+}
+
+.transaction-cases {
+  min-width: 0;
+  display: grid;
+  align-content: center;
+  gap: 12px;
+}
+
+.transaction-case {
+  min-width: 0;
+  min-height: 74px;
+  padding: 14px 17px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 2px solid;
+  border-radius: 14px;
+}
+
+.transaction-case code {
+  font: 800 19px/1.15 'JetBrains Mono', Menlo, monospace;
+}
+
+.transaction-case span {
+  color: #ded3e9;
+  text-align: right;
+  font-size: 18px;
+  font-weight: 730;
+  line-height: 1.15;
+}
+
+.transaction-case--purple { border-color: rgba(169,105,255,.58); background: rgba(116,48,185,.24); }
+.transaction-case--purple code { color: #d8a8ff; }
+.transaction-case--amber { border-color: rgba(255,205,101,.58); background: rgba(105,75,20,.25); }
+.transaction-case--amber code { color: #ffdf87; }
+.transaction-case--cyan { border-color: rgba(91,220,247,.58); background: rgba(16,77,103,.26); }
+.transaction-case--cyan code { color: #a9efff; }
+
+.transaction-footer--direct {
+  border-color: rgba(255,205,101,.58);
+  background: rgba(105,75,20,.27);
+}
+
 .lazy-code-layout {
   min-height: 0;
   height: 100%;
@@ -1040,6 +1190,30 @@
 .composition--short .boundary-flow { gap: 4px; }
 .composition--short .boundary-flow article { padding: 11px 15px; }
 .composition--short .boundary-flow article strong { font-size: 19px; }
+
+.composition--short .transaction-implicit-layout,
+.composition--short .transaction-explicit-layout {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
+  align-content: center;
+  gap: 18px;
+}
+.composition--short .transaction-explicit-layout { padding-top: 50px; }
+.composition--short .transaction-implicit-layout .doctrine-code,
+.composition--short .transaction-explicit-layout .doctrine-code { min-height: 240px; }
+.composition--short .transaction-implicit-layout .doctrine-code code,
+.composition--short .transaction-explicit-layout .doctrine-code code { font-size: 21px; }
+.composition--short .transaction-uow-panel { padding: 22px; gap: 15px; }
+.composition--short .transaction-panel-label,
+.composition--short .transaction-cases__label { font-size: 18px; }
+.composition--short .transaction-entities span { padding: 14px 12px; font-size: 17px; }
+.composition--short .transaction-trace { gap: 27px; }
+.composition--short .transaction-trace__step { padding: 12px 14px; font-size: 16px; }
+.composition--short .transaction-case { min-height: 86px; padding: 17px 19px; }
+.composition--short .transaction-case code { font-size: 20px; }
+.composition--short .transaction-case span { max-width: 270px; font-size: 19px; }
+.composition--short .transaction-footer--success,
+.composition--short .transaction-footer--direct { font-size: 21px; }
 
 .composition--short .lazy-code-layout {
   grid-template-columns: 1fr;

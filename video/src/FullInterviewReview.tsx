@@ -109,9 +109,9 @@ const reviewSegments: ReviewSegment[] = [
   {start: '00:38:11.07', end: '00:38:20', slideId: '15-n-plus-one'},
   {start: '00:38:20', end: '00:38:25', slideId: '15-fetch-join'},
   {start: '00:38:25', end: '00:38:52', slideId: '15-extra-lazy'},
-  {start: '00:38:52', end: '00:39:05', slideId: '16-implicit'},
-  {start: '00:39:05', end: '00:39:27', slideId: '16-explicit'},
-  {start: '00:39:27', end: '00:40:01', slideId: '16-correction'},
+  {start: '00:38:38', end: '00:38:52', slideId: '16-question'},
+  {start: '00:38:52', end: '00:39:13', slideId: '16-implicit'},
+  {start: '00:39:13', end: '00:40:01', slideId: '16-explicit'},
   {start: '00:39:54', end: '00:40:22', slideId: '17-question'},
   {start: '00:40:22', end: '00:40:44', slideId: '17-size'},
   {start: '00:40:44', end: '00:41:46', slideId: '17-before-db'},
@@ -273,9 +273,9 @@ export const FullInterviewReview = ({format, withAudio = true}: Props) => {
       <Sequence name="15-n-plus-one" from={slideFrom('15-n-plus-one', fps)} durationInFrames={slideDuration('15-n-plus-one', fps)} premountFor={fps}><ReviewSlide format={format} slideId="15-n-plus-one" /></Sequence>
       <Sequence name="15-fetch-join" from={slideFrom('15-fetch-join', fps)} durationInFrames={slideDuration('15-fetch-join', fps)} premountFor={fps}><ReviewSlide format={format} slideId="15-fetch-join" /></Sequence>
       <Sequence name="15-extra-lazy" from={slideFrom('15-extra-lazy', fps)} durationInFrames={slideDuration('15-extra-lazy', fps)} premountFor={fps}><ReviewSlide format={format} slideId="15-extra-lazy" /></Sequence>
+      <Sequence name="16-question" from={slideFrom('16-question', fps)} durationInFrames={slideDuration('16-question', fps)} premountFor={fps}><ReviewSlide format={format} slideId="16-question" /></Sequence>
       <Sequence name="16-implicit" from={slideFrom('16-implicit', fps)} durationInFrames={slideDuration('16-implicit', fps)} premountFor={fps}><ReviewSlide format={format} slideId="16-implicit" /></Sequence>
       <Sequence name="16-explicit" from={slideFrom('16-explicit', fps)} durationInFrames={slideDuration('16-explicit', fps)} premountFor={fps}><ReviewSlide format={format} slideId="16-explicit" /></Sequence>
-      <Sequence name="16-correction" from={slideFrom('16-correction', fps)} durationInFrames={slideDuration('16-correction', fps)} premountFor={fps}><ReviewSlide format={format} slideId="16-correction" /></Sequence>
       <Sequence name="17-question" from={slideFrom('17-question', fps)} durationInFrames={slideDuration('17-question', fps)} premountFor={fps}><ReviewSlide format={format} slideId="17-question" /></Sequence>
       <Sequence name="17-size" from={slideFrom('17-size', fps)} durationInFrames={slideDuration('17-size', fps)} premountFor={fps}><ReviewSlide format={format} slideId="17-size" /></Sequence>
       <Sequence name="17-before-db" from={slideFrom('17-before-db', fps)} durationInFrames={slideDuration('17-before-db', fps)} premountFor={fps}><ReviewSlide format={format} slideId="17-before-db" /></Sequence>

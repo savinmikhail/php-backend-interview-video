@@ -137,20 +137,9 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {label: 'EXTRA_LAZY', title: 'count() отдельным SQL', code: ['SELECT COUNT(*) …'], lines: ['Collection не инициализируется целиком'], tone: 'green'},
   ]),
 
-  s('16-implicit', '16', 'Когда нужны явные транзакции?', 'columns', [
-    {label: 'Implicit', title: 'Один flush()', lines: ['Doctrine открывает transaction', 'пишет изменения · commit'], tone: 'green'},
-    {label: 'Default', title: 'Одна Unit of Work', lines: ['Дополнительный transaction API не нужен'], tone: 'purple'},
-  ]),
-  s('16-explicit', '16', 'Явная граница нужна для общей атомарности', 'grid', [
-    {title: 'ORM + DBAL SQL', tone: 'cyan'},
-    {title: 'Несколько flush()', tone: 'purple'},
-    {title: 'Pessimistic lock', tone: 'amber'},
-    {title: 'Несколько шагов как одно целое', tone: 'green'},
-  ]),
-  s('16-correction', '16', 'Критерий — атомарность операции', 'columns', [
-    {label: 'Не критерий', title: 'SQL против DQL', lines: ['Язык запроса не задаёт границу'], tone: 'red'},
-    {label: 'Критерий', title: 'Что должно commit / rollback вместе?', lines: ['Граница бизнес-операции'], tone: 'green'},
-  ], undefined, 'Исправление ответа'),
+  q('16-question', '16', 'Когда транзакции приходится использовать вручную?'),
+  s('16-implicit', '16', 'Обычно beginTransaction() не нужен', 'doctrine', []),
+  s('16-explicit', '16', 'Когда открываем транзакцию явно?', 'doctrine', [], undefined, 'Уточнение ответа'),
 
   q('17-question', '17', 'UUID или автоинкремент?'),
   s('17-size', '17', 'Размер и локальность ключа', 'columns', [
@@ -1036,6 +1025,128 @@ const LazyFetchJoin = () => {
   );
 };
 
+const DoctrineTransactionImplicit = () => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const trace = ['BEGIN', 'INSERT', 'INSERT', 'COMMIT'];
+
+  return (
+    <div className="transaction-implicit-layout">
+      <PhpCode tone="green">
+        <span><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">persist</span>(<span className="syntax-variable">$order</span>);</span>
+        <span><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">persist</span>(<span className="syntax-variable">$auditLog</span>);</span>
+        <span>&nbsp;</span>
+        <span
+          className="transaction-code-focus"
+          style={{
+            opacity: interpolate(frame, [fps * 0.12, fps * 0.28], [0.35, 1], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+              easing: Easing.bezier(0.16, 1, 0.3, 1),
+            }),
+          }}
+        ><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">flush</span>();</span>
+      </PhpCode>
+
+      <section className="transaction-uow-panel">
+        <div className="transaction-panel-label">Unit of Work</div>
+        <div className="transaction-entities">
+          <span>Order · INSERT</span>
+          <span>AuditLog · INSERT</span>
+        </div>
+        <div
+          className="transaction-flush"
+          style={{
+            opacity: interpolate(frame, [fps * 0.16, fps * 0.32], [0, 1], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+              easing: Easing.bezier(0.16, 1, 0.3, 1),
+            }),
+          }}
+        ><code>flush()</code><span>↓</span></div>
+        <div className="transaction-trace">
+          {trace.map((step, index) => {
+            const at = fps * (0.25 + index * 0.11);
+            return (
+              <span
+                className={`transaction-trace__step transaction-trace__step--${step.toLowerCase()}`}
+                key={`${step}-${index}`}
+                style={{
+                  opacity: interpolate(frame, [at, at + fps * 0.14], [0, 1], {
+                    extrapolateLeft: 'clamp',
+                    extrapolateRight: 'clamp',
+                    easing: Easing.bezier(0.16, 1, 0.3, 1),
+                  }),
+                  translate: `${interpolate(frame, [at, at + fps * 0.14], [12, 0], {
+                    extrapolateLeft: 'clamp',
+                    extrapolateRight: 'clamp',
+                    easing: Easing.bezier(0.16, 1, 0.3, 1),
+                  })}px 0px`,
+                }}
+              >{step}</span>
+            );
+          })}
+        </div>
+      </section>
+
+      <div className="doctrine-footer transaction-footer--success">Несколько ORM-записей · одна транзакция</div>
+    </div>
+  );
+};
+
+const DoctrineTransactionExplicit = () => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const cases = [
+    {code: '2 × flush()', text: 'общий rollback', tone: 'purple'},
+    {code: 'PESSIMISTIC_WRITE', text: 'нужна active transaction', tone: 'amber'},
+    {code: 'REPEATABLE_READ', text: 'изоляция всей операции', tone: 'cyan'},
+  ];
+
+  return (
+    <div className="transaction-explicit-layout">
+      <PhpCode tone="green">
+        <span><span className="syntax-variable">$conn</span>-&gt;<span className="syntax-name">transactional</span>(</span>
+        <span className="code-line--indent-1"><span className="syntax-keyword">function</span> () <span className="syntax-keyword">use</span> (<span className="syntax-variable">$conn</span>) {'{'}</span>
+        <span className="code-line--indent-2"><span className="syntax-variable">$conn</span>-&gt;<span className="syntax-name">executeStatement</span>(<span className="syntax-variable">$sql1</span>);</span>
+        <span className="code-line--indent-2"><span className="syntax-variable">$conn</span>-&gt;<span className="syntax-name">executeStatement</span>(<span className="syntax-variable">$sql2</span>);</span>
+        <span className="code-line--indent-1">{'}'}</span>
+        <span>);</span>
+      </PhpCode>
+
+      <section className="transaction-cases">
+        <div className="transaction-cases__label">Ещё случаи</div>
+        {cases.map((item, index) => {
+          const at = fps * (0.2 + index * 0.18);
+          return (
+            <article
+              className={`transaction-case transaction-case--${item.tone}`}
+              key={item.code}
+              style={{
+                opacity: interpolate(frame, [at, at + fps * 0.25], [0, 1], {
+                  extrapolateLeft: 'clamp',
+                  extrapolateRight: 'clamp',
+                  easing: Easing.bezier(0.16, 1, 0.3, 1),
+                }),
+                translate: `${interpolate(frame, [at, at + fps * 0.25], [14, 0], {
+                  extrapolateLeft: 'clamp',
+                  extrapolateRight: 'clamp',
+                  easing: Easing.bezier(0.16, 1, 0.3, 1),
+                })}px 0px`,
+              }}
+            >
+              <code>{item.code}</code>
+              <span>{item.text}</span>
+            </article>
+          );
+        })}
+      </section>
+
+      <div className="doctrine-footer transaction-footer--direct">SQL/DQL-записи выполняются сразу — <code>flush()</code> их не собирает</div>
+    </div>
+  );
+};
+
 const DoctrineSlide = ({slideId}: {slideId: string}) => {
   switch (slideId) {
     case '13-persist': return <DoctrinePersist />;
@@ -1050,6 +1161,8 @@ const DoctrineSlide = ({slideId}: {slideId: string}) => {
     case '15-lazy': return <LazyBenefit />;
     case '15-n-plus-one': return <LazyNPlusOne />;
     case '15-fetch-join': return <LazyFetchJoin />;
+    case '16-implicit': return <DoctrineTransactionImplicit />;
+    case '16-explicit': return <DoctrineTransactionExplicit />;
     default: return null;
   }
 };

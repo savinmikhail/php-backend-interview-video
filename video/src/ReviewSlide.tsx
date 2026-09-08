@@ -194,11 +194,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
 
   q('22-question', '22', 'DTO против Entity — что для чего?'),
   s('22-entity', '22', 'Entity — не просто ORM-объект', 'stack', []),
-  s('22-dto', '22', 'DTO переносит данные через границу', 'flow', [
-    {title: 'HTTP request', tone: 'purple'},
-    {title: 'CreateOrderDto', code: ['customerId · items'], tone: 'cyan'},
-    {title: 'Application', tone: 'green'},
-  ], 'DTO не обязан иметь identity и lifecycle'),
+  s('22-dto', '22', 'DTO переносит данные через границу', 'stack', []),
   s('22-correction', '22', 'Не определяем тип по случайным признакам', 'columns', [
     {label: 'Entity', title: 'Не обязана быть mutable или ORM', lines: ['Главное — identity и lifecycle'], tone: 'purple'},
     {label: 'DTO', title: 'Не обязан быть readonly', lines: ['Главное — перенос данных'], tone: 'cyan'},
@@ -505,6 +501,33 @@ public function show(
 const ControllerReadCode = () => (
   <div className="controller-code-layout">
     <PhpCodeBlock className="controller-code" code={controllerReadSource} />
+  </div>
+);
+
+const DtoTransfer = () => (
+  <div className="dto-transfer-layout">
+    <pre className="doctrine-code dto-transfer-code"><code><PhpLines code={`final readonly class CreateOrderDto
+{
+  public function __construct(
+    public int $customerId,
+    public int $productId,
+    public int $quantity,
+  ) {}
+}`} /></code></pre>
+    <pre className="doctrine-code doctrine-code--cyan dto-transfer-code"><code><PhpLines code={`#[Route('/orders', methods: ['POST'])]
+public function create(
+  #[MapRequestPayload] CreateOrderDto $input,
+  CreateOrderService $service,
+): JsonResponse {
+  $service->create($input);
+
+  return new JsonResponse(status: 201);
+}`} /></code></pre>
+    <div className="takeaways dto-transfer-points">
+      <div className="takeaway"><strong>Явный контракт данных</strong></div>
+      <div className="takeaway"><strong>Без зависимости от HTTP Request</strong></div>
+      <div className="takeaway"><strong>Связанные параметры вместе</strong></div>
+    </div>
   </div>
 );
 
@@ -1414,6 +1437,14 @@ export const ReviewSlide = ({
           <CompilerPassCode />
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
         </div>
+      </InterviewShell>
+    );
+  }
+
+  if (slide.id === '22-dto') {
+    return (
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
+        <div className="rr-slide rr-slide--dto-transfer"><DtoTransfer /></div>
       </InterviewShell>
     );
   }

@@ -111,18 +111,42 @@ private readonly `OrderId $id`, метод `pay(): void`. Метод прове�
 
 ## Состояние 2 — DTO
 
+Принятая переработка: два PHP-блока с автоматической подсветкой вместо
+абстрактного pipeline. Слева `final readonly class CreateOrderDto` с public
+типизированными полями `customerId`, `productId`, `quantity` в конструкторе.
+Пример намеренно ограничен заказом одного товара вместо коллекции `items`,
+чтобы не отвлекаться на вложенную десериализацию.
+Справа метод контроллера: POST `/orders`, `#[MapRequestPayload] CreateOrderDto
+$input`, внедрённый `CreateOrderService $service`, `$service->create($input)`
+и пустой `JsonResponse` со статусом 201.
+
+Прозвучавшее объединение аргументов конкретизируется типизированным объектом.
+Добавлено: Symfony-маппинг HTTP payload и передача DTO в сервис без `Request`.
+`final readonly` — выбранный стиль примера, не обязательное определение DTO;
+следующий экран с уточнением сохраняется. DTO не объявляется HTTP-only объектом.
+Валидационные constraints, реализацию сервиса и импорты не показываем:
+здесь один смысловой слой — передача данных, а не полный endpoint.
+Нижнюю старую плашку про identity/lifecycle заменяют три коротких пункта:
+`Явный контракт данных`, `Без зависимости от HTTP Request`,
+`Связанные параметры вместе`. Тайминги не меняются.
+
+Проверка API: [Symfony — MapRequestPayload](https://symfony.com/doc/current/controller.html#mapping-request-payload),
+[PHP — readonly classes](https://www.php.net/manual/en/language.oop5.basic.php#language.oop5.basic.class.readonly).
+
 ```text
 ┌──────────────────────────────────────────────────────────────┐
 │ 22/32  DTO переносит данные через границу                    │
 ├──────────────────────────────────────────────────────────────┤
-│ HTTP JSON → CreateOrderRequest → Application Service        │
-│             productId · quantity · customerId               │
+│ final readonly CreateOrderDto │ POST /orders                │
+│ customerId, productId, quantity│ MapRequestPayload → $input  │
+│                               │ $service->create($input)    │
 ├──────────────────────────────────────────────────────────────┤
-│ Без бизнес-решений · форма удобна получателю                 │
+│ • Явный контракт • Без HTTP Request • Параметры вместе       │
 └──────────────────────────────────────────────────────────────┘
 ```
 
-В 9:16 три блока располагаются сверху вниз.
+В 9:16 сверху объявление DTO, ниже контроллер, затем три компактных пункта
+вертикально. Код статичен и полностью виден.
 
 ## Состояние 3 — уточнение определения
 
@@ -151,7 +175,7 @@ private readonly `OrderId $id`, метод `pay(): void`. Метод прове�
 
 ## Анимация
 
-- Entity: статичный читаемый пример кода и три пункта; DTO проходит границу.
+- Entity и DTO: статичные читаемые примеры кода и три пункта.
 
 ## Shorts
 
@@ -159,7 +183,7 @@ private readonly `OrderId $id`, метод `pay(): void`. Метод прове�
 
 ## Материалы и производство
 
-- Использовать lifecycle и boundary-pipeline компоненты.
+- Использовать общую оболочку, PHP-подсветку, панели кода и пункты проекта.
 - Новые изображения и досъёмка не нужны.
 
 ## Ревью

@@ -4,7 +4,7 @@ import {InterviewShell, type Format} from './InterviewShell';
 import {TOTAL_QUESTIONS, type Speaker} from './timeline';
 
 type Tone = 'purple' | 'cyan' | 'green' | 'amber' | 'red';
-type Pattern = 'question' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile' | 'decorator-code' | 'compiler-pass-code' | 'doctrine' | 'uuid';
+type Pattern = 'question' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile' | 'decorator-code' | 'compiler-pass-code' | 'controller-code' | 'doctrine' | 'uuid';
 
 type Card = {
   label?: string;
@@ -187,16 +187,8 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {title: 'Это решение предметной области?', lines: ['Domain / Entity / Value Object'], tone: 'cyan'},
   ]),
 
-  s('21-direct', '21', 'Контроллер технически может вызвать репозиторий', 'flow', [
-    {title: 'Controller', tone: 'purple'},
-    {title: 'Repository', tone: 'cyan'},
-    {title: 'Response', tone: 'green'},
-  ], 'Плюс: меньше ceremony для простого чтения'),
-  s('21-boundary', '21', 'Но единая application boundary удерживает правила', 'flow', [
-    {title: 'HTTP · CLI · Consumer', tone: 'purple'},
-    {title: 'Application Service', lines: ['authz · transaction · orchestration'], tone: 'amber'},
-    {title: 'Repository', tone: 'cyan'},
-  ], 'Это командное архитектурное решение, а не запрет Symfony'),
+  q('21-question', '21', 'Можно ли контроллеру идти в репозиторий?'),
+  s('21-direct', '21', 'Для простого чтения отдельный сервис избыточен', 'controller-code', []),
 
   q('22-question', '22', 'DTO против Entity — что для чего?'),
   s('22-entity', '22', 'Entity — не просто ORM-объект', 'stack', [
@@ -489,6 +481,22 @@ const CompilerPassCode = () => (
         <code>Duplicate queue: emails</code>
       </div>
     </aside>
+  </div>
+);
+
+const ControllerReadCode = () => (
+  <div className="controller-code-layout">
+    <pre className="controller-code"><code>
+      <span><span className="syntax-keyword">#[Route</span>(<span className="syntax-string">'/users/{'{'}id{'}'}'</span>, methods: [<span className="syntax-string">'GET'</span>])<span className="syntax-keyword">]</span></span>
+      <span><span className="syntax-keyword">public function</span> <span className="syntax-name">show</span>(</span>
+      <span className="code-line--indent-1"><span className="syntax-keyword">#[MapEntity</span>(id: <span className="syntax-string">'id'</span>)<span className="syntax-keyword">]</span> <span className="syntax-type">User</span> <span className="syntax-variable">$user</span>,</span>
+      <span>): <span className="syntax-type">JsonResponse</span> {'{'}</span>
+      <span className="code-line--indent-1"><span className="syntax-keyword">return</span> <span className="syntax-variable">$this</span>-&gt;<span className="syntax-name">json</span>([</span>
+      <span className="code-line--indent-2"><span className="syntax-string">'id'</span> =&gt; <span className="syntax-variable">$user</span>-&gt;<span className="syntax-name">getId</span>(),</span>
+      <span className="code-line--indent-2"><span className="syntax-string">'email'</span> =&gt; <span className="syntax-variable">$user</span>-&gt;<span className="syntax-name">getEmail</span>(),</span>
+      <span className="code-line--indent-1">]);</span>
+      <span>{'}'}</span>
+    </code></pre>
   </div>
 );
 
@@ -1400,6 +1408,17 @@ export const ReviewSlide = ({
       <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
         <div className="rr-slide rr-slide--compiler-pass-code">
           <CompilerPassCode />
+          {slide.footer && <div className="rr-footer">{slide.footer}</div>}
+        </div>
+      </InterviewShell>
+    );
+  }
+
+  if (slide.pattern === 'controller-code') {
+    return (
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
+        <div className="rr-slide rr-slide--controller-code">
+          <ControllerReadCode />
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
         </div>
       </InterviewShell>

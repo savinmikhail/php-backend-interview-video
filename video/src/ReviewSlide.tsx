@@ -226,6 +226,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {title: 'Infrastructure', lines: ['DoctrineOrderRepository implements'], tone: 'cyan'},
   ], 'Зависимость направлена внутрь'),
 
+  q('25-question', '25', 'С редисом, с кэшом работал?'),
   s('25-classes', '25', 'Не смешиваем две группы стратегий', 'columns', [
     {label: 'Read/write pattern', title: 'Cache Aside · Read Through', lines: ['Кто загружает данные в cache'], tone: 'purple'},
     {label: 'Write policy', title: 'Write Through · Write Behind', lines: ['Когда обновляется source of truth'], tone: 'cyan'},

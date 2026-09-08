@@ -4,7 +4,7 @@ import {InterviewShell, type Format} from './InterviewShell';
 import {TOTAL_QUESTIONS, type Speaker} from './timeline';
 
 type Tone = 'purple' | 'cyan' | 'green' | 'amber' | 'red';
-type Pattern = 'question' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile' | 'decorator-code' | 'compiler-pass-code' | 'doctrine';
+type Pattern = 'question' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile' | 'decorator-code' | 'compiler-pass-code' | 'doctrine' | 'uuid';
 
 type Card = {
   label?: string;
@@ -142,21 +142,10 @@ export const reviewSlides: ReviewSlideDefinition[] = [
   s('16-explicit', '16', 'Когда открываем транзакцию явно?', 'doctrine', [], undefined, 'Уточнение ответа'),
 
   q('17-question', '17', 'UUID или автоинкремент?'),
-  s('17-size', '17', 'Размер и локальность ключа', 'columns', [
-    {label: 'INTEGER / BIGINT', title: '4 / 8 bytes', lines: ['Компактный, последовательный', 'Sequence живёт в одной БД'], tone: 'green'},
-    {label: 'UUID', title: '16 bytes', lines: ['Больше индекс и foreign keys', 'Случайный UUID хуже для locality'], tone: 'purple'},
-  ], 'UUID = 128 bit = 16 bytes', 'Исправление ответа'),
-  s('17-before-db', '17', 'ID можно получить до записи в БД', 'flow', [
-    {title: 'Application', code: ['$id = Uuid::v7();'], tone: 'purple'},
-    {title: 'Entity / Event', lines: ['ID уже известен'], tone: 'cyan'},
-    {title: 'Database', lines: ['INSERT позже'], tone: 'green'},
-  ], 'UUIDv7 — time-ordered идентификатор'),
-  s('17-distributed', '17', 'Независимые генераторы не делят sequence', 'grid', [
-    {title: 'Service A', code: ['0198…a1'], tone: 'purple'},
-    {title: 'Service B', code: ['0198…f7'], tone: 'cyan'},
-    {title: 'Offline client', code: ['0198…3c'], tone: 'amber'},
-    {title: 'Merge', lines: ['Глобальная координация не нужна'], tone: 'green'},
-  ]),
+  s('17-size', '17', 'Размер, вместимость и порядок вставки', 'uuid', [], undefined, 'Исправление ответа'),
+  s('17-v7', '17', 'Из чего состоит UUIDv7', 'uuid', []),
+  s('17-before-db', '17', 'ID существует до записи в БД', 'uuid', []),
+  s('17-distributed', '17', 'Несколько БД без общей sequence', 'uuid', []),
 
   q('18-question', '18', 'Про индексы что-нибудь расскажи?'),
   s('18-tradeoff', '18', 'Индекс ускоряет чтение не бесплатно', 'columns', [
@@ -1148,6 +1137,187 @@ const DoctrineTransactionExplicit = () => {
   );
 };
 
+const UuidSize = () => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const reveal = (delay: number) => ({
+    opacity: interpolate(frame, [delay, delay + fps * 0.3], [0, 1], {
+      extrapolateLeft: 'clamp' as const,
+      extrapolateRight: 'clamp' as const,
+      easing: Easing.bezier(0.16, 1, 0.3, 1),
+    }),
+    translate: `${interpolate(frame, [delay, delay + fps * 0.3], [14, 0], {
+      extrapolateLeft: 'clamp' as const,
+      extrapolateRight: 'clamp' as const,
+      easing: Easing.bezier(0.16, 1, 0.3, 1),
+    })}px 0px`,
+  });
+
+  return (
+    <div className="uuid-size-layout">
+      <section className="uuid-size-column uuid-size-column--bigint" style={reveal(0)}>
+        <div className="uuid-size-heading"><small>BIGINT</small><strong>8 bytes</strong></div>
+        <div className="uuid-capacity"><span>Положительные ID</span><code>до 9.22 × 10¹⁸</code></div>
+        <div className="uuid-property uuid-property--plus"><b>+</b><span>Последовательные вставки растут с правого края индекса</span></div>
+        <div className="uuid-property uuid-property--minus"><b>−</b><span>Sequence координирует генерацию внутри одной БД</span></div>
+        <div className="uuid-db-note"><code>MySQL UNSIGNED</code><span>до 1.84 × 10¹⁹</span></div>
+      </section>
+
+      <div className="uuid-size-divider" aria-hidden="true" />
+
+      <section className="uuid-size-column uuid-size-column--uuid" style={reveal(fps * 0.15)}>
+        <div className="uuid-size-heading"><small>UUID</small><strong>16 bytes</strong></div>
+        <div className="uuid-capacity"><span>Размер значения</span><code>128 bit</code></div>
+        <div className="uuid-property uuid-property--minus"><b>−</b><span>Ключ и foreign keys вдвое шире, чем BIGINT</span></div>
+        <div className="uuid-property uuid-property--minus"><b>−</b><span>UUIDv4 распределяет вставки по разным страницам B-tree</span></div>
+        <div className="uuid-property uuid-property--plus"><b>+</b><span>UUIDv7 группирует новые ключи по времени</span></div>
+      </section>
+
+    </div>
+  );
+};
+
+const UuidV7Anatomy = () => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+
+  return (
+    <div className="uuid-anatomy-layout">
+      <section className="uuid-anatomy-value" aria-label="Структура UUID версии 7">
+        <code>
+          <span className="uuid-part uuid-part--time">017F22E2-79B0</span>
+          <span className="uuid-separator">-</span>
+          <span className="uuid-part uuid-part--version">7</span>
+          <span className="uuid-part uuid-part--random">CC3</span>
+          <span className="uuid-separator">-</span>
+          <span className="uuid-part uuid-part--variant">9</span>
+          <span className="uuid-part uuid-part--random">8C4-DC0C0C07398F</span>
+        </code>
+      </section>
+
+      <section className="uuid-anatomy-legend">
+        <article className="uuid-legend-item uuid-legend-item--time">
+          <span>48 bit</span><strong>Unix timestamp, ms</strong><small>порядок по времени генерации</small>
+        </article>
+        <article className="uuid-legend-item uuid-legend-item--version">
+          <span>4 bit</span><strong>version = 7</strong><small>версия формата</small>
+        </article>
+        <article className="uuid-legend-item uuid-legend-item--variant">
+          <span>2 bit</span><strong>variant</strong><small>RFC layout</small>
+        </article>
+        <article className="uuid-legend-item uuid-legend-item--random">
+          <span>74 bit</span><strong>random / counter</strong><small>уникальность внутри timestamp</small>
+        </article>
+      </section>
+
+      <section
+        className="uuid-datetime"
+        style={{
+          opacity: interpolate(frame, [fps * 0.25, fps * 0.6], [0, 1], {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+          }),
+        }}
+      >
+        <code><span className="syntax-variable">$id</span>-&gt;<span className="syntax-name">getDateTime</span>()</code>
+        <span>22.02.2022 19:22:22 UTC</span>
+        <small>время генерации ID, не дата INSERT</small>
+      </section>
+
+      <div className="uuid-order-note">Внутри одной миллисекунды строгий порядок зависит от генератора</div>
+    </div>
+  );
+};
+
+const UuidBeforeDatabase = () => (
+  <div className="uuid-code-layout">
+    <PhpCode tone="green">
+      <span><span className="syntax-keyword">final class</span> <span className="syntax-type">Order</span></span>
+      <span>{'{'}</span>
+      <span className="code-line--indent-1"><span className="syntax-keyword">public function</span> <span className="syntax-name">__construct</span>(</span>
+      <span className="code-line--indent-2 uuid-code-highlight"><span className="syntax-keyword">private</span> <span className="syntax-type">UuidV7</span> <span className="syntax-variable">$id</span> = <span className="syntax-keyword">new</span> <span className="syntax-type">UuidV7</span>(),</span>
+      <span className="code-line--indent-1">) {'{}'}</span>
+      <span>{'}'}</span>
+      <span>&nbsp;</span>
+      <span><span className="syntax-variable">$order</span> = <span className="syntax-keyword">new</span> <span className="syntax-type">Order</span>();</span>
+      <span><span className="syntax-variable">$bus</span>-&gt;<span className="syntax-name">dispatch</span>(</span>
+      <span className="code-line--indent-1"><span className="syntax-keyword">new</span> <span className="syntax-type">OrderCreated</span>(<span className="syntax-variable">$order</span>-&gt;<span className="syntax-name">id</span>()),</span>
+      <span>);</span>
+      <span><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">persist</span>(<span className="syntax-variable">$order</span>);</span>
+    </PhpCode>
+
+    <aside className="uuid-code-result">
+      <div><small>Тип поля</small><code>UuidV7</code></div>
+      <div><small>До persist()</small><strong>ID уже известен</strong></div>
+      <div className="uuid-code-result__success"><span>✓</span><strong>Без проверки на null</strong></div>
+    </aside>
+  </div>
+);
+
+const UuidDistributed = () => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const sources = [
+    {name: 'Service A / DB A', id: '…7cc3-98c4…', tone: 'purple'},
+    {name: 'Service B / DB B', id: '…7a15-a4e2…', tone: 'cyan'},
+  ];
+
+  return (
+    <div className="uuid-distributed-layout">
+      <section className="uuid-generators">
+        {sources.map((source, index) => {
+          const at = fps * (0.1 + index * 0.16);
+          return (
+            <article
+              className={`uuid-generator uuid-generator--${source.tone}`}
+              key={source.name}
+              style={{
+                opacity: interpolate(frame, [at, at + fps * 0.28], [0, 1], {
+                  extrapolateLeft: 'clamp',
+                  extrapolateRight: 'clamp',
+                  easing: Easing.bezier(0.16, 1, 0.3, 1),
+                }),
+                translate: `${interpolate(frame, [at, at + fps * 0.28], [-16, 0], {
+                  extrapolateLeft: 'clamp',
+                  extrapolateRight: 'clamp',
+                  easing: Easing.bezier(0.16, 1, 0.3, 1),
+                })}px 0px`,
+              }}
+            >
+              <small>{source.name}</small>
+              <code>{source.id}</code>
+              <span>генерирует независимо</span>
+            </article>
+          );
+        })}
+      </section>
+
+      <div className="uuid-distributed-link"><span>без общей sequence</span><b>→</b></div>
+
+      <section className="uuid-event-id">
+        <small>Event / API</small>
+        <strong>Глобальный идентификатор</strong>
+        <code>OrderId: UUIDv7</code>
+      </section>
+
+      <section className="uuid-distributed-facts">
+        <div className="uuid-property uuid-property--plus"><b>+</b><span>Соседний ID нельзя вычислить как <code>id + 1</code></span></div>
+      </section>
+    </div>
+  );
+};
+
+const UuidSlide = ({slideId}: {slideId: string}) => {
+  switch (slideId) {
+    case '17-size': return <UuidSize />;
+    case '17-v7': return <UuidV7Anatomy />;
+    case '17-before-db': return <UuidBeforeDatabase />;
+    case '17-distributed': return <UuidDistributed />;
+    default: return null;
+  }
+};
+
 const DoctrineSlide = ({slideId}: {slideId: string}) => {
   switch (slideId) {
     case '13-persist': return <DoctrinePersist />;
@@ -1239,6 +1409,17 @@ export const ReviewSlide = ({
         <div className="rr-slide rr-slide--doctrine">
           {slide.badge && <div className="rr-badge">{slide.badge}</div>}
           <DoctrineSlide slideId={slide.id} />
+        </div>
+      </InterviewShell>
+    );
+  }
+
+  if (slide.pattern === 'uuid') {
+    return (
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
+        <div className="rr-slide rr-slide--uuid">
+          {slide.badge && <div className="rr-badge">{slide.badge}</div>}
+          <UuidSlide slideId={slide.id} />
         </div>
       </InterviewShell>
     );

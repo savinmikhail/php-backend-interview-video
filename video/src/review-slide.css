@@ -248,9 +248,7 @@
   font: 650 26px/1.3 'JetBrains Mono', Menlo, monospace;
 }
 
-.controller-code code > span { display: block; white-space: nowrap; }
-.controller-code .code-line--indent-1 { padding-left: 28px; }
-.controller-code .code-line--indent-2 { padding-left: 56px; }
+.controller-code .shiki-line { white-space: pre; }
 
 .compiler-pass-example {
   min-width: 0;
@@ -1336,8 +1334,6 @@
 }
 .composition--short .controller-code { padding: 20px; }
 .composition--short .controller-code code { font-size: 22px; line-height: 1.3; }
-.composition--short .controller-code .code-line--indent-1 { padding-left: 18px; }
-.composition--short .controller-code .code-line--indent-2 { padding-left: 36px; }
 .composition--short .decorator-code { padding: 28px 24px; }
 .composition--short .decorator-code code { font-size: 20px; line-height: 1.3; }
 .composition--short .decorator-code .code-line--indent-1 { padding-left: 24px; }

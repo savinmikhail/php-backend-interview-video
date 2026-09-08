@@ -1,6 +1,7 @@
 import type {ReactNode} from 'react';
 import {Easing, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
 import {InterviewShell, type Format} from './InterviewShell';
+import {PhpCodeBlock} from './PhpCodeBlock';
 import {TOTAL_QUESTIONS, type Speaker} from './timeline';
 
 type Tone = 'purple' | 'cyan' | 'green' | 'amber' | 'red';
@@ -484,19 +485,19 @@ const CompilerPassCode = () => (
   </div>
 );
 
+const controllerReadSource = `#[Route('/users/{id}', methods: ['GET'])]
+public function show(
+    #[MapEntity(id: 'id')] User $user,
+): JsonResponse {
+    return $this->json([
+        'id' => $user->getId(),
+        'email' => $user->getEmail(),
+    ]);
+}`;
+
 const ControllerReadCode = () => (
   <div className="controller-code-layout">
-    <pre className="controller-code"><code>
-      <span><span className="syntax-keyword">#[Route</span>(<span className="syntax-string">'/users/{'{'}id{'}'}'</span>, methods: [<span className="syntax-string">'GET'</span>])<span className="syntax-keyword">]</span></span>
-      <span><span className="syntax-keyword">public function</span> <span className="syntax-name">show</span>(</span>
-      <span className="code-line--indent-1"><span className="syntax-keyword">#[MapEntity</span>(id: <span className="syntax-string">'id'</span>)<span className="syntax-keyword">]</span> <span className="syntax-type">User</span> <span className="syntax-variable">$user</span>,</span>
-      <span>): <span className="syntax-type">JsonResponse</span> {'{'}</span>
-      <span className="code-line--indent-1"><span className="syntax-keyword">return</span> <span className="syntax-variable">$this</span>-&gt;<span className="syntax-name">json</span>([</span>
-      <span className="code-line--indent-2"><span className="syntax-string">'id'</span> =&gt; <span className="syntax-variable">$user</span>-&gt;<span className="syntax-name">getId</span>(),</span>
-      <span className="code-line--indent-2"><span className="syntax-string">'email'</span> =&gt; <span className="syntax-variable">$user</span>-&gt;<span className="syntax-name">getEmail</span>(),</span>
-      <span className="code-line--indent-1">]);</span>
-      <span>{'}'}</span>
-    </code></pre>
+    <PhpCodeBlock className="controller-code" code={controllerReadSource} />
   </div>
 );
 

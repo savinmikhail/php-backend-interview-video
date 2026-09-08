@@ -12,6 +12,12 @@ import {OopConstructsInterview} from './OopConstructsInterview';
 import {QuestionBatchInterview} from './QuestionBatchInterview';
 import {ReadonlyInterview} from './ReadonlyInterview';
 import {ReviewSlide} from './ReviewSlide';
+import {
+  reviewDurationSeconds,
+  reviewSecondToSourceSecond,
+  sourceSecondToReviewSecond,
+  timestampToSeconds,
+} from './timeMap';
 
 type Props = {
   format: Format;
@@ -24,50 +30,8 @@ type ReviewSegment = {
   slideId: string;
 };
 
-const timestampToSeconds = (timestamp: string) => {
-  const [hours, minutes, seconds] = timestamp.split(':').map(Number);
-  return hours * 3600 + minutes * 60 + seconds;
-};
-
-const INTRO_END = timestampToSeconds('00:13:46');
-const PROJECT_SECTION_START = timestampToSeconds('01:02:45');
-const PROJECT_SECTION_END = timestampToSeconds('01:17:20');
-const SOURCE_DURATION = timestampToSeconds('01:21:53');
 const FULL_REVIEW_AUDIO = 'generated/full-review-audio-cut.m4a';
-const EDITORIAL_CUTS = [
-  {start: 0, end: INTRO_END},
-  {start: timestampToSeconds('00:31:30'), end: timestampToSeconds('00:31:51')},
-  {start: timestampToSeconds('00:35:02'), end: timestampToSeconds('00:35:53')},
-  {start: PROJECT_SECTION_START, end: PROJECT_SECTION_END},
-];
-export const FULL_REVIEW_DURATION = SOURCE_DURATION - EDITORIAL_CUTS.reduce(
-  (total, cut) => total + cut.end - cut.start,
-  0,
-);
-
-const sourceSecondToOutputSecond = (sourceSecond: number) => {
-  let removedDuration = 0;
-
-  for (const cut of EDITORIAL_CUTS) {
-    if (sourceSecond <= cut.start) return sourceSecond - removedDuration;
-    if (sourceSecond < cut.end) return null;
-    removedDuration += cut.end - cut.start;
-  }
-
-  return sourceSecond - removedDuration;
-};
-
-const outputSecondToSourceSecond = (outputSecond: number) => {
-  let removedDuration = 0;
-
-  for (const cut of EDITORIAL_CUTS) {
-    const cutStartOnOutput = cut.start - removedDuration;
-    if (outputSecond < cutStartOnOutput) break;
-    removedDuration += cut.end - cut.start;
-  }
-
-  return outputSecond + removedDuration;
-};
+export const FULL_REVIEW_DURATION = reviewDurationSeconds;
 
 // Keep these entries in sync with review-timeline.tsv. The earlier animated
 // sequences are mounted separately below and therefore are not duplicated here.
@@ -115,8 +79,9 @@ const reviewSegments: ReviewSegment[] = [
   {start: '00:39:54', end: '00:40:22', slideId: '17-question'},
   {start: '00:40:22', end: '00:40:44', slideId: '17-size'},
   {start: '00:40:44', end: '00:41:46', slideId: '17-before-db'},
-  {start: '00:41:46', end: '00:42:47', slideId: '17-distributed'},
-  {start: '00:42:47', end: '00:43:31', slideId: '18-tradeoff'},
+  {start: '00:41:46', end: '00:43:11', slideId: '17-distributed'},
+  {start: '00:43:11', end: '00:43:18', slideId: '18-question'},
+  {start: '00:43:18', end: '00:43:31', slideId: '18-tradeoff'},
   {start: '00:43:31', end: '00:43:54', slideId: '18-access'},
   {start: '00:43:54', end: '00:44:05', slideId: '18-forms'},
   {start: '00:44:05', end: '00:45:03', slideId: '19-question'},
@@ -169,7 +134,7 @@ const segmentById = (slideId: string) => {
 };
 
 const sourceTimestampToOutputFrame = (timestamp: string, fps: number) => {
-  const outputSecond = sourceSecondToOutputSecond(timestampToSeconds(timestamp));
+  const outputSecond = sourceSecondToReviewSecond(timestampToSeconds(timestamp));
   if (outputSecond === null) throw new Error(`Timestamp lies inside an editorial cut: ${timestamp}`);
   return Math.round(outputSecond * fps);
 };
@@ -185,7 +150,7 @@ const slideDuration = (slideId: string, fps: number) => {
 const BaseTrack = ({format}: {format: Format}) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
-  const sourceSecond = outputSecondToSourceSecond(frame / fps);
+  const sourceSecond = reviewSecondToSourceSecond(frame / fps);
   const hasVisual = occupiedSegments.some((segment) =>
     sourceSecond >= timestampToSeconds(segment.start)
     && sourceSecond < timestampToSeconds(segment.end));
@@ -280,6 +245,7 @@ export const FullInterviewReview = ({format, withAudio = true}: Props) => {
       <Sequence name="17-size" from={slideFrom('17-size', fps)} durationInFrames={slideDuration('17-size', fps)} premountFor={fps}><ReviewSlide format={format} slideId="17-size" /></Sequence>
       <Sequence name="17-before-db" from={slideFrom('17-before-db', fps)} durationInFrames={slideDuration('17-before-db', fps)} premountFor={fps}><ReviewSlide format={format} slideId="17-before-db" /></Sequence>
       <Sequence name="17-distributed" from={slideFrom('17-distributed', fps)} durationInFrames={slideDuration('17-distributed', fps)} premountFor={fps}><ReviewSlide format={format} slideId="17-distributed" /></Sequence>
+      <Sequence name="18-question" from={slideFrom('18-question', fps)} durationInFrames={slideDuration('18-question', fps)} premountFor={fps}><ReviewSlide format={format} slideId="18-question" /></Sequence>
       <Sequence name="18-tradeoff" from={slideFrom('18-tradeoff', fps)} durationInFrames={slideDuration('18-tradeoff', fps)} premountFor={fps}><ReviewSlide format={format} slideId="18-tradeoff" /></Sequence>
       <Sequence name="18-access" from={slideFrom('18-access', fps)} durationInFrames={slideDuration('18-access', fps)} premountFor={fps}><ReviewSlide format={format} slideId="18-access" /></Sequence>
       <Sequence name="18-forms" from={slideFrom('18-forms', fps)} durationInFrames={slideDuration('18-forms', fps)} premountFor={fps}><ReviewSlide format={format} slideId="18-forms" /></Sequence>

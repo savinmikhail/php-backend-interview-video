@@ -8,6 +8,9 @@ PROJECT_DIR="$(cd "$VIDEO_DIR/.." && pwd)"
 OUTPUT="$VIDEO_DIR/public/generated/full-review-audio.m4a"
 LOUD_OUTPUT="$VIDEO_DIR/public/generated/full-review-audio-loud.wav"
 CUT_OUTPUT="$VIDEO_DIR/public/generated/full-review-audio-cut.m4a"
+CUTS_CONFIG="$VIDEO_DIR/src/editorial-cuts.json"
+TIME_MAP="$VIDEO_DIR/scripts/review-time.mjs"
+TIME_MAP_LIB="$VIDEO_DIR/scripts/lib/time-map.mjs"
 REPAIR_AUDIO="${FULL_REVIEW_REPAIR_AUDIO:-$PROJECT_DIR/episodes/841862-1payment/audio-for-restoration/interviewer-repaired-34m23s-42m36s.wav}"
 
 # The repair includes 15-second handles around source 34:38–42:21.
@@ -61,16 +64,15 @@ echo "Loud review audio: $LOUD_OUTPUT"
 
 if [[ ! -f "$CUT_OUTPUT" \
   || "$LOUD_OUTPUT" -nt "$CUT_OUTPUT" \
+  || "$CUTS_CONFIG" -nt "$CUT_OUTPUT" \
+  || "$TIME_MAP" -nt "$CUT_OUTPUT" \
+  || "$TIME_MAP_LIB" -nt "$CUT_OUTPUT" \
   || "$0" -nt "$CUT_OUTPUT" ]]; then
   echo "Preparing editorially cut review audio"
+  AUDIO_CUT_FILTER="$(node "$TIME_MAP" ffmpeg-audio-filter)"
   ffmpeg -nostdin -hide_banner -loglevel error -y \
     -i "$LOUD_OUTPUT" \
-    -filter_complex "\
-[0:a:0]atrim=start=826:end=1890,asetpts=PTS-STARTPTS[a0];\
-[0:a:0]atrim=start=1911:end=2102,asetpts=PTS-STARTPTS[a1];\
-[0:a:0]atrim=start=2153:end=3765,asetpts=PTS-STARTPTS[a2];\
-[0:a:0]atrim=start=4640,asetpts=PTS-STARTPTS[a3];\
-[a0][a1][a2][a3]concat=n=4:v=0:a=1[out]" \
+    -filter_complex "$AUDIO_CUT_FILTER" \
     -map "[out]" \
     -c:a aac -b:a 192k -ar 48000 "$CUT_OUTPUT"
 fi

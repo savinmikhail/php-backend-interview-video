@@ -6,16 +6,21 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 VIDEO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 PROJECT_DIR="$(cd "$VIDEO_DIR/.." && pwd)"
 TIMELINE="$VIDEO_DIR/review-timeline.tsv"
+TIME_MAP="$VIDEO_DIR/scripts/review-time.mjs"
 SLIDES_DIR="$VIDEO_DIR/public/generated/review-slides"
 SEGMENTS_DIR="$VIDEO_DIR/public/generated/full-review-segments"
 BASE_LOOP="$VIDEO_DIR/public/generated/base-review-loop.mp4"
 AUDIO_SOURCE="$VIDEO_DIR/public/generated/full-review-audio-loud.wav"
 OUTPUT="${2:-$PROJECT_DIR/renders/841862-full-review.mp4}"
 CONCAT_FILE="$SEGMENTS_DIR/concat.txt"
-SOURCE_DURATION="${REVIEW_DURATION:-4913}"
-INTRO_END=826
-CUT_STARTS=(0 1890 2102 3765)
-CUT_ENDS=(826 1911 2153 4640)
+SOURCE_DURATION="${REVIEW_DURATION:-$(node "$TIME_MAP" source-duration-seconds)}"
+CUT_STARTS=()
+CUT_ENDS=()
+while IFS=$'\t' read -r cut_start cut_end; do
+  CUT_STARTS+=("$cut_start")
+  CUT_ENDS+=("$cut_end")
+done < <(node "$TIME_MAP" cuts-seconds)
+INTRO_END="${CUT_ENDS[0]}"
 
 if [[ ! -f "$SOURCE_VIDEO" ]]; then
   echo "Source video not found: $SOURCE_VIDEO" >&2

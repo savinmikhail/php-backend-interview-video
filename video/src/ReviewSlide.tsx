@@ -158,6 +158,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {title: 'Merge', lines: ['Глобальная координация не нужна'], tone: 'green'},
   ]),
 
+  q('18-question', '18', 'Про индексы что-нибудь расскажи?'),
   s('18-tradeoff', '18', 'Индекс ускоряет чтение не бесплатно', 'columns', [
     {label: 'READ', title: 'Быстрее поиск и сортировка', lines: ['Меньше страниц для чтения'], tone: 'green'},
     {label: 'WRITE + STORAGE', title: 'Дороже изменения', lines: ['INSERT / UPDATE поддерживают индекс', 'Дополнительное место на диске'], tone: 'amber'},

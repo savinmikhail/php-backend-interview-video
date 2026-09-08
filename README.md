@@ -77,3 +77,25 @@ npm run studio
 или `FullInterviewReview` для проверки точного 30 fps-таймлайна. Аудиодорожка
 исходного интервью готовится автоматически при первом запуске и не попадает в
 Git.
+
+### Проверка таймингов
+
+Пользовательские таймкоды относятся к review-версии после вырезов, а
+`video/review-timeline.tsv` хранит время исходника. Конвертация выполняется из
+папки `video/`:
+
+```bash
+npm run time -- review-to-source 28:13
+npm run time -- source-to-review 43:11
+npm run time -- segment 18-question
+```
+
+Принятые review-интервалы фиксируются в `video/review-timing-locks.tsv` и
+проверяются через `npm run check`. Для визуальной проверки четырёх границ
+сегмента в полной композиции:
+
+```bash
+npm run render:timing -- 18-question
+```
+
+Монтажные вырезы хранятся только в `video/src/editorial-cuts.json`.

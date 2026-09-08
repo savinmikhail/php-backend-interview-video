@@ -1,6 +1,8 @@
 import {createHighlighterCoreSync, type ThemeRegistrationRaw} from '@shikijs/core';
 import {createJavaScriptRegexEngine} from '@shikijs/engine-javascript';
 import php from '@shikijs/langs/php';
+import {Fragment, type HTMLAttributes} from 'react';
+import type {ThemedToken} from '@shikijs/core';
 
 const phpStormVideoTheme: ThemeRegistrationRaw = {
   name: 'phpstorm-video',
@@ -61,6 +63,8 @@ const phpStormVideoTheme: ThemeRegistrationRaw = {
       scope: ['entity.name.variable.parameter'],
       settings: {foreground: '#589df6'},
     },
+    {scope: ['keyword.operator'], settings: {foreground: '#bcbec4'}},
+    {scope: ['variable.other.property'], settings: {foreground: '#cf8acb'}},
   ],
 };
 
@@ -70,6 +74,49 @@ const phpHighlighter = createHighlighterCoreSync({
   themes: [phpStormVideoTheme],
 });
 
+const tokenCache = new Map<string, ThemedToken[][]>();
+
+const highlight = (code: string) => {
+  const cached = tokenCache.get(code);
+  if (cached) return cached;
+  const {tokens} = phpHighlighter.codeToTokens(code, {lang: 'php', theme: 'phpstorm-video'});
+  if (tokenCache.size >= 256) tokenCache.clear();
+  tokenCache.set(code, tokens);
+  return tokens;
+};
+
+const Tokens = ({tokens}: {tokens: ThemedToken[]}) => <>{tokens.map((token, index) => (
+  <span key={index} style={{
+    display: 'inline', color: token.color,
+    fontStyle: (token.fontStyle ?? 0) & 1 ? 'italic' : undefined,
+    fontWeight: (token.fontStyle ?? 0) & 2 ? 800 : undefined,
+    textDecoration: (token.fontStyle ?? 0) & 4 ? 'underline' : undefined,
+  }}>{token.content}</span>
+))}</>;
+
+/** Inline snippets keep the typography and layout of their existing code element. */
+export const PhpTokens = ({code}: {code: string}) => <>{highlight(code).map((line, index) => (
+  <Fragment key={index}>{index > 0 ? '\n' : null}<Tokens tokens={line} /></Fragment>
+))}</>;
+
+/** Tokenize the whole snippet, then apply existing per-line layout and animation. */
+export const PhpLines = ({code, lineProps = {}}: {
+  code: string;
+  lineProps?: Record<number, HTMLAttributes<HTMLSpanElement>>;
+}) => <>{highlight(code).map((line, index) => {
+  const indent = code.split('\n')[index].match(/^ */)![0].length;
+  let remaining = indent;
+  const visibleTokens = line.flatMap(token => {
+    const skip = Math.min(remaining, token.content.length);
+    remaining -= skip;
+    return token.content.length > skip ? [{...token, content: token.content.slice(skip)}] : [];
+  });
+  const props = lineProps[index];
+  return <span key={index} {...props} className={[
+    indent ? `code-line--indent-${indent / 2}` : '', props?.className,
+  ].filter(Boolean).join(' ')}><Tokens tokens={visibleTokens} />{visibleTokens.length === 0 ? '\u00a0' : null}</span>;
+})}</>;
+
 export const PhpCodeBlock = ({
   className,
   code,
@@ -77,33 +124,9 @@ export const PhpCodeBlock = ({
   className?: string;
   code: string;
 }) => {
-  const {tokens} = phpHighlighter.codeToTokens(code, {
-    lang: 'php',
-    theme: 'phpstorm-video',
-  });
-
   return (
     <pre className={className}>
-      <code>
-        {tokens.map((line, lineIndex) => (
-          <span className="shiki-line" key={lineIndex}>
-            {line.map((token, tokenIndex) => (
-              <span
-                key={`${lineIndex}-${tokenIndex}`}
-                style={{
-                  color: token.color,
-                  fontStyle: token.fontStyle === 1 ? 'italic' : undefined,
-                  fontWeight: token.fontStyle === 2 ? 800 : undefined,
-                  textDecoration: token.fontStyle === 4 ? 'underline' : undefined,
-                }}
-              >
-                {token.content}
-              </span>
-            ))}
-            {lineIndex < tokens.length - 1 ? '\n' : null}
-          </span>
-        ))}
-      </code>
+      <code style={{whiteSpace: 'pre'}}><PhpTokens code={code} /></code>
     </pre>
   );
 };

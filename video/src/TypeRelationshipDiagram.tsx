@@ -1,3 +1,4 @@
+import {PhpTokens} from './PhpCodeBlock';
 import type {CSSProperties, ReactNode} from 'react';
 import {reveal} from './InterviewShell';
 
@@ -13,7 +14,7 @@ const InterfaceDiagram = ({frame, fps}: {frame: number; fps: number}) => (
       <small>interface</small>
       <strong>Notifier</strong>
       <Layer style={reveal(frame, 5 * fps)} className="oop-contract-method">
-        <code>send(Message $message): void</code>
+        <code><PhpTokens code={`send(Message $message): void`} /></code>
       </Layer>
     </Layer>
     <Layer className="oop-branches" style={reveal(frame, 11 * fps)}>
@@ -28,7 +29,7 @@ const InterfaceDiagram = ({frame, fps}: {frame: number; fps: number}) => (
     </Layer>
     <Layer className="oop-consumer" style={reveal(frame, 14 * fps)}>
       <span>принимает контракт</span>
-      <code>OrderService(Notifier $notifier)</code>
+      <code><PhpTokens code={`OrderService(Notifier $notifier)`} /></code>
     </Layer>
   </div>
 );
@@ -40,11 +41,11 @@ const AbstractDiagram = ({frame, fps}: {frame: number; fps: number}) => (
       <strong>Response</strong>
       <div className="oop-methods">
         <Layer className="oop-method oop-method--ready" style={reveal(frame, 5 * fps)}>
-          <code>sendHeaders(): void</code>
+          <code><PhpTokens code={`sendHeaders(): void`} /></code>
           <span>общая реализация</span>
         </Layer>
         <Layer className="oop-method oop-method--required" style={reveal(frame, 5 * fps + 5)}>
-          <code>abstract render(): string</code>
+          <code><PhpTokens code={`abstract render(): string`} /></code>
           <span>реализует наследник</span>
         </Layer>
       </div>
@@ -68,9 +69,9 @@ const TraitDiagram = ({frame, fps}: {frame: number; fps: number}) => (
       <small>trait</small>
       <strong>Timestampable</strong>
       <div className="oop-trait-members">
-        <code>$createdAt</code>
-        <code>$updatedAt</code>
-        <code>touch(): void</code>
+        <code><PhpTokens code={`$createdAt`} /></code>
+        <code><PhpTokens code={`$updatedAt`} /></code>
+        <code><PhpTokens code={`touch(): void`} /></code>
       </div>
     </Layer>
     <Layer className="oop-branches oop-branches--trait" style={reveal(frame, 6 * fps)}>

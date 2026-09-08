@@ -1,7 +1,7 @@
 import type {ReactNode} from 'react';
 import {Easing, interpolate, useCurrentFrame, useVideoConfig} from 'remotion';
 import {InterviewShell, type Format} from './InterviewShell';
-import {PhpCodeBlock} from './PhpCodeBlock';
+import {PhpCodeBlock, PhpTokens, PhpLines} from './PhpCodeBlock';
 import {TOTAL_QUESTIONS, type Speaker} from './timeline';
 
 type Tone = 'purple' | 'cyan' | 'green' | 'amber' | 'red';
@@ -12,6 +12,7 @@ type Card = {
   title: string;
   lines?: string[];
   code?: string[];
+  codeLanguage?: 'php';
   tone?: Tone;
 };
 
@@ -65,15 +66,15 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {label: 'Формат описания', title: 'PHP · YAML · XML · attributes', lines: ['Где записана конфигурация'], tone: 'cyan'},
   ], 'Механизм выбора ≠ формат конфигурации', 'Уточнение ответа'),
   s('08-rules', '8', 'Autowiring по умолчанию, явно — при неоднозначности', 'grid', [
-    {label: 'AUTO', title: 'Одна object-зависимость', code: ['LoggerInterface $logger'], tone: 'green'},
+    {label: 'AUTO', title: 'Одна object-зависимость', code: ['LoggerInterface $logger'], codeLanguage: 'php', tone: 'green'},
     {label: 'EXPLICIT', title: 'Несколько реализаций', code: ['PaymentGatewayInterface → ?'], tone: 'amber'},
-    {label: 'EXPLICIT', title: 'Scalar / config value', code: ['string $dsn', 'int $timeout'], tone: 'amber'},
+    {label: 'EXPLICIT', title: 'Scalar / config value', code: ['string $dsn', 'int $timeout'], codeLanguage: 'php', tone: 'amber'},
     {label: 'EXPLICIT', title: 'Factory или особая сборка', lines: ['Нужен контекст создания'], tone: 'purple'},
   ], 'И учитываем соглашения существующего проекта'),
 
   q('09-question', '9', 'Event Subscriber · Middleware · Decorator — что это?'),
   s('09-subscriber', '9', 'Event Subscriber сам объявляет подписки', 'flow', [
-    {label: 'Subscriber', title: 'getSubscribedEvents()', code: ['OrderPaid::class', 'KernelEvents::REQUEST'], tone: 'purple'},
+    {label: 'Subscriber', title: 'getSubscribedEvents()', code: ['OrderPaid::class', 'KernelEvents::REQUEST'], codeLanguage: 'php', tone: 'purple'},
     {label: 'Dispatcher', title: 'Event', lines: ['Находит всех подписчиков'], tone: 'amber'},
     {label: 'Fan-out', title: 'listener A · listener B', lines: ['Несколько реакций на событие'], tone: 'cyan'},
   ]),
@@ -270,7 +271,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {label: 'O · Open / Closed', title: 'Расширяем стабильный dispatch', lines: ['+ CryptoHandler без правки существующего'], tone: 'cyan'},
   ]),
   s('29-lsp', '29', 'L · Подтип сохраняет обещания базового типа', 'stack', [
-    {title: 'DHLCarrier вместо Carrier', code: ['ship(Carrier $carrier)', '$carrier->deliver($parcel)'], lines: ['Клиентский код не ломается'], tone: 'green'},
+    {title: 'DHLCarrier вместо Carrier', code: ['ship(Carrier $carrier)', '$carrier->deliver($parcel)'], codeLanguage: 'php', lines: ['Клиентский код не ломается'], tone: 'green'},
     {title: 'Безопасная вариативность сигнатуры', lines: ['Параметр может быть шире · contravariance', 'Return type может быть уже · covariance'], tone: 'purple'},
   ], undefined, 'Исправление ответа'),
   s('29-id', '29', 'I · Interface Segregation / D · Dependency Inversion', 'columns', [
@@ -323,7 +324,7 @@ const CardView = ({card}: {card: Card}) => (
   <article className={`rr-card rr-card--${card.tone ?? 'purple'}`}>
     {card.label && <div className="rr-card__label">{card.label}</div>}
     <h2>{card.title}</h2>
-    {card.code && <pre><code>{card.code.join('\n')}</code></pre>}
+    {card.code && <pre><code>{card.codeLanguage === 'php' ? <PhpTokens code={card.code.join('\n')} /> : card.code.join('\n')}</code></pre>}
     {card.lines?.map((line) => <p key={line}>{line}</p>)}
   </article>
 );
@@ -333,14 +334,14 @@ const EnumComparison = () => (
     <article className="enum-card enum-card--string">
       <div className="enum-card__label">Открытая строка · weak mode</div>
       <h2>Пропускает лишнее</h2>
-      <pre className="enum-card__definition"><code><span className="syntax-keyword">function</span> <span className="syntax-name">changeStatus</span>(<span className="syntax-type">string</span> <span className="syntax-variable">$status</span>): <span className="syntax-type">void</span> {'{}'}</code></pre>
+      <pre className="enum-card__definition"><code><PhpTokens code={`function changeStatus(string $status): void {}`} /></code></pre>
       <div className="enum-examples">
         <div className="enum-example enum-example--warning">
-          <code><span className="syntax-name">changeStatus</span>(<span className="syntax-number">0</span>);</code>
-          <span><code><span className="syntax-variable">$status</span> === <span className="syntax-string">'0'</span></code></span>
+          <code><PhpTokens code={`changeStatus(0);`} /></code>
+          <span><code><PhpTokens code={`$status === '0'`} /></code></span>
         </div>
         <div className="enum-example enum-example--warning">
-          <code><span className="syntax-name">changeStatus</span>(<span className="syntax-string">'canceled'</span>);</code>
+          <code><PhpTokens code={`changeStatus('canceled');`} /></code>
           <span>опечатка принята</span>
         </div>
       </div>
@@ -349,14 +350,17 @@ const EnumComparison = () => (
     <article className="enum-card enum-card--typed">
       <div className="enum-card__label">Закрытый тип</div>
       <h2>Типобезопасный набор</h2>
-      <pre className="enum-card__definition"><code><span className="syntax-keyword">enum</span> <span className="syntax-type">OrderStatus</span>: <span className="syntax-type">string</span> {'{'}{`\n`}  <span className="syntax-keyword">case</span> <span className="syntax-name">Paid</span> = <span className="syntax-string">'paid'</span>;{`\n`}  <span className="syntax-keyword">case</span> <span className="syntax-name">Cancelled</span> = <span className="syntax-string">'cancelled'</span>;{`\n`}{'}'}</code></pre>
+      <pre className="enum-card__definition"><code><PhpTokens code={`enum OrderStatus: string {
+  case Paid = 'paid';
+  case Cancelled = 'cancelled';
+}`} /></code></pre>
       <div className="enum-examples">
         <div className="enum-example enum-example--error">
-          <code><span className="syntax-name">changeStatus</span>(<span className="syntax-number">0</span>);</code>
+          <code><PhpTokens code={`changeStatus(0);`} /></code>
           <span>TypeError</span>
         </div>
         <div className="enum-example enum-example--error">
-          <code><span className="syntax-type">OrderStatus</span>::<span className="syntax-name">from</span>(<span className="syntax-string">'canceled'</span>);</code>
+          <code><PhpTokens code={`OrderStatus::from('canceled');`} /></code>
           <span>ValueError</span>
         </div>
       </div>
@@ -366,7 +370,13 @@ const EnumComparison = () => (
 
 const DiObjectGraph = () => (
   <div className="di-graph-layout">
-    <pre className="di-source-code"><code><span className="syntax-keyword">final class</span> <span className="syntax-type">Checkout</span>{`\n`}{'{'}{`\n`}  <span className="syntax-keyword">public function</span> <span className="syntax-name">__construct</span>({`\n`}    <span className="syntax-keyword">private</span> <span className="syntax-type">PaymentGatewayInterface</span> <span className="syntax-variable">$gateway</span>,{`\n`}    <span className="syntax-keyword">private</span> <span className="syntax-type">LoggerInterface</span> <span className="syntax-variable">$logger</span>,{`\n`}  ) {'{}'}{`\n`}{'}'}</code></pre>
+    <pre className="di-source-code"><code><PhpTokens code={`final class Checkout
+{
+  public function __construct(
+    private PaymentGatewayInterface $gateway,
+    private LoggerInterface $logger,
+  ) {}
+}`} /></code></pre>
 
     <aside className="di-bindings">
       <div className="di-bindings__label">Definitions + autowiring</div>
@@ -382,7 +392,7 @@ const DiObjectGraph = () => (
       </div>
       <div className="di-created-service">
         <span>Результат</span>
-        <code><span className="syntax-keyword">new</span> <span className="syntax-type">Checkout</span>(<span className="syntax-variable">$gateway</span>, <span className="syntax-variable">$logger</span>)</code>
+        <code><PhpTokens code={`new Checkout($gateway, $logger)`} /></code>
       </div>
     </aside>
   </div>
@@ -418,7 +428,10 @@ const DiCompileRuntime = () => (
       </div>
       <article className="di-generated-container">
         <span>generated PHP container</span>
-        <code><span className="syntax-keyword">return new</span> <span className="syntax-type">Checkout</span>({`\n`}  <span className="syntax-variable">$this</span>-&gt;<span className="syntax-name">getStripeGatewayService</span>(),{`\n`}  <span className="syntax-variable">$this</span>-&gt;<span className="syntax-name">getLoggerService</span>(),{`\n`});</code>
+        <code><PhpTokens code={`return new Checkout(
+  $this->getStripeGatewayService(),
+  $this->getLoggerService(),
+);`} /></code>
       </article>
       <div className="di-runtime-result">
         <strong>reuse</strong>
@@ -429,43 +442,39 @@ const DiCompileRuntime = () => (
 );
 
 const DecoratorCode = () => (
-  <pre className="decorator-code"><code>
-    <span><span className="syntax-keyword">final class</span> <span className="syntax-type">MetricsGateway</span> <span className="syntax-keyword">implements</span> <span className="syntax-type">PaymentGatewayInterface</span></span>
-    <span>{'{'}</span>
-    <span className="code-line--indent-1"><span className="syntax-keyword">public function</span> <span className="syntax-name">__construct</span>(</span>
-    <span className="code-line--indent-2"><span className="syntax-keyword">private</span> <span className="syntax-type">PaymentGatewayInterface</span> <span className="syntax-variable">$inner</span>,</span>
-    <span className="code-line--indent-2"><span className="syntax-keyword">private</span> <span className="syntax-type">Metrics</span> <span className="syntax-variable">$metrics</span>,</span>
-    <span className="code-line--indent-1">) {'{}'}</span>
-    <span className="code-line--indent-1"><span className="syntax-keyword">public function</span> <span className="syntax-name">pay</span>(<span className="syntax-type">Money</span> <span className="syntax-variable">$amount</span>): <span className="syntax-type">Receipt</span></span>
-    <span className="code-line--indent-1">{'{'}</span>
-    <span className="code-line--indent-2"><span className="syntax-variable">$this</span>-&gt;<span className="syntax-name">metrics</span>-&gt;<span className="syntax-name">start</span>(); <span className="syntax-comment">// до</span></span>
-    <span className="code-line--indent-2"><span className="syntax-variable">$receipt</span> = <span className="syntax-variable">$this</span>-&gt;<span className="syntax-name">inner</span>-&gt;<span className="syntax-name">pay</span>(<span className="syntax-variable">$amount</span>); <span className="syntax-comment">// делегирование</span></span>
-    <span className="code-line--indent-2"><span className="syntax-variable">$this</span>-&gt;<span className="syntax-name">metrics</span>-&gt;<span className="syntax-name">success</span>(); <span className="syntax-comment">// после</span></span>
-    <span className="code-line--indent-2"><span className="syntax-keyword">return</span> <span className="syntax-variable">$receipt</span>;</span>
-    <span className="code-line--indent-1">{'}'}</span>
-    <span>{'}'}</span>
-  </code></pre>
+  <pre className="decorator-code"><code><PhpLines code={`final class MetricsGateway implements PaymentGatewayInterface
+{
+  public function __construct(
+    private PaymentGatewayInterface $inner,
+    private Metrics $metrics,
+  ) {}
+  public function pay(Money $amount): Receipt
+  {
+    $this->metrics->start(); // до
+    $receipt = $this->inner->pay($amount); // делегирование
+    $this->metrics->success(); // после
+    return $receipt;
+  }
+}`} /></code></pre>
 );
 
 const CompilerPassCode = () => (
   <div className="compiler-pass-layout">
-    <pre className="compiler-pass-code"><code>
-      <span><span className="syntax-keyword">final class</span> <span className="syntax-type">UniqueQueuePass</span> <span className="syntax-keyword">implements</span> <span className="syntax-type">CompilerPassInterface</span></span>
-      <span>{'{'}</span>
-      <span className="code-line--indent-1"><span className="syntax-keyword">public function</span> <span className="syntax-name">process</span>(<span className="syntax-type">ContainerBuilder</span> <span className="syntax-variable">$container</span>): <span className="syntax-type">void</span></span>
-      <span className="code-line--indent-1">{'{'}</span>
-      <span className="code-line--indent-2"><span className="syntax-variable">$queues</span> = [];</span>
-      <span className="code-line--indent-2"><span className="syntax-variable">$consumers</span> = <span className="syntax-variable">$container</span>-&gt;<span className="syntax-name">findTaggedServiceIds</span>(<span className="syntax-string">'app.consumer'</span>);</span>
-      <span className="code-line--indent-2"><span className="syntax-keyword">foreach</span> (<span className="syntax-variable">$consumers</span> <span className="syntax-keyword">as</span> <span className="syntax-variable">$tags</span>) {'{'}</span>
-      <span className="code-line--indent-3"><span className="syntax-variable">$queue</span> = <span className="syntax-variable">$tags</span>[<span className="syntax-number">0</span>][<span className="syntax-string">'queue'</span>];</span>
-      <span className="code-line--indent-3"><span className="syntax-keyword">if</span> (<span className="syntax-name">isset</span>(<span className="syntax-variable">$queues</span>[<span className="syntax-variable">$queue</span>])) {'{'}</span>
-      <span className="code-line--indent-4"><span className="syntax-keyword">throw new</span> <span className="syntax-type">LogicException</span>(<span className="syntax-string">"Duplicate queue: $queue"</span>);</span>
-      <span className="code-line--indent-3">{'}'}</span>
-      <span className="code-line--indent-3"><span className="syntax-variable">$queues</span>[<span className="syntax-variable">$queue</span>] = <span className="syntax-keyword">true</span>;</span>
-      <span className="code-line--indent-2">{'}'}</span>
-      <span className="code-line--indent-1">{'}'}</span>
-      <span>{'}'}</span>
-    </code></pre>
+    <pre className="compiler-pass-code"><code><PhpLines code={`final class UniqueQueuePass implements CompilerPassInterface
+{
+  public function process(ContainerBuilder $container): void
+  {
+    $queues = [];
+    $consumers = $container->findTaggedServiceIds('app.consumer');
+    foreach ($consumers as $tags) {
+      $queue = $tags[0]['queue'];
+      if (isset($queues[$queue])) {
+        throw new LogicException("Duplicate queue: $queue");
+      }
+      $queues[$queue] = true;
+    }
+  }
+}`} /></code></pre>
 
     <aside className="compiler-pass-example">
       <div className="compiler-pass-example__label">Конфликт конфигурации</div>
@@ -507,47 +516,43 @@ const PhpCode = ({children, tone = 'purple'}: {children: ReactNode; tone?: Tone}
 
 const DoctrinePersist = () => (
   <div className="doctrine-two-column">
-    <PhpCode>
-      <span><span className="syntax-variable">$uow</span> = <span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">getUnitOfWork</span>();</span>
-      <span>&nbsp;</span>
-      <span><span className="syntax-variable">$uow</span>-&gt;<span className="syntax-name">getEntityState</span>(<span className="syntax-variable">$user</span>)</span>
-      <span className="code-line--indent-1">=== <span className="syntax-type">UnitOfWork</span>::<span className="syntax-name">STATE_NEW</span>; <span className="syntax-comment">// true</span></span>
-      <span>&nbsp;</span>
-      <span><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">persist</span>(<span className="syntax-variable">$user</span>);</span>
-      <span>&nbsp;</span>
-      <span><span className="syntax-variable">$uow</span>-&gt;<span className="syntax-name">getEntityState</span>(<span className="syntax-variable">$user</span>)</span>
-      <span className="code-line--indent-1">=== <span className="syntax-type">UnitOfWork</span>::<span className="syntax-name">STATE_MANAGED</span>; <span className="syntax-comment">// true</span></span>
-    </PhpCode>
+    <PhpCode><PhpLines code={`$uow = $em->getUnitOfWork();
+
+$uow->getEntityState($user)
+  === UnitOfWork::STATE_NEW; // true
+
+$em->persist($user);
+
+$uow->getEntityState($user)
+  === UnitOfWork::STATE_MANAGED; // true`} /></PhpCode>
     <section className="doctrine-state-panel doctrine-state-panel--persist">
       <div className="doctrine-state doctrine-state--purple"><small>entity state</small><strong>NEW</strong></div>
-      <div className="doctrine-arrow-step"><code>persist($user)</code><span>→</span></div>
+      <div className="doctrine-arrow-step"><code><PhpTokens code={`persist($user)`} /></code><span>→</span></div>
       <div className="doctrine-state doctrine-state--green"><small>Unit of Work</small><strong>MANAGED</strong><span>scheduled: INSERT</span></div>
       <div className="doctrine-zero-sql"><strong>SQL-запросов: 0</strong><span>persist() только регистрирует объект</span></div>
     </section>
-    <div className="doctrine-footer">ID может появиться до <code>flush()</code>; после успешного <code>flush()</code> он гарантирован</div>
+    <div className="doctrine-footer">ID может появиться до <code><PhpTokens code={`flush()`} /></code>; после успешного <code><PhpTokens code={`flush()`} /></code> он гарантирован</div>
   </div>
 );
 
 const DoctrineFlushListener = () => (
   <div className="doctrine-two-column doctrine-two-column--listener">
-    <PhpCode>
-      <span><span className="syntax-variable">$uow</span> = <span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">getUnitOfWork</span>();</span>
-      <span>&nbsp;</span>
-      <span><span className="syntax-keyword">foreach</span> (</span>
-      <span className="code-line--indent-1"><span className="syntax-variable">$uow</span>-&gt;<span className="syntax-name">getScheduledEntityUpdates</span>()</span>
-      <span className="code-line--indent-1"><span className="syntax-keyword">as</span> <span className="syntax-variable">$entity</span></span>
-      <span>) {'{'}</span>
-      <span className="code-line--indent-1"><span className="syntax-variable">$changes</span> = <span className="syntax-variable">$uow</span></span>
-      <span className="code-line--indent-2">-&gt;<span className="syntax-name">getEntityChangeSet</span>(<span className="syntax-variable">$entity</span>);</span>
-      <span>{'}'}</span>
-    </PhpCode>
+    <PhpCode><PhpLines code={`$uow = $em->getUnitOfWork();
+
+foreach (
+  $uow->getScheduledEntityUpdates()
+  as $entity
+) {
+  $changes = $uow
+    ->getEntityChangeSet($entity);
+}`} /></PhpCode>
     <section className="change-set-card">
       <div className="change-set-card__label">Результат для User#42</div>
       <code className="change-set-output">
         <span>[</span>
-        <span className="code-line--indent-1"><span className="syntax-string">'email'</span> =&gt; [</span>
-        <span className="code-line--indent-2"><b className="change-set-index change-set-index--old">0 · old</b> <span className="syntax-string">'old@example.com'</span>,</span>
-        <span className="code-line--indent-2"><b className="change-set-index change-set-index--new">1 · new</b> <span className="syntax-string">'new@example.com'</span>,</span>
+        <span className="code-line--indent-1"><PhpTokens code="'email' => [" /></span>
+        <span className="code-line--indent-2"><b className="change-set-index change-set-index--old">0 · old</b> <PhpTokens code="'old@example.com'," /></span>
+        <span className="code-line--indent-2"><b className="change-set-index change-set-index--new">1 · new</b> <PhpTokens code="'new@example.com'," /></span>
         <span className="code-line--indent-1">],</span>
         <span>]</span>
       </code>
@@ -558,23 +563,21 @@ const DoctrineFlushListener = () => (
 
 const DoctrineFlushAudit = () => (
   <div className="doctrine-two-column doctrine-two-column--audit">
-    <PhpCode>
-      <span><span className="syntax-variable">$auditLog</span> = <span className="syntax-type">AuditLog</span>::<span className="syntax-name">from</span>(</span>
-      <span className="code-line--indent-1"><span className="syntax-variable">$entity</span>, <span className="syntax-variable">$changes</span>,</span>
-      <span>);</span>
-      <span>&nbsp;</span>
-      <span><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">persist</span>(<span className="syntax-variable">$auditLog</span>);</span>
-      <span><span className="syntax-variable">$metadata</span> = <span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">getClassMetadata</span>(</span>
-      <span className="code-line--indent-1"><span className="syntax-type">AuditLog</span>::class,</span>
-      <span>);</span>
-      <span><span className="syntax-variable">$uow</span>-&gt;<span className="syntax-name">computeChangeSet</span>(</span>
-      <span className="code-line--indent-1"><span className="syntax-variable">$metadata</span>, <span className="syntax-variable">$auditLog</span>,</span>
-      <span>);</span>
-    </PhpCode>
+    <PhpCode><PhpLines code={`$auditLog = AuditLog::from(
+  $entity, $changes,
+);
+
+$em->persist($auditLog);
+$metadata = $em->getClassMetadata(
+  AuditLog::class,
+);
+$uow->computeChangeSet(
+  $metadata, $auditLog,
+);`} /></PhpCode>
     <section className="audit-steps">
       <article><span>1</span><div><strong>Создаём AuditLog</strong><p>внутри <code>onFlush</code></p></div></article>
-      <article><span>2</span><div><strong><code>persist()</code></strong><p>регистрирует новую entity</p></div></article>
-      <article><span>3</span><div><strong><code>computeChangeSet()</code></strong><p>добавляет её mapped changes в текущий flush</p></div></article>
+      <article><span>2</span><div><strong><code><PhpTokens code={`persist()`} /></code></strong><p>регистрирует новую entity</p></div></article>
+      <article><span>3</span><div><strong><code><PhpTokens code={`computeChangeSet()`} /></code></strong><p>добавляет её mapped changes в текущий flush</p></div></article>
     </section>
   </div>
 );
@@ -592,19 +595,17 @@ const DoctrineFlushResult = () => (
       <code>User#42: MANAGED</code>
       <code>Identity Map: сохранена</code>
     </section>
-    <div className="doctrine-footer"><code>flush()</code> синхронизирует с БД — <code>clear()</code> отсоединяет объекты</div>
+    <div className="doctrine-footer"><code><PhpTokens code={`flush()`} /></code> синхронизирует с БД — <code><PhpTokens code={`clear()`} /></code> отсоединяет объекты</div>
   </div>
 );
 
 const DoctrineClear = () => (
   <div className="doctrine-two-column doctrine-two-column--clear">
-    <PhpCode>
-      <span><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">contains</span>(<span className="syntax-variable">$user</span>); <span className="syntax-comment">// true</span></span>
-      <span>&nbsp;</span>
-      <span><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">clear</span>();</span>
-      <span>&nbsp;</span>
-      <span><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">contains</span>(<span className="syntax-variable">$user</span>); <span className="syntax-comment">// false</span></span>
-    </PhpCode>
+    <PhpCode><PhpLines code={`$em->contains($user); // true
+
+$em->clear();
+
+$em->contains($user); // false`} /></PhpCode>
     <section className="clear-state-flow">
       <div><small>до clear()</small><strong>MANAGED</strong><span>Identity Map содержит User#42</span></div>
       <b>→</b>
@@ -615,16 +616,14 @@ const DoctrineClear = () => (
 
 const DoctrineClearBatch = () => (
   <div className="doctrine-two-column doctrine-two-column--batch">
-    <PhpCode tone="cyan">
-      <span><span className="syntax-keyword">foreach</span> (<span className="syntax-variable">$rows</span> <span className="syntax-keyword">as</span> <span className="syntax-variable">$i</span> =&gt; <span className="syntax-variable">$row</span>) {'{'}</span>
-      <span className="code-line--indent-1"><span className="syntax-name">process</span>(<span className="syntax-variable">$row</span>);</span>
-      <span>&nbsp;</span>
-      <span className="code-line--indent-1"><span className="syntax-keyword">if</span> (<span className="syntax-variable">$i</span> % <span className="syntax-number">100</span> === <span className="syntax-number">0</span>) {'{'}</span>
-      <span className="code-line--indent-2"><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">flush</span>();</span>
-      <span className="code-line--indent-2"><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">clear</span>();</span>
-      <span className="code-line--indent-1">{'}'}</span>
-      <span>{'}'}</span>
-    </PhpCode>
+    <PhpCode tone="cyan"><PhpLines code={`foreach ($rows as $i => $row) {
+  process($row);
+
+  if ($i % 100 === 0) {
+    $em->flush();
+    $em->clear();
+  }
+}`} /></PhpCode>
     <section className="batch-memory">
       <div className="batch-memory__entities"><span>User#1</span><span>User#2</span><span>…</span><span>User#100</span></div>
       <div className="batch-memory__map"><small>Identity Map</small><strong>100 managed entities</strong></div>
@@ -638,20 +637,16 @@ const DoctrineIdentity = () => (
   <div className="identity-comparison">
     <section className="identity-card identity-card--doctrine">
       <div className="identity-card__label">Doctrine ORM</div>
-      <PhpCode tone="green">
-        <span><span className="syntax-variable">$a</span> = <span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">find</span>(<span className="syntax-type">User</span>::class, <span className="syntax-number">42</span>); <span className="syntax-comment">// SELECT</span></span>
-        <span><span className="syntax-variable">$b</span> = <span className="syntax-variable">$repository</span>-&gt;<span className="syntax-name">find</span>(<span className="syntax-number">42</span>); <span className="syntax-comment">// Identity Map</span></span>
-        <span><span className="syntax-variable">$a</span> === <span className="syntax-variable">$b</span>; <span className="syntax-comment">// true</span></span>
-      </PhpCode>
+      <PhpCode tone="green"><PhpLines code={`$a = $em->find(User::class, 42); // SELECT
+$b = $repository->find(42); // Identity Map
+$a === $b; // true`} /></PhpCode>
       <div className="identity-result"><strong>SELECT ×1</strong><span>Один ID → один PHP-объект</span></div>
     </section>
     <section className="identity-card identity-card--laravel">
       <div className="identity-card__label">Laravel Eloquent</div>
-      <PhpCode tone="red">
-        <span><span className="syntax-variable">$a</span> = <span className="syntax-type">User</span>::<span className="syntax-name">find</span>(<span className="syntax-number">42</span>); <span className="syntax-comment">// SELECT</span></span>
-        <span><span className="syntax-variable">$b</span> = <span className="syntax-type">User</span>::<span className="syntax-name">find</span>(<span className="syntax-number">42</span>); <span className="syntax-comment">// SELECT</span></span>
-        <span><span className="syntax-variable">$a</span> === <span className="syntax-variable">$b</span>; <span className="syntax-comment">// false</span></span>
-      </PhpCode>
+      <PhpCode tone="red"><PhpLines code={`$a = User::find(42); // SELECT
+$b = User::find(42); // SELECT
+$a === $b; // false`} /></PhpCode>
       <div className="identity-result"><strong>SELECT ×2</strong><span>Два экземпляра модели</span></div>
     </section>
     <div className="doctrine-footer doctrine-footer--quiet">Для поиска по primary key; произвольный DQL всё ещё может выполнить SQL</div>
@@ -693,7 +688,7 @@ const DoctrineLayers = () => {
             }}
           >
             <small>{service.name}</small>
-            <code><span className="syntax-variable">$users</span>-&gt;<span className="syntax-name">find</span>(<span className="identity-id">42</span>)</code>
+            <code><PhpTokens code="$users->find(" /><span className="identity-id">42</span>)</code>
           </article>
         ))}
       </section>
@@ -784,14 +779,12 @@ const DoctrineLayers = () => {
 
 const DoctrineBoundary = () => (
   <div className="doctrine-two-column doctrine-two-column--boundary">
-    <PhpCode tone="green">
-      <span><span className="syntax-variable">$user</span> = <span className="syntax-variable">$users</span>-&gt;<span className="syntax-name">get</span>(<span className="syntax-number">42</span>);</span>
-      <span>&nbsp;</span>
-      <span><span className="syntax-variable">$profile</span>-&gt;<span className="syntax-name">changeEmail</span>(<span className="syntax-variable">$user</span>);</span>
-      <span><span className="syntax-variable">$billing</span>-&gt;<span className="syntax-name">upgradePlan</span>(<span className="syntax-variable">$user</span>);</span>
-      <span>&nbsp;</span>
-      <span><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">flush</span>();</span>
-    </PhpCode>
+    <PhpCode tone="green"><PhpLines code={`$user = $users->get(42);
+
+$profile->changeEmail($user);
+$billing->upgradePlan($user);
+
+$em->flush();`} /></PhpCode>
     <section className="boundary-flow">
       <article><small>Repository</small><strong>возвращает / регистрирует</strong></article>
       <span>↓</span>
@@ -799,7 +792,7 @@ const DoctrineBoundary = () => (
       <span>↓</span>
       <article className="boundary-flow__commit"><small>flush()</small><strong>одна transaction</strong></article>
     </section>
-    <div className="doctrine-footer">Один <code>flush()</code> — разумный default на логическую операцию, а не запрет</div>
+    <div className="doctrine-footer">Один <code><PhpTokens code={`flush()`} /></code> — разумный default на логическую операцию, а не запрет</div>
   </div>
 );
 
@@ -819,7 +812,7 @@ const LazyBenefit = () => {
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
           }}
-        ><span className="syntax-variable">$order</span> = <span className="syntax-variable">$orders</span>-&gt;<span className="syntax-name">find</span>(<span className="syntax-number">42</span>);</span>
+        ><PhpTokens code={`$order = $orders->find(42);`} /></span>
         <span>&nbsp;</span>
         <span
           style={{
@@ -829,10 +822,9 @@ const LazyBenefit = () => {
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
           }}
-        ><span className="syntax-keyword">echo</span> <span className="syntax-variable">$order</span>-&gt;<span className="syntax-name">getNumber</span>();</span>
+        ><PhpTokens code={`echo $order->getNumber();`} /></span>
         <span>&nbsp;</span>
         <span
-          className="syntax-comment"
           style={{
             opacity: interpolate(frame, [fps * 2.0, fps * 2.45], [0, 1], {
               extrapolateLeft: 'clamp',
@@ -840,7 +832,7 @@ const LazyBenefit = () => {
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
           }}
-        >// getItems() не вызывается</span>
+        ><PhpTokens code={`// getItems() не вызывается`} /></span>
       </PhpCode>
 
       <section className="lazy-sql-panel lazy-sql-panel--success">
@@ -893,24 +885,19 @@ const LazyNPlusOne = () => {
 
   return (
     <div className="lazy-code-layout">
-      <PhpCode tone="red">
-        <span><span className="syntax-variable">$orders</span> = <span className="syntax-variable">$repo</span>-&gt;<span className="syntax-name">findRecent</span>();</span>
-        <span>&nbsp;</span>
-        <span><span className="syntax-keyword">foreach</span> (<span className="syntax-variable">$orders</span> <span className="syntax-keyword">as</span> <span className="syntax-variable">$order</span>) {'{'}</span>
-        <span
-          className="code-line--indent-1 lazy-code-line lazy-code-line--red"
-          style={{
+      <PhpCode tone="red"><PhpLines code={`$orders = $repo->findRecent();
+
+foreach ($orders as $order) {
+  foreach ($order->getItems() as $item) {
+    render($item);
+  }
+}`} lineProps={{3: {className: "lazy-code-line lazy-code-line--red", style: {
             opacity: interpolate(frame, [fps * 1.25, fps * 1.8], [0.35, 1], {
               extrapolateLeft: 'clamp',
               extrapolateRight: 'clamp',
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
-          }}
-        ><span className="syntax-keyword">foreach</span> (<span className="syntax-variable">$order</span>-&gt;<span className="syntax-name">getItems</span>() <span className="syntax-keyword">as</span> <span className="syntax-variable">$item</span>) {'{'}</span>
-        <span className="code-line--indent-2"><span className="syntax-name">render</span>(<span className="syntax-variable">$item</span>);</span>
-        <span className="code-line--indent-1">{'}'}</span>
-        <span>{'}'}</span>
-      </PhpCode>
+          }}}} /></PhpCode>
 
       <section className="lazy-sql-panel lazy-sql-panel--danger">
         <div className="lazy-sql-panel__label">SQL log</div>
@@ -971,8 +958,8 @@ const LazyFetchJoin = () => {
   return (
     <div className="lazy-code-layout">
       <PhpCode tone="green">
-        <span className="lazy-code-line lazy-code-line--green"><span className="syntax-variable">$orders</span> = <span className="syntax-variable">$orderRepository</span></span>
-        <span className="code-line--indent-1">-&gt;<span className="syntax-name">findRecentWithItems</span>();</span>
+        <span className="lazy-code-line lazy-code-line--green"><PhpTokens code={`$orders = $orderRepository`} /></span>
+        <span className="code-line--indent-1"><PhpTokens code={`->findRecentWithItems();`} /></span>
         <span>&nbsp;</span>
         <span
           className="lazy-code-detail"
@@ -984,11 +971,11 @@ const LazyFetchJoin = () => {
             }),
           }}
         >
-          <span className="syntax-comment">// внутри OrderRepository</span>
-          <span><span className="syntax-keyword">return</span> <span className="syntax-variable">$this</span>-&gt;<span className="syntax-name">createQueryBuilder</span>(<span className="syntax-string">'o'</span>)</span>
-          <span className="code-line--indent-1">-&gt;<span className="syntax-name">addSelect</span>(<span className="syntax-string">'i'</span>)</span>
-          <span className="code-line--indent-1">-&gt;<span className="syntax-name">leftJoin</span>(<span className="syntax-string">'o.items'</span>, <span className="syntax-string">'i'</span>)</span>
-          <span className="code-line--indent-1">-&gt;<span className="syntax-name">getQuery</span>()-&gt;<span className="syntax-name">getResult</span>();</span>
+          <span><PhpTokens code={`// внутри OrderRepository`} /></span>
+          <span><PhpTokens code={`return $this->createQueryBuilder('o')`} /></span>
+          <span className="code-line--indent-1"><PhpTokens code={`->addSelect('i')`} /></span>
+          <span className="code-line--indent-1"><PhpTokens code={`->leftJoin('o.items', 'i')`} /></span>
+          <span className="code-line--indent-1"><PhpTokens code={`->getQuery()->getResult();`} /></span>
         </span>
       </PhpCode>
 
@@ -1034,21 +1021,16 @@ const DoctrineTransactionImplicit = () => {
 
   return (
     <div className="transaction-implicit-layout">
-      <PhpCode tone="green">
-        <span><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">persist</span>(<span className="syntax-variable">$order</span>);</span>
-        <span><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">persist</span>(<span className="syntax-variable">$auditLog</span>);</span>
-        <span>&nbsp;</span>
-        <span
-          className="transaction-code-focus"
-          style={{
+      <PhpCode tone="green"><PhpLines code={`$em->persist($order);
+$em->persist($auditLog);
+
+$em->flush();`} lineProps={{3: {className: "transaction-code-focus", style: {
             opacity: interpolate(frame, [fps * 0.12, fps * 0.28], [0.35, 1], {
               extrapolateLeft: 'clamp',
               extrapolateRight: 'clamp',
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
-          }}
-        ><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">flush</span>();</span>
-      </PhpCode>
+          }}}} /></PhpCode>
 
       <section className="transaction-uow-panel">
         <div className="transaction-panel-label">Unit of Work</div>
@@ -1065,7 +1047,7 @@ const DoctrineTransactionImplicit = () => {
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
           }}
-        ><code>flush()</code><span>↓</span></div>
+        ><code><PhpTokens code={`flush()`} /></code><span>↓</span></div>
         <div className="transaction-trace">
           {trace.map((step, index) => {
             const at = fps * (0.25 + index * 0.11);
@@ -1107,14 +1089,12 @@ const DoctrineTransactionExplicit = () => {
 
   return (
     <div className="transaction-explicit-layout">
-      <PhpCode tone="green">
-        <span><span className="syntax-variable">$conn</span>-&gt;<span className="syntax-name">transactional</span>(</span>
-        <span className="code-line--indent-1"><span className="syntax-keyword">function</span> () <span className="syntax-keyword">use</span> (<span className="syntax-variable">$conn</span>) {'{'}</span>
-        <span className="code-line--indent-2"><span className="syntax-variable">$conn</span>-&gt;<span className="syntax-name">executeStatement</span>(<span className="syntax-variable">$sql1</span>);</span>
-        <span className="code-line--indent-2"><span className="syntax-variable">$conn</span>-&gt;<span className="syntax-name">executeStatement</span>(<span className="syntax-variable">$sql2</span>);</span>
-        <span className="code-line--indent-1">{'}'}</span>
-        <span>);</span>
-      </PhpCode>
+      <PhpCode tone="green"><PhpLines code={`$conn->transactional(
+  function () use ($conn) {
+    $conn->executeStatement($sql1);
+    $conn->executeStatement($sql2);
+  }
+);`} /></PhpCode>
 
       <section className="transaction-cases">
         <div className="transaction-cases__label">Ещё случаи</div>
@@ -1144,7 +1124,7 @@ const DoctrineTransactionExplicit = () => {
         })}
       </section>
 
-      <div className="doctrine-footer transaction-footer--direct">SQL/DQL-записи выполняются сразу — <code>flush()</code> их не собирает</div>
+      <div className="doctrine-footer transaction-footer--direct">SQL/DQL-записи выполняются сразу — <code><PhpTokens code={`flush()`} /></code> их не собирает</div>
     </div>
   );
 };
@@ -1232,7 +1212,7 @@ const UuidV7Anatomy = () => {
           }),
         }}
       >
-        <code><span className="syntax-variable">$id</span>-&gt;<span className="syntax-name">getDateTime</span>()</code>
+        <code><PhpTokens code={`$id->getDateTime()`} /></code>
         <span>22.02.2022 19:22:22 UTC</span>
         <small>время генерации ID, не дата INSERT</small>
       </section>
@@ -1244,20 +1224,18 @@ const UuidV7Anatomy = () => {
 
 const UuidBeforeDatabase = () => (
   <div className="uuid-code-layout">
-    <PhpCode tone="green">
-      <span><span className="syntax-keyword">final class</span> <span className="syntax-type">Order</span></span>
-      <span>{'{'}</span>
-      <span className="code-line--indent-1"><span className="syntax-keyword">public function</span> <span className="syntax-name">__construct</span>(</span>
-      <span className="code-line--indent-2 uuid-code-highlight"><span className="syntax-keyword">private</span> <span className="syntax-type">UuidV7</span> <span className="syntax-variable">$id</span> = <span className="syntax-keyword">new</span> <span className="syntax-type">UuidV7</span>(),</span>
-      <span className="code-line--indent-1">) {'{}'}</span>
-      <span>{'}'}</span>
-      <span>&nbsp;</span>
-      <span><span className="syntax-variable">$order</span> = <span className="syntax-keyword">new</span> <span className="syntax-type">Order</span>();</span>
-      <span><span className="syntax-variable">$bus</span>-&gt;<span className="syntax-name">dispatch</span>(</span>
-      <span className="code-line--indent-1"><span className="syntax-keyword">new</span> <span className="syntax-type">OrderCreated</span>(<span className="syntax-variable">$order</span>-&gt;<span className="syntax-name">id</span>()),</span>
-      <span>);</span>
-      <span><span className="syntax-variable">$em</span>-&gt;<span className="syntax-name">persist</span>(<span className="syntax-variable">$order</span>);</span>
-    </PhpCode>
+    <PhpCode tone="green"><PhpLines code={`final class Order
+{
+  public function __construct(
+    private UuidV7 $id = new UuidV7(),
+  ) {}
+}
+
+$order = new Order();
+$bus->dispatch(
+  new OrderCreated($order->id()),
+);
+$em->persist($order);`} lineProps={{3: {className: "uuid-code-highlight"}}} /></PhpCode>
 
     <aside className="uuid-code-result">
       <div><small>Тип поля</small><code>UuidV7</code></div>

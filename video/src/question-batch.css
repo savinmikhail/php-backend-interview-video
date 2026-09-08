@@ -123,7 +123,7 @@
   font: 650 19px/1.25 'JetBrains Mono', Menlo, monospace;
 }
 
-.identity-checks code span {
+.identity-checks code > span:first-child {
   display: inline-block;
   min-width: 168px;
   margin-right: 12px;
@@ -502,6 +502,7 @@
 }
 
 .exception-generic code {
+  white-space: pre-wrap;
   color: #f8e7ed;
   font: 650 23px/1.4 'JetBrains Mono', Menlo, monospace;
 }
@@ -773,7 +774,7 @@
   grid-template-columns: 1fr auto;
 }
 
-.composition--short .identity-checks code span {
+.composition--short .identity-checks code > span:first-child {
   display: block;
   margin: 0 0 5px;
 }

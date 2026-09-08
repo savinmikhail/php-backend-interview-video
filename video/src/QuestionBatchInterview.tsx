@@ -1,3 +1,4 @@
+import {PhpTokens} from './PhpCodeBlock';
 import type {ReactNode} from 'react';
 import {Audio} from '@remotion/media';
 import {
@@ -86,17 +87,17 @@ const ObjectMutationSlide = ({format, speaker}: SlideProps) => {
         <div className="batch-code-card">
           <div className="batch-code-card__label">Параметр без &amp;</div>
           <pre>
-            <code>
-              <span className="kw">function</span> rename(<span className="type">User</span> <span className="var">$user</span>): <span className="type">void</span>{' '}
-              {'{'}{`\n`}  <span className="var">$user</span>-&gt;name = <span className="str">'Alex'</span>;{`\n`}{'}'}
-              {`\n\n`}<span className="var">$user</span> = <span className="kw">new</span> <span className="type">User</span>(<span className="str">'Mikhail'</span>);{`\n`}
-              rename(<span className="var">$user</span>);
-            </code>
+            <code><PhpTokens code={`function rename(User $user): void {
+  $user->name = 'Alex';
+}
+
+$user = new User('Mikhail');
+rename($user);`} /></code>
           </pre>
         </div>
         <div className="batch-result batch-result--good" style={reveal(frame, 7 * fps)}>
           <span>После вызова</span>
-          <code>$user-&gt;name</code>
+          <code><PhpTokens code={`$user->name`} /></code>
           <strong>'Alex'</strong>
           <small>Изменение объекта видно снаружи</small>
         </div>
@@ -121,8 +122,8 @@ const ObjectIdentitySlide = ({format, speaker}: SlideProps) => {
     <InterviewShell format={format} speaker={speaker} counter="3" question={objectQuestion}>
       <div className="identity-layout" style={enter(frame)}>
         <div className="identity-checks">
-          <code><span>до вызова</span> spl_object_id($user)</code><b>1434</b>
-          <code><span>внутри inspect()</span> spl_object_id($arg)</code><b>1434</b>
+          <code><span>до вызова</span> <PhpTokens code="spl_object_id($user)" /></code><b>1434</b>
+          <code><span>внутри inspect()</span> <PhpTokens code="spl_object_id($arg)" /></code><b>1434</b>
         </div>
         <div className="zval-flow" style={reveal(frame, 3 * fps)}>
           <ZvalBox name="$user" />
@@ -149,16 +150,16 @@ const DateTimeComparisonSlide = ({format, speaker}: SlideProps) => {
       <div className="datetime-comparison" style={enter(frame)}>
         <article className="datetime-card datetime-card--mutable">
           <header><span>mutable</span><strong>DateTime</strong></header>
-          <code>$next = $date-&gt;modify('+1 day');</code>
+          <code><PhpTokens code={`$next = $date->modify('+1 day');`} /></code>
           <div className="date-transition"><b>01 Jan</b><i>→</i><b>02 Jan</b></div>
-          <div className="identity-row"><span>$date === $next</span><b>true</b></div>
+          <div className="identity-row"><span><PhpTokens code="$date === $next" /></span><b>true</b></div>
           <p>Меняет текущий объект</p>
         </article>
         <article className="datetime-card datetime-card--immutable" style={reveal(frame, 1.5 * fps)}>
           <header><span>immutable</span><strong>DateTimeImmutable</strong></header>
-          <code>$next = $date-&gt;modify('+1 day');</code>
+          <code><PhpTokens code={`$next = $date->modify('+1 day');`} /></code>
           <div className="date-transition date-transition--fork"><b>01 Jan</b><i>↗</i><b>new 02 Jan</b></div>
-          <div className="identity-row"><span>$date === $next</span><b>false</b></div>
+          <div className="identity-row"><span><PhpTokens code="$date === $next" /></span><b>false</b></div>
           <p>Возвращает новый объект</p>
         </article>
       </div>
@@ -174,13 +175,13 @@ const DateTimePitfallSlide = ({format, speaker}: SlideProps) => {
       <div className="pitfall-layout" style={enter(frame)}>
         <article className="pitfall-card pitfall-card--lost">
           <span>Результат потерян</span>
-          <code>$date-&gt;modify('+1 day');</code>
+          <code><PhpTokens code={`$date->modify('+1 day');`} /></code>
           <strong>2026-01-01</strong>
           <small>Исходный объект не изменился</small>
         </article>
         <article className="pitfall-card pitfall-card--saved" style={reveal(frame, 2 * fps)}>
           <span>Результат сохранён</span>
-          <code>$date = $date-&gt;modify('+1 day');</code>
+          <code><PhpTokens code={`$date = $date->modify('+1 day');`} /></code>
           <strong>2026-01-02</strong>
           <small>Новое значение присвоено переменной</small>
         </article>
@@ -197,7 +198,9 @@ const ExceptionTypesSlide = ({format, speaker}: SlideProps) => {
       <div className="exception-types" style={enter(frame)}>
         <article className="exception-generic">
           <span>Один общий тип</span>
-          <code>new Exception(<br />&nbsp;&nbsp;'Payment failed'<br />);</code>
+          <code><PhpTokens code={`new Exception(
+  'Payment failed'
+);`} /></code>
           <p>Смысл спрятан в строке</p>
         </article>
         <div className="exception-divider">→</div>
@@ -243,7 +246,7 @@ const ExceptionFlow = ({frame, fps}: {frame: number; fps: number}) => (
         <strong>GatewayTimeout</strong>
         <small>инфраструктурный сбой</small>
       </article>
-      <div className="flow-arrow" style={reveal(frame, 2 * fps)}><span>catch + translate</span><b>→</b><code>previous: $e</code></div>
+      <div className="flow-arrow" style={reveal(frame, 2 * fps)}><span>catch + translate</span><b>→</b><code><PhpTokens code={`previous: $e`} /></code></div>
       <article className="flow-node flow-node--app" style={reveal(frame, 5 * fps)}>
         <span>Adapter boundary</span>
         <strong>PaymentGatewayUnavailable</strong>

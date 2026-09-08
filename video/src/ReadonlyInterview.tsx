@@ -1,3 +1,4 @@
+import {PhpTokens} from './PhpCodeBlock';
 import type {ReactNode} from 'react';
 import {Audio} from '@remotion/media';
 import {
@@ -53,7 +54,15 @@ const RulesSlide = ({format, speaker}: SlideProps) => {
     <InterviewShell format={format} speaker={speaker} counter="1" question="Что такое readonly-класс в PHP?">
       <div className="rules-layout" style={enter(frame * PRODUCTION_FPS / fps)}>
         <div className="code-card">
-          <pre><code><span className="kw">readonly class</span> <span className="type">User</span>{`\n{\n`}  <span className="kw">public function</span> __construct({`\n`}    <span className="kw">public string</span> <span className="var">$name</span>,{`\n`}    <span className="kw">public Address</span> <span className="var">$address</span>,{`\n`}  ) {'{}'}{`\n}`}{`\n\n`}<span className="var">$user</span>-&gt;name = <span className="str">'Alex'</span>;</code></pre>
+          <pre><code><PhpTokens code={`readonly class User
+{
+  public function __construct(
+    public string $name,
+    public Address $address,
+  ) {}
+}
+
+$user->name = 'Alex';`} /></code></pre>
           <ErrorLine />
         </div>
         <div className="takeaways">
@@ -74,7 +83,7 @@ const RulesSlide = ({format, speaker}: SlideProps) => {
 const Takeaway = ({icon, title, text, snippet, className = ''}: {icon: ReactNode; title: string; text: string; snippet?: string; className?: string}) => (
   <div className={`takeaway ${className}`}>
     <span className="takeaway__icon">{icon}</span>
-    <div><strong>{title}</strong><span>{text}</span>{snippet && <code>{snippet}</code>}</div>
+    <div><strong>{title}</strong><span>{text}</span>{snippet && <code><PhpTokens code={snippet} /></code>}</div>
   </div>
 );
 
@@ -114,17 +123,17 @@ const NuanceSlide = ({format, speaker}: SlideProps) => {
         <div className="object-comparison">
           <div className="object object--readonly">
             <small>readonly class</small><strong>User</strong>
-            <code>$name <LockIcon small /></code>
-            <code>$address <span className="property-note">ссылка защищена <LockIcon small /></span></code>
+            <code><PhpTokens code="$name" /> <LockIcon small /></code>
+            <code><PhpTokens code="$address" /> <span className="property-note">ссылка защищена <LockIcon small /></span></code>
           </div>
           <div className="arrow">→</div>
           <div className="object object--mutable">
             <small>обычный mutable-класс</small><strong>Address</strong>
-            <code>$city: 'Moscow'</code>
+            <code><PhpTokens code={`$city: 'Moscow'`} /></code>
             <span className="object__state">Состояние объекта изменяемо</span>
           </div>
-          <div className="result result--bad"><code>$user-&gt;name = 'Alex';</code><b>Ошибка</b></div>
-          <div className="result result--good"><code>$user-&gt;address-&gt;city = 'Berlin';</code><b>Допустимо</b></div>
+          <div className="result result--bad"><code><PhpTokens code={`$user->name = 'Alex';`} /></code><b>Ошибка</b></div>
+          <div className="result result--good"><code><PhpTokens code={`$user->address->city = 'Berlin';`} /></code><b>Допустимо</b></div>
           <Takeaway
             icon={<LockIcon />}
             title="Ссылка защищена"

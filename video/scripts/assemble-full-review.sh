@@ -9,6 +9,7 @@ TIMELINE="$VIDEO_DIR/review-timeline.tsv"
 SLIDES_DIR="$VIDEO_DIR/public/generated/review-slides"
 SEGMENTS_DIR="$VIDEO_DIR/public/generated/full-review-segments"
 BASE_LOOP="$VIDEO_DIR/public/generated/base-review-loop.mp4"
+AUDIO_SOURCE="$VIDEO_DIR/public/generated/full-review-audio-loud.wav"
 OUTPUT="${2:-$PROJECT_DIR/renders/841862-full-review.mp4}"
 CONCAT_FILE="$SEGMENTS_DIR/concat.txt"
 SOURCE_DURATION="${REVIEW_DURATION:-4913}"
@@ -21,6 +22,7 @@ if [[ ! -f "$SOURCE_VIDEO" ]]; then
   exit 1
 fi
 
+FULL_REVIEW_SOURCE="$SOURCE_VIDEO" "$SCRIPT_DIR/prepare-full-review-assets.sh"
 "$SCRIPT_DIR/render-review-stills.sh"
 if [[ ! -f "$BASE_LOOP" \
   || "$VIDEO_DIR/src/BaseReview.tsx" -nt "$BASE_LOOP" \
@@ -64,7 +66,7 @@ render_base() {
   echo "[$segment_number] Base scene ${start}–${end}"
   ffmpeg -nostdin -hide_banner -loglevel error -y \
     -stream_loop -1 -i "$BASE_LOOP" \
-    -ss "$start" -t "$duration" -i "$SOURCE_VIDEO" \
+    -ss "$start" -t "$duration" -i "$AUDIO_SOURCE" \
     -map 0:v:0 -map 1:a:0 -t "$duration" \
     -vf 'fps=30,format=yuv420p' \
     "${encode_common[@]}" "$output"
@@ -81,7 +83,7 @@ render_still() {
   echo "[$segment_number] Slide $slide_id ${start}–${end}"
   ffmpeg -nostdin -hide_banner -loglevel error -y \
     -loop 1 -framerate 30 -i "$SLIDES_DIR/$slide_id.png" \
-    -ss "$start" -t "$duration" -i "$SOURCE_VIDEO" \
+    -ss "$start" -t "$duration" -i "$AUDIO_SOURCE" \
     -map 0:v:0 -map 1:a:0 -t "$duration" \
     -vf 'format=yuv420p' \
     "${encode_common[@]}" "$output"
@@ -98,7 +100,7 @@ render_video() {
   echo "[$segment_number] Existing animated sequence ${start}–${end}"
   ffmpeg -nostdin -hide_banner -loglevel error -y \
     -i "$VIDEO_DIR/$relative_path" \
-    -ss "$start" -t "$duration" -i "$SOURCE_VIDEO" \
+    -ss "$start" -t "$duration" -i "$AUDIO_SOURCE" \
     -map 0:v:0 -map 1:a:0 -t "$duration" \
     -vf 'fps=30,format=yuv420p' \
     "${encode_common[@]}" "$output"

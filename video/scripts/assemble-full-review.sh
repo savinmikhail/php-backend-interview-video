@@ -43,7 +43,28 @@ timestamp_to_seconds() {
   local timestamp="$1"
   local hours minutes seconds
   IFS=: read -r hours minutes seconds <<< "$timestamp"
-  printf '%d' "$((10#$hours * 3600 + 10#$minutes * 60 + 10#$seconds))"
+  awk -v hours="$hours" -v minutes="$minutes" -v seconds="$seconds" \
+    'BEGIN {printf "%.6f", hours * 3600 + minutes * 60 + seconds}'
+}
+
+seconds_between() {
+  awk -v start="$1" -v end="$2" 'BEGIN {printf "%.6f", end - start}'
+}
+
+number_le() {
+  awk -v left="$1" -v right="$2" 'BEGIN {exit !(left <= right)}'
+}
+
+number_lt() {
+  awk -v left="$1" -v right="$2" 'BEGIN {exit !(left < right)}'
+}
+
+number_ge() {
+  awk -v left="$1" -v right="$2" 'BEGIN {exit !(left >= right)}'
+}
+
+number_gt() {
+  awk -v left="$1" -v right="$2" 'BEGIN {exit !(left > right)}'
 }
 
 encode_common=(
@@ -64,8 +85,9 @@ append_segment() {
 render_base_segment() {
   local start="$1"
   local end="$2"
-  local duration=$((end - start))
-  (( duration <= 0 )) && return
+  local duration
+  duration="$(seconds_between "$start" "$end")"
+  number_le "$duration" 0 && return
   segment_number=$((segment_number + 1))
   local output="$SEGMENTS_DIR/$(printf '%03d' "$segment_number")-base.mp4"
   echo "[$segment_number] Base scene ${start}–${end}"
@@ -87,12 +109,14 @@ render_base_range() {
   for index in "${!CUT_STARTS[@]}"; do
     cut_start="${CUT_STARTS[$index]}"
     cut_end="${CUT_ENDS[$index]}"
-    (( cut_end <= range_cursor || cut_start >= end )) && continue
-    (( range_cursor < cut_start )) && render_base_segment "$range_cursor" "$cut_start"
-    (( range_cursor < cut_end )) && range_cursor="$cut_end"
+    if number_le "$cut_end" "$range_cursor" || number_ge "$cut_start" "$end"; then
+      continue
+    fi
+    number_lt "$range_cursor" "$cut_start" && render_base_segment "$range_cursor" "$cut_start"
+    number_lt "$range_cursor" "$cut_end" && range_cursor="$cut_end"
   done
 
-  (( range_cursor < end )) && render_base_segment "$range_cursor" "$end"
+  number_lt "$range_cursor" "$end" && render_base_segment "$range_cursor" "$end"
 }
 
 overlaps_editorial_cut() {
@@ -101,7 +125,8 @@ overlaps_editorial_cut() {
   local index
 
   for index in "${!CUT_STARTS[@]}"; do
-    if (( start < CUT_ENDS[index] && end > CUT_STARTS[index] )); then
+    if number_lt "$start" "${CUT_ENDS[$index]}" \
+      && number_gt "$end" "${CUT_STARTS[$index]}"; then
       return 0
     fi
   done
@@ -113,7 +138,8 @@ render_still_segment() {
   local start="$1"
   local end="$2"
   local slide_id="$3"
-  local duration=$((end - start))
+  local duration
+  duration="$(seconds_between "$start" "$end")"
   segment_number=$((segment_number + 1))
   local output="$SEGMENTS_DIR/$(printf '%03d' "$segment_number")-$slide_id.mp4"
   echo "[$segment_number] Slide $slide_id ${start}–${end}"
@@ -136,19 +162,22 @@ render_still_range() {
   for index in "${!CUT_STARTS[@]}"; do
     cut_start="${CUT_STARTS[$index]}"
     cut_end="${CUT_ENDS[$index]}"
-    (( cut_end <= range_cursor || cut_start >= end )) && continue
-    (( range_cursor < cut_start )) && render_still_segment "$range_cursor" "$cut_start" "$slide_id"
-    (( range_cursor < cut_end )) && range_cursor="$cut_end"
+    if number_le "$cut_end" "$range_cursor" || number_ge "$cut_start" "$end"; then
+      continue
+    fi
+    number_lt "$range_cursor" "$cut_start" && render_still_segment "$range_cursor" "$cut_start" "$slide_id"
+    number_lt "$range_cursor" "$cut_end" && range_cursor="$cut_end"
   done
 
-  (( range_cursor < end )) && render_still_segment "$range_cursor" "$end" "$slide_id"
+  number_lt "$range_cursor" "$end" && render_still_segment "$range_cursor" "$end" "$slide_id"
 }
 
 render_video() {
   local start="$1"
   local end="$2"
   local relative_path="$3"
-  local duration=$((end - start))
+  local duration
+  duration="$(seconds_between "$start" "$end")"
   segment_number=$((segment_number + 1))
   local output="$SEGMENTS_DIR/$(printf '%03d' "$segment_number")-animated.mp4"
   echo "[$segment_number] Existing animated sequence ${start}–${end}"
@@ -165,10 +194,10 @@ while IFS=$'\t' read -r start_stamp end_stamp source; do
   [[ -z "${start_stamp:-}" || "$start_stamp" == \#* ]] && continue
   start="$(timestamp_to_seconds "$start_stamp")"
   end="$(timestamp_to_seconds "$end_stamp")"
-  (( start >= SOURCE_DURATION )) && break
-  (( end > SOURCE_DURATION )) && end="$SOURCE_DURATION"
-  (( end <= INTRO_END )) && continue
-  (( start < INTRO_END )) && start="$INTRO_END"
+  number_ge "$start" "$SOURCE_DURATION" && break
+  number_gt "$end" "$SOURCE_DURATION" && end="$SOURCE_DURATION"
+  number_le "$end" "$INTRO_END" && continue
+  number_lt "$start" "$INTRO_END" && start="$INTRO_END"
 
   if [[ "$source" == video:* ]] && overlaps_editorial_cut "$start" "$end"; then
     echo "Visual segment overlaps an editorial cut: $start_stamp–$end_stamp" >&2

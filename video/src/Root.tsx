@@ -28,7 +28,7 @@ export const RemotionRoot = () => (
     <Composition
       id="FullInterviewReviewDev"
       component={FullInterviewReview}
-      durationInFrames={FULL_REVIEW_DURATION * DEV_FPS}
+      durationInFrames={Math.round(FULL_REVIEW_DURATION * DEV_FPS)}
       fps={DEV_FPS}
       width={1920}
       height={1080}
@@ -37,7 +37,7 @@ export const RemotionRoot = () => (
     <Composition
       id="FullInterviewReview"
       component={FullInterviewReview}
-      durationInFrames={FULL_REVIEW_DURATION * PRODUCTION_FPS}
+      durationInFrames={Math.round(FULL_REVIEW_DURATION * PRODUCTION_FPS)}
       fps={PRODUCTION_FPS}
       width={1920}
       height={1080}

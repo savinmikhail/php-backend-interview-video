@@ -116,10 +116,6 @@ const reviewSegments: ReviewSegment[] = [
   {start: '01:00:41', end: '01:01:08', slideId: '30-basics'},
   {start: '01:01:08', end: '01:01:48', slideId: '30-copy'},
   {start: '01:01:48', end: '01:02:13', slideId: '30-criterion'},
-  {start: '01:18:04', end: '01:18:41', slideId: '32-uses'},
-  {start: '01:18:41', end: '01:19:20', slideId: '32-risk'},
-  {start: '01:19:20', end: '01:20:06', slideId: '32-loop'},
-  {start: '01:20:06', end: '01:20:59', slideId: '32-readable'},
 ];
 
 const occupiedSegments = [
@@ -176,7 +172,7 @@ export const FullInterviewReview = ({format, withAudio = true}: Props) => {
 
       <Sequence
         name="Базовая сцена"
-        durationInFrames={FULL_REVIEW_DURATION * fps}
+        durationInFrames={Math.round(FULL_REVIEW_DURATION * fps)}
         premountFor={fps}
       >
         <BaseTrack format={format} />
@@ -288,10 +284,6 @@ export const FullInterviewReview = ({format, withAudio = true}: Props) => {
       <Sequence name="30-basics" from={slideFrom('30-basics', fps)} durationInFrames={slideDuration('30-basics', fps)} premountFor={fps}><ReviewSlide format={format} slideId="30-basics" /></Sequence>
       <Sequence name="30-copy" from={slideFrom('30-copy', fps)} durationInFrames={slideDuration('30-copy', fps)} premountFor={fps}><ReviewSlide format={format} slideId="30-copy" /></Sequence>
       <Sequence name="30-criterion" from={slideFrom('30-criterion', fps)} durationInFrames={slideDuration('30-criterion', fps)} premountFor={fps}><ReviewSlide format={format} slideId="30-criterion" /></Sequence>
-      <Sequence name="32-uses" from={slideFrom('32-uses', fps)} durationInFrames={slideDuration('32-uses', fps)} premountFor={fps}><ReviewSlide format={format} slideId="32-uses" /></Sequence>
-      <Sequence name="32-risk" from={slideFrom('32-risk', fps)} durationInFrames={slideDuration('32-risk', fps)} premountFor={fps}><ReviewSlide format={format} slideId="32-risk" /></Sequence>
-      <Sequence name="32-loop" from={slideFrom('32-loop', fps)} durationInFrames={slideDuration('32-loop', fps)} premountFor={fps}><ReviewSlide format={format} slideId="32-loop" /></Sequence>
-      <Sequence name="32-readable" from={slideFrom('32-readable', fps)} durationInFrames={slideDuration('32-readable', fps)} premountFor={fps}><ReviewSlide format={format} slideId="32-readable" /></Sequence>
     </AbsoluteFill>
   );
 };

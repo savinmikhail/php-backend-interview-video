@@ -33,24 +33,41 @@ const INTRO_END = timestampToSeconds('00:13:46');
 const PROJECT_SECTION_START = timestampToSeconds('01:02:45');
 const PROJECT_SECTION_END = timestampToSeconds('01:17:20');
 const SOURCE_DURATION = timestampToSeconds('01:21:53');
-const FULL_REVIEW_AUDIO = 'generated/full-review-audio-loud.wav';
-export const FULL_REVIEW_DURATION = SOURCE_DURATION
-  - INTRO_END
-  - (PROJECT_SECTION_END - PROJECT_SECTION_START);
-
-const firstAudioDuration = PROJECT_SECTION_START - INTRO_END;
+const FULL_REVIEW_AUDIO = 'generated/full-review-audio-cut.m4a';
+const EDITORIAL_CUTS = [
+  {start: 0, end: INTRO_END},
+  {start: timestampToSeconds('00:31:30'), end: timestampToSeconds('00:31:51')},
+  {start: timestampToSeconds('00:35:02'), end: timestampToSeconds('00:35:53')},
+  {start: PROJECT_SECTION_START, end: PROJECT_SECTION_END},
+];
+export const FULL_REVIEW_DURATION = SOURCE_DURATION - EDITORIAL_CUTS.reduce(
+  (total, cut) => total + cut.end - cut.start,
+  0,
+);
 
 const sourceSecondToOutputSecond = (sourceSecond: number) => {
-  if (sourceSecond < INTRO_END) return null;
-  if (sourceSecond < PROJECT_SECTION_START) return sourceSecond - INTRO_END;
-  if (sourceSecond < PROJECT_SECTION_END) return null;
-  return sourceSecond - INTRO_END - (PROJECT_SECTION_END - PROJECT_SECTION_START);
+  let removedDuration = 0;
+
+  for (const cut of EDITORIAL_CUTS) {
+    if (sourceSecond <= cut.start) return sourceSecond - removedDuration;
+    if (sourceSecond < cut.end) return null;
+    removedDuration += cut.end - cut.start;
+  }
+
+  return sourceSecond - removedDuration;
 };
 
-const outputSecondToSourceSecond = (outputSecond: number) =>
-  outputSecond < firstAudioDuration
-    ? outputSecond + INTRO_END
-    : outputSecond - firstAudioDuration + PROJECT_SECTION_END;
+const outputSecondToSourceSecond = (outputSecond: number) => {
+  let removedDuration = 0;
+
+  for (const cut of EDITORIAL_CUTS) {
+    const cutStartOnOutput = cut.start - removedDuration;
+    if (outputSecond < cutStartOnOutput) break;
+    removedDuration += cut.end - cut.start;
+  }
+
+  return outputSecond + removedDuration;
+};
 
 // Keep these entries in sync with review-timeline.tsv. The earlier animated
 // sequences are mounted separately below and therefore are not duplicated here.
@@ -75,7 +92,7 @@ const reviewSegments: ReviewSegment[] = [
   {start: '00:31:55', end: '00:32:27', slideId: '11-symfony'},
   {start: '00:32:27', end: '00:33:38', slideId: '11-runtime'},
   {start: '00:34:50', end: '00:34:53', slideId: '12-question'},
-  {start: '00:34:53', end: '00:35:08', slideId: '12-compile'},
+  {start: '00:34:53', end: '00:35:02', slideId: '12-compile'},
   {start: '00:35:59', end: '00:36:04', slideId: '13-question'},
   {start: '00:36:04', end: '00:36:33', slideId: '13-persist'},
   {start: '00:36:33', end: '00:36:43', slideId: '13-flush-listener'},
@@ -183,29 +200,7 @@ export const FullInterviewReview = ({format, withAudio = true}: Props) => {
 
   return (
     <AbsoluteFill>
-      {withAudio && (
-        <>
-          <Sequence
-  name="Аудио · 13:46–1:02:45"
-  durationInFrames={firstAudioDuration * fps}
-  premountFor={fps}>
-            <Audio
-              src={staticFile(FULL_REVIEW_AUDIO)}
-              trimBefore={INTRO_END * fps}
-            />
-          </Sequence>
-          <Sequence
-  name="Аудио · 1:17:20–финал"
-  from={firstAudioDuration * fps}
-  durationInFrames={(SOURCE_DURATION - PROJECT_SECTION_END) * fps}
-  premountFor={fps}>
-            <Audio
-              src={staticFile(FULL_REVIEW_AUDIO)}
-              trimBefore={PROJECT_SECTION_END * fps}
-            />
-          </Sequence>
-        </>
-      )}
+      {withAudio && <Audio src={staticFile(FULL_REVIEW_AUDIO)} />}
 
       <Sequence
         name="Базовая сцена"

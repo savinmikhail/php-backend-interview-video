@@ -14,8 +14,8 @@ OUTPUT="${2:-$PROJECT_DIR/renders/841862-full-review.mp4}"
 CONCAT_FILE="$SEGMENTS_DIR/concat.txt"
 SOURCE_DURATION="${REVIEW_DURATION:-4913}"
 INTRO_END=826
-PROJECT_SECTION_START=3765
-PROJECT_SECTION_END=4640
+CUT_STARTS=(0 1890 2102 3765)
+CUT_ENDS=(826 1911 2153 4640)
 
 if [[ ! -f "$SOURCE_VIDEO" ]]; then
   echo "Source video not found: $SOURCE_VIDEO" >&2
@@ -56,7 +56,7 @@ append_segment() {
   printf "file '%s'\n" "$path" >> "$CONCAT_FILE"
 }
 
-render_base() {
+render_base_segment() {
   local start="$1"
   local end="$2"
   local duration=$((end - start))
@@ -71,6 +71,37 @@ render_base() {
     -vf 'fps=30,format=yuv420p' \
     "${encode_common[@]}" "$output"
   append_segment "$output"
+}
+
+render_base_range() {
+  local start="$1"
+  local end="$2"
+  local range_cursor="$start"
+  local index cut_start cut_end
+
+  for index in "${!CUT_STARTS[@]}"; do
+    cut_start="${CUT_STARTS[$index]}"
+    cut_end="${CUT_ENDS[$index]}"
+    (( cut_end <= range_cursor || cut_start >= end )) && continue
+    (( range_cursor < cut_start )) && render_base_segment "$range_cursor" "$cut_start"
+    (( range_cursor < cut_end )) && range_cursor="$cut_end"
+  done
+
+  (( range_cursor < end )) && render_base_segment "$range_cursor" "$end"
+}
+
+overlaps_editorial_cut() {
+  local start="$1"
+  local end="$2"
+  local index
+
+  for index in "${!CUT_STARTS[@]}"; do
+    if (( start < CUT_ENDS[index] && end > CUT_STARTS[index] )); then
+      return 0
+    fi
+  done
+
+  return 1
 }
 
 render_still() {
@@ -116,17 +147,12 @@ while IFS=$'\t' read -r start_stamp end_stamp source; do
   (( end <= INTRO_END )) && continue
   (( start < INTRO_END )) && start="$INTRO_END"
 
-  if (( start < PROJECT_SECTION_END && end > PROJECT_SECTION_START )); then
-    echo "Visual segment overlaps the removed project section: $start_stamp–$end_stamp" >&2
+  if overlaps_editorial_cut "$start" "$end"; then
+    echo "Visual segment overlaps an editorial cut: $start_stamp–$end_stamp" >&2
     exit 1
   fi
 
-  if (( cursor < PROJECT_SECTION_START && start >= PROJECT_SECTION_END )); then
-    render_base "$cursor" "$PROJECT_SECTION_START"
-    cursor="$PROJECT_SECTION_END"
-  fi
-
-  render_base "$cursor" "$start"
+  render_base_range "$cursor" "$start"
   if [[ "$source" == video:* ]]; then
     render_video "$start" "$end" "${source#video:}"
   else
@@ -135,11 +161,7 @@ while IFS=$'\t' read -r start_stamp end_stamp source; do
   cursor="$end"
 done < "$TIMELINE"
 
-if (( cursor < PROJECT_SECTION_START && SOURCE_DURATION > PROJECT_SECTION_END )); then
-  render_base "$cursor" "$PROJECT_SECTION_START"
-  cursor="$PROJECT_SECTION_END"
-fi
-render_base "$cursor" "$SOURCE_DURATION"
+render_base_range "$cursor" "$SOURCE_DURATION"
 
 echo "Joining $segment_number segments"
 ffmpeg -nostdin -hide_banner -loglevel error -y \

@@ -667,26 +667,129 @@ const DoctrineIdentity = () => (
   </div>
 );
 
-const DoctrineLayers = () => (
-  <div className="identity-layers">
-    <section className="identity-callers">
-      <code>ProfileService ── repo→find(42) ─┐</code>
-      <code>BillingService ── repo→find(42) ─┼──→</code>
-      <code>AuditService ──── repo→find(42) ─┘</code>
-    </section>
-    <section className="identity-map-box">
-      <small>Identity Map</small>
-      <strong>User#42</strong>
-      <span>один managed-объект</span>
-    </section>
-    <section className="identity-changes">
-      <div><code>email</code><span>old → new</span></div>
-      <div><code>plan</code><span>basic → pro</span></div>
-      <div><code>updatedAt</code><span>12:30 → 12:31</span></div>
-    </section>
-    <div className="identity-benefits"><strong>SELECT ×1</strong><strong>один согласованный объект</strong><strong>один итоговый change set</strong></div>
-  </div>
-);
+const DoctrineLayers = () => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+  const services = [
+    {name: 'ProfileService', at: 0.05},
+    {name: 'BillingService', at: 1.05},
+    {name: 'AuditService', at: 1.55},
+  ];
+  const changes = [
+    {field: 'email', before: 'old@example.com', after: 'new@example.com', at: 2.55},
+    {field: 'plan', before: 'basic', after: 'pro', at: 3.15},
+    {field: 'updatedAt', before: '12:30', after: '12:31', at: 3.75},
+  ];
+
+  return (
+    <div className="identity-story">
+      <section className="identity-services" aria-label="Сервисы запрашивают одного пользователя">
+        {services.map((service) => (
+          <article
+            className="identity-service-card"
+            key={service.name}
+            style={{
+              opacity: interpolate(frame, [fps * service.at, fps * (service.at + 0.3)], [0, 1], {
+                extrapolateLeft: 'clamp',
+                extrapolateRight: 'clamp',
+                easing: Easing.bezier(0.16, 1, 0.3, 1),
+              }),
+              translate: `0 ${interpolate(frame, [fps * service.at, fps * (service.at + 0.3)], [18, 0], {
+                extrapolateLeft: 'clamp',
+                extrapolateRight: 'clamp',
+                easing: Easing.bezier(0.16, 1, 0.3, 1),
+              })}px`,
+            }}
+          >
+            <small>{service.name}</small>
+            <code><span className="syntax-variable">$users</span>-&gt;<span className="syntax-name">find</span>(<span className="identity-id">42</span>)</code>
+          </article>
+        ))}
+      </section>
+
+      <div
+        className="identity-story-arrow"
+        style={{
+          opacity: interpolate(frame, [fps * 0.3, fps * 0.65], [0, 1], {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+          }),
+        }}
+      ><span>один primary key</span><b>↓</b></div>
+
+      <section
+        className="identity-map-focus"
+        style={{
+          opacity: interpolate(frame, [fps * 0.45, fps * 0.8], [0, 1], {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+          }),
+          scale: interpolate(frame, [fps * 0.45, fps * 0.8], [0.97, 1], {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+          }),
+          boxShadow: `0 0 ${interpolate(frame, [fps * 1.05, fps * 1.9], [18, 42], {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+          })}px rgba(91, 220, 247, .2)`,
+        }}
+      >
+        <div className="identity-map-core">
+          <small>Identity Map</small>
+          <strong>User <span className="identity-id">#42</span></strong>
+          <span>один managed instance</span>
+        </div>
+        <div className="identity-map-stat">
+          <small>Запрос к БД</small>
+          <strong>SELECT ×1</strong>
+          <span>следующие find() — из памяти</span>
+        </div>
+      </section>
+
+      <div
+        className="identity-story-arrow identity-story-arrow--changes"
+        style={{
+          opacity: interpolate(frame, [fps * 2.15, fps * 2.5], [0, 1], {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+          }),
+        }}
+      ><span>изменения этого же объекта</span><b>↓</b></div>
+
+      <section className="identity-change-set">
+        <header className="identity-change-set__title">
+          <small>Change set</small>
+          <strong>User <span className="identity-id">#42</span></strong>
+        </header>
+        <div className="identity-change-row identity-change-row--head">
+          <span>Поле</span><span>Было</span><span>Стало</span>
+        </div>
+        {changes.map((change) => (
+          <div
+            className="identity-change-row"
+            key={change.field}
+            style={{
+              opacity: interpolate(frame, [fps * change.at, fps * (change.at + 0.32)], [0, 1], {
+                extrapolateLeft: 'clamp',
+                extrapolateRight: 'clamp',
+                easing: Easing.bezier(0.16, 1, 0.3, 1),
+              }),
+              translate: `${interpolate(frame, [fps * change.at, fps * (change.at + 0.32)], [-18, 0], {
+                extrapolateLeft: 'clamp',
+                extrapolateRight: 'clamp',
+                easing: Easing.bezier(0.16, 1, 0.3, 1),
+              })}px 0`,
+            }}
+          >
+            <code>{change.field}</code><span>{change.before}</span><strong>{change.after}</strong>
+          </div>
+        ))}
+      </section>
+    </div>
+  );
+};
 
 const DoctrineBoundary = () => (
   <div className="doctrine-two-column doctrine-two-column--boundary">
@@ -877,9 +980,25 @@ const LazyFetchJoin = () => {
   return (
     <div className="lazy-code-layout">
       <PhpCode tone="green">
-        <span><span className="syntax-keyword">SELECT</span> o, i</span>
-        <span><span className="syntax-keyword">FROM</span> <span className="syntax-type">App\Entity\Order</span> o</span>
-        <span className="lazy-code-line lazy-code-line--green"><span className="syntax-keyword">JOIN</span> o.items i</span>
+        <span className="lazy-code-line lazy-code-line--green"><span className="syntax-variable">$orders</span> = <span className="syntax-variable">$orderRepository</span></span>
+        <span className="code-line--indent-1">-&gt;<span className="syntax-name">findRecentWithItems</span>();</span>
+        <span>&nbsp;</span>
+        <span
+          className="lazy-code-detail"
+          style={{
+            opacity: interpolate(frame, [fps * 0.65, fps * 1.2], [0, 1], {
+              extrapolateLeft: 'clamp',
+              extrapolateRight: 'clamp',
+              easing: Easing.bezier(0.16, 1, 0.3, 1),
+            }),
+          }}
+        >
+          <span className="syntax-comment">// внутри OrderRepository</span>
+          <span><span className="syntax-keyword">return</span> <span className="syntax-variable">$this</span>-&gt;<span className="syntax-name">createQueryBuilder</span>(<span className="syntax-string">'o'</span>)</span>
+          <span className="code-line--indent-1">-&gt;<span className="syntax-name">addSelect</span>(<span className="syntax-string">'i'</span>)</span>
+          <span className="code-line--indent-1">-&gt;<span className="syntax-name">leftJoin</span>(<span className="syntax-string">'o.items'</span>, <span className="syntax-string">'i'</span>)</span>
+          <span className="code-line--indent-1">-&gt;<span className="syntax-name">getQuery</span>()-&gt;<span className="syntax-name">getResult</span>();</span>
+        </span>
       </PhpCode>
 
       <section className="lazy-sql-panel lazy-sql-panel--success">
@@ -887,12 +1006,12 @@ const LazyFetchJoin = () => {
         <code
           className="lazy-sql-row lazy-sql-row--fetch"
           style={{
-            opacity: interpolate(frame, [fps * 0.7, fps * 1.25], [0, 1], {
+            opacity: interpolate(frame, [fps * 1.35, fps * 1.85], [0, 1], {
               extrapolateLeft: 'clamp',
               extrapolateRight: 'clamp',
               easing: Easing.bezier(0.16, 1, 0.3, 1),
             }),
-            translate: `${interpolate(frame, [fps * 0.7, fps * 1.25], [18, 0], {
+            translate: `${interpolate(frame, [fps * 1.35, fps * 1.85], [18, 0], {
               extrapolateLeft: 'clamp',
               extrapolateRight: 'clamp',
               easing: Easing.bezier(0.16, 1, 0.3, 1),
@@ -903,7 +1022,7 @@ const LazyFetchJoin = () => {
         <div
           className="lazy-query-count lazy-query-count--success"
           style={{
-            opacity: interpolate(frame, [fps * 1.35, fps * 1.85], [0, 1], {
+            opacity: interpolate(frame, [fps * 2.0, fps * 2.45], [0, 1], {
               extrapolateLeft: 'clamp',
               extrapolateRight: 'clamp',
               easing: Easing.bezier(0.16, 1, 0.3, 1),

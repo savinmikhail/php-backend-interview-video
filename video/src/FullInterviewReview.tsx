@@ -112,7 +112,7 @@ const reviewSegments: ReviewSegment[] = [
   {start: '00:38:52', end: '00:39:05', slideId: '16-implicit'},
   {start: '00:39:05', end: '00:39:27', slideId: '16-explicit'},
   {start: '00:39:27', end: '00:40:01', slideId: '16-correction'},
-  {start: '00:40:01', end: '00:40:22', slideId: '17-question'},
+  {start: '00:39:54', end: '00:40:22', slideId: '17-question'},
   {start: '00:40:22', end: '00:40:44', slideId: '17-size'},
   {start: '00:40:44', end: '00:41:46', slideId: '17-before-db'},
   {start: '00:41:46', end: '00:42:47', slideId: '17-distributed'},

@@ -85,8 +85,8 @@ const reviewSegments: ReviewSegment[] = [
   {start: '00:43:18', end: '00:43:31', slideId: '18-tradeoff'},
   {start: '00:43:31', end: '00:43:54', slideId: '18-access'},
   {start: '00:43:54', end: '00:44:05', slideId: '18-forms'},
-  {start: '00:44:05', end: '00:44:30', slideId: '19-question'},
-  {start: '00:45:03', end: '00:45:42', slideId: '19-rule'},
+  {start: '00:44:11', end: '00:45:12', slideId: '19-question'},
+  {start: '00:45:12', end: '00:45:42', slideId: '19-rule'},
   {start: '00:45:42', end: '00:46:54', slideId: '20-levels'},
   {start: '00:46:54', end: '00:47:28', slideId: '20-usecase'},
   {start: '00:47:28', end: '00:48:03', slideId: '20-criterion'},
@@ -145,7 +145,12 @@ const slideFrom = (slideId: string, fps: number) =>
 
 const slideDuration = (slideId: string, fps: number) => {
   const segment = segmentById(slideId);
-  return Math.round((timestampToSeconds(segment.end) - timestampToSeconds(segment.start)) * fps);
+  const start = sourceSecondToReviewSecond(timestampToSeconds(segment.start));
+  const end = sourceSecondToReviewSecond(timestampToSeconds(segment.end));
+  if (start === null || end === null) {
+    throw new Error(`Slide boundary lies inside an editorial cut: ${slideId}`);
+  }
+  return Math.round((end - start) * fps);
 };
 
 const BaseTrack = ({format}: {format: Format}) => {

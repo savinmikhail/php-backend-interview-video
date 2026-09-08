@@ -109,7 +109,7 @@ overlaps_editorial_cut() {
   return 1
 }
 
-render_still() {
+render_still_segment() {
   local start="$1"
   local end="$2"
   local slide_id="$3"
@@ -124,6 +124,24 @@ render_still() {
     -vf 'format=yuv420p' \
     "${encode_common[@]}" "$output"
   append_segment "$output"
+}
+
+render_still_range() {
+  local start="$1"
+  local end="$2"
+  local slide_id="$3"
+  local range_cursor="$start"
+  local index cut_start cut_end
+
+  for index in "${!CUT_STARTS[@]}"; do
+    cut_start="${CUT_STARTS[$index]}"
+    cut_end="${CUT_ENDS[$index]}"
+    (( cut_end <= range_cursor || cut_start >= end )) && continue
+    (( range_cursor < cut_start )) && render_still_segment "$range_cursor" "$cut_start" "$slide_id"
+    (( range_cursor < cut_end )) && range_cursor="$cut_end"
+  done
+
+  (( range_cursor < end )) && render_still_segment "$range_cursor" "$end" "$slide_id"
 }
 
 render_video() {
@@ -152,7 +170,7 @@ while IFS=$'\t' read -r start_stamp end_stamp source; do
   (( end <= INTRO_END )) && continue
   (( start < INTRO_END )) && start="$INTRO_END"
 
-  if overlaps_editorial_cut "$start" "$end"; then
+  if [[ "$source" == video:* ]] && overlaps_editorial_cut "$start" "$end"; then
     echo "Visual segment overlaps an editorial cut: $start_stamp–$end_stamp" >&2
     exit 1
   fi
@@ -161,7 +179,7 @@ while IFS=$'\t' read -r start_stamp end_stamp source; do
   if [[ "$source" == video:* ]]; then
     render_video "$start" "$end" "${source#video:}"
   else
-    render_still "$start" "$end" "$source"
+    render_still_range "$start" "$end" "$source"
   fi
   cursor="$end"
 done < "$TIMELINE"

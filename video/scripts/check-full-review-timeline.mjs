@@ -2,7 +2,6 @@ import {readFileSync} from 'node:fs';
 import {
   reviewSecondToSourceSecond,
   secondsToTimestamp,
-  sourceRangeOverlapsCut,
   sourceSecondToReviewSecond,
   timestampToSeconds,
 } from './lib/time-map.mjs';
@@ -55,8 +54,8 @@ for (const segment of timelineRows) {
   const reviewEnd = sourceSecondToReviewSecond(sourceEnd);
 
   if (sourceEnd <= sourceStart) invalidRanges.push(`${segment.slideId}: duration must be positive`);
-  if (sourceRangeOverlapsCut(sourceStart, sourceEnd) || reviewStart === null || reviewEnd === null) {
-    invalidRanges.push(`${segment.slideId}: overlaps an editorial cut`);
+  if (reviewStart === null || reviewEnd === null) {
+    invalidRanges.push(`${segment.slideId}: boundary lies inside an editorial cut`);
     continue;
   }
 

@@ -8,6 +8,17 @@
   gap: 22px;
 }
 
+.rr-tradeoffs { display: grid; gap: 12px; margin-top: 12px; }
+.rr-tradeoff {
+  display: flex; align-items: center; gap: 14px;
+  min-height: 60px; padding: 12px 16px;
+  border-left: 4px solid; border-radius: 10px;
+  font-size: 23px; font-weight: 650; line-height: 1.3;
+}
+.rr-tradeoff b { flex: none; font-size: 28px; line-height: 1; }
+.rr-tradeoff--plus { color: #8ff3c9; border-color: #6fefc0; background: rgba(24,103,79,.24); }
+.rr-tradeoff--minus { color: #ffda78; border-color: #ffcd65; background: rgba(105,75,20,.22); }
+
 .rr-badge {
   position: absolute;
   z-index: 2;

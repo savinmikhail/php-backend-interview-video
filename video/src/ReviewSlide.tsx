@@ -11,6 +11,7 @@ type Card = {
   label?: string;
   title: string;
   lines?: string[];
+  tradeoffs?: {text: string; kind: 'plus' | 'minus'}[];
   code?: string[];
   codeLanguage?: 'php';
   tone?: Tone;
@@ -239,8 +240,8 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {title: 'Cache SET', lines: ['сохранить результат'], tone: 'green'},
   ], 'При записи: DB update → invalidate cache', 'Исправление ответа'),
   s('25-writes', '25', 'Две write-стратегии', 'columns', [
-    {label: 'WRITE-THROUGH', title: 'DB + cache до success', lines: ['Выше write latency', 'После успеха данные свежие'], tone: 'green'},
-    {label: 'WRITE-BEHIND', title: 'Cache / queue → async DB', lines: ['Ниже latency', 'Сложнее failure recovery'], tone: 'amber'},
+    {label: 'WRITE-THROUGH', title: 'DB + cache до success', tradeoffs: [{text: 'Выше write latency', kind: 'minus'}, {text: 'После успеха данные свежие', kind: 'plus'}], tone: 'green'},
+    {label: 'WRITE-BEHIND', title: 'Cache / queue → async DB', tradeoffs: [{text: 'Ниже write latency', kind: 'plus'}, {text: 'Сложнее failure recovery', kind: 'minus'}], tone: 'amber'},
   ], 'База остаётся источником истины'),
   s('25-choice', '25', 'Кэш всегда создаёт trade-off', 'grid', [
     {title: 'Freshness', lines: ['Допустимы stale data?'], tone: 'purple'},
@@ -317,6 +318,11 @@ export const reviewSlides: ReviewSlideDefinition[] = [
 ];
 
 export const defaultReviewSlide = reviewSlides[0];
+    {card.tradeoffs && <div className="rr-tradeoffs">{card.tradeoffs.map(({text, kind}) => (
+      <div key={text} className={`rr-tradeoff rr-tradeoff--${kind}`}>
+        <b>{kind === 'plus' ? '+' : '−'}</b><span>{text}</span>
+      </div>
+    ))}</div>}
 
 const CardView = ({card}: {card: Card}) => (
   <article className={`rr-card rr-card--${card.tone ?? 'purple'}`}>

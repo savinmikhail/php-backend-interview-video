@@ -73,6 +73,7 @@ const BareScene = ({format, speaker}: SlideProps) => (
     question=""
     showHeader={false}
     bareVisual
+    speakerMode="conversation"
   >
     <div />
   </InterviewShell>

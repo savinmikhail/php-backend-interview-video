@@ -585,7 +585,7 @@
 .rr-card__label {
   margin-bottom: 11px;
   color: #d9c7eb;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 900;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -598,7 +598,7 @@
 
 .rr-card h2 {
   margin: 0 0 14px;
-  font-size: 34px;
+  font-size: 35px;
   line-height: 1.08;
   letter-spacing: -.6px;
 }
@@ -606,7 +606,7 @@
 .rr-card p {
   margin: 7px 0 0;
   color: #ded3e9;
-  font-size: 23px;
+  font-size: 24px;
   line-height: 1.28;
 }
 
@@ -624,15 +624,15 @@
   color: #f3eaff;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
-  font: 650 21px/1.45 'JetBrains Mono', Menlo, monospace;
+  font: 650 23px/1.42 'JetBrains Mono', Menlo, monospace;
 }
 
 .composition--wide .rr-slide--grid .rr-card { padding: 18px 28px; }
 .composition--wide .rr-slide--grid .rr-card__label { margin-bottom: 6px; }
 .composition--wide .rr-slide--grid .rr-card h2 { margin-bottom: 8px; font-size: 31px; }
 .composition--wide .rr-slide--grid .rr-card pre { margin-bottom: 4px; padding: 10px 16px; }
-.composition--wide .rr-slide--grid .rr-card code { font-size: 19px; line-height: 1.35; }
-.composition--wide .rr-slide--grid .rr-card p { margin-top: 4px; font-size: 21px; }
+.composition--wide .rr-slide--grid .rr-card code { font-size: 22px; line-height: 1.35; }
+.composition--wide .rr-slide--grid .rr-card p { margin-top: 4px; font-size: 23px; }
 
 .rr-footer {
   min-height: 62px;
@@ -1653,7 +1653,7 @@
   gap: 18px;
 }
 .composition--short .compiler-pass-code { padding: 20px; }
-.composition--short .compiler-pass-code code { font-size: 18px; line-height: 1.2; }
+.composition--short .compiler-pass-code code { font-size: 19px; line-height: 1.2; }
 .composition--short .compiler-pass-code .code-line--indent-1 { padding-left: 20px; }
 .composition--short .compiler-pass-code .code-line--indent-2 { padding-left: 40px; }
 .composition--short .compiler-pass-code .code-line--indent-3 { padding-left: 60px; }
@@ -1689,15 +1689,15 @@
 .composition--short .di-runtime-flow { padding: 18px; grid-template-columns: 1fr; grid-template-rows: auto auto auto; gap: 14px; }
 .composition--short .di-requests { justify-content: center; text-align: left; }
 .composition--short .di-requests code { font-size: 18px; }
-.composition--short .di-generated-container code { font-size: 16px; }
+.composition--short .di-generated-container code { font-size: 18px; }
 .composition--short .di-runtime-result { text-align: center; }
 .composition--short .di-runtime-result strong { font-size: 23px; }
 .composition--short .di-runtime-result span { font-size: 17px; }
 .composition--short .rr-card { padding: 26px 28px; }
-.composition--short .rr-card h2 { font-size: 31px; }
-.composition--short .rr-card p { font-size: 21px; }
-.composition--short .rr-card code { font-size: 19px; }
-.composition--short .rr-card__label { font-size: 16px; }
+.composition--short .rr-card h2 { font-size: 33px; }
+.composition--short .rr-card p { font-size: 23px; }
+.composition--short .rr-card code { font-size: 21px; }
+.composition--short .rr-card__label { font-size: 18px; }
 .composition--short .rr-footer { min-height: 82px; font-size: 21px; }
 .composition--short .rr-badge {
   position: absolute;
@@ -1716,32 +1716,34 @@
 .composition--short .uuid-size-column { gap: 9px; }
 .composition--short .uuid-size-heading strong { font-size: 32px; }
 .composition--short .uuid-capacity { min-height: 56px; }
-.composition--short .uuid-capacity span { font-size: 16px; }
-.composition--short .uuid-capacity code { font-size: 19px; }
+.composition--short .uuid-capacity span { font-size: 18px; }
+.composition--short .uuid-capacity code { font-size: 21px; }
 .composition--short .uuid-property { min-height: 50px; padding: 9px 12px; }
-.composition--short .uuid-property span { font-size: 17px; }
-.composition--short .uuid-db-note { min-height: 32px; font-size: 17px; }
-.composition--short .uuid-db-note code { font-size: 16px; }
+.composition--short .uuid-property span { font-size: 19px; }
+.composition--short .uuid-db-note { min-height: 32px; font-size: 18px; }
+.composition--short .uuid-db-note code { font-size: 18px; }
 .composition--short .uuid-anatomy-layout { grid-template-rows: auto auto auto auto; align-content: center; gap: 18px; }
 .composition--short .uuid-anatomy-value { padding: 24px 12px; }
 .composition--short .uuid-anatomy-value code { font-size: 22px; letter-spacing: 0; }
 .composition--short .uuid-anatomy-legend { grid-template-columns: 1fr; gap: 12px; }
 .composition--short .uuid-legend-item { padding: 14px 18px; }
 .composition--short .uuid-legend-item strong { font-size: 21px; }
-.composition--short .uuid-legend-item small { font-size: 17px; }
+.composition--short .uuid-legend-item small { font-size: 18px; }
 .composition--short .uuid-datetime { grid-template-columns: 1fr; justify-items: center; gap: 8px; }
 .composition--short .uuid-datetime small { grid-column: 1; }
 .composition--short .uuid-code-layout { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1.35fr) minmax(0, .65fr); gap: 18px; }
 .composition--short .uuid-code-layout .doctrine-code { padding: 22px; }
-.composition--short .uuid-code-layout .doctrine-code code { font-size: 17px; line-height: 1.24; }
+.composition--short .uuid-code-layout .doctrine-code code { font-size: 19px; line-height: 1.24; }
 .composition--short .uuid-code-result { padding: 20px; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .composition--short .uuid-code-result > div { padding: 0 12px 0 0; border: 0; border-right: 1px solid rgba(255,255,255,.12); }
 .composition--short .uuid-code-result > div:last-child { grid-column: 1 / -1; padding-right: 0; border-right: 0; }
-.composition--short .uuid-code-result strong { font-size: 20px; }
+.composition--short .uuid-code-result strong { font-size: 22px; }
 .composition--short .uuid-distributed-layout { grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; align-content: center; gap: 14px; }
 .composition--short .uuid-distributed-link { grid-template-columns: 1fr; }
 .composition--short .uuid-distributed-link b { transform: rotate(90deg); font-size: 30px; }
 .composition--short .uuid-event-id { padding: 20px; }
+.composition--short .uuid-event-id small { font-size: 18px; }
+.composition--short .uuid-event-id code { font-size: 20px; }
 .composition--short .uuid-distributed-facts { grid-column: 1; grid-template-columns: 1fr; gap: 10px; }
 
 .composition--short .rr-slide--doctrine { padding: 28px; }
@@ -1890,7 +1892,7 @@
   height: 91%;
 }
 .composition--short .cache-axis { padding: 16px 17px; gap: 5px; border-radius: 17px; }
-.composition--short .cache-axis small { font-size: 13px; }
+.composition--short .cache-axis small { font-size: 16px; }
 .composition--short .cache-axis strong { font-size: 25px; }
 .composition--short .cache-axis span { font-size: 17px; }
 .composition--short .cache-axis--freshness { top: 0; width: 420px; }
@@ -1899,7 +1901,189 @@
 .composition--short .cache-triangle-center { top: 50%; width: 260px; min-height: 120px; }
 .composition--short .cache-edge { padding: 9px 11px; }
 .composition--short .cache-edge code { font-size: 18px; }
-.composition--short .cache-edge span { font-size: 16px; }
+.composition--short .cache-edge span { font-size: 18px; }
 .composition--short .cache-edge--sync { top: 32%; left: 3%; }
 .composition--short .cache-edge--async { top: 32%; right: 1%; }
 .composition--short .cache-edge--invalidate { bottom: 14%; }
+
+/* Readability pass for the custom infographic families. */
+.composition--wide .rr-slide--doctrine small { font-size: 18px; }
+.composition--wide .rr-slide--doctrine .doctrine-code code { font-size: 22px; }
+.composition--wide .rr-slide--doctrine .doctrine-zero-sql span,
+.composition--wide .rr-slide--doctrine .identity-map-core > span,
+.composition--wide .rr-slide--doctrine .identity-map-stat > span,
+.composition--wide .rr-slide--doctrine .batch-memory__entities span,
+.composition--wide .rr-slide--doctrine .identity-story-arrow span { font-size: 18px; }
+.composition--wide .rr-slide--doctrine .identity-service-card code,
+.composition--wide .rr-slide--doctrine .change-set-card p code { font-size: 20px; }
+.composition--wide .rr-slide--doctrine .identity-change-row code,
+.composition--wide .rr-slide--doctrine .identity-change-row > span,
+.composition--wide .rr-slide--doctrine .identity-change-row > strong { font-size: 18px; }
+
+.composition--wide .rr-slide--uuid .uuid-legend-item span { font-size: 17px; }
+.composition--wide .rr-slide--uuid .uuid-legend-item strong { font-size: 22px; }
+.composition--wide .rr-slide--uuid .uuid-legend-item small,
+.composition--wide .rr-slide--uuid .uuid-datetime small,
+.composition--wide .rr-slide--uuid .uuid-code-result small,
+.composition--wide .rr-slide--uuid .uuid-event-id small { font-size: 18px; }
+.composition--wide .rr-slide--uuid .uuid-order-note,
+.composition--wide .rr-slide--uuid .uuid-generator small,
+.composition--wide .rr-slide--uuid .uuid-generator span,
+.composition--wide .rr-slide--uuid .uuid-distributed-link span { font-size: 18px; }
+.composition--wide .rr-slide--uuid .uuid-db-note code { font-size: 19px; }
+.composition--wide .rr-slide--uuid .uuid-code-layout .doctrine-code code { font-size: 22px; }
+.composition--wide .rr-slide--uuid .uuid-event-id code { font-size: 21px; }
+
+.composition--wide .rr-slide--di-compile .di-build-step > span,
+.composition--wide .rr-slide--di-compile .di-generated-container > span { font-size: 18px; }
+.composition--wide .rr-slide--di-compile .di-build-step p,
+.composition--wide .rr-slide--di-compile .di-runtime-result span { font-size: 19px; }
+.composition--wide .rr-slide--di-compile .di-generated-container code { font-size: 20px; }
+
+.composition--short .rr-slide--doctrine small { font-size: 18px; }
+.composition--short .rr-slide--doctrine .doctrine-code code { font-size: 20px; }
+.composition--short .rr-slide--doctrine .doctrine-zero-sql span { font-size: 18px; }
+.composition--short .rr-slide--doctrine .identity-map-core > span { font-size: 18px; }
+.composition--short .rr-slide--doctrine .identity-map-stat > span { font-size: 18px; }
+.composition--short .rr-slide--doctrine .batch-memory__entities span { font-size: 18px; }
+.composition--short .rr-slide--doctrine .identity-story-arrow span { font-size: 18px; }
+.composition--short .rr-slide--doctrine .identity-service-card code { font-size: 19px; }
+.composition--short .rr-slide--doctrine .change-set-card p code { font-size: 19px; }
+
+/* Layout calibration after removing speaker avatars from infographic screens. */
+.composition--wide .rr-slide--14-identity {
+  height: 470px;
+  padding: 24px 30px;
+  gap: 18px;
+}
+
+.composition--wide .rr-slide--14-identity > :not(.rr-badge) { height: auto; }
+.composition--wide .rr-slide--14-identity .identity-comparison {
+  grid-template-rows: auto auto;
+  align-content: center;
+  gap: 18px;
+}
+.composition--wide .rr-slide--14-identity .identity-card {
+  padding: 20px 22px;
+  grid-template-rows: auto auto auto;
+  gap: 14px;
+}
+.composition--wide .rr-slide--14-identity .identity-card__label { font-size: 20px; }
+.composition--wide .rr-slide--14-identity .identity-card .doctrine-code {
+  min-height: 154px;
+  padding: 22px;
+}
+.composition--wide .rr-slide--14-identity .identity-card .doctrine-code code {
+  font-size: 24px;
+  line-height: 1.42;
+}
+.composition--wide .rr-slide--14-identity .identity-result { min-height: 66px; padding: 13px 17px; }
+.composition--wide .rr-slide--14-identity .identity-result strong { font-size: 29px; }
+.composition--wide .rr-slide--14-identity .identity-result span { font-size: 20px; }
+.composition--wide .rr-slide--14-identity .doctrine-footer--quiet { min-height: 58px; font-size: 20px; }
+
+.composition--wide .rr-slide--08-rules {
+  height: 660px;
+  padding: 28px 34px;
+  gap: 18px;
+}
+.composition--wide .rr-slide--08-rules .rr-cards { gap: 18px; }
+.composition--wide .rr-slide--08-rules .rr-card { padding: 22px 26px; }
+.composition--wide .rr-slide--08-rules .rr-card__label { margin-bottom: 8px; font-size: 19px; }
+.composition--wide .rr-slide--08-rules .rr-card h2 { margin-bottom: 10px; font-size: 34px; }
+.composition--wide .rr-slide--08-rules .rr-card pre { margin-bottom: 6px; padding: 13px 17px; }
+.composition--wide .rr-slide--08-rules .rr-card code { font-size: 23px; line-height: 1.38; }
+.composition--wide .rr-slide--08-rules .rr-card p { font-size: 23px; }
+
+.composition--wide .rr-slide--09-subscriber {
+  height: 520px;
+  padding: 30px 34px;
+}
+.composition--wide .rr-slide--09-subscriber .rr-cards { gap: 24px; }
+.composition--wide .rr-slide--09-subscriber .rr-card { padding: 26px 28px; }
+.composition--wide .rr-slide--09-subscriber .rr-card__label { font-size: 20px; }
+.composition--wide .rr-slide--09-subscriber .rr-card h2 { font-size: 35px; }
+.composition--wide .rr-slide--09-subscriber .rr-card p { font-size: 24px; }
+.composition--wide .rr-slide--09-subscriber .rr-card code { font-size: 23px; }
+
+.composition--wide .rr-slide--19-rule {
+  height: 650px;
+  padding: 28px 36px;
+}
+.composition--wide .rr-slide--19-rule .rr-cards { gap: 18px; }
+.composition--wide .rr-slide--19-rule .rr-card { padding: 18px 30px; }
+.composition--wide .rr-slide--19-rule .rr-card__label { font-size: 19px; }
+.composition--wide .rr-slide--19-rule .rr-card h2 { font-size: 38px; }
+.composition--wide .rr-slide--19-rule .rr-card p { font-size: 25px; }
+
+.composition--wide .rr-slide--29-lsp {
+  height: 610px;
+  padding: 52px 36px 28px;
+}
+.composition--wide .rr-slide--29-lsp .rr-cards { gap: 18px; }
+.composition--wide .rr-slide--29-lsp .rr-card { padding: 22px 30px; }
+.composition--wide .rr-slide--29-lsp .rr-card h2 { font-size: 38px; }
+.composition--wide .rr-slide--29-lsp .rr-card p { font-size: 25px; }
+.composition--wide .rr-slide--29-lsp .rr-card code { font-size: 27px; }
+
+.composition--short .rr-slide--14-identity {
+  height: 900px;
+  padding: 24px 26px;
+}
+.composition--short .rr-slide--14-identity > :not(.rr-badge) { height: auto; }
+.composition--short .rr-slide--14-identity .identity-comparison {
+  grid-template-rows: auto auto auto;
+  align-content: center;
+  gap: 18px;
+}
+.composition--short .rr-slide--14-identity .identity-card { padding: 19px; gap: 13px; }
+.composition--short .rr-slide--14-identity .identity-card__label { font-size: 19px; }
+.composition--short .rr-slide--14-identity .identity-card .doctrine-code { min-height: 142px; padding: 18px; }
+.composition--short .rr-slide--14-identity .identity-card .doctrine-code code { font-size: 21px; line-height: 1.4; }
+.composition--short .rr-slide--14-identity .identity-result { min-height: 64px; padding: 12px 15px; }
+.composition--short .rr-slide--14-identity .identity-result strong { font-size: 27px; }
+.composition--short .rr-slide--14-identity .identity-result span { font-size: 19px; }
+.composition--short .rr-slide--14-identity .doctrine-footer--quiet { min-height: 70px; font-size: 19px; }
+
+.composition--short .rr-slide--08-rules {
+  height: 1130px;
+  padding: 28px;
+}
+.composition--short .rr-slide--08-rules .rr-cards { gap: 16px; }
+.composition--short .rr-slide--08-rules .rr-card { padding: 22px 25px; }
+.composition--short .rr-slide--08-rules .rr-card__label { margin-bottom: 7px; font-size: 18px; }
+.composition--short .rr-slide--08-rules .rr-card h2 { margin-bottom: 7px; font-size: 32px; }
+.composition--short .rr-slide--08-rules .rr-card pre { margin-bottom: 4px; padding: 12px 16px; }
+.composition--short .rr-slide--08-rules .rr-card code { font-size: 22px; line-height: 1.35; }
+.composition--short .rr-slide--08-rules .rr-card p { font-size: 22px; }
+
+.composition--short .rr-slide--09-subscriber {
+  height: 970px;
+  padding: 28px;
+}
+.composition--short .rr-slide--09-subscriber .rr-cards { gap: 20px; }
+.composition--short .rr-slide--09-subscriber .rr-card { padding: 24px 26px; }
+.composition--short .rr-slide--09-subscriber .rr-card__label { font-size: 19px; }
+.composition--short .rr-slide--09-subscriber .rr-card h2 { font-size: 34px; }
+.composition--short .rr-slide--09-subscriber .rr-card p { font-size: 23px; }
+.composition--short .rr-slide--09-subscriber .rr-card code { font-size: 22px; }
+
+.composition--short .rr-slide--19-rule {
+  height: 1050px;
+  padding: 28px;
+}
+.composition--short .rr-slide--19-rule .rr-cards { gap: 16px; }
+.composition--short .rr-slide--19-rule .rr-card { padding: 22px 26px; }
+.composition--short .rr-slide--19-rule .rr-card__label { font-size: 18px; }
+.composition--short .rr-slide--19-rule .rr-card h2 { font-size: 35px; }
+.composition--short .rr-slide--19-rule .rr-card p { font-size: 23px; }
+
+.composition--short .rr-slide--29-lsp {
+  height: 960px;
+  padding: 64px 28px 28px;
+}
+.composition--short .rr-slide--29-lsp .rr-cards { gap: 18px; }
+.composition--short .rr-slide--29-lsp .rr-card { padding: 24px 26px; }
+.composition--short .rr-slide--29-lsp .rr-card h2 { font-size: 35px; }
+.composition--short .rr-slide--29-lsp .rr-card p { font-size: 23px; }
+.composition--short .rr-slide--29-lsp .rr-card code { font-size: 23px; }

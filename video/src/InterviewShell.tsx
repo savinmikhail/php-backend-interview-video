@@ -14,6 +14,7 @@ import {useReviewSpeaker} from './speakerTimeline';
 export type Format = 'wide' | 'short';
 export type SlideProps = {format: Format; speaker: Speaker};
 export type SpeakerMode = 'hidden' | 'conversation';
+export type ContentLayout = 'fill' | 'compact' | 'balanced' | 'dense';
 
 export const enter = (frame: number): CSSProperties => ({
   opacity: interpolate(frame, [0, 12], [0.72, 1], {
@@ -181,6 +182,7 @@ export const InterviewShell = ({
   bareVisual = false,
   animateMikhail = false,
   speakerMode = 'hidden',
+  contentLayout = 'fill',
 }: {
   children: ReactNode;
   format: Format;
@@ -191,6 +193,7 @@ export const InterviewShell = ({
   bareVisual?: boolean;
   animateMikhail?: boolean;
   speakerMode?: SpeakerMode;
+  contentLayout?: ContentLayout;
 }) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
@@ -212,7 +215,7 @@ export const InterviewShell = ({
       />
       <main className={`stage stage--${speakerMode} ${showHeader ? '' : 'stage--question'}`}>
         {showHeader && <QuestionHeader counter={counter} question={question} />}
-        <section className={`visual ${showHeader ? '' : 'visual--question'} ${bareVisual ? 'visual--bare' : ''}`}>{children}</section>
+        <section className={`visual visual--layout-${contentLayout} ${showHeader ? '' : 'visual--question'} ${bareVisual ? 'visual--bare' : ''}`}>{children}</section>
         {speakerMode === 'conversation' && (
           <footer className="speakers">
             <SpeakerBadge

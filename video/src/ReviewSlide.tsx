@@ -1,6 +1,6 @@
 import type {ReactNode} from 'react';
 import {Easing, interpolate, interpolateColors, useCurrentFrame, useVideoConfig} from 'remotion';
-import {InterviewShell, type Format} from './InterviewShell';
+import {InterviewShell, type ContentLayout, type Format} from './InterviewShell';
 import {PhpCodeBlock, PhpTokens, PhpLines} from './PhpCodeBlock';
 import {TOTAL_QUESTIONS, type Speaker} from './timeline';
 
@@ -310,6 +310,24 @@ export const reviewSlides: ReviewSlideDefinition[] = [
 ];
 
 export const defaultReviewSlide = reviewSlides[0];
+
+const contentLayoutForSlide = (slide: ReviewSlideDefinition): ContentLayout => {
+  switch (slide.pattern) {
+    case 'question':
+      return 'fill';
+    case 'columns':
+    case 'controller-code':
+      return 'compact';
+    case 'flow':
+      return (slide.cards?.length ?? 0) >= 4 ? 'balanced' : 'compact';
+    case 'di-compile':
+    case 'compiler-pass-code':
+    case 'cache-aside-code':
+      return 'dense';
+    default:
+      return 'balanced';
+  }
+};
 
 const CardView = ({card}: {card: Card}) => (
   <article className={`rr-card rr-card--${card.tone ?? 'purple'}`}>
@@ -1488,6 +1506,7 @@ export const ReviewSlide = ({
   slideId: string;
 }) => {
   const slide = reviewSlides.find((candidate) => candidate.id === slideId) ?? defaultReviewSlide;
+  const contentLayout = contentLayoutForSlide(slide);
 
   if (slide.pattern === 'question') {
     return (
@@ -1502,8 +1521,8 @@ export const ReviewSlide = ({
 
   if (slide.pattern === 'enum') {
     return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
-        <div className="rr-slide rr-slide--enum">
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout={contentLayout}>
+        <div className={`rr-slide rr-slide--enum rr-slide--${slide.id}`}>
           <EnumComparison />
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
         </div>
@@ -1513,8 +1532,8 @@ export const ReviewSlide = ({
 
   if (slide.pattern === 'di-graph' || slide.pattern === 'di-compile') {
     return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
-        <div className={`rr-slide rr-slide--${slide.pattern}`}>
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout={contentLayout}>
+        <div className={`rr-slide rr-slide--${slide.pattern} rr-slide--${slide.id}`}>
           {slide.badge && <div className="rr-badge">{slide.badge}</div>}
           {slide.pattern === 'di-graph' ? <DiObjectGraph /> : <DiCompileRuntime />}
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
@@ -1525,8 +1544,8 @@ export const ReviewSlide = ({
 
   if (slide.pattern === 'decorator-code') {
     return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
-        <div className="rr-slide rr-slide--decorator-code">
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout={contentLayout}>
+        <div className={`rr-slide rr-slide--decorator-code rr-slide--${slide.id}`}>
           <DecoratorCode />
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
         </div>
@@ -1536,8 +1555,8 @@ export const ReviewSlide = ({
 
   if (slide.pattern === 'compiler-pass-code') {
     return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
-        <div className="rr-slide rr-slide--compiler-pass-code">
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout={contentLayout}>
+        <div className={`rr-slide rr-slide--compiler-pass-code rr-slide--${slide.id}`}>
           <CompilerPassCode />
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
         </div>
@@ -1547,24 +1566,24 @@ export const ReviewSlide = ({
 
   if (slide.id === '22-dto') {
     return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
-        <div className="rr-slide rr-slide--dto-transfer"><DtoTransfer /></div>
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout="dense">
+        <div className="rr-slide rr-slide--dto-transfer rr-slide--22-dto"><DtoTransfer /></div>
       </InterviewShell>
     );
   }
 
   if (slide.id === '22-entity') {
     return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
-        <div className="rr-slide rr-slide--rich-entity"><RichEntity /></div>
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout="dense">
+        <div className="rr-slide rr-slide--rich-entity rr-slide--22-entity"><RichEntity /></div>
       </InterviewShell>
     );
   }
 
   if (slide.pattern === 'controller-code') {
     return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
-        <div className="rr-slide rr-slide--controller-code">
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout={contentLayout}>
+        <div className={`rr-slide rr-slide--controller-code rr-slide--${slide.id}`}>
           <ControllerReadCode />
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
         </div>
@@ -1574,8 +1593,8 @@ export const ReviewSlide = ({
 
   if (slide.pattern === 'cache-aside-code') {
     return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
-        <div className="rr-slide rr-slide--cache-aside-code">
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout={contentLayout}>
+        <div className={`rr-slide rr-slide--cache-aside-code rr-slide--${slide.id}`}>
           {slide.badge && <div className="rr-badge">{slide.badge}</div>}
           <CacheAsideCode />
         </div>
@@ -1585,8 +1604,8 @@ export const ReviewSlide = ({
 
   if (slide.pattern === 'cache-triangle') {
     return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
-        <div className="rr-slide rr-slide--cache-triangle">
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout={contentLayout}>
+        <div className={`rr-slide rr-slide--cache-triangle rr-slide--${slide.id}`}>
           <CacheTradeoffTriangle />
         </div>
       </InterviewShell>
@@ -1595,8 +1614,14 @@ export const ReviewSlide = ({
 
   if (slide.pattern === 'doctrine') {
     return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
-        <div className="rr-slide rr-slide--doctrine">
+      <InterviewShell
+        format={format}
+        speaker={slide.speaker ?? 'mikhail'}
+        counter={slide.counter}
+        question={slide.title}
+        contentLayout={slide.id === '14-identity' ? 'compact' : contentLayout}
+      >
+        <div className={`rr-slide rr-slide--doctrine rr-slide--${slide.id}`}>
           {slide.badge && <div className="rr-badge">{slide.badge}</div>}
           <DoctrineSlide slideId={slide.id} />
         </div>
@@ -1606,8 +1631,8 @@ export const ReviewSlide = ({
 
   if (slide.pattern === 'uuid') {
     return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
-        <div className="rr-slide rr-slide--uuid">
+      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout={contentLayout}>
+        <div className={`rr-slide rr-slide--uuid rr-slide--${slide.id}`}>
           {slide.badge && <div className="rr-badge">{slide.badge}</div>}
           <UuidSlide slideId={slide.id} />
         </div>
@@ -1616,8 +1641,14 @@ export const ReviewSlide = ({
   }
 
   return (
-    <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title}>
-      <div className={`rr-slide rr-slide--${slide.pattern ?? 'grid'}`}>
+    <InterviewShell
+      format={format}
+      speaker={slide.speaker ?? 'mikhail'}
+      counter={slide.counter}
+      question={slide.title}
+      contentLayout={contentLayout}
+    >
+      <div className={`rr-slide rr-slide--${slide.pattern ?? 'grid'} rr-slide--${slide.id}`}>
         {slide.badge && <div className="rr-badge">{slide.badge}</div>}
         <div className="rr-cards">
           {slide.cards?.map((card, index) => <CardView key={`${card.title}-${index}`} card={card} />)}

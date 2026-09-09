@@ -247,12 +247,6 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {label: 'AUTHORIZATION · AuthZ', title: 'Что тебе разрешено?', code: ['identity + policy → allow / deny'], tone: 'cyan'},
   ], 'Permission проверяется на каждом защищённом запросе'),
 
-  s('27-jwt', '27', 'JWT — компактный контейнер claims', 'flow', [
-    {label: 'HEADER', title: 'eyJ…', tone: 'purple'},
-    {label: 'PAYLOAD', title: 'eyJ…', lines: ['claims'], tone: 'cyan'},
-    {label: 'SIGNATURE', title: 'Sfl…', tone: 'amber'},
-  ], <><strong>signed ≠ encrypted</strong> · подпись проверяет целостность</>),
-
   s('28-query', '28', '10 млн строк · фильтр стал медленным', 'columns', [
     {label: 'Первый шаг', title: 'EXPLAIN (ANALYZE, BUFFERS)', code: ['SELECT … WHERE status = ?'], tone: 'purple'},
     {label: 'Смотрим в плане', title: 'actual time · rows · loops', lines: ['Seq / Index Scan · buffers'], tone: 'cyan'},

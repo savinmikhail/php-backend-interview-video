@@ -112,7 +112,6 @@ const reviewSegments: ReviewSegment[] = [
   {start: '00:54:14', end: '00:54:50', slideId: '25-writes'},
   {start: '00:54:50', end: '00:55:21', slideId: '25-choice'},
   {start: '00:56:36', end: '00:57:21', slideId: '26-auth'},
-  {start: '00:57:29', end: '00:57:39', slideId: '27-jwt'},
   {start: '00:57:39', end: '00:58:03', slideId: '28-query'},
   {start: '00:58:03', end: '00:58:48', slideId: '29-so'},
   {start: '00:58:48', end: '00:59:31', slideId: '29-lsp'},
@@ -287,7 +286,6 @@ export const FullInterviewReview = ({format, withAudio = true}: Props) => {
       <Sequence name="25-writes" from={slideFrom('25-writes', fps)} durationInFrames={slideDuration('25-writes', fps)} premountFor={fps}><ReviewSlide format={format} slideId="25-writes" /></Sequence>
       <Sequence name="25-choice" from={slideFrom('25-choice', fps)} durationInFrames={slideDuration('25-choice', fps)} premountFor={fps}><ReviewSlide format={format} slideId="25-choice" /></Sequence>
       <Sequence name="26-auth" from={slideFrom('26-auth', fps)} durationInFrames={slideDuration('26-auth', fps)} premountFor={fps}><ReviewSlide format={format} slideId="26-auth" /></Sequence>
-      <Sequence name="27-jwt" from={slideFrom('27-jwt', fps)} durationInFrames={slideDuration('27-jwt', fps)} premountFor={fps}><ReviewSlide format={format} slideId="27-jwt" /></Sequence>
       <Sequence name="28-query" from={slideFrom('28-query', fps)} durationInFrames={slideDuration('28-query', fps)} premountFor={fps}><ReviewSlide format={format} slideId="28-query" /></Sequence>
       <Sequence name="29-so" from={slideFrom('29-so', fps)} durationInFrames={slideDuration('29-so', fps)} premountFor={fps}><ReviewSlide format={format} slideId="29-so" /></Sequence>
       <Sequence name="29-lsp" from={slideFrom('29-lsp', fps)} durationInFrames={slideDuration('29-lsp', fps)} premountFor={fps}><ReviewSlide format={format} slideId="29-lsp" /></Sequence>

@@ -5,7 +5,8 @@ import {PhpCodeBlock, PhpTokens, PhpLines} from './PhpCodeBlock';
 import {TOTAL_QUESTIONS, type Speaker} from './timeline';
 
 type Tone = 'purple' | 'cyan' | 'green' | 'amber' | 'red';
-type Pattern = 'question' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile' | 'decorator-code' | 'compiler-pass-code' | 'controller-code' | 'cache-aside-code' | 'cache-triangle' | 'doctrine' | 'uuid';
+type CardTone = 'neutral' | 'brand' | 'structure' | 'success' | 'warning' | 'danger';
+type Pattern = 'question' | 'custom' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile' | 'decorator-code' | 'compiler-pass-code' | 'controller-code' | 'cache-aside-code' | 'cache-triangle' | 'doctrine' | 'uuid';
 
 type Card = {
   label?: string;
@@ -14,7 +15,7 @@ type Card = {
   tradeoffs?: {text: string; kind: 'plus' | 'minus'}[];
   code?: string[];
   codeLanguage?: 'php';
-  tone?: Tone;
+  tone?: CardTone;
 };
 
 export type ReviewSlideDefinition = {
@@ -51,68 +52,86 @@ export const reviewSlides: ReviewSlideDefinition[] = [
   s('06-enum', '6', 'Для чего и когда использовать enum?', 'enum', [
   ], 'Конечный набор доменных вариантов — хороший кандидат для enum'),
 
+  q('02-question', '2', 'Интерфейс, абстрактный класс, trait — что для чего?'),
+  s('02-interface', '2', 'Интерфейс, абстрактный класс, trait — что для чего?', 'custom', []),
+  s('02-abstract', '2', 'Интерфейс, абстрактный класс, trait — что для чего?', 'custom', []),
+  s('02-trait', '2', 'Интерфейс, абстрактный класс, trait — что для чего?', 'custom', []),
+
+  q('03-question', '3', 'Что происходит при передаче объекта в метод?'),
+  s('03-mutation', '3', 'Что происходит при передаче объекта в метод?', 'custom', []),
+  s('03-identity', '3', 'Что происходит при передаче объекта в метод?', 'custom', []),
+
+  q('04-question', '4', 'DateTimeImmutable лучше или хуже DateTime?'),
+  s('04-comparison', '4', 'DateTime и DateTimeImmutable — в чём разница?', 'custom', []),
+  s('04-pitfall', '4', 'DateTimeImmutable возвращает новый объект', 'custom', []),
+
+  q('05-question', '5', 'Как работать с исключениями в слоях и DDD?'),
+  {...q('05-follow-up', '5', 'А где лучше ловить исключение?'), badge: 'Уточнение интервьюера'},
+  s('05-types', '5', 'Исключение должно сообщать смысл сбоя', 'custom', []),
+  s('05-correction', '5', 'Где ловить исключение?', 'custom', []),
+
   q('07-question', '7', 'Как работает DI-контейнер Symfony и что он даёт?'),
   s('07-graph', '7', 'Контейнер строит object graph', 'di-graph', [],
     'Контейнер создаёт Checkout и передаёт выбранные реализации'),
   s('07-compile', '7', 'Сборка и runtime — разные фазы', 'di-compile', [],
     'dev/debug: cache stale → rebuild · cache fresh → reuse'),
   s('07-tradeoff', '7', 'Две стратегии затрат', 'columns', [
-    {label: 'Symfony', title: 'Compile + PHP dump', lines: ['Цена warmup / rebuild', 'Повторно используем generated container'], tone: 'purple'},
-    {label: 'Runtime-resolved DI', title: 'Resolve при выполнении', lines: ['Definitions читаются в runtime', 'Нет compiled-container artifact'], tone: 'cyan'},
+    {label: 'Symfony', title: 'Compile + PHP dump', lines: ['Цена warmup / rebuild', 'Повторно используем generated container'], tone: 'neutral'},
+    {label: 'Runtime-resolved DI', title: 'Resolve при выполнении', lines: ['Definitions читаются в runtime', 'Нет compiled-container artifact'], tone: 'neutral'},
   ], 'Что быстрее — показывает benchmark конкретного приложения'),
 
   q('08-question', '8', 'Когда autowiring, а когда явная конфигурация?'),
   s('08-axes', '8', 'Не смешиваем две независимые оси', 'columns', [
-    {label: 'Механизм выбора', title: 'Autowiring или explicit wiring', lines: ['Как контейнер выбирает аргумент'], tone: 'purple'},
-    {label: 'Формат описания', title: 'PHP · YAML · XML · attributes', lines: ['Где записана конфигурация'], tone: 'cyan'},
+    {label: 'Механизм выбора', title: 'Autowiring или explicit wiring', lines: ['Как контейнер выбирает аргумент'], tone: 'neutral'},
+    {label: 'Формат описания', title: 'PHP · YAML · XML · attributes', lines: ['Где записана конфигурация'], tone: 'neutral'},
   ], 'Механизм выбора ≠ формат конфигурации', 'Уточнение ответа'),
   s('08-rules', '8', 'Autowiring по умолчанию, явно — при неоднозначности', 'grid', [
-    {label: 'AUTO', title: 'Одна object-зависимость', code: ['LoggerInterface $logger'], codeLanguage: 'php', tone: 'green'},
-    {label: 'EXPLICIT', title: 'Несколько реализаций', code: ['PaymentGatewayInterface → ?'], tone: 'amber'},
-    {label: 'EXPLICIT', title: 'Scalar / config value', code: ['string $dsn', 'int $timeout'], codeLanguage: 'php', tone: 'amber'},
-    {label: 'EXPLICIT', title: 'Factory или особая сборка', lines: ['Нужен контекст создания'], tone: 'purple'},
+    {label: 'AUTO', title: 'Одна object-зависимость', code: ['LoggerInterface $logger'], codeLanguage: 'php', tone: 'success'},
+    {label: 'EXPLICIT', title: 'Несколько реализаций', code: ['PaymentGatewayInterface → ?'], tone: 'structure'},
+    {label: 'EXPLICIT', title: 'Scalar / config value', code: ['string $dsn', 'int $timeout'], codeLanguage: 'php', tone: 'structure'},
+    {label: 'EXPLICIT', title: 'Factory или особая сборка', lines: ['Нужен контекст создания'], tone: 'structure'},
   ], 'И учитываем соглашения существующего проекта'),
 
   q('09-question', '9', 'Event Subscriber · Middleware · Decorator — что это?'),
   s('09-subscriber', '9', 'Event Subscriber сам объявляет подписки', 'flow', [
-    {label: 'Subscriber', title: 'getSubscribedEvents()', code: ['OrderPaid::class', 'KernelEvents::REQUEST'], codeLanguage: 'php', tone: 'purple'},
-    {label: 'Dispatcher', title: 'Event', lines: ['Находит всех подписчиков'], tone: 'amber'},
-    {label: 'Fan-out', title: 'listener A · listener B', lines: ['Несколько реакций на событие'], tone: 'cyan'},
+    {label: 'Subscriber', title: 'getSubscribedEvents()', code: ['OrderPaid::class', 'KernelEvents::REQUEST'], codeLanguage: 'php', tone: 'structure'},
+    {label: 'Dispatcher', title: 'Event', lines: ['Находит всех подписчиков'], tone: 'structure'},
+    {label: 'Fan-out', title: 'listener A · listener B', lines: ['Несколько реакций на событие'], tone: 'structure'},
   ]),
   s('09-middleware', '9', 'Middleware — цепочка вокруг handler', 'flow', [
-    {title: 'Request / message', tone: 'purple'},
-    {title: 'Middleware A', lines: ['before ↓  ↑ after'], tone: 'cyan'},
-    {title: 'Middleware B', lines: ['before ↓  ↑ after'], tone: 'cyan'},
-    {title: 'Handler', tone: 'green'},
+    {title: 'Request / message', tone: 'structure'},
+    {title: 'Middleware A', lines: ['before ↓  ↑ after'], tone: 'structure'},
+    {title: 'Middleware B', lines: ['before ↓  ↑ after'], tone: 'structure'},
+    {title: 'Handler', tone: 'structure'},
   ], 'Не только Laravel: PSR-15, Symfony Messenger и другие pipelines', 'Уточнение ответа'),
   s('09-decorator', '9', 'Decorator сохраняет контракт сервиса', 'decorator-code', [],
     'Тот же интерфейс · поведение до и после делегирования'),
 
   q('10-question', '10', 'Чем полезен Symfony Messenger, кроме очередей?'),
   s('10-bus', '10', 'Message bus не равен очереди', 'flow', [
-    {title: 'Message', code: ['CreateInvoice'], tone: 'purple'},
-    {title: 'Message Bus', lines: ['dispatch по типу'], tone: 'amber'},
-    {label: 'SYNC', title: 'Handler сейчас', tone: 'green'},
-    {label: 'ASYNC', title: 'Transport → worker', tone: 'cyan'},
+    {title: 'Message', code: ['CreateInvoice'], tone: 'structure'},
+    {title: 'Message Bus', lines: ['dispatch по типу'], tone: 'structure'},
+    {label: 'SYNC', title: 'Handler сейчас', tone: 'structure'},
+    {label: 'ASYNC', title: 'Transport → worker', tone: 'structure'},
   ], 'Transport — опциональная ветка, а не определение message bus'),
   s('10-middleware', '10', 'Middleware оборачивает обработчик', 'flow', [
-    {title: 'Ping DB', lines: ['before'], tone: 'cyan'},
-    {title: 'Handle message', lines: ['полезная работа'], tone: 'purple'},
-    {title: 'Close DB', lines: ['after'], tone: 'cyan'},
+    {title: 'Ping DB', lines: ['before'], tone: 'structure'},
+    {title: 'Handle message', lines: ['полезная работа'], tone: 'structure'},
+    {title: 'Close DB', lines: ['after'], tone: 'structure'},
   ], 'Сквозная логика без изменения handler'),
 
   q('11-question', '11', 'Когда писать свой consumer вместо Messenger?'),
   s('11-pull-push', '11', 'Messenger polling или RabbitMQ subscription', 'columns', [
-    {label: 'Symfony AMQP transport · get()', title: 'Polling', lines: ['Worker сам запрашивает следующее сообщение'], tone: 'purple'},
-    {label: 'RabbitMQ · basic.consume', title: 'Push / subscription', lines: ['Broker доставляет зарегистрированному consumer'], tone: 'cyan'},
+    {label: 'Symfony AMQP transport · get()', title: 'Polling', lines: ['Worker сам запрашивает следующее сообщение'], tone: 'neutral'},
+    {label: 'RabbitMQ · basic.consume', title: 'Push / subscription', lines: ['Broker доставляет зарегистрированному consumer'], tone: 'neutral'},
   ], 'Критерий этого кейса — broker-driven push вместо polling', undefined, 'interviewer'),
   s('11-symfony', '11', 'Почему consumer не виден в RabbitMQ UI?', 'columns', [
-    {label: 'Symfony AMQP transport', title: 'Получает через get()', lines: ['Неблокирующий fetch', 'Message или empty → следующий цикл'], tone: 'purple'},
-    {label: 'RabbitMQ', title: 'Нет basic.consume', lines: ['Значит, нет зарегистрированной subscription'], tone: 'cyan'},
+    {label: 'Symfony AMQP transport', title: 'Получает через get()', lines: ['Неблокирующий fetch', 'Message или empty → следующий цикл'], tone: 'neutral'},
+    {label: 'RabbitMQ', title: 'Нет basic.consume', lines: ['Значит, нет зарегистрированной subscription'], tone: 'neutral'},
   ], 'get() не регистрирует subscription в RabbitMQ'),
   s('11-runtime', '11', 'get() и consume() меняют способ ожидания', 'columns', [
-    {label: 'Polling · basic.get', title: 'Worker спрашивает очередь', lines: ['empty → пауза → новый get()', 'Периодические пустые запросы'], tone: 'purple'},
-    {label: 'Subscription · basic.consume', title: 'Worker ждёт delivery', lines: ['Подписка по открытому соединению', 'Без холостого polling'], tone: 'cyan'},
+    {label: 'Polling · basic.get', title: 'Worker спрашивает очередь', lines: ['empty → пауза → новый get()', 'Периодические пустые запросы'], tone: 'neutral'},
+    {label: 'Subscription · basic.consume', title: 'Worker ждёт delivery', lines: ['Подписка по открытому соединению', 'Без холостого polling'], tone: 'neutral'},
   ], 'basic.consume снижает холостую нагрузку, но не устраняет утечки PHP-worker', undefined, 'interviewer'),
   q('12-question', '12', 'Что такое Compiler Pass в Symfony?'),
   s('12-compile', '12', 'Compiler Pass проверяет контейнер при сборке', 'compiler-pass-code', [],
@@ -136,8 +155,8 @@ export const reviewSlides: ReviewSlideDefinition[] = [
   s('15-n-plus-one', '15', 'Перебор lazy relation создаёт N+1', 'doctrine', []),
   s('15-fetch-join', '15', 'Relation нужна всем — загружаем явно', 'doctrine', []),
   s('15-extra-lazy', '15', 'EXTRA_LAZY для больших коллекций', 'columns', [
-    {label: 'Обычная коллекция', title: 'count() может загрузить всё', lines: ['Много объектов в память'], tone: 'red'},
-    {label: 'EXTRA_LAZY', title: 'count() отдельным SQL', code: ['SELECT COUNT(*) …'], lines: ['Collection не инициализируется целиком'], tone: 'green'},
+    {label: 'Обычная коллекция', title: 'count() может загрузить всё', lines: ['Много объектов в память'], tone: 'warning'},
+    {label: 'EXTRA_LAZY', title: 'count() отдельным SQL', code: ['SELECT COUNT(*) …'], lines: ['Collection не инициализируется целиком'], tone: 'success'},
   ]),
 
   q('16-question', '16', 'Когда транзакции приходится использовать вручную?'),
@@ -152,42 +171,42 @@ export const reviewSlides: ReviewSlideDefinition[] = [
 
   q('18-question', '18', 'Про индексы что-нибудь расскажи?'),
   s('18-tradeoff', '18', 'Индекс ускоряет чтение не бесплатно', 'columns', [
-    {label: 'READ', title: 'Быстрее поиск и сортировка', lines: ['Меньше страниц для чтения'], tone: 'green'},
-    {label: 'WRITE + STORAGE', title: 'Дороже изменения', lines: ['INSERT / UPDATE поддерживают индекс', 'Дополнительное место на диске'], tone: 'amber'},
+    {label: 'READ', title: 'Быстрее поиск и сортировка', lines: ['Меньше страниц для чтения'], tone: 'success'},
+    {label: 'WRITE + STORAGE', title: 'Дороже изменения', lines: ['INSERT / UPDATE поддерживают индекс', 'Дополнительное место на диске'], tone: 'warning'},
   ]),
   s('18-access', '18', 'Метод доступа выбирают под оператор', 'grid', [
-    {title: 'B-tree', lines: ['equality · range · sort'], tone: 'purple'},
-    {title: 'GIN', lines: ['JSONB · arrays · full text'], tone: 'cyan'},
-    {title: 'GiST', lines: ['ranges · geometry · nearest'], tone: 'amber'},
-    {title: 'BRIN', lines: ['огромные коррелированные таблицы'], tone: 'green'},
+    {title: 'B-tree', lines: ['equality · range · sort'], tone: 'structure'},
+    {title: 'GIN', lines: ['JSONB · arrays · full text'], tone: 'structure'},
+    {title: 'GiST', lines: ['ranges · geometry · nearest'], tone: 'structure'},
+    {title: 'BRIN', lines: ['огромные коррелированные таблицы'], tone: 'structure'},
   ]),
   s('18-forms', '18', 'Формы индекса и физический порядок', 'grid', [
-    {title: 'Multicolumn', code: ['(tenant_id, created_at)'], tone: 'purple'},
-    {title: 'INCLUDE', lines: ['covering index'], tone: 'cyan'},
-    {title: 'Partial', code: ["WHERE status = 'active'"], tone: 'amber'},
-    {title: 'Clustered', lines: ['Физический порядок строк по ключу', 'В PostgreSQL требует повторного CLUSTER'], tone: 'green'},
+    {title: 'Multicolumn', code: ['(tenant_id, created_at)'], tone: 'structure'},
+    {title: 'INCLUDE', lines: ['covering index'], tone: 'structure'},
+    {title: 'Partial', code: ["WHERE status = 'active'"], tone: 'structure'},
+    {title: 'Clustered', lines: ['Физический порядок строк по ключу', 'В PostgreSQL требует повторного CLUSTER'], tone: 'structure'},
   ]),
 
   q('19-question', '19', 'Что такое чистая архитектура?'),
   s('19-rule', '19', 'Зависимости исходного кода направлены внутрь', 'stack', [
-    {label: 'Внешние детали', title: 'Web · DB · Framework', lines: ['Могут зависеть от внутренних контрактов'], tone: 'cyan'},
-    {label: 'Adapters', title: 'Controllers · gateways · presenters', tone: 'purple'},
-    {label: 'Ядро', title: 'Business rules', lines: ['Не знает о внешних деталях'], tone: 'green'},
+    {label: 'Внешние детали', title: 'Web · DB · Framework', lines: ['Могут зависеть от внутренних контрактов'], tone: 'structure'},
+    {label: 'Adapters', title: 'Controllers · gateways · presenters', tone: 'structure'},
+    {label: 'Ядро', title: 'Business rules', lines: ['Не знает о внешних деталях'], tone: 'structure'},
   ], 'Граница нужна ради направления зависимостей, а не ради папок'),
 
   q('20-question', '20', 'Domain Service и Application Service — что для чего?'),
   s('20-levels', '20', 'Domain Service и Application Service', 'columns', [
-    {label: 'Application', title: 'Оркестрирует use case', lines: ['Загрузить · вызвать · сохранить · отправить'], tone: 'purple'},
-    {label: 'Domain', title: 'Выражает бизнес-решение', lines: ['Правило, не принадлежащее одной entity'], tone: 'cyan'},
+    {label: 'Application', title: 'Оркестрирует use case', lines: ['Загрузить · вызвать · сохранить · отправить'], tone: 'neutral'},
+    {label: 'Domain', title: 'Выражает бизнес-решение', lines: ['Правило, не принадлежащее одной entity'], tone: 'neutral'},
   ]),
   s('20-usecase', '20', 'Один use case — две ответственности', 'flow', [
-    {label: 'Application', title: 'TransferMoney', lines: ['load accounts'], tone: 'purple'},
-    {label: 'Domain', title: 'TransferPolicy', lines: ['можно ли выполнить перевод?'], tone: 'cyan'},
-    {label: 'Application', title: 'save + publish event', tone: 'green'},
+    {label: 'Application', title: 'TransferMoney', lines: ['load accounts'], tone: 'structure'},
+    {label: 'Domain', title: 'TransferPolicy', lines: ['можно ли выполнить перевод?'], tone: 'structure'},
+    {label: 'Application', title: 'save + publish event', tone: 'structure'},
   ]),
   s('20-criterion', '20', 'Проверочный вопрос', 'columns', [
-    {title: 'Это порядок действий?', lines: ['Application Service'], tone: 'purple'},
-    {title: 'Это решение предметной области?', lines: ['Domain / Entity / Value Object'], tone: 'cyan'},
+    {title: 'Это порядок действий?', lines: ['Application Service'], tone: 'neutral'},
+    {title: 'Это решение предметной области?', lines: ['Domain / Entity / Value Object'], tone: 'neutral'},
   ]),
 
   q('21-question', '21', 'Можно ли контроллеру идти в репозиторий?'),
@@ -197,115 +216,115 @@ export const reviewSlides: ReviewSlideDefinition[] = [
   s('22-entity', '22', 'Entity — не просто ORM-объект', 'stack', []),
   s('22-dto', '22', 'DTO переносит данные через границу', 'stack', []),
   s('22-correction', '22', 'Не определяем тип по случайным признакам', 'columns', [
-    {label: 'Entity', title: 'Не обязана быть mutable или ORM', lines: ['Главное — identity и lifecycle'], tone: 'purple'},
-    {label: 'DTO', title: 'Не обязан быть readonly', lines: ['Главное — перенос данных'], tone: 'cyan'},
+    {label: 'Entity', title: 'Не обязана быть mutable или ORM', lines: ['Главное — identity и lifecycle'], tone: 'neutral'},
+    {label: 'DTO', title: 'Не обязан быть readonly', lines: ['Главное — перенос данных'], tone: 'neutral'},
   ], undefined, 'Уточнение ответа'),
 
   q('23-question', '23', 'Как выделять модули из монолита и как разделять их работу между собой?'),
   s('23-boundary', '23', 'Хорошая граница модуля', 'columns', [
-    {label: 'Внутри', title: 'Высокая cohesion', lines: ['Связанные бизнес-правила рядом'], tone: 'purple'},
-    {label: 'Снаружи', title: 'Низкая coupling', lines: ['Маленький стабильный контракт'], tone: 'cyan'},
+    {label: 'Внутри', title: 'Высокая cohesion', lines: ['Связанные бизнес-правила рядом'], tone: 'neutral'},
+    {label: 'Снаружи', title: 'Низкая coupling', lines: ['Маленький стабильный контракт'], tone: 'neutral'},
   ]),
   s('23-deployment', '23', 'Что я имел в виду под отдельным сервисом логов', 'flow', [
-    {label: 'Источники', title: 'Другие сервисы', code: ['REST · JSON-RPC'], tone: 'purple'},
-    {label: 'Log service', title: 'Принимает логи', lines: ['Единая точка записи и чтения'], tone: 'cyan'},
-    {label: 'Хранилища', title: 'Elastic · Kafka · ClickHouse', tone: 'green'},
+    {label: 'Источники', title: 'Другие сервисы', code: ['REST · JSON-RPC'], tone: 'structure'},
+    {label: 'Log service', title: 'Принимает логи', lines: ['Единая точка записи и чтения'], tone: 'structure'},
+    {label: 'Хранилища', title: 'Elastic · Kafka · ClickHouse', tone: 'structure'},
   ], 'Поисковые endpoints · фильтры · выдача логов', 'Уточнение ответа'),
   s('23-monolith', '23', 'Начать можно с modular monolith', 'flow', [
-    {title: 'Module A', lines: ['Command · Query · Event'], tone: 'purple'},
-    {title: 'In-process contracts', lines: ['Явные границы'], tone: 'cyan'},
-    {title: 'Module B', tone: 'green'},
+    {title: 'Module A', lines: ['Command · Query · Event'], tone: 'structure'},
+    {title: 'In-process contracts', lines: ['Явные границы'], tone: 'structure'},
+    {title: 'Module B', tone: 'structure'},
   ], 'Выносить в отдельный deployment — когда есть измеримая причина'),
 
   q('24-question', '24', 'Где хранить интерфейс репозитория?'),
   s('24-location', '24', 'Где хранить интерфейс репозитория?', 'columns', [
-    {title: 'Domain?', lines: ['Если контракт нужен доменной политике'], tone: 'purple'},
-    {title: 'Application?', lines: ['Если контракт нужен use case'], tone: 'cyan'},
+    {title: 'Domain?', lines: ['Если контракт нужен доменной политике'], tone: 'neutral'},
+    {title: 'Application?', lines: ['Если контракт нужен use case'], tone: 'neutral'},
   ], 'Вопрос не про универсальную папку — он про владельца абстракции'),
   s('24-dependency', '24', 'Порт рядом с внутренним потребителем', 'flow', [
-    {title: 'Application / Domain', lines: ['объявляет Repository interface'], tone: 'purple'},
-    {title: 'Port', code: ['OrderRepository'], tone: 'amber'},
-    {title: 'Infrastructure', lines: ['DoctrineOrderRepository implements'], tone: 'cyan'},
+    {title: 'Application / Domain', lines: ['объявляет Repository interface'], tone: 'structure'},
+    {title: 'Port', code: ['OrderRepository'], tone: 'structure'},
+    {title: 'Infrastructure', lines: ['DoctrineOrderRepository implements'], tone: 'structure'},
   ], 'Зависимость направлена внутрь'),
 
   q('25-question', '25', 'С редисом, с кэшом работал?'),
   q('25-aside-question', '25', 'Что такое Cache Aside?'),
   s('25-classes', '25', 'Четыре паттерна — два разных вопроса', 'columns', [
-    {label: 'Read miss', title: 'Cache Aside · Read Through', lines: ['Кто загружает данные в cache'], tone: 'purple'},
-    {label: 'Write path', title: 'Write Through · Write Behind', lines: ['Когда запись попадает в database'], tone: 'cyan'},
+    {label: 'Read miss', title: 'Cache Aside · Read Through', lines: ['Кто загружает данные в cache'], tone: 'neutral'},
+    {label: 'Write path', title: 'Write Through · Write Behind', lines: ['Когда запись попадает в database'], tone: 'neutral'},
   ], 'Паттерны можно комбинировать · список не исчерпывающий'),
   s('25-aside', '25', 'Cache Aside — загрузка по требованию', 'cache-aside-code', [],
     'При записи: DB update → cache delete', 'Исправление ответа'),
   s('25-writes', '25', 'Две write-стратегии', 'columns', [
-    {label: 'WRITE-THROUGH', title: 'DB + cache до success', tradeoffs: [{text: 'Выше write latency', kind: 'minus'}, {text: 'После успеха данные свежие', kind: 'plus'}], tone: 'green'},
-    {label: 'WRITE-BEHIND', title: 'Cache / queue → async DB', tradeoffs: [{text: 'Ниже write latency', kind: 'plus'}, {text: 'Сложнее failure recovery', kind: 'minus'}], tone: 'amber'},
+    {label: 'WRITE-THROUGH', title: 'DB + cache до success', tradeoffs: [{text: 'Выше write latency', kind: 'minus'}, {text: 'После успеха данные свежие', kind: 'plus'}], tone: 'neutral'},
+    {label: 'WRITE-BEHIND', title: 'Cache / queue → async DB', tradeoffs: [{text: 'Ниже write latency', kind: 'plus'}, {text: 'Сложнее failure recovery', kind: 'minus'}], tone: 'neutral'},
   ], 'База остаётся источником истины'),
   s('25-choice', '25', 'Выбор стратегии — баланс трёх требований', 'cache-triangle', []),
 
   q('26-question', '26', 'Чем аутентификация от авторизации отличается?'),
   s('26-auth', '26', 'Authentication ≠ Authorization', 'columns', [
-    {label: 'AUTHENTICATION · AuthN', title: 'Кто ты?', code: ['credentials → identity'], tone: 'purple'},
-    {label: 'AUTHORIZATION · AuthZ', title: 'Что тебе разрешено?', code: ['identity + policy → allow / deny'], tone: 'cyan'},
+    {label: 'AUTHENTICATION · AuthN', title: 'Кто ты?', code: ['credentials → identity'], tone: 'neutral'},
+    {label: 'AUTHORIZATION · AuthZ', title: 'Что тебе разрешено?', code: ['identity + policy → allow / deny'], tone: 'neutral'},
   ]),
 
   q('28-question', '28', 'Таблица 10 млн строк стала медленной после фильтра. Что делать?'),
   s('28-query', '28', '10 млн строк · фильтр стал медленным', 'columns', [
-    {label: 'Первый шаг', title: 'EXPLAIN (ANALYZE, BUFFERS)', code: ['SELECT … WHERE status = ?'], tone: 'purple'},
-    {label: 'Смотрим в плане', title: 'actual time · rows · loops', lines: ['Seq / Index Scan · buffers'], tone: 'cyan'},
-  ], 'Осторожно: ANALYZE выполняет запрос · сначала безопасная среда'),
+    {label: 'Первый шаг', title: 'EXPLAIN (ANALYZE, BUFFERS)', code: ['SELECT … WHERE status = ?'], tone: 'structure'},
+    {label: 'Смотрим в плане', title: 'actual time · rows · loops', lines: ['Seq / Index Scan · buffers'], tone: 'structure'},
+  ], <><strong>Осторожно:</strong>&nbsp; ANALYZE выполняет запрос · сначала безопасная среда</>),
 
   q('29-question', '29', 'Что такое SOLID'),
   s('29-so', '29', 'SOLID · эвристики управления изменениями', 'columns', [
-    {label: 'S · Single Responsibility', title: 'Одна ось изменения', lines: ['InvoiceFormatter ≠ Sender'], tone: 'purple'},
-    {label: 'O · Open / Closed', title: 'Расширяем стабильный dispatch', lines: ['+ CryptoHandler без правки существующего'], tone: 'cyan'},
+    {label: 'S · Single Responsibility', title: 'Одна ось изменения', lines: ['InvoiceFormatter ≠ Sender'], tone: 'neutral'},
+    {label: 'O · Open / Closed', title: 'Расширяем стабильный dispatch', lines: ['+ CryptoHandler без правки существующего'], tone: 'neutral'},
   ]),
   s('29-lsp', '29', 'L · Подтип сохраняет обещания базового типа', 'stack', [
-    {title: 'DHLCarrier вместо Carrier', code: ['ship(Carrier $carrier)', '$carrier->deliver($parcel)'], codeLanguage: 'php', lines: ['Клиентский код не ломается'], tone: 'green'},
-    {title: 'Безопасная вариативность сигнатуры', lines: ['Параметр может быть шире · contravariance', 'Return type может быть уже · covariance'], tone: 'purple'},
+    {title: 'DHLCarrier вместо Carrier', code: ['ship(Carrier $carrier)', '$carrier->deliver($parcel)'], codeLanguage: 'php', lines: ['Клиентский код не ломается'], tone: 'success'},
+    {title: 'Безопасная вариативность сигнатуры', lines: ['Параметр может быть шире · contravariance', 'Return type может быть уже · covariance'], tone: 'structure'},
   ], undefined, 'Исправление ответа'),
   s('29-id', '29', 'I · Interface Segregation / D · Dependency Inversion', 'columns', [
-    {label: 'I', title: 'Контракт под нужды клиента', lines: ['Printer не обязан scan / fax'], tone: 'purple'},
-    {label: 'D', title: 'Зависимость от abstraction', lines: ['policy → PaymentGateway', 'StripeAdapter implements interface'], tone: 'cyan'},
+    {label: 'I', title: 'Контракт под нужды клиента', lines: ['Printer не обязан scan / fax'], tone: 'neutral'},
+    {label: 'D', title: 'Зависимость от abstraction', lines: ['policy → PaymentGateway', 'StripeAdapter implements interface'], tone: 'neutral'},
   ]),
   q('29-required-question', '29', 'Является SOLID всегда обязательным правилом?'),
   s('29-tradeoff', '29', 'SOLID не обязателен «на максимум»', 'columns', [
-    {label: 'Польза', title: 'Легче менять и тестировать', lines: ['Ясные зависимости'], tone: 'green'},
-    {label: 'Цена', title: 'Больше типов и переходов', lines: ['Простой код становится сложнее читать'], tone: 'amber'},
+    {label: 'Польза', title: 'Легче менять и тестировать', lines: ['Ясные зависимости'], tone: 'success'},
+    {label: 'Цена', title: 'Больше типов и переходов', lines: ['Простой код становится сложнее читать'], tone: 'warning'},
   ], 'Применяем под реальные изменения, а не ради соответствия'),
 
   s('30-basics', '30', 'DRY и KISS отвечают на разные риски', 'columns', [
-    {label: 'DRY', title: 'Одно знание — одно место', lines: ['Риск: рассинхронизация'], tone: 'purple'},
-    {label: 'KISS', title: 'Минимальная нужная сложность', lines: ['Риск: лишние конструкции'], tone: 'cyan'},
+    {label: 'DRY', title: 'Одно знание — одно место', lines: ['Риск: рассинхронизация'], tone: 'neutral'},
+    {label: 'KISS', title: 'Минимальная нужная сложность', lines: ['Риск: лишние конструкции'], tone: 'neutral'},
   ]),
   q('30-question', '30', 'Противоречит ли KISS и DRY?'),
   s('30-copy', '30', 'Похожий код ещё не означает общую abstraction', 'columns', [
-    {label: 'Invoice', title: 'total + tax', lines: ['Сегодня строки похожи'], tone: 'purple'},
-    {label: 'Cart', title: 'total + discount', lines: ['Меняется по другой причине'], tone: 'cyan'},
+    {label: 'Invoice', title: 'total + tax', lines: ['Сегодня строки похожи'], tone: 'neutral'},
+    {label: 'Cart', title: 'total + discount', lines: ['Меняется по другой причине'], tone: 'neutral'},
   ], 'Преждевременная FactoryFactory связала независимые правила'),
   s('30-criterion', '30', 'Что делать с повтором?', 'columns', [
-    {label: 'Меняется вместе?', title: 'ДА → выделить общее', tone: 'green'},
-    {label: 'Нет или неясно?', title: 'Оставить локально и просто', tone: 'amber'},
+    {label: 'Меняется вместе?', title: 'ДА → выделить общее', tone: 'success'},
+    {label: 'Нет или неясно?', title: 'Оставить локально и просто', tone: 'structure'},
   ], 'Устойчивую абстракцию легче добавить позже'),
 
   s('32-uses', '32', 'Как использовать AI в разработке?', 'grid', [
-    {title: 'Найти контекст', tone: 'purple'},
-    {title: 'Набросать первую версию', tone: 'cyan'},
-    {title: 'Механически изменить код', tone: 'amber'},
+    {title: 'Найти контекст', tone: 'structure'},
+    {title: 'Набросать первую версию', tone: 'structure'},
+    {title: 'Механически изменить код', tone: 'structure'},
   ], 'Польза зависит от задачи и рабочего процесса'),
   s('32-risk', '32', 'Сгенерированный код — ещё не принятый код', 'columns', [
-    {label: 'PROMPT', title: '«Исправь локальную ошибку»', lines: ['Маленькая задача'], tone: 'purple'},
-    {label: 'OUTPUT', title: 'Изменено 14 файлов', lines: ['giant class · лишний scope · скрытые правки'], tone: 'red'},
+    {label: 'PROMPT', title: '«Исправь локальную ошибку»', lines: ['Маленькая задача'], tone: 'neutral'},
+    {label: 'OUTPUT', title: 'Изменено 14 файлов', lines: ['giant class · лишний scope · скрытые правки'], tone: 'danger'},
   ], 'Проверяем scope, архитектуру и побочные изменения'),
   s('32-loop', '32', 'AI-assisted ≠ AI-approved', 'flow', [
-    {title: 'Контекст', tone: 'purple'},
-    {title: 'Маленькая задача', tone: 'cyan'},
-    {title: 'Diff', tone: 'amber'},
-    {title: 'Tests + static analysis', tone: 'green'},
-    {title: 'Human review', tone: 'purple'},
+    {title: 'Контекст', tone: 'structure'},
+    {title: 'Маленькая задача', tone: 'structure'},
+    {title: 'Diff', tone: 'structure'},
+    {title: 'Tests + static analysis', tone: 'structure'},
+    {title: 'Human review', tone: 'structure'},
   ], 'Ответственность за изменение остаётся у разработчика'),
   s('32-readable', '32', 'Результат должен быть понятен человеку', 'columns', [
-    {label: 'ЯСНО', title: 'Доменные имена', lines: ['Локальные изменения', 'Очевидный поток'], tone: 'green'},
-    {label: '«SOLID НА МАКСИМУМ»', title: '12 interfaces · 8 factories', lines: ['Смысл размазан по слоям'], tone: 'red'},
+    {label: 'ЯСНО', title: 'Доменные имена', lines: ['Локальные изменения', 'Очевидный поток'], tone: 'success'},
+    {label: '«SOLID НА МАКСИМУМ»', title: '12 interfaces · 8 factories', lines: ['Смысл размазан по слоям'], tone: 'danger'},
   ], 'Архитектура помогает изменениям, а не демонстрирует паттерны'),
 ];
 
@@ -330,7 +349,7 @@ const contentLayoutForSlide = (slide: ReviewSlideDefinition): ContentLayout => {
 };
 
 const CardView = ({card}: {card: Card}) => (
-  <article className={`rr-card rr-card--${card.tone ?? 'purple'}`}>
+  <article className={`rr-card rr-card--${card.tone ?? 'neutral'}`}>
     {card.label && <div className="rr-card__label">{card.label}</div>}
     <h2>{card.title}</h2>
     {card.code && <pre><code>{card.codeLanguage === 'php' ? <PhpTokens code={card.code.join('\n')} /> : card.code.join('\n')}</code></pre>}
@@ -1501,20 +1520,41 @@ const DoctrineSlide = ({slideId}: {slideId: string}) => {
 export const ReviewSlide = ({
   format,
   slideId,
+  speaker,
+  contentLayout: contentLayoutOverride,
+  children,
 }: {
   format: Format;
   slideId: string;
+  speaker?: Speaker;
+  contentLayout?: ContentLayout;
+  children?: ReactNode;
 }) => {
   const slide = reviewSlides.find((candidate) => candidate.id === slideId) ?? defaultReviewSlide;
-  const contentLayout = contentLayoutForSlide(slide);
+  const contentLayout = contentLayoutOverride ?? contentLayoutForSlide(slide);
+  const resolvedSpeaker = speaker ?? slide.speaker ?? (slide.pattern === 'question' ? 'interviewer' : 'mikhail');
 
   if (slide.pattern === 'question') {
     return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'interviewer'} counter={slide.counter} question="" showHeader={false}>
+      <InterviewShell format={format} speaker={resolvedSpeaker} counter={slide.counter} question="" showHeader={false}>
         <div className="rr-question">
-          <span>Вопрос {slide.counter} из {TOTAL_QUESTIONS}</span>
+          <span>{slide.badge ?? `Вопрос ${slide.counter} из ${TOTAL_QUESTIONS}`}</span>
           <h1>{slide.title}</h1>
         </div>
+      </InterviewShell>
+    );
+  }
+
+  if (slide.pattern === 'custom') {
+    return (
+      <InterviewShell
+        format={format}
+        speaker={resolvedSpeaker}
+        counter={slide.counter}
+        question={slide.title}
+        contentLayout={contentLayout}
+      >
+        {children}
       </InterviewShell>
     );
   }

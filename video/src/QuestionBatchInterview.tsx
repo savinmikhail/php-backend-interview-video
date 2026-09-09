@@ -1,5 +1,4 @@
 import {PhpTokens} from './PhpCodeBlock';
-import type {ReactNode} from 'react';
 import {Audio} from '@remotion/media';
 import {
   AbsoluteFill,
@@ -15,18 +14,14 @@ import {
   type Format,
   type SlideProps,
 } from './InterviewShell';
+import {ReviewSlide} from './ReviewSlide';
 import {
   PRODUCTION_FPS,
   questionBatchTimeline,
   speakerAtQuestionBatch,
-  TOTAL_QUESTIONS,
 } from './timeline';
 
 type Props = {format: Format; withAudio?: boolean};
-
-const objectQuestion = 'Что происходит при передаче объекта в метод?';
-const dateTimeQuestion = 'DateTimeImmutable лучше или хуже DateTime?';
-const exceptionQuestion = 'Как работать с исключениями в слоях и DDD?';
 
 const useAnimationFrame = () => {
   const frame = useCurrentFrame();
@@ -37,33 +32,10 @@ const useAnimationFrame = () => {
 const QuestionSlide = ({
   format,
   speaker,
-  counter,
-  eyebrow,
-  children,
-  className = '',
-}: SlideProps & {
-  counter: string;
-  eyebrow: string;
-  children: ReactNode;
-  className?: string;
-}) => {
-  const {frame} = useAnimationFrame();
-
-  return (
-    <InterviewShell
-      format={format}
-      speaker={speaker}
-      counter={counter}
-      question={children}
-      showHeader={false}
-    >
-      <div className={`question-slide batch-question ${className}`} style={enter(frame)}>
-        <div className="eyebrow">{eyebrow}</div>
-        <h1>{children}</h1>
-      </div>
-    </InterviewShell>
-  );
-};
+  slideId,
+}: SlideProps & {slideId: string}) => (
+  <ReviewSlide format={format} speaker={speaker} slideId={slideId} />
+);
 
 const BareScene = ({format, speaker}: SlideProps) => (
   <InterviewShell
@@ -83,11 +55,10 @@ const ObjectMutationSlide = ({format, speaker}: SlideProps) => {
   const {frame, fps} = useAnimationFrame();
 
   return (
-    <InterviewShell
+    <ReviewSlide
       format={format}
       speaker={speaker}
-      counter="3"
-      question={objectQuestion}
+      slideId="03-mutation"
       contentLayout={format === 'short' ? 'balanced' : 'compact'}
     >
       <div className="batch-content batch-content--single-code" style={enter(frame)}>
@@ -109,7 +80,7 @@ rename($user);`} /></code>
           <small>Изменение объекта видно снаружи</small>
         </div>
       </div>
-    </InterviewShell>
+    </ReviewSlide>
   );
 };
 
@@ -126,11 +97,10 @@ const ObjectIdentitySlide = ({format, speaker}: SlideProps) => {
   const {frame, fps} = useAnimationFrame();
 
   return (
-    <InterviewShell
+    <ReviewSlide
       format={format}
       speaker={speaker}
-      counter="3"
-      question={objectQuestion}
+      slideId="03-identity"
       contentLayout={format === 'short' ? 'dense' : 'compact'}
     >
       <div className="identity-layout" style={enter(frame)}>
@@ -151,7 +121,7 @@ const ObjectIdentitySlide = ({format, speaker}: SlideProps) => {
           <b>Две zval</b><span>·</span><b>один объект</b><span>·</span><b>не alias через &amp;</b>
         </div>
       </div>
-    </InterviewShell>
+    </ReviewSlide>
   );
 };
 
@@ -159,11 +129,10 @@ const DateTimeComparisonSlide = ({format, speaker}: SlideProps) => {
   const {frame, fps} = useAnimationFrame();
 
   return (
-    <InterviewShell
+    <ReviewSlide
       format={format}
       speaker={speaker}
-      counter="4"
-      question="DateTime и DateTimeImmutable — в чём разница?"
+      slideId="04-comparison"
       contentLayout={format === 'short' ? 'balanced' : 'compact'}
     >
       <div className="datetime-comparison" style={enter(frame)}>
@@ -182,7 +151,7 @@ const DateTimeComparisonSlide = ({format, speaker}: SlideProps) => {
           <p>Возвращает новый объект</p>
         </article>
       </div>
-    </InterviewShell>
+    </ReviewSlide>
   );
 };
 
@@ -190,11 +159,10 @@ const DateTimePitfallSlide = ({format, speaker}: SlideProps) => {
   const {frame, fps} = useAnimationFrame();
 
   return (
-    <InterviewShell
+    <ReviewSlide
       format={format}
       speaker={speaker}
-      counter="4"
-      question="DateTimeImmutable возвращает новый объект"
+      slideId="04-pitfall"
       contentLayout="compact"
     >
       <div className="pitfall-layout" style={enter(frame)}>
@@ -211,7 +179,7 @@ const DateTimePitfallSlide = ({format, speaker}: SlideProps) => {
           <small>Новое значение присвоено переменной</small>
         </article>
       </div>
-    </InterviewShell>
+    </ReviewSlide>
   );
 };
 
@@ -219,11 +187,10 @@ const ExceptionTypesSlide = ({format, speaker}: SlideProps) => {
   const {frame} = useAnimationFrame();
 
   return (
-    <InterviewShell
+    <ReviewSlide
       format={format}
       speaker={speaker}
-      counter="5"
-      question="Исключение должно сообщать смысл сбоя"
+      slideId="05-types"
       contentLayout={format === 'short' ? 'balanced' : 'compact'}
     >
       <div className="exception-types" style={enter(frame)}>
@@ -248,7 +215,7 @@ const ExceptionTypesSlide = ({format, speaker}: SlideProps) => {
           </article>
         </div>
       </div>
-    </InterviewShell>
+    </ReviewSlide>
   );
 };
 
@@ -299,11 +266,10 @@ const ExceptionCorrectionSlide = ({format, speaker}: SlideProps) => {
   const flowStartsAt = 60 * fps;
 
   return (
-    <InterviewShell
+    <ReviewSlide
       format={format}
       speaker={speaker}
-      counter="5"
-      question="Где ловить исключение?"
+      slideId="05-correction"
       contentLayout={format === 'short' ? 'dense' : 'compact'}
     >
       <div className="exception-correction">
@@ -313,7 +279,7 @@ const ExceptionCorrectionSlide = ({format, speaker}: SlideProps) => {
           <ExceptionFlow frame={frame - flowStartsAt} fps={fps} />
         )}
       </div>
-    </InterviewShell>
+    </ReviewSlide>
   );
 };
 
@@ -328,9 +294,7 @@ export const QuestionBatchInterview = ({format, withAudio = true}: Props) => {
       {withAudio && <Audio src={staticFile('generated/questions-03-05-audio.m4a')} />}
 
       <Sequence from={timeline.objectQuestion.from} durationInFrames={timeline.objectQuestion.duration} name="03 · Вопрос">
-        <QuestionSlide format={format} speaker={speaker} counter="3" eyebrow={`Вопрос 3 из ${TOTAL_QUESTIONS}`}>
-          Что происходит при передаче<br />объекта в метод?
-        </QuestionSlide>
+        <QuestionSlide format={format} speaker={speaker} slideId="03-question" />
       </Sequence>
       <Sequence from={timeline.objectMutation.from} durationInFrames={timeline.objectMutation.duration} name="03 · Мутация без &amp;">
         <ObjectMutationSlide format={format} speaker={speaker} />
@@ -346,9 +310,7 @@ export const QuestionBatchInterview = ({format, withAudio = true}: Props) => {
       </Sequence>
 
       <Sequence from={timeline.dateTimeQuestion.from} durationInFrames={timeline.dateTimeQuestion.duration} name="04 · Вопрос">
-        <QuestionSlide format={format} speaker={speaker} counter="4" eyebrow={`Вопрос 4 из ${TOTAL_QUESTIONS}`}>
-          <span>DateTimeImmutable</span><br />лучше или хуже <span>DateTime</span>?
-        </QuestionSlide>
+        <QuestionSlide format={format} speaker={speaker} slideId="04-question" />
       </Sequence>
       <Sequence from={timeline.dateTimeComparison.from} durationInFrames={timeline.dateTimeComparison.duration} name="04 · Сравнение">
         <DateTimeComparisonSlide format={format} speaker={speaker} />
@@ -361,17 +323,13 @@ export const QuestionBatchInterview = ({format, withAudio = true}: Props) => {
         <BareScene format={format} speaker={speaker} />
       </Sequence>
       <Sequence from={timeline.exceptionQuestion.from} durationInFrames={timeline.exceptionQuestion.duration} name="05 · Вопрос">
-        <QuestionSlide format={format} speaker={speaker} counter="5" eyebrow={`Вопрос 5 из ${TOTAL_QUESTIONS}`}>
-          Как работать с исключениями<br />в слоях и DDD?
-        </QuestionSlide>
+        <QuestionSlide format={format} speaker={speaker} slideId="05-question" />
       </Sequence>
       <Sequence from={timeline.exceptionTypes.from} durationInFrames={timeline.exceptionTypes.duration} name="05 · Типы исключений">
         <ExceptionTypesSlide format={format} speaker={speaker} />
       </Sequence>
       <Sequence from={timeline.exceptionFollowUp.from} durationInFrames={timeline.exceptionFollowUp.duration} name="05 · Follow-up">
-        <QuestionSlide format={format} speaker={speaker} counter="5" eyebrow="Уточнение интервьюера" className="batch-question--follow-up">
-          А где лучше ловить<br />исключение?
-        </QuestionSlide>
+        <QuestionSlide format={format} speaker={speaker} slideId="05-follow-up" />
       </Sequence>
       <Sequence from={timeline.exceptionCorrection.from} durationInFrames={timeline.exceptionCorrection.duration} name="05 · Уточнение ответа">
         <ExceptionCorrectionSlide format={format} speaker={speaker} />

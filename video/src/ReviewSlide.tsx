@@ -248,11 +248,13 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {label: 'AUTHORIZATION · AuthZ', title: 'Что тебе разрешено?', code: ['identity + policy → allow / deny'], tone: 'cyan'},
   ]),
 
+  q('28-question', '28', 'Таблица 10 млн строк стала медленной после фильтра. Что делать?'),
   s('28-query', '28', '10 млн строк · фильтр стал медленным', 'columns', [
     {label: 'Первый шаг', title: 'EXPLAIN (ANALYZE, BUFFERS)', code: ['SELECT … WHERE status = ?'], tone: 'purple'},
     {label: 'Смотрим в плане', title: 'actual time · rows · loops', lines: ['Seq / Index Scan · buffers'], tone: 'cyan'},
   ], 'Осторожно: ANALYZE выполняет запрос · сначала безопасная среда'),
 
+  q('29-question', '29', 'Что такое SOLID'),
   s('29-so', '29', 'SOLID · эвристики управления изменениями', 'columns', [
     {label: 'S · Single Responsibility', title: 'Одна ось изменения', lines: ['InvoiceFormatter ≠ Sender'], tone: 'purple'},
     {label: 'O · Open / Closed', title: 'Расширяем стабильный dispatch', lines: ['+ CryptoHandler без правки существующего'], tone: 'cyan'},
@@ -265,6 +267,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {label: 'I', title: 'Контракт под нужды клиента', lines: ['Printer не обязан scan / fax'], tone: 'purple'},
     {label: 'D', title: 'Зависимость от abstraction', lines: ['policy → PaymentGateway', 'StripeAdapter implements interface'], tone: 'cyan'},
   ]),
+  q('29-required-question', '29', 'Является SOLID всегда обязательным правилом?'),
   s('29-tradeoff', '29', 'SOLID не обязателен «на максимум»', 'columns', [
     {label: 'Польза', title: 'Легче менять и тестировать', lines: ['Ясные зависимости'], tone: 'green'},
     {label: 'Цена', title: 'Больше типов и переходов', lines: ['Простой код становится сложнее читать'], tone: 'amber'},
@@ -274,6 +277,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {label: 'DRY', title: 'Одно знание — одно место', lines: ['Риск: рассинхронизация'], tone: 'purple'},
     {label: 'KISS', title: 'Минимальная нужная сложность', lines: ['Риск: лишние конструкции'], tone: 'cyan'},
   ]),
+  q('30-question', '30', 'Противоречит ли KISS и DRY?'),
   s('30-copy', '30', 'Похожий код ещё не означает общую abstraction', 'columns', [
     {label: 'Invoice', title: 'total + tax', lines: ['Сегодня строки похожи'], tone: 'purple'},
     {label: 'Cart', title: 'total + discount', lines: ['Меняется по другой причине'], tone: 'cyan'},

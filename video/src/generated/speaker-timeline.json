@@ -554,137 +554,127 @@
     },
     {
       "start": 2441,
-      "end": 2462,
+      "end": 2475,
       "speaker": "interviewer"
     },
     {
-      "start": 2462,
-      "end": 2465,
+      "start": 2475,
+      "end": 2498,
       "speaker": "mikhail"
     },
     {
-      "start": 2465,
-      "end": 2487,
+      "start": 2498,
+      "end": 2523,
       "speaker": "interviewer"
     },
     {
-      "start": 2487,
-      "end": 2510,
+      "start": 2523,
+      "end": 2526,
       "speaker": "mikhail"
     },
     {
-      "start": 2510,
-      "end": 2535,
+      "start": 2526,
+      "end": 2534,
       "speaker": "interviewer"
     },
     {
-      "start": 2535,
-      "end": 2538,
+      "start": 2534,
+      "end": 2536,
       "speaker": "mikhail"
     },
     {
-      "start": 2538,
-      "end": 2546,
+      "start": 2536,
+      "end": 2553,
       "speaker": "interviewer"
     },
     {
-      "start": 2546,
-      "end": 2548,
+      "start": 2553,
+      "end": 2556,
       "speaker": "mikhail"
     },
     {
-      "start": 2548,
-      "end": 2565,
+      "start": 2556,
+      "end": 2564,
       "speaker": "interviewer"
     },
     {
-      "start": 2565,
-      "end": 2568,
+      "start": 2564,
+      "end": 2614,
       "speaker": "mikhail"
     },
     {
-      "start": 2568,
-      "end": 2576,
+      "start": 2614,
+      "end": 2619,
       "speaker": "interviewer"
     },
     {
-      "start": 2576,
-      "end": 2626,
+      "start": 2619,
+      "end": 2625,
       "speaker": "mikhail"
     },
     {
-      "start": 2626,
-      "end": 2631,
+      "start": 2625,
+      "end": 2633,
       "speaker": "interviewer"
     },
     {
-      "start": 2631,
-      "end": 2637,
+      "start": 2633,
+      "end": 2659,
       "speaker": "mikhail"
     },
     {
-      "start": 2637,
-      "end": 2645,
+      "start": 2659,
+      "end": 2661,
       "speaker": "interviewer"
     },
     {
-      "start": 2645,
-      "end": 2671,
+      "start": 2661,
+      "end": 2666,
       "speaker": "mikhail"
     },
     {
-      "start": 2671,
-      "end": 2673,
+      "start": 2666,
+      "end": 2674,
       "speaker": "interviewer"
     },
     {
-      "start": 2673,
-      "end": 2678,
+      "start": 2674,
+      "end": 2698,
       "speaker": "mikhail"
     },
     {
-      "start": 2678,
-      "end": 2686,
+      "start": 2698,
+      "end": 2719,
       "speaker": "interviewer"
     },
     {
-      "start": 2686,
-      "end": 2710,
+      "start": 2719,
+      "end": 2723,
       "speaker": "mikhail"
     },
     {
-      "start": 2710,
-      "end": 2731,
+      "start": 2723,
+      "end": 2725,
       "speaker": "interviewer"
     },
     {
-      "start": 2731,
-      "end": 2735,
+      "start": 2725,
+      "end": 2727,
       "speaker": "mikhail"
     },
     {
-      "start": 2735,
-      "end": 2737,
+      "start": 2727,
+      "end": 2736,
       "speaker": "interviewer"
     },
     {
-      "start": 2737,
-      "end": 2739,
+      "start": 2736,
+      "end": 2765,
       "speaker": "mikhail"
     },
     {
-      "start": 2739,
-      "end": 2748,
-      "speaker": "interviewer"
-    },
-    {
-      "start": 2748,
-      "end": 2777,
-      "speaker": "mikhail"
-    },
-    {
-      "start": 2777,
-      "end": 2836.433,
+      "start": 2765,
+      "end": 2824.433,
       "speaker": "interviewer"
     }
   ]

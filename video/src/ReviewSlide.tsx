@@ -242,10 +242,11 @@ export const reviewSlides: ReviewSlideDefinition[] = [
   ], 'База остаётся источником истины'),
   s('25-choice', '25', 'Выбор стратегии — баланс трёх требований', 'cache-triangle', []),
 
+  q('26-question', '26', 'Чем аутентификация от авторизации отличается?'),
   s('26-auth', '26', 'Authentication ≠ Authorization', 'columns', [
     {label: 'AUTHENTICATION · AuthN', title: 'Кто ты?', code: ['credentials → identity'], tone: 'purple'},
     {label: 'AUTHORIZATION · AuthZ', title: 'Что тебе разрешено?', code: ['identity + policy → allow / deny'], tone: 'cyan'},
-  ], 'Permission проверяется на каждом защищённом запросе'),
+  ]),
 
   s('28-query', '28', '10 млн строк · фильтр стал медленным', 'columns', [
     {label: 'Первый шаг', title: 'EXPLAIN (ANALYZE, BUFFERS)', code: ['SELECT … WHERE status = ?'], tone: 'purple'},

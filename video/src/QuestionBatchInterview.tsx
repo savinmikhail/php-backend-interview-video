@@ -83,7 +83,13 @@ const ObjectMutationSlide = ({format, speaker}: SlideProps) => {
   const {frame, fps} = useAnimationFrame();
 
   return (
-    <InterviewShell format={format} speaker={speaker} counter="3" question={objectQuestion}>
+    <InterviewShell
+      format={format}
+      speaker={speaker}
+      counter="3"
+      question={objectQuestion}
+      contentLayout={format === 'short' ? 'balanced' : 'compact'}
+    >
       <div className="batch-content batch-content--single-code" style={enter(frame)}>
         <div className="batch-code-card">
           <div className="batch-code-card__label">Параметр без &amp;</div>
@@ -120,7 +126,13 @@ const ObjectIdentitySlide = ({format, speaker}: SlideProps) => {
   const {frame, fps} = useAnimationFrame();
 
   return (
-    <InterviewShell format={format} speaker={speaker} counter="3" question={objectQuestion}>
+    <InterviewShell
+      format={format}
+      speaker={speaker}
+      counter="3"
+      question={objectQuestion}
+      contentLayout={format === 'short' ? 'dense' : 'compact'}
+    >
       <div className="identity-layout" style={enter(frame)}>
         <div className="identity-checks">
           <code><span>до вызова</span> <PhpTokens code="spl_object_id($user)" /></code><b>1434</b>
@@ -147,7 +159,13 @@ const DateTimeComparisonSlide = ({format, speaker}: SlideProps) => {
   const {frame, fps} = useAnimationFrame();
 
   return (
-    <InterviewShell format={format} speaker={speaker} counter="4" question="DateTime и DateTimeImmutable — в чём разница?">
+    <InterviewShell
+      format={format}
+      speaker={speaker}
+      counter="4"
+      question="DateTime и DateTimeImmutable — в чём разница?"
+      contentLayout={format === 'short' ? 'balanced' : 'compact'}
+    >
       <div className="datetime-comparison" style={enter(frame)}>
         <article className="datetime-card datetime-card--mutable">
           <header><span>mutable</span><strong>DateTime</strong></header>
@@ -172,7 +190,13 @@ const DateTimePitfallSlide = ({format, speaker}: SlideProps) => {
   const {frame, fps} = useAnimationFrame();
 
   return (
-    <InterviewShell format={format} speaker={speaker} counter="4" question="DateTimeImmutable возвращает новый объект">
+    <InterviewShell
+      format={format}
+      speaker={speaker}
+      counter="4"
+      question="DateTimeImmutable возвращает новый объект"
+      contentLayout="compact"
+    >
       <div className="pitfall-layout" style={enter(frame)}>
         <article className="pitfall-card pitfall-card--lost">
           <span>Результат потерян</span>
@@ -195,7 +219,13 @@ const ExceptionTypesSlide = ({format, speaker}: SlideProps) => {
   const {frame} = useAnimationFrame();
 
   return (
-    <InterviewShell format={format} speaker={speaker} counter="5" question="Исключение должно сообщать смысл сбоя">
+    <InterviewShell
+      format={format}
+      speaker={speaker}
+      counter="5"
+      question="Исключение должно сообщать смысл сбоя"
+      contentLayout={format === 'short' ? 'balanced' : 'compact'}
+    >
       <div className="exception-types" style={enter(frame)}>
         <article className="exception-generic">
           <span>Один общий тип</span>
@@ -269,7 +299,13 @@ const ExceptionCorrectionSlide = ({format, speaker}: SlideProps) => {
   const flowStartsAt = 60 * fps;
 
   return (
-    <InterviewShell format={format} speaker={speaker} counter="5" question="Где ловить исключение?">
+    <InterviewShell
+      format={format}
+      speaker={speaker}
+      counter="5"
+      question="Где ловить исключение?"
+      contentLayout={format === 'short' ? 'dense' : 'compact'}
+    >
       <div className="exception-correction">
         {frame < flowStartsAt ? (
           <CorrectionPrinciple frame={frame} fps={fps} />

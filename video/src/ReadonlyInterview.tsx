@@ -51,7 +51,13 @@ const RulesSlide = ({format, speaker}: SlideProps) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   return (
-    <InterviewShell format={format} speaker={speaker} counter="1" question="Что такое readonly-класс в PHP?">
+    <InterviewShell
+      format={format}
+      speaker={speaker}
+      counter="1"
+      question="Что такое readonly-класс в PHP?"
+      contentLayout="balanced"
+    >
       <div className="rules-layout" style={enter(frame * PRODUCTION_FPS / fps)}>
         <div className="code-card">
           <pre><code><PhpTokens code={`readonly class User
@@ -91,7 +97,13 @@ const BenefitsSlide = ({format, speaker}: SlideProps) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   return (
-    <InterviewShell format={format} speaker={speaker} counter="1" question="Что такое readonly-класс в PHP?">
+    <InterviewShell
+      format={format}
+      speaker={speaker}
+      counter="1"
+      question="Что такое readonly-класс в PHP?"
+      contentLayout="compact"
+    >
       <div className="benefits" style={enter(frame * PRODUCTION_FPS / fps)}>
         <div className="benefits__grid">
           <Benefit icon="↺" title="Меньше мутаций" text="Меньше неожиданных переходов состояния" />
@@ -117,7 +129,13 @@ const NuanceSlide = ({format, speaker}: SlideProps) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   return (
-    <InterviewShell format={format} speaker={speaker} counter="1" question="Что такое readonly-класс в PHP?">
+    <InterviewShell
+      format={format}
+      speaker={speaker}
+      counter="1"
+      question="Что такое readonly-класс в PHP?"
+      contentLayout={format === 'short' ? 'dense' : 'compact'}
+    >
       <div className="nuance" style={enter(frame * PRODUCTION_FPS / fps)}>
         <h2>readonly <span>≠</span> deep immutable</h2>
         <div className="object-comparison">

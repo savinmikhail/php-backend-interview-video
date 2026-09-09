@@ -40,7 +40,13 @@ const DiagramSlide = ({format, speaker, variant}: SlideProps & {variant: Relatio
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   return (
-    <InterviewShell format={format} speaker={speaker} counter="2" question={question}>
+    <InterviewShell
+      format={format}
+      speaker={speaker}
+      counter="2"
+      question={question}
+      contentLayout={format === 'short' ? 'dense' : 'compact'}
+    >
       <TypeRelationshipDiagram variant={variant} frame={frame} fps={fps} />
     </InterviewShell>
   );

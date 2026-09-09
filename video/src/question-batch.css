@@ -120,7 +120,7 @@
 
 .identity-checks code {
   color: #dffaff;
-  font: 650 19px/1.25 'JetBrains Mono', Menlo, monospace;
+  font: 650 22px/1.25 'JetBrains Mono', Menlo, monospace;
 }
 
 .identity-checks code > span:first-child {
@@ -128,14 +128,14 @@
   min-width: 168px;
   margin-right: 12px;
   color: #bdaecc;
-  font: 800 15px/1.25 Inter, Arial, sans-serif;
+  font: 800 18px/1.25 Inter, Arial, sans-serif;
   letter-spacing: .4px;
   text-transform: uppercase;
 }
 
 .identity-checks b {
   color: #77eaff;
-  font: 800 20px/1.25 'JetBrains Mono', Menlo, monospace;
+  font: 800 22px/1.25 'JetBrains Mono', Menlo, monospace;
 }
 
 .zval-flow {
@@ -171,7 +171,7 @@
 
 .zval-box code {
   color: #81eaff;
-  font: 750 20px 'JetBrains Mono', Menlo, monospace;
+  font: 750 22px 'JetBrains Mono', Menlo, monospace;
 }
 
 .zval-box b {
@@ -357,7 +357,7 @@
 
 .datetime-card header span {
   color: #c7b8d4;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 850;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -373,7 +373,7 @@
   border-radius: 11px;
   background: rgba(5, 4, 13, .74);
   color: #f1e7fa;
-  font: 650 18px/1.2 'JetBrains Mono', Menlo, monospace;
+  font: 650 22px/1.2 'JetBrains Mono', Menlo, monospace;
 }
 
 .date-transition {
@@ -411,7 +411,7 @@
 
 .identity-row span {
   color: #d9cbdf;
-  font: 650 18px 'JetBrains Mono', Menlo, monospace;
+  font: 650 21px 'JetBrains Mono', Menlo, monospace;
 }
 
 .identity-row b {
@@ -511,7 +511,7 @@
 .exception-semantic p {
   margin: 0;
   color: #d9cddd;
-  font-size: 20px;
+  font-size: 21px;
   line-height: 1.25;
 }
 
@@ -564,7 +564,7 @@
   border-radius: 999px;
   background: rgba(99, 70, 20, .42);
   color: #ffdd78;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 900;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -663,7 +663,7 @@
 
 .flow-node span {
   color: #bdafca;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 850;
   letter-spacing: .7px;
   text-transform: uppercase;
@@ -703,7 +703,7 @@
 }
 
 .flow-arrow span {
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 850;
 }
 
@@ -715,7 +715,7 @@
 
 .flow-arrow code {
   color: #ffd774;
-  font: 700 15px 'JetBrains Mono', Menlo, monospace;
+  font: 700 18px 'JetBrains Mono', Menlo, monospace;
 }
 
 .composition--short .batch-question h1 {

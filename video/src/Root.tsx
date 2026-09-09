@@ -53,6 +53,15 @@ export const RemotionRoot = () => (
       defaultProps={{format: 'wide' as const}}
     />
     <Composition
+      id="BaseReviewShortDev"
+      component={BaseReview}
+      durationInFrames={120}
+      fps={DEV_FPS}
+      width={1080}
+      height={1920}
+      defaultProps={{format: 'short' as const}}
+    />
+    <Composition
       id="ReviewSlide"
       component={ReviewSlide}
       durationInFrames={30}

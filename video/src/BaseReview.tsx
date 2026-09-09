@@ -22,6 +22,7 @@ export const BaseReview = ({
       showHeader={false}
       bareVisual
       animateMikhail
+      speakerMode="conversation"
     >
       <div />
     </InterviewShell>

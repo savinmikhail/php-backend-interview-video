@@ -37,15 +37,57 @@
 .stage {
   position: absolute;
   z-index: 1;
-  inset: 72px 82px;
-  padding: 42px 66px 34px;
+  inset: 32px 44px;
+  padding: 24px 32px;
   display: grid;
-  grid-template-rows: 150px 1fr 108px;
-  gap: 28px;
+  grid-template-rows: 150px minmax(0, 1fr);
+  gap: 22px;
   border-radius: 48px;
 }
 
-.stage--question { grid-template-rows: 1fr 108px; }
+.stage--question { grid-template-rows: minmax(0, 1fr); }
+
+.stage--conversation.stage--question {
+  inset: 64px 82px;
+  padding: 0;
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.stage--conversation .visual--bare { display: none; }
+
+.stage--conversation .speakers {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  gap: 160px;
+  padding: 72px 110px 54px;
+}
+
+.stage--conversation .speaker {
+  justify-self: center;
+  flex-direction: column;
+  gap: 28px;
+  opacity: .42;
+  text-align: center;
+  transform: scale(.94);
+}
+
+.stage--conversation .speaker.is-active { opacity: 1; transform: scale(1.06); }
+.stage--conversation .speaker--interviewer .avatar { order: -1; }
+.stage--conversation .speaker__copy { align-items: center; gap: 8px; }
+.stage--conversation .speaker strong { font-size: 40px; }
+.stage--conversation .speaker__copy > span,
+.stage--conversation .speaker--interviewer .speaker__copy > span { justify-content: center; font-size: 19px; }
+.stage--conversation .avatar {
+  width: 250px;
+  height: 250px;
+  border-width: 8px;
+  box-shadow: 0 0 0 7px rgba(217,104,255,.32), 0 28px 60px rgba(0,0,0,.34);
+}
+.stage--conversation .anonymous-head { width: 78px; height: 78px; top: 50px; left: 78px; }
+.stage--conversation .anonymous-body { width: 150px; height: 108px; left: 42px; }
+.stage--conversation .avatar--interviewer b { right: 14px; bottom: 13px; width: 50px; height: 50px; font-size: 30px; }
 
 .question-header {
   display: flex;
@@ -89,7 +131,7 @@
 .question-slide em { color: #d2a0ff; font-style: normal; text-shadow: 0 0 38px rgba(201,133,255,.45); }
 
 .speakers { display: flex; align-items: center; justify-content: space-between; }
-.speaker { display: flex; align-items: center; gap: 16px; opacity: .42; filter: saturate(.7); transition: opacity .2s; }
+.speaker { display: flex; align-items: center; gap: 16px; opacity: .42; filter: saturate(.7); }
 .speaker--interviewer { text-align: right; }
 .speaker.is-active { opacity: 1; filter: none; }
 .speaker__copy { display: flex; flex-direction: column; gap: 4px; }
@@ -172,8 +214,8 @@
 .nuance-summary strong { font-size: 23px; }
 .nuance-summary div > span { margin-top: 3px; font-size: 18px; }
 
-.composition--short .stage { inset: 54px 42px; padding: 50px 46px 38px; grid-template-rows: 260px 1fr 150px; gap: 30px; }
-.composition--short .stage--question { grid-template-rows: 1fr 150px; }
+.composition--short .stage { inset: 54px 42px; padding: 50px 46px 38px; grid-template-rows: 260px minmax(0, 1fr); gap: 30px; }
+.composition--short .stage--question { grid-template-rows: minmax(0, 1fr); }
 .composition--short .question-header { align-items: flex-start; flex-direction: column; gap: 24px; padding: 34px; }
 .composition--short .question-header h1 { font-size: 48px; line-height: 1.08; }
 .composition--short .counter { flex: 0 0 70px; width: 128px; height: 70px; }
@@ -199,6 +241,20 @@
 .composition--short .speaker strong { font-size: 21px; }
 .composition--short .speaker__copy > span { font-size: 13px; }
 .composition--short .avatar { width: 78px; height: 78px; }
+.composition--short .stage--conversation.stage--question { inset: 54px 42px; padding: 0; grid-template-rows: minmax(0, 1fr); }
+.composition--short .stage--conversation .speakers {
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+  padding: 120px 60px 90px;
+}
+.composition--short .stage--conversation .speaker { gap: 22px; }
+.composition--short .stage--conversation .speaker strong { font-size: 34px; }
+.composition--short .stage--conversation .speaker__copy > span { font-size: 17px; }
+.composition--short .stage--conversation .avatar { width: 220px; height: 220px; border-width: 7px; }
+.composition--short .stage--conversation .anonymous-head { width: 68px; height: 68px; top: 44px; left: 68px; }
+.composition--short .stage--conversation .anonymous-body { width: 132px; height: 95px; left: 37px; }
+.composition--short .stage--conversation .avatar--interviewer b { right: 12px; bottom: 11px; width: 46px; height: 46px; font-size: 28px; }
 
 .oop-question h1 { max-width: 1500px; font-size: 78px; line-height: 1.08; }
 .oop-question h1 span { white-space: nowrap; }

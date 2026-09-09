@@ -47,8 +47,7 @@
 .rr-slide--flow .rr-cards { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); align-items: stretch; }
 
 .composition--wide .rr-slide--stack {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 30px 38px;
   gap: 16px;
 }
 
@@ -65,14 +64,15 @@
 }
 .composition--wide .rr-slide--stack .rr-card h2 {
   margin-bottom: 4px;
-  font-size: 30px;
+  font-size: 36px;
   line-height: 1.08;
 }
 .composition--wide .rr-slide--stack .rr-card p {
   margin-top: 0;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 1.2;
 }
+.composition--wide .rr-slide--stack .rr-card code { font-size: 25px; }
 .composition--wide .rr-slide--stack .rr-footer {
   min-height: 58px;
   padding-top: 12px;
@@ -654,7 +654,7 @@
 .rr-footer code { color: #92efd2; font: 750 23px 'JetBrains Mono', Menlo, monospace; }
 
 .rr-question {
-  width: min(1500px, 92%);
+  width: min(1660px, 94%);
   display: grid;
   place-items: center;
   gap: 32px;
@@ -674,7 +674,7 @@
 
 .rr-question h1 {
   margin: 0;
-  font-size: 78px;
+  font-size: 92px;
   line-height: 1.07;
   letter-spacing: -3px;
 }

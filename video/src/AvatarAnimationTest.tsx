@@ -16,6 +16,7 @@ export const AvatarAnimationTest = () => {
       showHeader={false}
       bareVisual
       animateMikhail
+      speakerMode="conversation"
     >
       <Audio
         src={staticFile('generated/full-review-audio.m4a')}

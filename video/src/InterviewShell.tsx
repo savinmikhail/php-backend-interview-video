@@ -13,6 +13,7 @@ import {useReviewSpeaker} from './speakerTimeline';
 
 export type Format = 'wide' | 'short';
 export type SlideProps = {format: Format; speaker: Speaker};
+export type SpeakerMode = 'hidden' | 'conversation';
 
 export const enter = (frame: number): CSSProperties => ({
   opacity: interpolate(frame, [0, 12], [0.72, 1], {
@@ -82,9 +83,9 @@ const MikhailAvatar = ({
   return (
     <span className="avatar avatar--mikhail">
       <CanvasImage
-        className="avatar__image"
-        src={staticFile('avatars/mikhail-v1.png')}
-      />
+className="avatar__image"
+src={staticFile('avatars/mikhail-v1.png')}
+from={-430} />
       {mouthState !== 'o' && (
         <span className="avatar__mouth-crop">
           <CanvasImage
@@ -179,6 +180,7 @@ export const InterviewShell = ({
   showHeader = true,
   bareVisual = false,
   animateMikhail = false,
+  speakerMode = 'hidden',
 }: {
   children: ReactNode;
   format: Format;
@@ -188,6 +190,7 @@ export const InterviewShell = ({
   showHeader?: boolean;
   bareVisual?: boolean;
   animateMikhail?: boolean;
+  speakerMode?: SpeakerMode;
 }) => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
@@ -207,23 +210,25 @@ export const InterviewShell = ({
         className="mist mist--two"
         style={{transform: `translate(${-driftX * 0.7}px, ${-driftY}px) scale(1.12)`}}
       />
-      <main className={`stage ${showHeader ? '' : 'stage--question'}`}>
+      <main className={`stage stage--${speakerMode} ${showHeader ? '' : 'stage--question'}`}>
         {showHeader && <QuestionHeader counter={counter} question={question} />}
         <section className={`visual ${showHeader ? '' : 'visual--question'} ${bareVisual ? 'visual--bare' : ''}`}>{children}</section>
-        <footer className="speakers">
-          <SpeakerBadge
-            kind="mikhail"
-            active={activeSpeaker === 'mikhail'}
-            frame={animationFrame}
-            animateMikhail={animateMikhail}
-          />
-          <SpeakerBadge
-            kind="interviewer"
-            active={activeSpeaker === 'interviewer'}
-            frame={animationFrame}
-            animateMikhail={animateMikhail}
-          />
-        </footer>
+        {speakerMode === 'conversation' && (
+          <footer className="speakers">
+            <SpeakerBadge
+              kind="mikhail"
+              active={activeSpeaker === 'mikhail'}
+              frame={animationFrame}
+              animateMikhail={animateMikhail}
+            />
+            <SpeakerBadge
+              kind="interviewer"
+              active={activeSpeaker === 'interviewer'}
+              frame={animationFrame}
+              animateMikhail={animateMikhail}
+            />
+          </footer>
+        )}
       </main>
     </AbsoluteFill>
   );

@@ -95,7 +95,7 @@ flowchart LR
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 13/32                                                        │
+│ 13/30                                                        │
 │ Как в Doctrine работают                                     │
 │ Unit of Work, persist, flush и clear?                        │
 ├──────────────────────────────┬───────────────────────────────┤
@@ -107,7 +107,7 @@ flowchart LR
 
 ```text
 ┌──────────────────────────────┐
-│ 13/32                        │
+│ 13/30                        │
 │ Unit of Work                │
 │ persist · flush · clear     │
 │ Как это работает?           │
@@ -122,7 +122,7 @@ flowchart LR
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 13/32  Unit of Work · persist()                              │
+│ 13/30  Unit of Work · persist()                              │
 ├───────────────────────┬──────────────────────────────────────┤
 │ $uow = $em->getUnitOfWork(); │ ENTITY STATE                  │
 │ getEntityState($user)        │ NEW ─ persist($user) → MANAGED│
@@ -141,7 +141,7 @@ flowchart LR
 
 ```text
 ┌──────────────────────────────┐
-│ 13/32 · persist()           │
+│ 13/30 · persist()           │
 ├──────────────────────────────┤
 │ getEntityState($user)       │
 │   === STATE_NEW             │
@@ -166,7 +166,7 @@ flowchart LR
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 13/32  onFlush: читаем рассчитанные изменения               │
+│ 13/30  onFlush: читаем рассчитанные изменения               │
 ├──────────────────────────────────────────────────────────────┤
 │ $uow->getScheduledEntityUpdates() │ [                       │
 │ $uow->getEntityChangeSet($entity) │  'email' => [           │
@@ -183,7 +183,7 @@ flowchart LR
 
 ```text
 ┌──────────────────────────────┐
-│ 13/32 · onFlush            │
+│ 13/30 · onFlush            │
 ├──────────────────────────────┤
 │ getScheduledEntityUpdates()│
 │ getEntityChangeSet()       │
@@ -225,7 +225,7 @@ $uow->computeChangeSet(
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 13/32  clear() отсоединяет entities                          │
+│ 13/30  clear() отсоединяет entities                          │
 ├──────────────────────────────┬───────────────────────────────┤
 │ $em->contains($user); // true │ MANAGED                     │
 │ $em->clear();                │          → DETACHED           │
@@ -239,7 +239,7 @@ $uow->computeChangeSet(
 
 ```text
 ┌──────────────────────────────┐
-│ 13/32 · clear()             │
+│ 13/30 · clear()             │
 ├──────────────────────────────┤
 │ contains($user) // true    │
 │ clear()                    │

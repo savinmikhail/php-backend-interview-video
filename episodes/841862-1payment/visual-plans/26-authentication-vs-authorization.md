@@ -47,7 +47,7 @@ pipeline без дублирования всего ответа.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 26/32  Authentication ≠ Authorization                        │
+│ 26/30  Authentication ≠ Authorization                        │
 ├─────────────────────────────┬────────────────────────────────┤
 │ AUTHENTICATION · AuthN      │ AUTHORIZATION · AuthZ          │
 │ Кто ты?                     │ Что тебе разрешено?            │
@@ -61,7 +61,7 @@ pipeline без дублирования всего ответа.
 
 ```text
 ┌──────────────────────────────┐
-│ 26/32 · AuthN vs AuthZ      │
+│ 26/30 · AuthN vs AuthZ      │
 ├──────────────────────────────┤
 │ AUTHN · кто ты?             │
 │ credentials → identity      │

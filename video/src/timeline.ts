@@ -1,6 +1,6 @@
 export const PRODUCTION_FPS = 30;
 export const DEV_FPS = 10;
-export const TOTAL_QUESTIONS = 32;
+export const TOTAL_QUESTIONS = 30;
 
 const seconds = (value: number, fps: number) => Math.round(value * fps);
 

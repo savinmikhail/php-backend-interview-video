@@ -1,12 +1,12 @@
 import type {ReactNode} from 'react';
-import {Easing, interpolate, interpolateColors, useCurrentFrame, useVideoConfig} from 'remotion';
+import {CanvasImage, Easing, interpolate, interpolateColors, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {InterviewShell, type ContentLayout, type Format} from './InterviewShell';
 import {PhpCodeBlock, PhpTokens, PhpLines} from './PhpCodeBlock';
 import {TOTAL_QUESTIONS, type Speaker} from './timeline';
 
 type Tone = 'purple' | 'cyan' | 'green' | 'amber' | 'red';
 type CardTone = 'neutral' | 'brand' | 'structure' | 'success' | 'warning' | 'danger';
-type Pattern = 'question' | 'custom' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile' | 'decorator-code' | 'compiler-pass-code' | 'controller-code' | 'cache-aside-code' | 'cache-triangle' | 'doctrine' | 'uuid';
+type Pattern = 'question' | 'custom' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile' | 'decorator-code' | 'compiler-pass-code' | 'controller-code' | 'cache-aside-code' | 'cache-triangle' | 'doctrine' | 'uuid' | 'telegram-promo';
 
 type Card = {
   label?: string;
@@ -272,6 +272,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {label: 'Первый шаг', title: 'EXPLAIN (ANALYZE, BUFFERS)', code: ['SELECT … WHERE status = ?'], tone: 'structure'},
     {label: 'Смотрим в плане', title: 'actual time · rows · loops', lines: ['Seq / Index Scan · buffers'], tone: 'structure'},
   ], <><strong>Осторожно:</strong>&nbsp; ANALYZE выполняет запрос · сначала безопасная среда</>),
+  s('28-telegram', '28', 'Реальный кейс · EXPLAIN ANALYZE', 'telegram-promo', []),
 
   q('29-question', '29', 'Что такое SOLID'),
   s('29-so', '29', 'SOLID · эвристики управления изменениями', 'columns', [
@@ -1497,6 +1498,68 @@ const UuidSlide = ({slideId}: {slideId: string}) => {
   }
 };
 
+const ExplainAnalyzeTelegram = () => {
+  const frame = useCurrentFrame();
+  const {fps} = useVideoConfig();
+
+  return (
+    <div className="telegram-case-layout">
+      <section
+        className="telegram-case-copy"
+        style={{
+          opacity: interpolate(frame, [0, fps * 0.3], [0, 1], {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+          }),
+          translate: `${interpolate(frame, [0, fps * 0.3], [-18, 0], {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+          })}px 0`,
+        }}
+      >
+        <div className="telegram-case-kicker">Результат на боевой базе</div>
+        <div className="telegram-case-metric">
+          <strong>16,2 с</strong>
+          <span>→</span>
+          <strong>250 мс</strong>
+        </div>
+        <div className="telegram-case-observation">
+          <small>EXPLAIN ANALYZE ПОКАЗАЛ</small>
+          <strong>JIT занимал 16 из 16,2 секунды</strong>
+        </div>
+        <div className="telegram-case-note">
+          В этом запросе помог <code>SET jit = off</code>
+        </div>
+      </section>
+
+      <aside
+        className="telegram-case-cta"
+        style={{
+          opacity: interpolate(frame, [fps * 0.45, fps * 0.8], [0, 1], {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+            easing: Easing.bezier(0.16, 1, 0.3, 1),
+          }),
+          scale: interpolate(frame, [fps * 0.45, fps * 0.8], [0.96, 1], {
+            extrapolateLeft: 'clamp',
+            extrapolateRight: 'clamp',
+            easing: Easing.spring({damping: 180}),
+            output: 'perceptual-scale',
+          }),
+        }}
+      >
+        <div className="telegram-case-qr">
+          <CanvasImage src={staticFile('qr/explain-analyze-post.svg')} />
+        </div>
+        <strong>План запроса и разбор</strong>
+        <span>Telegram · @msavin_php · пост №52</span>
+      </aside>
+    </div>
+  );
+};
+
 const DoctrineSlide = ({slideId}: {slideId: string}) => {
   switch (slideId) {
     case '13-persist': return <DoctrinePersist />;
@@ -1647,6 +1710,16 @@ export const ReviewSlide = ({
       <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout={contentLayout}>
         <div className={`rr-slide rr-slide--cache-triangle rr-slide--${slide.id}`}>
           <CacheTradeoffTriangle />
+        </div>
+      </InterviewShell>
+    );
+  }
+
+  if (slide.pattern === 'telegram-promo') {
+    return (
+      <InterviewShell format={format} speaker={resolvedSpeaker} counter={slide.counter} question={slide.title} contentLayout="balanced">
+        <div className="rr-slide rr-slide--telegram-promo rr-slide--28-telegram">
+          <ExplainAnalyzeTelegram />
         </div>
       </InterviewShell>
     );

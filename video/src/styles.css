@@ -7,8 +7,8 @@
   --diagram-text: #f3eaff;
   --diagram-text-muted: #ded3e9;
   --diagram-border-neutral: rgba(255, 255, 255, .22);
-  --diagram-surface-neutral: rgba(255, 255, 255, .055);
-  --diagram-surface-neutral-deep: rgba(6, 5, 18, .46);
+  --diagram-surface-neutral: rgba(255, 255, 255, .09);
+  --diagram-surface-neutral-deep: rgba(120, 52, 181, .20);
 
   --diagram-brand: #d8a8ff;
   --diagram-brand-border: var(--diagram-border-neutral);
@@ -36,9 +36,9 @@
 .composition {
   overflow: hidden;
   background:
-    radial-gradient(circle at 18% 82%, rgba(238, 46, 185, .50), transparent 31%),
-    radial-gradient(circle at 80% 22%, rgba(203, 184, 255, .48), transparent 31%),
-    linear-gradient(125deg, #280246 2%, #14062b 46%, #5718a4 100%);
+    radial-gradient(circle at 18% 82%, rgba(238, 46, 185, .75), transparent 31%),
+    radial-gradient(circle at 80% 22%, rgba(203, 184, 255, .72), transparent 31%),
+    linear-gradient(125deg, #370060 2%, #1a0638 46%, #7d20ed 100%);
 }
 
 .composition::after {
@@ -55,11 +55,11 @@
   height: 780px;
   border-radius: 50%;
   filter: blur(100px);
-  opacity: .30;
+  opacity: .45;
 }
 
 .mist--one { left: -160px; top: 220px; background: #ff48ca; }
-.mist--two { right: -120px; top: -180px; background: #b9b2ff; opacity: .37; }
+.mist--two { right: -120px; top: -180px; background: #b9b2ff; opacity: .55; }
 
 .stage {
   position: absolute;

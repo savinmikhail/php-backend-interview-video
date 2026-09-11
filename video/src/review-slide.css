@@ -1475,9 +1475,9 @@
 
 .uuid-anatomy-layout {
   --uuid-time: #72e4ff;
-  --uuid-version: #a9efff;
-  --uuid-variant: #94bfdc;
-  --uuid-random: #cfc4db;
+  --uuid-version: #c49aff;
+  --uuid-variant: #ff9ac8;
+  --uuid-random: #8ff3c9;
   min-height: 0;
   height: 100%;
   display: grid;
@@ -1525,6 +1525,10 @@
 .uuid-legend-item--version { border-color: var(--uuid-version); }
 .uuid-legend-item--variant { border-color: var(--uuid-variant); }
 .uuid-legend-item--random { border-color: var(--uuid-random); }
+.uuid-legend-item--time :is(span, strong) { color: var(--uuid-time); }
+.uuid-legend-item--version :is(span, strong) { color: var(--uuid-version); }
+.uuid-legend-item--variant :is(span, strong) { color: var(--uuid-variant); }
+.uuid-legend-item--random :is(span, strong) { color: var(--uuid-random); }
 
 .uuid-datetime {
   min-height: 132px;

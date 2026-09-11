@@ -1,6 +1,12 @@
 import {Video} from '@remotion/media';
-import {AbsoluteFill, Sequence, staticFile, useVideoConfig} from 'remotion';
+import {AbsoluteFill, getRemotionEnvironment, Sequence, staticFile, useVideoConfig} from 'remotion';
+import {CaptionOverlay} from './CaptionOverlay';
 import {FULL_REVIEW_DURATION, FullInterviewReview} from './FullInterviewReview';
+
+type Props = {
+  captionsSrc?: string;
+  showCaptions?: boolean;
+};
 
 const INTRO_FIRST_SOURCE_START = 2.65;
 const INTRO_FIRST_SOURCE_END = 32.65;
@@ -29,8 +35,12 @@ const FullFrameVideo = ({src, trimBefore}: {src: string; trimBefore: number}) =>
   />
 );
 
-export const FinalInterview = () => {
+export const FinalInterview = ({
+  captionsSrc = 'generated/captions.json',
+  showCaptions,
+}: Props) => {
   const {fps} = useVideoConfig();
+  const captionsVisible = showCaptions ?? getRemotionEnvironment().isStudio;
   const introFirstFrames = secondsToFrames(INTRO_FIRST_SOURCE_END - INTRO_FIRST_SOURCE_START, fps);
   const introSecondFrames = secondsToFrames(INTRO_SECOND_SOURCE_END - INTRO_SECOND_SOURCE_START, fps);
   const introFrames = introFirstFrames + introSecondFrames;
@@ -82,6 +92,12 @@ export const FinalInterview = () => {
           trimBefore={secondsToFrames(OUTRO_SECOND_SOURCE_START, fps)}
         />
       </Sequence>
+
+      {captionsVisible ? (
+        <Sequence name="Черновые субтитры">
+          <CaptionOverlay src={captionsSrc} />
+        </Sequence>
+      ) : null}
     </AbsoluteFill>
   );
 };

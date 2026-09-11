@@ -1,5 +1,6 @@
 import {execFileSync} from 'node:child_process';
 import {
+  copyFileSync,
   existsSync,
   mkdirSync,
   readdirSync,
@@ -58,8 +59,9 @@ const inputArgument = argumentValue('--input');
 const outputArgument = argumentValue('--output');
 const replacementsArgument = argumentValue('--replacements');
 const speakersArgument = argumentValue('--speakers');
+const publishArgument = argumentValue('--publish');
 if (!outputArgument) {
-  throw new Error('Usage: npm run captions:transcribe -- --input <audio> --output <directory> [--replacements <json>] [--speakers <json>] [--force]\nFor rebuilding derived files: npm run captions:build -- --output <directory>');
+  throw new Error('Usage: npm run captions:transcribe -- --input <audio> --output <directory> [--replacements <json>] [--speakers <json>] [--publish <json>] [--force]\nFor rebuilding derived files: npm run captions:build -- --output <directory> [--publish <json>]');
 }
 
 const outputDirectory = resolve(process.cwd(), outputArgument);
@@ -277,6 +279,12 @@ const buildDerivedFiles = (durationMs) => {
   writeJsonAtomic(paths.captions, captions);
   writeFileSync(paths.srt, renderSrt(subtitleCues, options), 'utf8');
   writeFileSync(paths.transcript, renderTranscript(review), 'utf8');
+  if (publishArgument) {
+    const publishPath = resolve(process.cwd(), publishArgument);
+    mkdirSync(dirname(publishPath), {recursive: true});
+    copyFileSync(paths.captions, publishPath);
+    console.log(`Published captions JSON: ${publishPath}`);
+  }
   console.log(`Built ${review.length} diarized cues and ${subtitleCues.length} subtitle cues`);
   console.log(`SRT: ${paths.srt}`);
 };

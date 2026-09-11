@@ -164,5 +164,19 @@ npm run captions:transcribe -- \
 npm run captions:build -- --output <run-directory>
 ```
 
+Для просмотра субтитров поверх `FinalInterview` в Remotion Studio нужно
+опубликовать актуальный JSON как производный asset. Путь к исходному запуску
+передаётся при вызове и не зафиксирован в коде:
+
+```bash
+npm run captions:build -- \
+  --output <run-directory> \
+  --publish public/generated/captions.json
+```
+
+В Studio слой показывается автоматически. Обычный production-рендер его не
+содержит; при необходимости его можно явно включить входным параметром
+`showCaptions`.
+
 Общие безопасные настройки находятся в `video/.env`, а `OPENAI_API_KEY` —
 только в игнорируемом `video/.env.local`.

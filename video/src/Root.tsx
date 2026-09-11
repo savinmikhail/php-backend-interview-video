@@ -6,6 +6,7 @@ import {ReviewSlide} from './ReviewSlide';
 import {BaseReview} from './BaseReview';
 import {FULL_REVIEW_DURATION, FullInterviewReview} from './FullInterviewReview';
 import {AvatarAnimationTest} from './AvatarAnimationTest';
+import {FinalInterview, finalInterviewDuration} from './FinalInterview';
 import {DEV_FPS, oopTimeline, PRODUCTION_FPS, questionBatchTimeline, readonlyTimeline} from './timeline';
 
 const productionTimeline = readonlyTimeline(PRODUCTION_FPS);
@@ -21,6 +22,22 @@ export const RemotionRoot = () => (
       id="AvatarAnimationTest"
       component={AvatarAnimationTest}
       durationInFrames={10 * PRODUCTION_FPS}
+      fps={PRODUCTION_FPS}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="FinalInterviewDev"
+      component={FinalInterview}
+      durationInFrames={finalInterviewDuration(DEV_FPS)}
+      fps={DEV_FPS}
+      width={1920}
+      height={1080}
+    />
+    <Composition
+      id="FinalInterview"
+      component={FinalInterview}
+      durationInFrames={finalInterviewDuration(PRODUCTION_FPS)}
       fps={PRODUCTION_FPS}
       width={1920}
       height={1080}

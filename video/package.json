@@ -13,6 +13,8 @@
     "speaker:at": "node scripts/generate-speaker-timeline.mjs --check --at",
     "time": "node scripts/review-time.mjs",
     "render:timing": "npm run check:timeline && node scripts/render-review-boundaries.mjs",
+    "render:final:dev": "remotion render src/index.ts FinalInterviewDev ../renders/841862-final-dev.mp4 --codec=h264 --crf=18",
+    "render:final": "remotion render src/index.ts FinalInterview ../renders/841862-final.mp4 --codec=h264 --crf=18",
     "render:readonly:dev": "remotion render src/index.ts ReadonlyInterviewDev ../renders/readonly-remotion-dev.mp4 --codec=h264 --crf=18",
     "render:readonly": "remotion render src/index.ts ReadonlyInterview ../renders/readonly-remotion.mp4 --codec=h264 --crf=18",
     "render:readonly:short:dev": "remotion render src/index.ts ReadonlyInterviewShortDev ../renders/readonly-remotion-short-dev.mp4 --codec=h264 --crf=18",

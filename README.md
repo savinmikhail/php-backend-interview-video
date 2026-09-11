@@ -132,3 +132,38 @@ npm run speaker:at -- 32:21.05
 Результат хранится в `video/src/generated/speaker-timeline.json` и проверяется
 командой `npm run check`. Ручные исключения с причиной находятся в
 `video/speaker-diarization.config.json`; сам generated-файл вручную не правится.
+
+### Расшифровка и субтитры
+
+Универсальный caption-pipeline принимает произвольную готовую аудиодорожку и
+сохраняет каждый запуск в указанный каталог. Конкретные выпуски и пути в коде
+не зафиксированы:
+
+```bash
+cd video
+npm run captions:transcribe -- --input <audio-file> --output <run-directory>
+```
+
+Первый OpenAI-проход получает реплики и speaker labels, второй — таймкод каждого
+слова. Из них создаются `words.json`, `utterances.review.json`, `captions.json`,
+`captions.srt` и читаемая расшифровка. Словарь терминов и отображаемые имена говорящих можно
+передать отдельными конфигурациями выпуска; скрипт не зависит от их названий и
+расположения:
+
+```bash
+npm run captions:transcribe -- \
+  --input <audio-file> \
+  --output <run-directory> \
+  --replacements <replacements.json> \
+  --speakers <speakers.json>
+```
+
+После ручной правки `utterances.review.json` производные файлы пересобираются
+без повторной транскрибации:
+
+```bash
+npm run captions:build -- --output <run-directory>
+```
+
+Общие безопасные настройки находятся в `video/.env`, а `OPENAI_API_KEY` —
+только в игнорируемом `video/.env.local`.

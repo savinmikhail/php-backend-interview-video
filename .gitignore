@@ -16,3 +16,7 @@ proxies/
 .DS_Store
 node_modules/
 video/public/generated/
+
+# Local credentials and machine-specific overrides.
+.env.local
+.env.*.local

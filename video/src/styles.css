@@ -332,7 +332,7 @@
 }
 
 .oop-node small {
-  color: #cbb3e8;
+  color: var(--diagram-structure);
   font-size: 18px;
   font-weight: 850;
   letter-spacing: 1px;
@@ -393,8 +393,8 @@
   font: 750 18px/1.2 'JetBrains Mono', Menlo, monospace;
 }
 .oop-branch .oop-node { min-height: 72px; display: grid; place-items: center; padding: 15px 20px; }
-.oop-node--cyan { border-color: var(--diagram-structure-border); background: var(--diagram-structure-surface); }
-.oop-node--cyan strong { color: var(--diagram-structure); }
+.oop-node--structure { border-color: var(--diagram-structure-border); background: var(--diagram-structure-surface); }
+.oop-node--structure strong { color: var(--diagram-structure); }
 
 .oop-consumer {
   width: 760px;
@@ -421,7 +421,6 @@
 .oop-method--ready span,
 .oop-method--required code,
 .oop-method--required span { color: var(--diagram-structure); }
-.oop-node--purple { border-color: var(--diagram-structure-border); }
 
 .oop-node--trait { width: 800px; }
 .oop-trait-members { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 5px; }

@@ -1,10 +1,6 @@
 import {PhpTokens} from './PhpCodeBlock';
 import type {ReactNode} from 'react';
-import {Audio} from '@remotion/media';
 import {
-  AbsoluteFill,
-  Sequence,
-  staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from 'remotion';
@@ -16,25 +12,7 @@ import {
 } from './InterviewShell';
 import {
   PRODUCTION_FPS,
-  readonlyTimeline,
-  speakerAt,
-  TOTAL_QUESTIONS,
 } from './timeline';
-
-type Props = {format: Format; withAudio?: boolean};
-
-const QuestionSlide = ({format, speaker}: SlideProps) => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
-  return (
-    <InterviewShell format={format} speaker={speaker} counter="1" question="Что такое readonly-класс в PHP?" showHeader={false}>
-      <div className="question-slide" style={enter(frame * PRODUCTION_FPS / fps)}>
-        <div className="eyebrow">Вопрос 1 из {TOTAL_QUESTIONS}</div>
-        <h1>Что такое<br /><em>readonly-класс</em> в PHP?</h1>
-      </div>
-    </InterviewShell>
-  );
-};
 
 const ErrorLine = () => (
   <div className="error-line">
@@ -170,27 +148,11 @@ const NuanceSlide = ({format, speaker}: SlideProps) => {
   );
 };
 
-export const ReadonlyInterview = ({format, withAudio = true}: Props) => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
-  const timeline = readonlyTimeline(fps);
-  const speaker = speakerAt(frame, fps);
-
-  return (
-    <AbsoluteFill>
-      {withAudio && <Audio src={staticFile('generated/readonly-audio.m4a')} />}
-      <Sequence from={timeline.question.from} durationInFrames={timeline.question.duration} name="Вопрос">
-        <QuestionSlide format={format} speaker={speaker} />
-      </Sequence>
-      <Sequence from={timeline.rules.from} durationInFrames={timeline.rules.duration} name="Как работает">
-        <RulesSlide format={format} speaker={speaker} />
-      </Sequence>
-      <Sequence from={timeline.benefits.from} durationInFrames={timeline.benefits.duration} name="Зачем">
-        <BenefitsSlide format={format} speaker={speaker} />
-      </Sequence>
-      <Sequence from={timeline.nuance.from} durationInFrames={timeline.nuance.duration} name="Readonly ≠ immutable">
-        <NuanceSlide format={format} speaker={speaker} />
-      </Sequence>
-    </AbsoluteFill>
-  );
+export const ReadonlySlide = ({format, speaker, slideId}: SlideProps & {slideId: string}) => {
+  switch (slideId) {
+    case '01-rules': return <RulesSlide format={format} speaker={speaker} />;
+    case '01-benefits': return <BenefitsSlide format={format} speaker={speaker} />;
+    case '01-nuance': return <NuanceSlide format={format} speaker={speaker} />;
+    default: return null;
+  }
 };

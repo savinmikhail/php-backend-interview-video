@@ -2,9 +2,11 @@ import type {ReactNode} from 'react';
 import {CanvasImage, Easing, interpolate, interpolateColors, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {InterviewShell, type ContentLayout, type Format} from './InterviewShell';
 import {PhpCodeBlock, PhpTokens, PhpLines} from './PhpCodeBlock';
+import {OopSlide} from './OopConstructsInterview';
+import {QuestionBatchSlide} from './QuestionBatchInterview';
+import {ReadonlySlide} from './ReadonlyInterview';
 import {TOTAL_QUESTIONS, type Speaker} from './timeline';
 
-type Tone = 'purple' | 'cyan' | 'green' | 'amber' | 'red';
 type CardTone = 'neutral' | 'brand' | 'structure' | 'success' | 'warning' | 'danger';
 type Pattern = 'question' | 'custom' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile' | 'decorator-code' | 'compiler-pass-code' | 'controller-code' | 'cache-aside-code' | 'cache-triangle' | 'doctrine' | 'uuid' | 'telegram-promo';
 
@@ -49,6 +51,11 @@ const s = (
 ): ReviewSlideDefinition => ({id, counter, title, pattern, cards, footer, badge, speaker});
 
 export const reviewSlides: ReviewSlideDefinition[] = [
+  q('01-question', '1', 'Что такое readonly-класс в PHP?'),
+  s('01-rules', '1', 'Что такое readonly-класс в PHP?', 'custom', []),
+  s('01-benefits', '1', 'Зачем ограничивать мутацию?', 'custom', []),
+  s('01-nuance', '1', 'readonly не означает deep immutable', 'custom', []),
+
   s('06-enum', '6', 'Для чего и когда использовать enum?', 'enum', [
   ], 'Конечный набор доменных вариантов — хороший кандидат для enum'),
 
@@ -512,11 +519,11 @@ const CompilerPassCode = () => (
 
     <aside className="compiler-pass-example">
       <div className="compiler-pass-example__label">Конфликт конфигурации</div>
-      <article className="compiler-pass-service compiler-pass-service--purple">
+      <article className="compiler-pass-service compiler-pass-service--structure">
         <strong>EmailConsumer</strong>
         <code>queue: emails</code>
       </article>
-      <article className="compiler-pass-service compiler-pass-service--cyan">
+      <article className="compiler-pass-service compiler-pass-service--structure">
         <strong>RetryConsumer</strong>
         <code>queue: emails</code>
       </article>
@@ -554,7 +561,7 @@ const DtoTransfer = () => (
     public int $quantity,
   ) {}
 }`} /></code></pre>
-    <pre className="doctrine-code doctrine-code--cyan dto-transfer-code"><code><PhpLines code={`#[Route('/orders', methods: ['POST'])]
+    <pre className="doctrine-code doctrine-code--structure dto-transfer-code"><code><PhpLines code={`#[Route('/orders', methods: ['POST'])]
 public function create(
   #[MapRequestPayload] CreateOrderDto $input,
   CreateOrderService $service,
@@ -598,7 +605,7 @@ const RichEntity = () => (
   </div>
 );
 
-const PhpCode = ({children, tone = 'purple'}: {children: ReactNode; tone?: Tone}) => (
+const PhpCode = ({children, tone = 'neutral'}: {children: ReactNode; tone?: CardTone}) => (
   <pre className={`doctrine-code doctrine-code--${tone}`}><code>{children}</code></pre>
 );
 
@@ -614,9 +621,9 @@ $em->persist($user);
 $uow->getEntityState($user)
   === UnitOfWork::STATE_MANAGED; // true`} /></PhpCode>
     <section className="doctrine-state-panel doctrine-state-panel--persist">
-      <div className="doctrine-state doctrine-state--purple"><small>entity state</small><strong>NEW</strong></div>
+      <div className="doctrine-state doctrine-state--structure"><small>entity state</small><strong>NEW</strong></div>
       <div className="doctrine-arrow-step"><code><PhpTokens code={`persist($user)`} /></code><span>→</span></div>
-      <div className="doctrine-state doctrine-state--green"><small>Unit of Work</small><strong>MANAGED</strong><span>scheduled: INSERT</span></div>
+      <div className="doctrine-state doctrine-state--success"><small>Unit of Work</small><strong>MANAGED</strong><span>scheduled: INSERT</span></div>
       <div className="doctrine-zero-sql"><strong>SQL-запросов: 0</strong><span>persist() только регистрирует объект</span></div>
     </section>
     <div className="doctrine-footer">ID может появиться до <code><PhpTokens code={`flush()`} /></code>; после успешного <code><PhpTokens code={`flush()`} /></code> он гарантирован</div>
@@ -704,7 +711,7 @@ $em->contains($user); // false`} /></PhpCode>
 
 const DoctrineClearBatch = () => (
   <div className="doctrine-two-column doctrine-two-column--batch">
-    <PhpCode tone="cyan"><PhpLines code={`foreach ($rows as $i => $row) {
+    <PhpCode tone="structure"><PhpLines code={`foreach ($rows as $i => $row) {
   process($row);
 
   if ($i % 100 === 0) {
@@ -725,14 +732,14 @@ const DoctrineIdentity = () => (
   <div className="identity-comparison">
     <section className="identity-card identity-card--doctrine">
       <div className="identity-card__label">Doctrine ORM</div>
-      <PhpCode tone="green"><PhpLines code={`$a = $em->find(User::class, 42); // SELECT
+      <PhpCode><PhpLines code={`$a = $em->find(User::class, 42); // SELECT
 $b = $repository->find(42); // Identity Map
 $a === $b; // true`} /></PhpCode>
       <div className="identity-result"><strong>SELECT ×1</strong><span>Один ID → один PHP-объект</span></div>
     </section>
     <section className="identity-card identity-card--laravel">
       <div className="identity-card__label">Laravel Eloquent</div>
-      <PhpCode tone="red"><PhpLines code={`$a = User::find(42); // SELECT
+      <PhpCode><PhpLines code={`$a = User::find(42); // SELECT
 $b = User::find(42); // SELECT
 $a === $b; // false`} /></PhpCode>
       <div className="identity-result"><strong>SELECT ×2</strong><span>Два экземпляра модели</span></div>
@@ -867,7 +874,7 @@ const DoctrineLayers = () => {
 
 const DoctrineBoundary = () => (
   <div className="doctrine-two-column doctrine-two-column--boundary">
-    <PhpCode tone="green"><PhpLines code={`$user = $users->get(42);
+    <PhpCode tone="success"><PhpLines code={`$user = $users->get(42);
 
 $profile->changeEmail($user);
 $billing->upgradePlan($user);
@@ -890,9 +897,9 @@ const LazyBenefit = () => {
 
   return (
     <div className="lazy-code-layout">
-      <PhpCode tone="cyan">
+      <PhpCode tone="structure">
         <span
-          className="lazy-code-line lazy-code-line--cyan"
+          className="lazy-code-line lazy-code-line--structure"
           style={{
             opacity: interpolate(frame, [0, fps * 0.35], [0.35, 1], {
               extrapolateLeft: 'clamp',
@@ -973,13 +980,13 @@ const LazyNPlusOne = () => {
 
   return (
     <div className="lazy-code-layout">
-      <PhpCode tone="red"><PhpLines code={`$orders = $repo->findRecent();
+      <PhpCode tone="danger"><PhpLines code={`$orders = $repo->findRecent();
 
 foreach ($orders as $order) {
   foreach ($order->getItems() as $item) {
     render($item);
   }
-}`} lineProps={{3: {className: "lazy-code-line lazy-code-line--red", style: {
+}`} lineProps={{3: {className: "lazy-code-line lazy-code-line--danger", style: {
             opacity: interpolate(frame, [fps * 1.25, fps * 1.8], [0.35, 1], {
               extrapolateLeft: 'clamp',
               extrapolateRight: 'clamp',
@@ -1045,8 +1052,8 @@ const LazyFetchJoin = () => {
 
   return (
     <div className="lazy-code-layout">
-      <PhpCode tone="green">
-        <span className="lazy-code-line lazy-code-line--green"><PhpTokens code={`$orders = $orderRepository`} /></span>
+      <PhpCode tone="success">
+        <span className="lazy-code-line lazy-code-line--success"><PhpTokens code={`$orders = $orderRepository`} /></span>
         <span className="code-line--indent-1"><PhpTokens code={`->findRecentWithItems();`} /></span>
         <span>&nbsp;</span>
         <span
@@ -1106,14 +1113,14 @@ const CacheAsideCode = () => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const trace = [
-    {label: 'Cache', value: 'GET product:42 → MISS', tone: 'amber', at: 0.35},
-    {label: 'Database', value: 'SELECT product WHERE id = 42', tone: 'cyan', at: 1.65},
-    {label: 'Cache', value: 'SET product:42', tone: 'green', at: 3.05},
+    {label: 'Cache', value: 'GET product:42 → MISS', tone: 'structure', at: 0.35},
+    {label: 'Database', value: 'SELECT product WHERE id = 42', tone: 'structure', at: 1.65},
+    {label: 'Cache', value: 'SET product:42', tone: 'success', at: 3.05},
   ];
 
   return (
     <div className="cache-aside-code-layout">
-      <PhpCode tone="cyan"><PhpLines code={`$value = $cache->get($key);
+      <PhpCode tone="structure"><PhpLines code={`$value = $cache->get($key);
 
 if ($value === null) {
   $value = $products->find($id);
@@ -1121,8 +1128,8 @@ if ($value === null) {
 }
 
 return $value;`} lineProps={{
-          0: {className: 'cache-code-line', style: {backgroundColor: interpolateColors(frame, [0, fps * 0.15, fps * 0.35, fps * 0.95, fps * 1.25, fps * 5], ['rgba(255,205,101,0)', 'rgba(255,205,101,0)', 'rgba(255,205,101,.20)', 'rgba(255,205,101,.20)', 'rgba(255,205,101,0)', 'rgba(255,205,101,0)'], {easing: Easing.bezier(0.16, 1, 0.3, 1)})}},
-          2: {className: 'cache-code-line', style: {backgroundColor: interpolateColors(frame, [0, fps * 0.45, fps * 0.60, fps * 0.95, fps * 1.25, fps * 5], ['rgba(255,205,101,0)', 'rgba(255,205,101,0)', 'rgba(255,205,101,.20)', 'rgba(255,205,101,.20)', 'rgba(255,205,101,0)', 'rgba(255,205,101,0)'], {easing: Easing.bezier(0.16, 1, 0.3, 1)})}},
+          0: {className: 'cache-code-line', style: {backgroundColor: interpolateColors(frame, [0, fps * 0.15, fps * 0.35, fps * 0.95, fps * 1.25, fps * 5], ['rgba(91,220,247,0)', 'rgba(91,220,247,0)', 'rgba(91,220,247,.20)', 'rgba(91,220,247,.20)', 'rgba(91,220,247,0)', 'rgba(91,220,247,0)'], {easing: Easing.bezier(0.16, 1, 0.3, 1)})}},
+          2: {className: 'cache-code-line', style: {backgroundColor: interpolateColors(frame, [0, fps * 0.45, fps * 0.60, fps * 0.95, fps * 1.25, fps * 5], ['rgba(91,220,247,0)', 'rgba(91,220,247,0)', 'rgba(91,220,247,.20)', 'rgba(91,220,247,.20)', 'rgba(91,220,247,0)', 'rgba(91,220,247,0)'], {easing: Easing.bezier(0.16, 1, 0.3, 1)})}},
           3: {className: 'cache-code-line', style: {backgroundColor: interpolateColors(frame, [0, fps * 1.45, fps * 1.65, fps * 2.35, fps * 2.65, fps * 5], ['rgba(91,220,247,0)', 'rgba(91,220,247,0)', 'rgba(91,220,247,.20)', 'rgba(91,220,247,.20)', 'rgba(91,220,247,0)', 'rgba(91,220,247,0)'], {easing: Easing.bezier(0.16, 1, 0.3, 1)})}},
           4: {className: 'cache-code-line', style: {backgroundColor: interpolateColors(frame, [0, fps * 2.85, fps * 3.05, fps * 3.65, fps * 4, fps * 5], ['rgba(111,239,192,0)', 'rgba(111,239,192,0)', 'rgba(111,239,192,.20)', 'rgba(111,239,192,.20)', 'rgba(111,239,192,0)', 'rgba(111,239,192,0)'], {easing: Easing.bezier(0.16, 1, 0.3, 1)})}},
         }} /></PhpCode>
@@ -1211,7 +1218,7 @@ const DoctrineTransactionImplicit = () => {
 
   return (
     <div className="transaction-implicit-layout">
-      <PhpCode tone="green"><PhpLines code={`$em->persist($order);
+      <PhpCode tone="success"><PhpLines code={`$em->persist($order);
 $em->persist($auditLog);
 
 $em->flush();`} lineProps={{3: {className: "transaction-code-focus", style: {
@@ -1272,14 +1279,14 @@ const DoctrineTransactionExplicit = () => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const cases = [
-    {code: '2 × flush()', text: 'общий rollback', tone: 'purple'},
-    {code: 'PESSIMISTIC_WRITE', text: 'нужна active transaction', tone: 'amber'},
-    {code: 'REPEATABLE_READ', text: 'изоляция всей операции', tone: 'cyan'},
+    {code: '2 × flush()', text: 'общий rollback', tone: 'structure'},
+    {code: 'PESSIMISTIC_WRITE', text: 'нужна active transaction', tone: 'structure'},
+    {code: 'REPEATABLE_READ', text: 'изоляция всей операции', tone: 'structure'},
   ];
 
   return (
     <div className="transaction-explicit-layout">
-      <PhpCode tone="green"><PhpLines code={`$conn->transactional(
+      <PhpCode tone="success"><PhpLines code={`$conn->transactional(
   function () use ($conn) {
     $conn->executeStatement($sql1);
     $conn->executeStatement($sql2);
@@ -1414,7 +1421,7 @@ const UuidV7Anatomy = () => {
 
 const UuidBeforeDatabase = () => (
   <div className="uuid-code-layout">
-    <PhpCode tone="green"><PhpLines code={`final class Order
+    <PhpCode tone="success"><PhpLines code={`final class Order
 {
   public function __construct(
     private UuidV7 $id = new UuidV7(),
@@ -1439,8 +1446,8 @@ const UuidDistributed = () => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const sources = [
-    {name: 'Service A / DB A', id: '…7cc3-98c4…', tone: 'purple'},
-    {name: 'Service B / DB B', id: '…7a15-a4e2…', tone: 'cyan'},
+    {name: 'Service A / DB A', id: '…7cc3-98c4…', tone: 'structure'},
+    {name: 'Service B / DB B', id: '…7a15-a4e2…', tone: 'structure'},
   ];
 
   return (
@@ -1606,6 +1613,18 @@ export const ReviewSlide = ({
         </div>
       </InterviewShell>
     );
+  }
+
+  if (slide.id.startsWith('01-')) {
+    return <ReadonlySlide format={format} speaker={resolvedSpeaker} slideId={slide.id} />;
+  }
+
+  if (slide.id.startsWith('02-')) {
+    return <OopSlide format={format} speaker={resolvedSpeaker} slideId={slide.id} />;
+  }
+
+  if (/^0[3-5]-/.test(slide.id)) {
+    return <QuestionBatchSlide format={format} speaker={resolvedSpeaker} slideId={slide.id} />;
   }
 
   if (slide.pattern === 'custom') {

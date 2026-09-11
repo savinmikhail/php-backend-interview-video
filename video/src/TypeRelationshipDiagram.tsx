@@ -20,11 +20,11 @@ const InterfaceDiagram = ({frame, fps}: {frame: number; fps: number}) => (
     <Layer className="oop-branches" style={reveal(frame, 11 * fps)}>
       <div className="oop-branch">
         <span>implements</span>
-        <article className="oop-node oop-node--cyan"><strong>EmailNotifier</strong></article>
+        <article className="oop-node oop-node--structure"><strong>EmailNotifier</strong></article>
       </div>
       <div className="oop-branch">
         <span>implements</span>
-        <article className="oop-node oop-node--cyan"><strong>TelegramNotifier</strong></article>
+        <article className="oop-node oop-node--structure"><strong>TelegramNotifier</strong></article>
       </div>
     </Layer>
     <Layer className="oop-consumer" style={reveal(frame, 14 * fps)}>
@@ -53,11 +53,11 @@ const AbstractDiagram = ({frame, fps}: {frame: number; fps: number}) => (
     <Layer className="oop-branches oop-branches--abstract" style={reveal(frame, 11 * fps)}>
       <div className="oop-branch">
         <span>extends</span>
-        <article className="oop-node oop-node--purple"><strong>BinaryResponse</strong></article>
+        <article className="oop-node oop-node--structure"><strong>BinaryResponse</strong></article>
       </div>
       <div className="oop-branch">
         <span>extends</span>
-        <article className="oop-node oop-node--purple"><strong>JsonResponse</strong></article>
+        <article className="oop-node oop-node--structure"><strong>JsonResponse</strong></article>
       </div>
     </Layer>
   </div>

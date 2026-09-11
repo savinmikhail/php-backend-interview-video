@@ -8,9 +8,6 @@ import {
 } from 'remotion';
 import {BaseReview} from './BaseReview';
 import type {Format} from './InterviewShell';
-import {OopConstructsInterview} from './OopConstructsInterview';
-import {QuestionBatchInterview} from './QuestionBatchInterview';
-import {ReadonlyInterview} from './ReadonlyInterview';
 import {ReviewSlide} from './ReviewSlide';
 import {ReviewSpeakerProvider, speakerAtReviewSecond} from './speakerTimeline';
 import {
@@ -34,9 +31,26 @@ type ReviewSegment = {
 const FULL_REVIEW_AUDIO = 'generated/full-review-audio-cut.m4a';
 export const FULL_REVIEW_DURATION = reviewDurationSeconds;
 
-// Keep these entries in sync with review-timeline.tsv. The earlier animated
-// sequences are mounted separately below and therefore are not duplicated here.
+// Keep these entries in sync with review-timeline.tsv.
 const reviewSegments: ReviewSegment[] = [
+  {start: '00:14:17', end: '00:14:22', slideId: '01-question'},
+  {start: '00:14:22', end: '00:14:56', slideId: '01-rules'},
+  {start: '00:14:56', end: '00:15:17', slideId: '01-benefits'},
+  {start: '00:15:17', end: '00:15:45', slideId: '01-nuance'},
+  {start: '00:15:45', end: '00:15:50', slideId: '02-question'},
+  {start: '00:15:50', end: '00:16:07', slideId: '02-interface'},
+  {start: '00:16:07', end: '00:16:24', slideId: '02-abstract'},
+  {start: '00:16:24', end: '00:16:42', slideId: '02-trait'},
+  {start: '00:16:42', end: '00:16:48', slideId: '03-question'},
+  {start: '00:16:48', end: '00:17:05', slideId: '03-mutation'},
+  {start: '00:17:05', end: '00:17:19', slideId: '03-identity'},
+  {start: '00:17:53', end: '00:18:02', slideId: '04-question'},
+  {start: '00:18:02', end: '00:18:08', slideId: '04-comparison'},
+  {start: '00:18:08', end: '00:18:14', slideId: '04-pitfall'},
+  {start: '00:18:52', end: '00:18:59', slideId: '05-question'},
+  {start: '00:18:59', end: '00:19:21', slideId: '05-types'},
+  {start: '00:19:21', end: '00:19:29', slideId: '05-follow-up'},
+  {start: '00:19:29', end: '00:20:59', slideId: '05-correction'},
   {start: '00:20:59', end: '00:21:23', slideId: '06-enum'},
   {start: '00:21:37', end: '00:21:42', slideId: '07-question'},
   {start: '00:21:42', end: '00:22:16', slideId: '07-graph'},
@@ -129,9 +143,6 @@ const reviewSegments: ReviewSegment[] = [
 ];
 
 const occupiedSegments = [
-  {start: '00:14:17', end: '00:15:45'},
-  {start: '00:15:45', end: '00:16:42'},
-  {start: '00:16:42', end: '00:20:59'},
   ...reviewSegments,
 ].sort((left, right) => timestampToSeconds(left.start) - timestampToSeconds(right.start));
 
@@ -191,32 +202,25 @@ export const FullInterviewReview = ({format, withAudio = true}: Props) => {
         <BaseTrack format={format} />
       </Sequence>
 
-      <Sequence
-        name="01 · Readonly class"
-        from={sourceTimestampToOutputFrame('00:14:17', fps)}
-        durationInFrames={88 * fps}
-        premountFor={fps}
-      >
-        <ReadonlyInterview format={format} withAudio={false} />
-      </Sequence>
-      <Sequence
-        name="02 · Interface / abstract class / trait"
-        from={sourceTimestampToOutputFrame('00:15:45', fps)}
-        durationInFrames={57 * fps}
-        premountFor={fps}
-      >
-        <OopConstructsInterview format={format} withAudio={false} />
-      </Sequence>
-      <Sequence
-        name="03–05 · Objects / DateTime / exceptions"
-        from={sourceTimestampToOutputFrame('00:16:42', fps)}
-        durationInFrames={257 * fps}
-        premountFor={fps}
-      >
-        <QuestionBatchInterview format={format} withAudio={false} />
-      </Sequence>
-
       {/* Review slides are authored individually so Studio exposes each layer. */}
+      <Sequence name="01-question" from={slideFrom('01-question', fps)} durationInFrames={slideDuration('01-question', fps)} premountFor={fps}><ReviewSlide format={format} slideId="01-question" /></Sequence>
+      <Sequence name="01-rules" from={slideFrom('01-rules', fps)} durationInFrames={slideDuration('01-rules', fps)} premountFor={fps}><ReviewSlide format={format} slideId="01-rules" /></Sequence>
+      <Sequence name="01-benefits" from={slideFrom('01-benefits', fps)} durationInFrames={slideDuration('01-benefits', fps)} premountFor={fps}><ReviewSlide format={format} slideId="01-benefits" /></Sequence>
+      <Sequence name="01-nuance" from={slideFrom('01-nuance', fps)} durationInFrames={slideDuration('01-nuance', fps)} premountFor={fps}><ReviewSlide format={format} slideId="01-nuance" /></Sequence>
+      <Sequence name="02-question" from={slideFrom('02-question', fps)} durationInFrames={slideDuration('02-question', fps)} premountFor={fps}><ReviewSlide format={format} slideId="02-question" /></Sequence>
+      <Sequence name="02-interface" from={slideFrom('02-interface', fps)} durationInFrames={slideDuration('02-interface', fps)} premountFor={fps}><ReviewSlide format={format} slideId="02-interface" /></Sequence>
+      <Sequence name="02-abstract" from={slideFrom('02-abstract', fps)} durationInFrames={slideDuration('02-abstract', fps)} premountFor={fps}><ReviewSlide format={format} slideId="02-abstract" /></Sequence>
+      <Sequence name="02-trait" from={slideFrom('02-trait', fps)} durationInFrames={slideDuration('02-trait', fps)} premountFor={fps}><ReviewSlide format={format} slideId="02-trait" /></Sequence>
+      <Sequence name="03-question" from={slideFrom('03-question', fps)} durationInFrames={slideDuration('03-question', fps)} premountFor={fps}><ReviewSlide format={format} slideId="03-question" /></Sequence>
+      <Sequence name="03-mutation" from={slideFrom('03-mutation', fps)} durationInFrames={slideDuration('03-mutation', fps)} premountFor={fps}><ReviewSlide format={format} slideId="03-mutation" /></Sequence>
+      <Sequence name="03-identity" from={slideFrom('03-identity', fps)} durationInFrames={slideDuration('03-identity', fps)} premountFor={fps}><ReviewSlide format={format} slideId="03-identity" /></Sequence>
+      <Sequence name="04-question" from={slideFrom('04-question', fps)} durationInFrames={slideDuration('04-question', fps)} premountFor={fps}><ReviewSlide format={format} slideId="04-question" /></Sequence>
+      <Sequence name="04-comparison" from={slideFrom('04-comparison', fps)} durationInFrames={slideDuration('04-comparison', fps)} premountFor={fps}><ReviewSlide format={format} slideId="04-comparison" /></Sequence>
+      <Sequence name="04-pitfall" from={slideFrom('04-pitfall', fps)} durationInFrames={slideDuration('04-pitfall', fps)} premountFor={fps}><ReviewSlide format={format} slideId="04-pitfall" /></Sequence>
+      <Sequence name="05-question" from={slideFrom('05-question', fps)} durationInFrames={slideDuration('05-question', fps)} premountFor={fps}><ReviewSlide format={format} slideId="05-question" /></Sequence>
+      <Sequence name="05-types" from={slideFrom('05-types', fps)} durationInFrames={slideDuration('05-types', fps)} premountFor={fps}><ReviewSlide format={format} slideId="05-types" /></Sequence>
+      <Sequence name="05-follow-up" from={slideFrom('05-follow-up', fps)} durationInFrames={slideDuration('05-follow-up', fps)} premountFor={fps}><ReviewSlide format={format} slideId="05-follow-up" /></Sequence>
+      <Sequence name="05-correction" from={slideFrom('05-correction', fps)} durationInFrames={slideDuration('05-correction', fps)} premountFor={fps}><ReviewSlide format={format} slideId="05-correction" /></Sequence>
       <Sequence name="06-enum" from={slideFrom('06-enum', fps)} durationInFrames={slideDuration('06-enum', fps)} premountFor={fps}><ReviewSlide format={format} slideId="06-enum" /></Sequence>
       <Sequence name="07-question" from={slideFrom('07-question', fps)} durationInFrames={slideDuration('07-question', fps)} premountFor={fps}><ReviewSlide format={format} slideId="07-question" /></Sequence>
       <Sequence name="07-graph" from={slideFrom('07-graph', fps)} durationInFrames={slideDuration('07-graph', fps)} premountFor={fps}><ReviewSlide format={format} slideId="07-graph" /></Sequence>

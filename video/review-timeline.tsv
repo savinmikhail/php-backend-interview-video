@@ -1,7 +1,22 @@
 # start	end	source
-00:14:17	00:15:45	video:../renders/readonly-remotion-dev.mp4
-00:15:45	00:16:42	video:../renders/oop-constructs-remotion-dev.mp4
-00:16:42	00:20:59	video:../renders/questions-03-05-remotion-dev.mp4
+00:14:17	00:14:22	01-question
+00:14:22	00:14:56	01-rules
+00:14:56	00:15:17	01-benefits
+00:15:17	00:15:45	01-nuance
+00:15:45	00:15:50	02-question
+00:15:50	00:16:07	02-interface
+00:16:07	00:16:24	02-abstract
+00:16:24	00:16:42	02-trait
+00:16:42	00:16:48	03-question
+00:16:48	00:17:05	03-mutation
+00:17:05	00:17:19	03-identity
+00:17:53	00:18:02	04-question
+00:18:02	00:18:08	04-comparison
+00:18:08	00:18:14	04-pitfall
+00:18:52	00:18:59	05-question
+00:18:59	00:19:21	05-types
+00:19:21	00:19:29	05-follow-up
+00:19:29	00:20:59	05-correction
 00:20:59	00:21:23	06-enum
 00:21:37	00:21:42	07-question
 00:21:42	00:22:16	07-graph

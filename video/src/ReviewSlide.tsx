@@ -1,14 +1,22 @@
-import type {ReactNode} from 'react';
+import type {ComponentType, ReactNode} from 'react';
 import {CanvasImage, Easing, interpolate, interpolateColors, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
 import {InterviewShell, type ContentLayout, type Format} from './InterviewShell';
 import {PhpCodeBlock, PhpTokens, PhpLines} from './PhpCodeBlock';
-import {OopSlide} from './OopConstructsInterview';
-import {QuestionBatchSlide} from './QuestionBatchInterview';
-import {ReadonlySlide} from './ReadonlyInterview';
+import {
+  DateTimeComparison,
+  DateTimePitfall,
+  ExceptionCorrection,
+  ExceptionTypes,
+  ObjectIdentity,
+  ObjectMutation,
+} from './slides/EarlyQuestionSlides';
+import {OopAbstract, OopInterface, OopTrait} from './slides/OopSlides';
+import {ReadonlyBenefits, ReadonlyNuance, ReadonlyRules} from './slides/ReadonlySlides';
 import {TOTAL_QUESTIONS, type Speaker} from './timeline';
 
 type CardTone = 'neutral' | 'brand' | 'structure' | 'success' | 'warning' | 'danger';
 type Pattern = 'question' | 'custom' | 'columns' | 'grid' | 'flow' | 'stack' | 'enum' | 'di-graph' | 'di-compile' | 'decorator-code' | 'compiler-pass-code' | 'controller-code' | 'cache-aside-code' | 'cache-triangle' | 'doctrine' | 'uuid' | 'telegram-promo';
+type StandardPattern = Exclude<Pattern, 'custom'>;
 
 type Card = {
   label?: string;
@@ -20,16 +28,21 @@ type Card = {
   tone?: CardTone;
 };
 
-export type ReviewSlideDefinition = {
+type ReviewSlideBase = {
   id: string;
   counter: string;
   title: string;
   speaker?: Speaker;
   badge?: string;
-  pattern?: Pattern;
   cards?: Card[];
   footer?: ReactNode;
+  contentLayout?: ContentLayout | ((format: Format) => ContentLayout);
 };
+
+export type ReviewSlideDefinition = ReviewSlideBase & (
+  | {pattern: 'custom'; body: ComponentType<{format: Format}>}
+  | {pattern?: StandardPattern; body?: never}
+);
 
 const q = (id: string, counter: string, title: string): ReviewSlideDefinition => ({
   id,
@@ -43,39 +56,50 @@ const s = (
   id: string,
   counter: string,
   title: string,
-  pattern: Pattern,
+  pattern: StandardPattern,
   cards: Card[],
   footer?: ReactNode,
   badge?: string,
   speaker: Speaker = 'mikhail',
 ): ReviewSlideDefinition => ({id, counter, title, pattern, cards, footer, badge, speaker});
 
+const custom = (
+  id: string,
+  counter: string,
+  title: string,
+  body: ComponentType<{format: Format}>,
+  contentLayout: ContentLayout | ((format: Format) => ContentLayout),
+): ReviewSlideDefinition => ({id, counter, title, pattern: 'custom', body, contentLayout});
+
+const shortLayout = (short: ContentLayout, wide: ContentLayout) =>
+  (format: Format): ContentLayout => format === 'short' ? short : wide;
+
 export const reviewSlides: ReviewSlideDefinition[] = [
   q('01-question', '1', 'Что такое readonly-класс в PHP?'),
-  s('01-rules', '1', 'Что такое readonly-класс в PHP?', 'custom', []),
-  s('01-benefits', '1', 'Зачем ограничивать мутацию?', 'custom', []),
-  s('01-nuance', '1', 'readonly не означает deep immutable', 'custom', []),
+  custom('01-rules', '1', 'Что такое readonly-класс в PHP?', ReadonlyRules, 'balanced'),
+  custom('01-benefits', '1', 'Зачем ограничивать мутацию?', ReadonlyBenefits, 'compact'),
+  custom('01-nuance', '1', 'readonly не означает deep immutable', ReadonlyNuance, shortLayout('dense', 'compact')),
+
+  q('02-question', '2', 'Интерфейс, абстрактный класс, trait — что для чего?'),
+  custom('02-interface', '2', 'Интерфейс, абстрактный класс, trait — что для чего?', OopInterface, shortLayout('dense', 'compact')),
+  custom('02-abstract', '2', 'Интерфейс, абстрактный класс, trait — что для чего?', OopAbstract, shortLayout('dense', 'compact')),
+  custom('02-trait', '2', 'Интерфейс, абстрактный класс, trait — что для чего?', OopTrait, shortLayout('dense', 'compact')),
+
+  q('03-question', '3', 'Что происходит при передаче объекта в метод?'),
+  custom('03-mutation', '3', 'Что происходит при передаче объекта в метод?', ObjectMutation, shortLayout('balanced', 'compact')),
+  custom('03-identity', '3', 'Что происходит при передаче объекта в метод?', ObjectIdentity, shortLayout('dense', 'compact')),
+
+  q('04-question', '4', 'DateTimeImmutable лучше или хуже DateTime?'),
+  custom('04-comparison', '4', 'DateTime и DateTimeImmutable — в чём разница?', DateTimeComparison, shortLayout('balanced', 'compact')),
+  custom('04-pitfall', '4', 'DateTimeImmutable возвращает новый объект', DateTimePitfall, 'compact'),
+
+  q('05-question', '5', 'Как работать с исключениями в слоях и DDD?'),
+  custom('05-types', '5', 'Исключение должно сообщать смысл сбоя', ExceptionTypes, shortLayout('balanced', 'compact')),
+  {...q('05-follow-up', '5', 'А где лучше ловить исключение?'), badge: 'Уточнение интервьюера'},
+  custom('05-correction', '5', 'Где ловить исключение?', ExceptionCorrection, shortLayout('dense', 'compact')),
 
   s('06-enum', '6', 'Для чего и когда использовать enum?', 'enum', [
   ], 'Конечный набор доменных вариантов — хороший кандидат для enum'),
-
-  q('02-question', '2', 'Интерфейс, абстрактный класс, trait — что для чего?'),
-  s('02-interface', '2', 'Интерфейс, абстрактный класс, trait — что для чего?', 'custom', []),
-  s('02-abstract', '2', 'Интерфейс, абстрактный класс, trait — что для чего?', 'custom', []),
-  s('02-trait', '2', 'Интерфейс, абстрактный класс, trait — что для чего?', 'custom', []),
-
-  q('03-question', '3', 'Что происходит при передаче объекта в метод?'),
-  s('03-mutation', '3', 'Что происходит при передаче объекта в метод?', 'custom', []),
-  s('03-identity', '3', 'Что происходит при передаче объекта в метод?', 'custom', []),
-
-  q('04-question', '4', 'DateTimeImmutable лучше или хуже DateTime?'),
-  s('04-comparison', '4', 'DateTime и DateTimeImmutable — в чём разница?', 'custom', []),
-  s('04-pitfall', '4', 'DateTimeImmutable возвращает новый объект', 'custom', []),
-
-  q('05-question', '5', 'Как работать с исключениями в слоях и DDD?'),
-  {...q('05-follow-up', '5', 'А где лучше ловить исключение?'), badge: 'Уточнение интервьюера'},
-  s('05-types', '5', 'Исключение должно сообщать смысл сбоя', 'custom', []),
-  s('05-correction', '5', 'Где ловить исключение?', 'custom', []),
 
   q('07-question', '7', 'Как работает DI-контейнер Symfony и что он даёт?'),
   s('07-graph', '7', 'Контейнер строит object graph', 'di-graph', [],
@@ -313,32 +337,27 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {label: 'Меняется вместе?', title: 'ДА → выделить общее', tone: 'success'},
     {label: 'Нет или неясно?', title: 'Оставить локально и просто', tone: 'structure'},
   ], 'Устойчивую абстракцию легче добавить позже'),
-
-  s('32-uses', '32', 'Как использовать AI в разработке?', 'grid', [
-    {title: 'Найти контекст', tone: 'structure'},
-    {title: 'Набросать первую версию', tone: 'structure'},
-    {title: 'Механически изменить код', tone: 'structure'},
-  ], 'Польза зависит от задачи и рабочего процесса'),
-  s('32-risk', '32', 'Сгенерированный код — ещё не принятый код', 'columns', [
-    {label: 'PROMPT', title: '«Исправь локальную ошибку»', lines: ['Маленькая задача'], tone: 'neutral'},
-    {label: 'OUTPUT', title: 'Изменено 14 файлов', lines: ['giant class · лишний scope · скрытые правки'], tone: 'danger'},
-  ], 'Проверяем scope, архитектуру и побочные изменения'),
-  s('32-loop', '32', 'AI-assisted ≠ AI-approved', 'flow', [
-    {title: 'Контекст', tone: 'structure'},
-    {title: 'Маленькая задача', tone: 'structure'},
-    {title: 'Diff', tone: 'structure'},
-    {title: 'Tests + static analysis', tone: 'structure'},
-    {title: 'Human review', tone: 'structure'},
-  ], 'Ответственность за изменение остаётся у разработчика'),
-  s('32-readable', '32', 'Результат должен быть понятен человеку', 'columns', [
-    {label: 'ЯСНО', title: 'Доменные имена', lines: ['Локальные изменения', 'Очевидный поток'], tone: 'success'},
-    {label: '«SOLID НА МАКСИМУМ»', title: '12 interfaces · 8 factories', lines: ['Смысл размазан по слоям'], tone: 'danger'},
-  ], 'Архитектура помогает изменениям, а не демонстрирует паттерны'),
 ];
 
-export const defaultReviewSlide = reviewSlides[0];
+const reviewSlidesById = new Map(reviewSlides.map((slide) => [slide.id, slide]));
 
-const contentLayoutForSlide = (slide: ReviewSlideDefinition): ContentLayout => {
+if (reviewSlidesById.size !== reviewSlides.length) {
+  throw new Error('Review slide IDs must be unique');
+}
+
+const reviewSlideById = (slideId: string) => {
+  const slide = reviewSlidesById.get(slideId);
+  if (!slide) throw new Error(`Unknown review slide: ${slideId}`);
+  return slide;
+};
+
+const contentLayoutForSlide = (slide: ReviewSlideDefinition, format: Format): ContentLayout => {
+  if (slide.contentLayout) {
+    return typeof slide.contentLayout === 'function'
+      ? slide.contentLayout(format)
+      : slide.contentLayout;
+  }
+
   switch (slide.pattern) {
     case 'question':
       return 'fill';
@@ -1592,16 +1611,14 @@ export const ReviewSlide = ({
   slideId,
   speaker,
   contentLayout: contentLayoutOverride,
-  children,
 }: {
   format: Format;
   slideId: string;
   speaker?: Speaker;
   contentLayout?: ContentLayout;
-  children?: ReactNode;
 }) => {
-  const slide = reviewSlides.find((candidate) => candidate.id === slideId) ?? defaultReviewSlide;
-  const contentLayout = contentLayoutOverride ?? contentLayoutForSlide(slide);
+  const slide = reviewSlideById(slideId);
+  const contentLayout = contentLayoutOverride ?? contentLayoutForSlide(slide, format);
   const resolvedSpeaker = speaker ?? slide.speaker ?? (slide.pattern === 'question' ? 'interviewer' : 'mikhail');
 
   if (slide.pattern === 'question') {
@@ -1615,171 +1632,110 @@ export const ReviewSlide = ({
     );
   }
 
-  if (slide.id.startsWith('01-')) {
-    return <ReadonlySlide format={format} speaker={resolvedSpeaker} slideId={slide.id} />;
-  }
+  const body = (() => {
+    if (slide.pattern === 'custom') {
+      const Body = slide.body;
+      return <Body format={format} />;
+    }
 
-  if (slide.id.startsWith('02-')) {
-    return <OopSlide format={format} speaker={resolvedSpeaker} slideId={slide.id} />;
-  }
-
-  if (/^0[3-5]-/.test(slide.id)) {
-    return <QuestionBatchSlide format={format} speaker={resolvedSpeaker} slideId={slide.id} />;
-  }
-
-  if (slide.pattern === 'custom') {
-    return (
-      <InterviewShell
-        format={format}
-        speaker={resolvedSpeaker}
-        counter={slide.counter}
-        question={slide.title}
-        contentLayout={contentLayout}
-      >
-        {children}
-      </InterviewShell>
-    );
-  }
-
-  if (slide.pattern === 'enum') {
-    return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout={contentLayout}>
+    if (slide.pattern === 'enum') {
+      return (
         <div className={`rr-slide rr-slide--enum rr-slide--${slide.id}`}>
           <EnumComparison />
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
         </div>
-      </InterviewShell>
-    );
-  }
+      );
+    }
 
-  if (slide.pattern === 'di-graph' || slide.pattern === 'di-compile') {
-    return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout={contentLayout}>
+    if (slide.pattern === 'di-graph' || slide.pattern === 'di-compile') {
+      return (
         <div className={`rr-slide rr-slide--${slide.pattern} rr-slide--${slide.id}`}>
           {slide.badge && <div className="rr-badge">{slide.badge}</div>}
           {slide.pattern === 'di-graph' ? <DiObjectGraph /> : <DiCompileRuntime />}
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
         </div>
-      </InterviewShell>
-    );
-  }
+      );
+    }
 
-  if (slide.pattern === 'decorator-code') {
-    return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout={contentLayout}>
+    if (slide.pattern === 'decorator-code') {
+      return (
         <div className={`rr-slide rr-slide--decorator-code rr-slide--${slide.id}`}>
           <DecoratorCode />
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
         </div>
-      </InterviewShell>
-    );
-  }
+      );
+    }
 
-  if (slide.pattern === 'compiler-pass-code') {
-    return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout={contentLayout}>
+    if (slide.pattern === 'compiler-pass-code') {
+      return (
         <div className={`rr-slide rr-slide--compiler-pass-code rr-slide--${slide.id}`}>
           <CompilerPassCode />
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
         </div>
-      </InterviewShell>
-    );
-  }
+      );
+    }
 
-  if (slide.id === '22-dto') {
-    return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout="dense">
-        <div className="rr-slide rr-slide--dto-transfer rr-slide--22-dto"><DtoTransfer /></div>
-      </InterviewShell>
-    );
-  }
+    if (slide.id === '22-dto') {
+      return <div className="rr-slide rr-slide--dto-transfer rr-slide--22-dto"><DtoTransfer /></div>;
+    }
 
-  if (slide.id === '22-entity') {
-    return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout="dense">
-        <div className="rr-slide rr-slide--rich-entity rr-slide--22-entity"><RichEntity /></div>
-      </InterviewShell>
-    );
-  }
+    if (slide.id === '22-entity') {
+      return <div className="rr-slide rr-slide--rich-entity rr-slide--22-entity"><RichEntity /></div>;
+    }
 
-  if (slide.pattern === 'controller-code') {
-    return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout={contentLayout}>
+    if (slide.pattern === 'controller-code') {
+      return (
         <div className={`rr-slide rr-slide--controller-code rr-slide--${slide.id}`}>
           <ControllerReadCode />
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
         </div>
-      </InterviewShell>
-    );
-  }
+      );
+    }
 
-  if (slide.pattern === 'cache-aside-code') {
-    return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout={contentLayout}>
+    if (slide.pattern === 'cache-aside-code') {
+      return (
         <div className={`rr-slide rr-slide--cache-aside-code rr-slide--${slide.id}`}>
           {slide.badge && <div className="rr-badge">{slide.badge}</div>}
           <CacheAsideCode />
         </div>
-      </InterviewShell>
-    );
-  }
+      );
+    }
 
-  if (slide.pattern === 'cache-triangle') {
-    return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout={contentLayout}>
+    if (slide.pattern === 'cache-triangle') {
+      return (
         <div className={`rr-slide rr-slide--cache-triangle rr-slide--${slide.id}`}>
           <CacheTradeoffTriangle />
         </div>
-      </InterviewShell>
-    );
-  }
+      );
+    }
 
-  if (slide.pattern === 'telegram-promo') {
-    return (
-      <InterviewShell format={format} speaker={resolvedSpeaker} counter={slide.counter} question={slide.title} contentLayout="balanced">
+    if (slide.pattern === 'telegram-promo') {
+      return (
         <div className="rr-slide rr-slide--telegram-promo rr-slide--28-telegram">
           <ExplainAnalyzeTelegram />
         </div>
-      </InterviewShell>
-    );
-  }
+      );
+    }
 
-  if (slide.pattern === 'doctrine') {
-    return (
-      <InterviewShell
-        format={format}
-        speaker={slide.speaker ?? 'mikhail'}
-        counter={slide.counter}
-        question={slide.title}
-        contentLayout={slide.id === '14-identity' ? 'compact' : contentLayout}
-      >
+    if (slide.pattern === 'doctrine') {
+      return (
         <div className={`rr-slide rr-slide--doctrine rr-slide--${slide.id}`}>
           {slide.badge && <div className="rr-badge">{slide.badge}</div>}
           <DoctrineSlide slideId={slide.id} />
         </div>
-      </InterviewShell>
-    );
-  }
+      );
+    }
 
-  if (slide.pattern === 'uuid') {
-    return (
-      <InterviewShell format={format} speaker={slide.speaker ?? 'mikhail'} counter={slide.counter} question={slide.title} contentLayout={contentLayout}>
+    if (slide.pattern === 'uuid') {
+      return (
         <div className={`rr-slide rr-slide--uuid rr-slide--${slide.id}`}>
           {slide.badge && <div className="rr-badge">{slide.badge}</div>}
           <UuidSlide slideId={slide.id} />
         </div>
-      </InterviewShell>
-    );
-  }
+      );
+    }
 
-  return (
-    <InterviewShell
-      format={format}
-      speaker={slide.speaker ?? 'mikhail'}
-      counter={slide.counter}
-      question={slide.title}
-      contentLayout={contentLayout}
-    >
+    return (
       <div className={`rr-slide rr-slide--${slide.pattern ?? 'grid'} rr-slide--${slide.id}`}>
         {slide.badge && <div className="rr-badge">{slide.badge}</div>}
         <div className="rr-cards">
@@ -1787,6 +1743,26 @@ export const ReviewSlide = ({
         </div>
         {slide.footer && <div className="rr-footer">{slide.footer}</div>}
       </div>
+    );
+  })();
+
+  const shellLayout = slide.id === '22-dto' || slide.id === '22-entity'
+    ? 'dense'
+    : slide.id === '14-identity'
+      ? 'compact'
+      : slide.pattern === 'telegram-promo'
+        ? 'balanced'
+        : contentLayout;
+
+  return (
+    <InterviewShell
+      format={format}
+      speaker={resolvedSpeaker}
+      counter={slide.counter}
+      question={slide.title}
+      contentLayout={shellLayout}
+    >
+      {body}
     </InterviewShell>
   );
 };

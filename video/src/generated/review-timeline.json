@@ -1,0 +1,537 @@
+[
+  {
+    "start": "00:14:17",
+    "end": "00:14:22",
+    "slideId": "01-question"
+  },
+  {
+    "start": "00:14:22",
+    "end": "00:14:56",
+    "slideId": "01-rules"
+  },
+  {
+    "start": "00:14:56",
+    "end": "00:15:17",
+    "slideId": "01-benefits"
+  },
+  {
+    "start": "00:15:17",
+    "end": "00:15:45",
+    "slideId": "01-nuance"
+  },
+  {
+    "start": "00:15:45",
+    "end": "00:15:50",
+    "slideId": "02-question"
+  },
+  {
+    "start": "00:15:50",
+    "end": "00:16:07",
+    "slideId": "02-interface"
+  },
+  {
+    "start": "00:16:07",
+    "end": "00:16:24",
+    "slideId": "02-abstract"
+  },
+  {
+    "start": "00:16:24",
+    "end": "00:16:42",
+    "slideId": "02-trait"
+  },
+  {
+    "start": "00:16:42",
+    "end": "00:16:48",
+    "slideId": "03-question"
+  },
+  {
+    "start": "00:16:48",
+    "end": "00:17:05",
+    "slideId": "03-mutation"
+  },
+  {
+    "start": "00:17:05",
+    "end": "00:17:19",
+    "slideId": "03-identity"
+  },
+  {
+    "start": "00:17:53",
+    "end": "00:18:02",
+    "slideId": "04-question"
+  },
+  {
+    "start": "00:18:02",
+    "end": "00:18:08",
+    "slideId": "04-comparison"
+  },
+  {
+    "start": "00:18:08",
+    "end": "00:18:14",
+    "slideId": "04-pitfall"
+  },
+  {
+    "start": "00:18:52",
+    "end": "00:18:59",
+    "slideId": "05-question"
+  },
+  {
+    "start": "00:18:59",
+    "end": "00:19:21",
+    "slideId": "05-types"
+  },
+  {
+    "start": "00:19:21",
+    "end": "00:19:29",
+    "slideId": "05-follow-up"
+  },
+  {
+    "start": "00:19:29",
+    "end": "00:20:59",
+    "slideId": "05-correction"
+  },
+  {
+    "start": "00:20:59",
+    "end": "00:21:23",
+    "slideId": "06-enum"
+  },
+  {
+    "start": "00:21:37",
+    "end": "00:21:42",
+    "slideId": "07-question"
+  },
+  {
+    "start": "00:21:42",
+    "end": "00:22:16",
+    "slideId": "07-graph"
+  },
+  {
+    "start": "00:22:16",
+    "end": "00:22:37",
+    "slideId": "07-compile"
+  },
+  {
+    "start": "00:22:37",
+    "end": "00:23:00",
+    "slideId": "07-tradeoff"
+  },
+  {
+    "start": "00:23:09",
+    "end": "00:23:37",
+    "slideId": "08-question"
+  },
+  {
+    "start": "00:23:37",
+    "end": "00:24:43",
+    "slideId": "08-axes"
+  },
+  {
+    "start": "00:24:43",
+    "end": "00:26:24",
+    "slideId": "08-rules"
+  },
+  {
+    "start": "00:26:26",
+    "end": "00:26:39",
+    "slideId": "09-question"
+  },
+  {
+    "start": "00:26:39",
+    "end": "00:27:13",
+    "slideId": "09-subscriber"
+  },
+  {
+    "start": "00:27:13",
+    "end": "00:27:49",
+    "slideId": "09-middleware"
+  },
+  {
+    "start": "00:27:49",
+    "end": "00:28:23",
+    "slideId": "09-decorator"
+  },
+  {
+    "start": "00:28:26",
+    "end": "00:28:51",
+    "slideId": "10-question"
+  },
+  {
+    "start": "00:28:51",
+    "end": "00:29:20",
+    "slideId": "10-bus"
+  },
+  {
+    "start": "00:29:20",
+    "end": "00:29:57",
+    "slideId": "10-middleware"
+  },
+  {
+    "start": "00:30:11",
+    "end": "00:31:17",
+    "slideId": "11-question"
+  },
+  {
+    "start": "00:31:17",
+    "end": "00:31:28",
+    "slideId": "11-pull-push"
+  },
+  {
+    "start": "00:31:55",
+    "end": "00:32:27",
+    "slideId": "11-symfony"
+  },
+  {
+    "start": "00:32:27",
+    "end": "00:33:38",
+    "slideId": "11-runtime"
+  },
+  {
+    "start": "00:34:50",
+    "end": "00:34:53",
+    "slideId": "12-question"
+  },
+  {
+    "start": "00:34:53",
+    "end": "00:35:02",
+    "slideId": "12-compile"
+  },
+  {
+    "start": "00:35:59",
+    "end": "00:36:04",
+    "slideId": "13-question"
+  },
+  {
+    "start": "00:36:04",
+    "end": "00:36:33",
+    "slideId": "13-persist"
+  },
+  {
+    "start": "00:36:33",
+    "end": "00:36:43",
+    "slideId": "13-flush-listener"
+  },
+  {
+    "start": "00:36:43",
+    "end": "00:36:51",
+    "slideId": "13-flush-audit"
+  },
+  {
+    "start": "00:36:51",
+    "end": "00:36:58",
+    "slideId": "13-flush-result"
+  },
+  {
+    "start": "00:36:58",
+    "end": "00:37:07",
+    "slideId": "13-clear"
+  },
+  {
+    "start": "00:37:07",
+    "end": "00:37:32",
+    "slideId": "13-clear-batch"
+  },
+  {
+    "start": "00:37:32",
+    "end": "00:37:45",
+    "slideId": "14-question"
+  },
+  {
+    "start": "00:37:45",
+    "end": "00:37:53",
+    "slideId": "14-identity"
+  },
+  {
+    "start": "00:37:53",
+    "end": "00:37:59",
+    "slideId": "14-layers"
+  },
+  {
+    "start": "00:37:59",
+    "end": "00:38:01",
+    "slideId": "14-boundary"
+  },
+  {
+    "start": "00:38:01",
+    "end": "00:38:05",
+    "slideId": "15-question"
+  },
+  {
+    "start": "00:38:05",
+    "end": "00:38:11.07",
+    "slideId": "15-lazy"
+  },
+  {
+    "start": "00:38:11.07",
+    "end": "00:38:20",
+    "slideId": "15-n-plus-one"
+  },
+  {
+    "start": "00:38:20",
+    "end": "00:38:25",
+    "slideId": "15-fetch-join"
+  },
+  {
+    "start": "00:38:25",
+    "end": "00:38:52",
+    "slideId": "15-extra-lazy"
+  },
+  {
+    "start": "00:38:38",
+    "end": "00:38:52",
+    "slideId": "16-question"
+  },
+  {
+    "start": "00:38:52",
+    "end": "00:39:13",
+    "slideId": "16-implicit"
+  },
+  {
+    "start": "00:39:13",
+    "end": "00:40:01",
+    "slideId": "16-explicit"
+  },
+  {
+    "start": "00:39:54",
+    "end": "00:40:22",
+    "slideId": "17-question"
+  },
+  {
+    "start": "00:40:22",
+    "end": "00:40:44",
+    "slideId": "17-size"
+  },
+  {
+    "start": "00:40:44",
+    "end": "00:41:03",
+    "slideId": "17-v7"
+  },
+  {
+    "start": "00:41:03",
+    "end": "00:41:27",
+    "slideId": "17-before-db"
+  },
+  {
+    "start": "00:41:27",
+    "end": "00:43:11",
+    "slideId": "17-distributed"
+  },
+  {
+    "start": "00:43:11",
+    "end": "00:43:18",
+    "slideId": "18-question"
+  },
+  {
+    "start": "00:43:18",
+    "end": "00:43:31",
+    "slideId": "18-tradeoff"
+  },
+  {
+    "start": "00:43:31",
+    "end": "00:43:54",
+    "slideId": "18-access"
+  },
+  {
+    "start": "00:43:54",
+    "end": "00:44:05",
+    "slideId": "18-forms"
+  },
+  {
+    "start": "00:44:11",
+    "end": "00:45:12",
+    "slideId": "19-question"
+  },
+  {
+    "start": "00:45:12",
+    "end": "00:45:42",
+    "slideId": "19-rule"
+  },
+  {
+    "start": "00:46:06",
+    "end": "00:46:52",
+    "slideId": "20-question"
+  },
+  {
+    "start": "00:46:52",
+    "end": "00:47:28",
+    "slideId": "20-levels"
+  },
+  {
+    "start": "00:47:28",
+    "end": "00:48:03",
+    "slideId": "20-usecase"
+  },
+  {
+    "start": "00:48:03",
+    "end": "00:48:10",
+    "slideId": "20-criterion"
+  },
+  {
+    "start": "00:48:12",
+    "end": "00:48:19",
+    "slideId": "21-question"
+  },
+  {
+    "start": "00:48:19",
+    "end": "00:48:47",
+    "slideId": "21-direct"
+  },
+  {
+    "start": "00:48:55",
+    "end": "00:48:59",
+    "slideId": "22-question"
+  },
+  {
+    "start": "00:48:59",
+    "end": "00:49:09",
+    "slideId": "22-entity"
+  },
+  {
+    "start": "00:49:09",
+    "end": "00:49:29",
+    "slideId": "22-dto"
+  },
+  {
+    "start": "00:49:29",
+    "end": "00:49:37",
+    "slideId": "22-correction"
+  },
+  {
+    "start": "00:50:14",
+    "end": "00:50:34",
+    "slideId": "23-question"
+  },
+  {
+    "start": "00:50:34",
+    "end": "00:51:01",
+    "slideId": "23-boundary"
+  },
+  {
+    "start": "00:51:01",
+    "end": "00:51:32",
+    "slideId": "23-deployment"
+  },
+  {
+    "start": "00:51:32",
+    "end": "00:52:42",
+    "slideId": "23-monolith"
+  },
+  {
+    "start": "00:52:48",
+    "end": "00:52:57",
+    "slideId": "24-question"
+  },
+  {
+    "start": "00:52:57",
+    "end": "00:53:01",
+    "slideId": "24-location"
+  },
+  {
+    "start": "00:53:01",
+    "end": "00:53:19",
+    "slideId": "24-dependency"
+  },
+  {
+    "start": "00:53:35",
+    "end": "00:53:41",
+    "slideId": "25-question"
+  },
+  {
+    "start": "00:53:43",
+    "end": "00:53:48",
+    "slideId": "25-aside-question"
+  },
+  {
+    "start": "00:53:48",
+    "end": "00:54:09",
+    "slideId": "25-classes"
+  },
+  {
+    "start": "00:54:09",
+    "end": "00:54:14",
+    "slideId": "25-aside"
+  },
+  {
+    "start": "00:54:14",
+    "end": "00:54:50",
+    "slideId": "25-writes"
+  },
+  {
+    "start": "00:54:50",
+    "end": "00:55:21",
+    "slideId": "25-choice"
+  },
+  {
+    "start": "00:56:53",
+    "end": "00:56:58",
+    "slideId": "26-question"
+  },
+  {
+    "start": "00:56:58",
+    "end": "00:57:21",
+    "slideId": "26-auth"
+  },
+  {
+    "start": "00:57:38",
+    "end": "00:57:57",
+    "slideId": "28-question"
+  },
+  {
+    "start": "00:57:57",
+    "end": "00:58:03",
+    "slideId": "28-query"
+  },
+  {
+    "start": "00:58:03",
+    "end": "00:58:09",
+    "slideId": "28-telegram"
+  },
+  {
+    "start": "00:58:09",
+    "end": "00:58:16",
+    "slideId": "29-question"
+  },
+  {
+    "start": "00:58:16",
+    "end": "00:58:48",
+    "slideId": "29-so"
+  },
+  {
+    "start": "00:58:48",
+    "end": "00:59:35",
+    "slideId": "29-lsp"
+  },
+  {
+    "start": "00:59:35",
+    "end": "01:00:14",
+    "slideId": "29-id"
+  },
+  {
+    "start": "01:00:14",
+    "end": "01:00:18",
+    "slideId": "29-required-question"
+  },
+  {
+    "start": "01:00:18",
+    "end": "01:00:57",
+    "slideId": "29-tradeoff"
+  },
+  {
+    "start": "01:00:57",
+    "end": "01:01:10",
+    "slideId": "30-basics"
+  },
+  {
+    "start": "01:01:10",
+    "end": "01:01:18",
+    "slideId": "30-question"
+  },
+  {
+    "start": "01:01:18",
+    "end": "01:01:48",
+    "slideId": "30-copy"
+  },
+  {
+    "start": "01:01:48",
+    "end": "01:02:32",
+    "slideId": "30-criterion"
+  }
+]

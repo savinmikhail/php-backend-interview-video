@@ -3,9 +3,11 @@
   "private": true,
   "scripts": {
     "assets:full-review": "bash scripts/prepare-full-review-assets.sh",
-    "studio": "npm run assets:full-review && remotion studio src/index.ts",
-    "check": "npm run speakers:check && tsc --noEmit && npm run check:timeline",
+    "studio": "npm run assets:full-review && npm run timeline:generate && remotion studio src/index.ts",
+    "check": "npm run speakers:check && npm run timeline:check && tsc --noEmit && npm run check:timeline",
     "check:timeline": "node scripts/check-full-review-timeline.mjs",
+    "timeline:generate": "node scripts/generate-review-timeline.mjs",
+    "timeline:check": "node scripts/generate-review-timeline.mjs --check",
     "speakers:generate": "node scripts/generate-speaker-timeline.mjs",
     "speakers:check": "node scripts/generate-speaker-timeline.mjs --check",
     "speaker:at": "node scripts/generate-speaker-timeline.mjs --check --at",
@@ -13,12 +15,12 @@
     "captions:build": "node scripts/transcribe-captions.mjs --build-only",
     "captions:test": "node --test scripts/lib/captions.test.mjs",
     "time": "node scripts/review-time.mjs",
-    "render:timing": "npm run check:timeline && node scripts/render-review-boundaries.mjs",
-    "render:final:dev": "remotion render src/index.ts FinalInterviewDev ../renders/841862-final-dev.mp4 --codec=h264 --crf=18",
-    "render:final": "remotion render src/index.ts FinalInterview ../renders/841862-final.mp4 --codec=h264 --crf=18",
-    "render:review-stills": "bash scripts/render-review-stills.sh",
-    "render:full-review": "remotion render src/index.ts FullInterviewReviewDev ../renders/841862-full-review.mp4 --codec=h264 --crf=18",
-    "render:full-review:production": "remotion render src/index.ts FullInterviewReview ../renders/841862-full-review-production.mp4 --codec=h264 --crf=18"
+    "render:timing": "npm run timeline:generate && npm run check:timeline && node scripts/render-review-boundaries.mjs",
+    "render:final:dev": "npm run timeline:generate && remotion render src/index.ts FinalInterviewDev ../renders/841862-final-dev.mp4 --codec=h264 --crf=18",
+    "render:final": "npm run timeline:generate && remotion render src/index.ts FinalInterview ../renders/841862-final.mp4 --codec=h264 --crf=18",
+    "render:review-stills": "npm run timeline:generate && bash scripts/render-review-stills.sh",
+    "render:full-review": "npm run timeline:generate && remotion render src/index.ts FullInterviewReviewDev ../renders/841862-full-review.mp4 --codec=h264 --crf=18",
+    "render:full-review:production": "npm run timeline:generate && remotion render src/index.ts FullInterviewReview ../renders/841862-full-review-production.mp4 --codec=h264 --crf=18"
   },
   "dependencies": {
     "@remotion/captions": "4.0.520",

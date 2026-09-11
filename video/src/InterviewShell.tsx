@@ -1,9 +1,7 @@
-import type {CSSProperties, ReactNode} from 'react';
+import type {ReactNode} from 'react';
 import {
   AbsoluteFill,
   CanvasImage,
-  Easing,
-  interpolate,
   staticFile,
   useCurrentFrame,
   useVideoConfig,
@@ -12,33 +10,8 @@ import {PRODUCTION_FPS, TOTAL_QUESTIONS, type Speaker} from './timeline';
 import {useReviewSpeaker} from './speakerTimeline';
 
 export type Format = 'wide' | 'short';
-export type SlideProps = {format: Format; speaker: Speaker};
 export type SpeakerMode = 'hidden' | 'conversation';
 export type ContentLayout = 'fill' | 'compact' | 'balanced' | 'dense';
-
-export const enter = (frame: number): CSSProperties => ({
-  opacity: interpolate(frame, [0, 12], [0.72, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  }),
-  transform: `translateY(${interpolate(frame, [0, 14], [24, 0], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-    easing: Easing.out(Easing.cubic),
-  })}px)`,
-});
-
-export const reveal = (frame: number, delay: number): CSSProperties => ({
-  opacity: interpolate(frame, [delay, delay + 10], [0, 1], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-  }),
-  transform: `translateY(${interpolate(frame, [delay, delay + 12], [18, 0], {
-    extrapolateLeft: 'clamp',
-    extrapolateRight: 'clamp',
-    easing: Easing.out(Easing.cubic),
-  })}px)`,
-});
 
 const Wave = ({frame, active}: {frame: number; active: boolean}) => (
   <span className="wave" aria-hidden="true">

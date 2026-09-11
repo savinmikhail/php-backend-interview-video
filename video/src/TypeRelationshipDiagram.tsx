@@ -1,6 +1,6 @@
 import {PhpTokens} from './PhpCodeBlock';
 import type {CSSProperties, ReactNode} from 'react';
-import {reveal} from './InterviewShell';
+import {reveal} from './slideMotion';
 
 export type RelationshipVariant = 'interface' | 'abstract' | 'trait';
 

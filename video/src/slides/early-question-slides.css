@@ -1,42 +1,43 @@
-.batch-question h1 {
+/* Bespoke layouts for questions 3–5, rendered through ReviewSlide. */
+.early-question h1 {
   max-width: 1500px;
   font-size: 76px;
   line-height: 1.08;
 }
 
-.batch-question h1 span {
+.early-question h1 span {
   color: #d8a7ff;
 }
 
-.batch-question--follow-up h1 {
+.early-question--follow-up h1 {
   font-size: 88px;
 }
 
-.batch-content {
+.early-content {
   height: 100%;
   padding: 38px;
 }
 
-.batch-content--single-code {
+.early-content--single-code {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(390px, .8fr);
   align-items: stretch;
   gap: 28px;
 }
 
-.batch-code-card {
+.early-code-card {
   min-width: 0;
   display: grid;
   grid-template-rows: auto 1fr;
-  border: 2px solid rgba(255, 255, 255, .18);
+  border: 2px solid var(--diagram-border-neutral);
   border-radius: 24px;
   background: #080610;
   overflow: hidden;
 }
 
-.batch-code-card__label {
+.early-code-card__label {
   padding: 16px 26px;
-  border-bottom: 2px solid rgba(255, 255, 255, .12);
+  border-bottom: 2px solid var(--diagram-divider);
   color: var(--diagram-text-muted);
   font-size: 20px;
   font-weight: 850;
@@ -44,20 +45,20 @@
   text-transform: uppercase;
 }
 
-.batch-code-card pre {
+.early-code-card pre {
   align-self: center;
   margin: 0;
   padding: 28px 34px;
   overflow: hidden;
 }
 
-.batch-code-card code,
+.early-code-card code,
 .outcome-card pre code {
   color: #f3efff;
   font: 650 25px/1.48 'JetBrains Mono', Menlo, monospace;
 }
 
-.batch-result {
+.early-result {
   align-self: stretch;
   padding: 36px;
   display: grid;
@@ -68,12 +69,12 @@
   border-radius: 24px;
 }
 
-.batch-result--good {
+.early-result--good {
   border-color: var(--diagram-border-neutral);
   background: linear-gradient(145deg, rgba(21, 95, 75, .52), rgba(14, 47, 48, .65));
 }
 
-.batch-result > span,
+.early-result > span,
 .pitfall-card > span {
   color: #b8eadc;
   font-size: 19px;
@@ -82,17 +83,17 @@
   text-transform: uppercase;
 }
 
-.batch-result code {
+.early-result code {
   color: #f0fff9;
   font: 700 26px 'JetBrains Mono', Menlo, monospace;
 }
 
-.batch-result strong {
+.early-result strong {
   color: #7af0cc;
   font: 800 64px/1 'JetBrains Mono', Menlo, monospace;
 }
 
-.batch-result small {
+.early-result small {
   color: #d7eee7;
   font-size: 22px;
   line-height: 1.25;
@@ -293,7 +294,7 @@
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 14px;
-  border-top: 2px solid rgba(255, 255, 255, .15);
+  border-top: 2px solid var(--diagram-border-subtle);
 }
 
 .outcome-card__result span {
@@ -564,7 +565,7 @@
 .correction-badge {
   justify-self: center;
   padding: 8px 16px;
-  border: 2px solid rgba(255, 209, 102, .72);
+  border: 2px solid var(--diagram-warning-border);
   border-radius: 999px;
   background: rgba(99, 70, 20, .42);
   color: #ffdd78;
@@ -723,47 +724,47 @@
   font: 700 18px 'JetBrains Mono', Menlo, monospace;
 }
 
-.composition--short .batch-question h1 {
+.composition--short .early-question h1 {
   max-width: 920px;
   font-size: 68px;
   line-height: 1.12;
 }
 
-.composition--short .batch-question--follow-up h1 {
+.composition--short .early-question--follow-up h1 {
   font-size: 78px;
 }
 
-.composition--short .batch-content {
+.composition--short .early-content {
   padding: 32px;
 }
 
-.composition--short .batch-content--single-code {
+.composition--short .early-content--single-code {
   grid-template-columns: 1fr;
   grid-template-rows: 1.25fr .75fr;
   gap: 24px;
 }
 
-.composition--short .batch-code-card__label {
+.composition--short .early-code-card__label {
   font-size: 19px;
 }
 
-.composition--short .batch-code-card code {
+.composition--short .early-code-card code {
   font-size: 23px;
 }
 
-.composition--short .batch-result {
+.composition--short .early-result {
   padding: 28px;
   grid-template-columns: auto 1fr;
   align-items: center;
   gap: 14px 20px;
 }
 
-.composition--short .batch-result > span,
-.composition--short .batch-result small {
+.composition--short .early-result > span,
+.composition--short .early-result small {
   grid-column: 1 / -1;
 }
 
-.composition--short .batch-result strong {
+.composition--short .early-result strong {
   justify-self: end;
   font-size: 46px;
 }

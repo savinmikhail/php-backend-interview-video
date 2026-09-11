@@ -149,7 +149,6 @@ export const ExceptionTypes = () => {
 
 const CorrectionPrinciple = ({frame, fps}: {frame: number; fps: number}) => (
   <div className="correction-principle">
-    <div className="correction-badge">Уточнение ответа</div>
     <h2>Ловим там, где можем принять решение</h2>
     <div className="decision-grid">
       <article style={reveal(frame, 0)}><b>1</b><strong>Восстановиться</strong><span>Повторить операцию или выбрать fallback</span></article>
@@ -164,7 +163,6 @@ const CorrectionPrinciple = ({frame, fps}: {frame: number; fps: number}) => (
 
 const ExceptionFlow = ({frame, fps}: {frame: number; fps: number}) => (
   <div className="exception-flow">
-    <div className="correction-badge">Уточнение ответа</div>
     <h2>Переводим исключение на границе</h2>
     <div className="flow-row">
       <article className="flow-node flow-node--source" style={reveal(frame, 0)}>

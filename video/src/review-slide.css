@@ -19,22 +19,6 @@
 .rr-tradeoff--plus { color: #8ff3c9; border-color: var(--diagram-success-border); background: rgba(24,103,79,.24); }
 .rr-tradeoff--minus { color: #ffda78; border-color: var(--diagram-warning-border); background: rgba(105,75,20,.22); }
 
-.rr-badge {
-  position: absolute;
-  z-index: 2;
-  top: 20px;
-  right: 28px;
-  padding: 9px 16px;
-  border: 2px solid var(--diagram-warning);
-  border-radius: 999px;
-  background: rgba(111, 73, 15, .78);
-  color: #ffda76;
-  font-size: var(--diagram-font-secondary);
-  font-weight: 900;
-  letter-spacing: .7px;
-  text-transform: uppercase;
-}
-
 .rr-cards {
   min-height: 0;
   display: grid;
@@ -518,8 +502,25 @@
   background: rgba(13, 45, 48, .34);
 }
 
-.di-requests { display: grid; justify-content: end; gap: 8px; }
-.di-requests code { color: #f0dcff; white-space: pre; font: 700 20px/1.2 'JetBrains Mono', Menlo, monospace; }
+.di-requests {
+  display: grid;
+  grid-template-columns: auto 72px;
+  align-items: center;
+  justify-content: end;
+  gap: 12px;
+}
+.di-request-list { display: grid; gap: 8px; }
+.di-request-list code { color: #f0dcff; white-space: nowrap; font: 700 20px/1.2 'JetBrains Mono', Menlo, monospace; }
+.di-request-merge {
+  width: 72px;
+  height: 104px;
+  overflow: visible;
+  fill: none;
+  stroke: var(--diagram-structure);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 
 .di-generated-container {
   min-width: 0;
@@ -680,7 +681,7 @@
 }
 
 .rr-slide--doctrine { padding: 28px 32px; }
-.rr-slide--doctrine > :not(.rr-badge) { min-height: 0; height: 100%; }
+.rr-slide--doctrine > * { min-height: 0; height: 100%; }
 
 .doctrine-two-column,
 .doctrine-result-layout,
@@ -802,7 +803,6 @@
 
 .doctrine-result-layout { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto 1fr auto; }
 .doctrine-correction { grid-column: 1 / -1; padding: 12px 18px; display: flex; align-items: center; justify-content: center; gap: 16px; border: 2px solid var(--diagram-warning-border); border-radius: 14px; background: rgba(105,75,20,.32); color: #ffdf87; text-align: center; font-size: 24px; font-weight: 850; }
-.doctrine-correction small { flex: none; padding: 5px 9px; border-radius: 8px; background: rgba(255,205,101,.18); font-size: 14px; font-weight: 900; letter-spacing: .7px; text-transform: uppercase; }
 .doctrine-result-card { min-width: 0; padding: 26px; display: grid; align-content: center; gap: 18px; border: 2px solid; border-radius: 20px; }
 .doctrine-result-card--cleared { border-color: var(--diagram-structure-border); background: rgba(16,77,103,.30); }
 .doctrine-result-card--kept { border-color: var(--diagram-success-border); background: rgba(24,103,79,.28); }
@@ -1028,6 +1028,8 @@
 
 .transaction-case--structure { border-color: var(--diagram-structure-border); background: var(--diagram-structure-surface); }
 .transaction-case--structure code { color: var(--diagram-structure); }
+.transaction-case--neutral { border-color: var(--diagram-border-neutral); background: var(--diagram-surface-neutral); }
+.transaction-case--neutral code { color: var(--diagram-text); }
 
 .transaction-footer--direct {
   border-color: var(--diagram-warning-border);
@@ -1137,7 +1139,7 @@
   grid-template-rows: minmax(0, 1fr);
 }
 
-.rr-slide--cache-aside-code > :not(.rr-badge) { min-height: 0; height: 100%; }
+.rr-slide--cache-aside-code > * { min-height: 0; height: 100%; }
 
 .cache-aside-code-layout {
   min-height: 0;
@@ -1383,7 +1385,7 @@
   grid-template-rows: minmax(0, 1fr);
 }
 
-.rr-slide--uuid > :not(.rr-badge) { min-height: 0; height: 100%; }
+.rr-slide--uuid > * { min-height: 0; height: 100%; }
 
 .uuid-size-layout {
   min-height: 0;
@@ -1684,8 +1686,9 @@
 .composition--short .di-build-step strong { font-size: 20px; }
 .composition--short .di-build-step p { font-size: 17px; }
 .composition--short .di-runtime-flow { padding: 18px; grid-template-columns: 1fr; grid-template-rows: auto auto auto; gap: 14px; }
-.composition--short .di-requests { justify-content: center; text-align: left; }
-.composition--short .di-requests code { font-size: 18px; }
+.composition--short .di-requests { grid-template-columns: auto 64px; justify-content: center; }
+.composition--short .di-request-list code { font-size: 18px; }
+.composition--short .di-request-merge { width: 64px; }
 .composition--short .di-generated-container code { font-size: 18px; }
 .composition--short .di-runtime-result { text-align: center; }
 .composition--short .di-runtime-result strong { font-size: 23px; }
@@ -1696,14 +1699,6 @@
 .composition--short .rr-card code { font-size: 21px; }
 .composition--short .rr-card__label { font-size: 18px; }
 .composition--short .rr-footer { min-height: 82px; font-size: 21px; }
-.composition--short .rr-badge {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  align-self: auto;
-  justify-self: auto;
-  margin: 0;
-}
 .composition--short .rr-question { gap: 40px; }
 .composition--short .rr-question h1 { font-size: 70px; }
 
@@ -1785,7 +1780,7 @@
 .composition--short .audit-steps p { font-size: 16px; }
 
 .composition--short .doctrine-result-layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr 1fr auto; }
-.composition--short .doctrine-correction { grid-column: 1; flex-direction: column; gap: 7px; font-size: 20px; }
+.composition--short .doctrine-correction { grid-column: 1; font-size: 20px; }
 .composition--short .doctrine-result-card { padding: 20px; gap: 12px; }
 .composition--short .doctrine-result-card code { font-size: 19px; }
 .composition--short .clear-state-flow { grid-template-columns: 1fr; gap: 8px; }
@@ -2073,7 +2068,7 @@
   gap: 18px;
 }
 
-.composition--wide .rr-slide--14-identity > :not(.rr-badge) { height: auto; }
+.composition--wide .rr-slide--14-identity > * { height: auto; }
 .composition--wide .rr-slide--14-identity .identity-comparison {
   grid-template-rows: auto auto;
   align-content: center;
@@ -2146,7 +2141,7 @@
   height: 900px;
   padding: 24px 26px;
 }
-.composition--short .rr-slide--14-identity > :not(.rr-badge) { height: auto; }
+.composition--short .rr-slide--14-identity > * { height: auto; }
 .composition--short .rr-slide--14-identity .identity-comparison {
   grid-template-rows: auto auto auto;
   align-content: center;

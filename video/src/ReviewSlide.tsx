@@ -33,7 +33,6 @@ type ReviewSlideBase = {
   counter: string;
   title: string;
   speaker?: Speaker;
-  badge?: string;
   cards?: Card[];
   footer?: ReactNode;
   contentLayout?: ContentLayout | ((format: Format) => ContentLayout);
@@ -59,9 +58,8 @@ const s = (
   pattern: StandardPattern,
   cards: Card[],
   footer?: ReactNode,
-  badge?: string,
   speaker: Speaker = 'mikhail',
-): ReviewSlideDefinition => ({id, counter, title, pattern, cards, footer, badge, speaker});
+): ReviewSlideDefinition => ({id, counter, title, pattern, cards, footer, speaker});
 
 const custom = (
   id: string,
@@ -95,7 +93,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
 
   q('05-question', '5', 'Как работать с исключениями в слоях и DDD?'),
   custom('05-types', '5', 'Исключение должно сообщать смысл сбоя', ExceptionTypes, shortLayout('balanced', 'compact')),
-  {...q('05-follow-up', '5', 'А где лучше ловить исключение?'), badge: 'Уточнение интервьюера'},
+  q('05-follow-up', '5', 'А где лучше ловить исключение?'),
   custom('05-correction', '5', 'Где ловить исключение?', ExceptionCorrection, shortLayout('dense', 'compact')),
 
   s('06-enum', '6', 'Для чего и когда использовать enum?', 'enum', [
@@ -115,7 +113,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
   s('08-axes', '8', 'Не смешиваем две независимые оси', 'columns', [
     {label: 'Механизм выбора', title: 'Autowiring или explicit wiring', lines: ['Как контейнер выбирает аргумент'], tone: 'neutral'},
     {label: 'Формат описания', title: 'PHP · YAML · XML · attributes', lines: ['Где записана конфигурация'], tone: 'neutral'},
-  ], 'Механизм выбора ≠ формат конфигурации', 'Уточнение ответа'),
+  ], 'Механизм выбора ≠ формат конфигурации'),
   s('08-rules', '8', 'Autowiring по умолчанию, явно — при неоднозначности', 'grid', [
     {label: 'AUTO', title: 'Одна object-зависимость', code: ['LoggerInterface $logger'], codeLanguage: 'php', tone: 'success'},
     {label: 'EXPLICIT', title: 'Несколько реализаций', code: ['PaymentGatewayInterface → ?'], tone: 'structure'},
@@ -134,7 +132,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {title: 'Middleware A', lines: ['before ↓  ↑ after'], tone: 'structure'},
     {title: 'Middleware B', lines: ['before ↓  ↑ after'], tone: 'structure'},
     {title: 'Handler', tone: 'structure'},
-  ], 'Не только Laravel: PSR-15, Symfony Messenger и другие pipelines', 'Уточнение ответа'),
+  ], 'Не только Laravel: PSR-15, Symfony Messenger и другие pipelines'),
   s('09-decorator', '9', 'Decorator сохраняет контракт сервиса', 'decorator-code', [],
     'Тот же интерфейс · поведение до и после делегирования'),
 
@@ -155,7 +153,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
   s('11-pull-push', '11', 'Messenger polling или RabbitMQ subscription', 'columns', [
     {label: 'Symfony AMQP transport · get()', title: 'Polling', lines: ['Worker сам запрашивает следующее сообщение'], tone: 'neutral'},
     {label: 'RabbitMQ · basic.consume', title: 'Push / subscription', lines: ['Broker доставляет зарегистрированному consumer'], tone: 'neutral'},
-  ], 'Критерий этого кейса — broker-driven push вместо polling', undefined, 'interviewer'),
+  ], 'Критерий этого кейса — broker-driven push вместо polling', 'interviewer'),
   s('11-symfony', '11', 'Почему consumer не виден в RabbitMQ UI?', 'columns', [
     {label: 'Symfony AMQP transport', title: 'Получает через get()', lines: ['Неблокирующий fetch', 'Message или empty → следующий цикл'], tone: 'neutral'},
     {label: 'RabbitMQ', title: 'Нет basic.consume', lines: ['Значит, нет зарегистрированной subscription'], tone: 'neutral'},
@@ -163,7 +161,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
   s('11-runtime', '11', 'get() и consume() меняют способ ожидания', 'columns', [
     {label: 'Polling · basic.get', title: 'Worker спрашивает очередь', lines: ['empty → пауза → новый get()', 'Периодические пустые запросы'], tone: 'neutral'},
     {label: 'Subscription · basic.consume', title: 'Worker ждёт delivery', lines: ['Подписка по открытому соединению', 'Без холостого polling'], tone: 'neutral'},
-  ], 'basic.consume снижает холостую нагрузку, но не устраняет утечки PHP-worker', undefined, 'interviewer'),
+  ], 'basic.consume снижает холостую нагрузку, но не устраняет утечки PHP-worker', 'interviewer'),
   q('12-question', '12', 'Что такое Compiler Pass в Symfony?'),
   s('12-compile', '12', 'Compiler Pass проверяет контейнер при сборке', 'compiler-pass-code', [],
     'Ошибка конфигурации обнаружена до запуска приложения'),
@@ -192,10 +190,10 @@ export const reviewSlides: ReviewSlideDefinition[] = [
 
   q('16-question', '16', 'Когда транзакции приходится использовать вручную?'),
   s('16-implicit', '16', 'Обычно beginTransaction() не нужен', 'doctrine', []),
-  s('16-explicit', '16', 'Когда открываем транзакцию явно?', 'doctrine', [], undefined, 'Уточнение ответа'),
+  s('16-explicit', '16', 'Когда открываем транзакцию явно?', 'doctrine', []),
 
   q('17-question', '17', 'UUID или автоинкремент?'),
-  s('17-size', '17', 'Размер, вместимость и порядок вставки', 'uuid', [], undefined, 'Исправление ответа'),
+  s('17-size', '17', 'Размер, вместимость и порядок вставки', 'uuid', []),
   s('17-v7', '17', 'Из чего состоит UUIDv7', 'uuid', []),
   s('17-before-db', '17', 'ID существует до записи в БД', 'uuid', []),
   s('17-distributed', '17', 'Несколько БД без общей sequence', 'uuid', []),
@@ -249,7 +247,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
   s('22-correction', '22', 'Не определяем тип по случайным признакам', 'columns', [
     {label: 'Entity', title: 'Не обязана быть mutable или ORM', lines: ['Главное — identity и lifecycle'], tone: 'neutral'},
     {label: 'DTO', title: 'Не обязан быть readonly', lines: ['Главное — перенос данных'], tone: 'neutral'},
-  ], undefined, 'Уточнение ответа'),
+  ]),
 
   q('23-question', '23', 'Как выделять модули из монолита и как разделять их работу между собой?'),
   s('23-boundary', '23', 'Хорошая граница модуля', 'columns', [
@@ -260,7 +258,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {label: 'Источники', title: 'Другие сервисы', code: ['REST · JSON-RPC'], tone: 'structure'},
     {label: 'Log service', title: 'Принимает логи', lines: ['Единая точка записи и чтения'], tone: 'structure'},
     {label: 'Хранилища', title: 'Elastic · Kafka · ClickHouse', tone: 'structure'},
-  ], 'Поисковые endpoints · фильтры · выдача логов', 'Уточнение ответа'),
+  ], 'Поисковые endpoints · фильтры · выдача логов'),
   s('23-monolith', '23', 'Начать можно с modular monolith', 'flow', [
     {title: 'Module A', lines: ['Command · Query · Event'], tone: 'structure'},
     {title: 'In-process contracts', lines: ['Явные границы'], tone: 'structure'},
@@ -285,7 +283,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
     {label: 'Write path', title: 'Write Through · Write Behind', lines: ['Когда запись попадает в database'], tone: 'neutral'},
   ], 'Паттерны можно комбинировать · список не исчерпывающий'),
   s('25-aside', '25', 'Cache Aside — загрузка по требованию', 'cache-aside-code', [],
-    'При записи: DB update → cache delete', 'Исправление ответа'),
+    'При записи: DB update → cache delete'),
   s('25-writes', '25', 'Две write-стратегии', 'columns', [
     {label: 'WRITE-THROUGH', title: 'DB + cache до success', tradeoffs: [{text: 'Выше write latency', kind: 'minus'}, {text: 'После успеха данные свежие', kind: 'plus'}], tone: 'neutral'},
     {label: 'WRITE-BEHIND', title: 'Cache / queue → async DB', tradeoffs: [{text: 'Ниже write latency', kind: 'plus'}, {text: 'Сложнее failure recovery', kind: 'minus'}], tone: 'neutral'},
@@ -313,7 +311,7 @@ export const reviewSlides: ReviewSlideDefinition[] = [
   s('29-lsp', '29', 'L · Подтип сохраняет обещания базового типа', 'stack', [
     {title: 'DHLCarrier вместо Carrier', code: ['ship(Carrier $carrier)', '$carrier->deliver($parcel)'], codeLanguage: 'php', lines: ['Клиентский код не ломается'], tone: 'success'},
     {title: 'Безопасная вариативность сигнатуры', lines: ['Параметр может быть шире · contravariance', 'Return type может быть уже · covariance'], tone: 'structure'},
-  ], undefined, 'Исправление ответа'),
+  ]),
   s('29-id', '29', 'I · Interface Segregation / D · Dependency Inversion', 'columns', [
     {label: 'I', title: 'Контракт под нужды клиента', lines: ['Printer не обязан scan / fax'], tone: 'neutral'},
     {label: 'D', title: 'Зависимость от abstraction', lines: ['policy → PaymentGateway', 'StripeAdapter implements interface'], tone: 'neutral'},
@@ -482,9 +480,17 @@ const DiCompileRuntime = () => (
 
     <section className="di-runtime-flow">
       <div className="di-requests" aria-label="Несколько запросов используют один сгенерированный контейнер">
-        <code>Request 1 ─┐</code>
-        <code>Request 2 ─┼──→</code>
-        <code>Request N ─┘</code>
+        <div className="di-request-list">
+          <code>Request 1</code>
+          <code>Request 2</code>
+          <code>Request N</code>
+        </div>
+        <svg className="di-request-merge" viewBox="0 0 72 104" aria-hidden="true">
+          <path d="M2 14H34V52H66" />
+          <path d="M2 52H34" />
+          <path d="M2 90H34V52" />
+          <path d="M58 44L66 52L58 60" />
+        </svg>
       </div>
       <article className="di-generated-container">
         <span>generated PHP container</span>
@@ -698,7 +704,7 @@ $uow->computeChangeSet(
 
 const DoctrineFlushResult = () => (
   <div className="doctrine-result-layout">
-    <div className="doctrine-correction"><small>Исправление</small><span>Обработанные change sets очищены, но managed entities остаются</span></div>
+    <div className="doctrine-correction">Обработанные change sets очищены, но managed entities остаются</div>
     <section className="doctrine-result-card doctrine-result-card--cleared">
       <small>Очищено после успешной синхронизации</small>
       <code>entityChangeSets: []</code>
@@ -1298,9 +1304,9 @@ const DoctrineTransactionExplicit = () => {
   const frame = useCurrentFrame();
   const {fps} = useVideoConfig();
   const cases = [
-    {code: '2 × flush()', text: 'общий rollback', tone: 'structure'},
-    {code: 'PESSIMISTIC_WRITE', text: 'нужна active transaction', tone: 'structure'},
-    {code: 'REPEATABLE_READ', text: 'изоляция всей операции', tone: 'structure'},
+    {code: '2 × flush()', text: 'общий rollback', tone: 'neutral'},
+    {code: 'PESSIMISTIC_WRITE', text: 'нужна active transaction', tone: 'neutral'},
+    {code: 'REPEATABLE_READ', text: 'изоляция всей операции', tone: 'neutral'},
   ];
 
   return (
@@ -1625,7 +1631,7 @@ export const ReviewSlide = ({
     return (
       <InterviewShell format={format} speaker={resolvedSpeaker} counter={slide.counter} question="" showHeader={false}>
         <div className="rr-question">
-          <span>{slide.badge ?? `Вопрос ${slide.counter} из ${TOTAL_QUESTIONS}`}</span>
+          <span>{`Вопрос ${slide.counter} из ${TOTAL_QUESTIONS}`}</span>
           <h1>{slide.title}</h1>
         </div>
       </InterviewShell>
@@ -1650,7 +1656,6 @@ export const ReviewSlide = ({
     if (slide.pattern === 'di-graph' || slide.pattern === 'di-compile') {
       return (
         <div className={`rr-slide rr-slide--${slide.pattern} rr-slide--${slide.id}`}>
-          {slide.badge && <div className="rr-badge">{slide.badge}</div>}
           {slide.pattern === 'di-graph' ? <DiObjectGraph /> : <DiCompileRuntime />}
           {slide.footer && <div className="rr-footer">{slide.footer}</div>}
         </div>
@@ -1695,7 +1700,6 @@ export const ReviewSlide = ({
     if (slide.pattern === 'cache-aside-code') {
       return (
         <div className={`rr-slide rr-slide--cache-aside-code rr-slide--${slide.id}`}>
-          {slide.badge && <div className="rr-badge">{slide.badge}</div>}
           <CacheAsideCode />
         </div>
       );
@@ -1720,7 +1724,6 @@ export const ReviewSlide = ({
     if (slide.pattern === 'doctrine') {
       return (
         <div className={`rr-slide rr-slide--doctrine rr-slide--${slide.id}`}>
-          {slide.badge && <div className="rr-badge">{slide.badge}</div>}
           <DoctrineSlide slideId={slide.id} />
         </div>
       );
@@ -1729,7 +1732,6 @@ export const ReviewSlide = ({
     if (slide.pattern === 'uuid') {
       return (
         <div className={`rr-slide rr-slide--uuid rr-slide--${slide.id}`}>
-          {slide.badge && <div className="rr-badge">{slide.badge}</div>}
           <UuidSlide slideId={slide.id} />
         </div>
       );
@@ -1737,7 +1739,6 @@ export const ReviewSlide = ({
 
     return (
       <div className={`rr-slide rr-slide--${slide.pattern ?? 'grid'} rr-slide--${slide.id}`}>
-        {slide.badge && <div className="rr-badge">{slide.badge}</div>}
         <div className="rr-cards">
           {slide.cards?.map((card, index) => <CardView key={`${card.title}-${index}`} card={card} />)}
         </div>

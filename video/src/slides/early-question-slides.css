@@ -557,22 +557,9 @@
   position: relative;
   height: 100%;
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-rows: auto 1fr auto;
   align-items: center;
   gap: 18px;
-}
-
-.correction-badge {
-  justify-self: center;
-  padding: 8px 16px;
-  border: 2px solid var(--diagram-warning);
-  border-radius: 999px;
-  background: rgba(99, 70, 20, .42);
-  color: #ffdd78;
-  font-size: 18px;
-  font-weight: 900;
-  letter-spacing: 1px;
-  text-transform: uppercase;
 }
 
 .correction-principle h2,

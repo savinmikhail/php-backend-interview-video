@@ -114,13 +114,19 @@ if (
   process.exit(1);
 }
 const invalidRanges = [];
-for (const segment of timelineRows) {
+for (const [index, segment] of timelineRows.entries()) {
   const sourceStart = timestampToSeconds(segment.start);
   const sourceEnd = timestampToSeconds(segment.end);
   const reviewStart = sourceSecondToReviewSecond(sourceStart);
   const reviewEnd = sourceSecondToReviewSecond(sourceEnd);
 
   if (sourceEnd <= sourceStart) invalidRanges.push(`${segment.slideId}: duration must be positive`);
+  const previous = timelineRows[index - 1];
+  if (previous && sourceStart < timestampToSeconds(previous.end)) {
+    invalidRanges.push(
+      `${previous.slideId} overlaps ${segment.slideId}: ${previous.end} > ${segment.start}`,
+    );
+  }
   if (reviewStart === null || reviewEnd === null) {
     invalidRanges.push(`${segment.slideId}: boundary lies inside an editorial cut`);
     continue;

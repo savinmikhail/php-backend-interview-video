@@ -1,87 +1,13 @@
 {
-  "transcript": "../episodes/841862-1payment/transcription.txt",
-  "labelMappings": [
-    {"label": "Интервьюер 1", "speaker": "interviewer"},
-    {"label": "Интервьюер 3", "speaker": "interviewer"},
-    {"label": "Кандидат", "speaker": "mikhail"},
-    {"label": "Интервьюер 2", "speaker": "mikhail"},
-    {"label": "Интервьюер 4", "speaker": "interviewer"},
-
-    {
-      "label": "Интервьюер 4",
-      "start": "00:35:08",
-      "speaker": "mikhail",
-      "reason": "После сбоя связи ID голоса Михаила меняется"
-    },
-    {
-      "label": "Интервьюер 2",
-      "start": "00:35:59",
-      "end": "00:36:04",
-      "speaker": "interviewer",
-      "reason": "Вопрос 13; диаризация склеила вопрос с ответом"
-    },
-    {
-      "label": "Интервьюер 2",
-      "start": "00:37:32",
-      "end": "00:37:45",
-      "speaker": "interviewer",
-      "reason": "Вопрос 14; диаризация склеила вопрос с ответом"
-    },
-    {
-      "label": "Интервьюер 2",
-      "start": "00:38:01",
-      "end": "00:38:05",
-      "speaker": "interviewer",
-      "reason": "Вопрос 15; диаризация склеила вопрос с ответом"
-    },
-    {
-      "label": "Интервьюер 2",
-      "start": "00:38:38",
-      "end": "00:38:52",
-      "speaker": "interviewer",
-      "reason": "Вопрос 16; диаризация склеила вопрос с ответом"
-    },
-    {
-      "label": "Интервьюер 2",
-      "start": "00:39:54",
-      "end": "00:40:22",
-      "speaker": "interviewer",
-      "reason": "Вопрос 17; диаризация склеила вопрос с ответом"
-    },
-    {
-      "label": "Интервьюер 2",
-      "start": "00:42:47",
-      "end": "00:43:19",
-      "speaker": "interviewer",
-      "reason": "Вопрос 18; диаризация склеила вопрос с ответом"
-    },
-    {
-      "label": "Интервьюер 2",
-      "start": "00:44:04",
-      "end": "00:44:10",
-      "speaker": "interviewer",
-      "reason": "Начало вопроса 19"
-    },
-    {
-      "label": "Интервьюер 2",
-      "start": "00:45:42",
-      "end": "00:46:45",
-      "speaker": "interviewer",
-      "reason": "Вопрос 20; диаризация склеила вопрос с ответом"
-    },
-    {
-      "label": "Интервьюер 2",
-      "start": "00:47:28",
-      "end": "01:02:53",
-      "speaker": "interviewer",
-      "reason": "После ответа на вопрос 20 этот ID снова принадлежит интервьюеру"
-    },
-    {
-      "label": "Интервьюер 4",
-      "start": "01:02:38",
-      "end": "01:02:59",
-      "speaker": "interviewer",
-      "reason": "Переход от технической части к вопросам кандидата"
-    }
-  ]
+  "diarization": "../episodes/841862-1payment/speaker-diarization.final.json",
+  "timeScale": "final",
+  "reviewStartMs": 38000,
+  "reviewStartReason": "FinalInterview intro occupies exactly 38 seconds after frame rounding",
+  "initialSpeaker": "interviewer",
+  "glitchThresholdMs": 1000,
+  "speakerMappings": {
+    "Михаил": "mikhail",
+    "Интервьюер": "interviewer"
+  },
+  "overrides": []
 }

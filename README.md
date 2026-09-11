@@ -128,10 +128,11 @@ npm run render:timing -- 18-question
 
 ### Активный говорящий
 
-Подсветка аватаров в полном review генерируется из
-`episodes/841862-1payment/transcription.txt`. Скрипт нормализует исходные
-speaker labels, применяет известные исправления диаризации и переводит
-source-интервалы в review-шкалу через тот же `editorial-cuts.json`:
+Подсветка аватаров в полном review генерируется из новой диаризации финальной
+аудиодорожки. Компактная копия speaker-utterances без текста хранится в
+`episodes/841862-1payment/speaker-diarization.final.json`. Генератор отсекает
+интро и аутро, переводит интервалы в `review-time`, объединяет соседние
+реплики одного человека и подавляет изолированные переключения короче секунды:
 
 ```bash
 cd video
@@ -140,7 +141,9 @@ npm run speaker:at -- 32:21.05
 ```
 
 Результат хранится в `video/src/generated/speaker-timeline.json` и проверяется
-командой `npm run check`. Ручные исключения с причиной находятся в
+командой `npm run check`. Новую проверенную диаризацию можно импортировать без
+текста командой `npm run speakers:import -- --input <utterances.review.json>`.
+Настройки шкалы, speaker mappings и точечные ручные исправления находятся в
 `video/speaker-diarization.config.json`; сам generated-файл вручную не правится.
 
 ### Расшифровка и субтитры

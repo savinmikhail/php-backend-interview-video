@@ -1,130 +1,55 @@
 import {readFileSync, writeFileSync} from 'node:fs';
 import {resolve} from 'node:path';
-import {
-  keptSourceRanges,
-  reviewDurationSeconds,
-  secondsToTimestamp,
-  sourceDurationSeconds,
-  sourceSecondToReviewSecond,
-  timestampToSeconds,
-} from './lib/time-map.mjs';
+import {reviewDurationSeconds, secondsToTimestamp, timestampToSeconds} from './lib/time-map.mjs';
+import {buildSpeakerTimeline} from './lib/speaker-timeline.mjs';
 
 const projectRoot = resolve(import.meta.dirname, '..');
 const configPath = resolve(projectRoot, 'speaker-diarization.config.json');
 const outputPath = resolve(projectRoot, 'src/generated/speaker-timeline.json');
 const config = JSON.parse(readFileSync(configPath, 'utf8'));
-const transcriptPath = resolve(projectRoot, config.transcript);
+const diarizationPath = resolve(projectRoot, config.diarization);
+const diarization = JSON.parse(readFileSync(diarizationPath, 'utf8'));
 
-const parseBoundary = (value, fallback) => value === undefined
-  ? fallback
-  : timestampToSeconds(value);
+if (config.timeScale !== 'final' || diarization.timeScale !== config.timeScale) {
+  throw new Error(`Unsupported or mismatched diarization time scale: ${diarization.timeScale}`);
+}
 
-const mappings = config.labelMappings.map((mapping) => ({
-  ...mapping,
-  startSecond: parseBoundary(mapping.start, 0),
-  endSecond: parseBoundary(mapping.end, Number.POSITIVE_INFINITY),
+const overrides = (config.overrides ?? []).map((override) => ({
+  startMs: Math.round(timestampToSeconds(override.start) * 1000),
+  endMs: Math.round(timestampToSeconds(override.end) * 1000),
+  speaker: override.speaker,
 }));
 
-const speakerFor = (label, sourceSecond) => {
-  const matches = mappings.filter((mapping) =>
-    mapping.label === label
-    && sourceSecond >= mapping.startSecond
-    && sourceSecond < mapping.endSecond);
+const reviewDurationMs = Math.round(reviewDurationSeconds * 1000);
+const timeline = buildSpeakerTimeline({
+  utterances: diarization.utterances,
+  speakerMappings: config.speakerMappings,
+  initialSpeaker: config.initialSpeaker,
+  reviewStartMs: config.reviewStartMs,
+  reviewDurationMs,
+  glitchThresholdMs: config.glitchThresholdMs,
+  overrides,
+});
 
-  if (matches.length === 0) {
-    throw new Error(`No speaker mapping for ${label} at ${secondsToTimestamp(sourceSecond)}`);
-  }
-
-  return matches.at(-1).speaker;
-};
-
-const transcriptEntries = readFileSync(transcriptPath, 'utf8')
-  .split('\n')
-  .map((line, index) => {
-    const match = line.match(/^\[([^\]]+)\]\s+\[([^\]]+)\]/);
-    if (!match) return null;
-    return {
-      sourceSecond: timestampToSeconds(match[1]),
-      label: match[2],
-      index,
-    };
-  })
-  .filter(Boolean)
-  .sort((left, right) => left.sourceSecond - right.sourceSecond || left.index - right.index);
-
-if (transcriptEntries.length === 0) throw new Error('Transcript contains no timed speaker entries');
-
-// At identical STT timestamps only one badge can be active. Prefer the last
-// utterance in file order, which is the turn that continues after the boundary.
-const entries = [];
-for (const entry of transcriptEntries) {
-  if (entries.at(-1)?.sourceSecond === entry.sourceSecond) entries[entries.length - 1] = entry;
-  else entries.push(entry);
-}
-
-const mappingBoundaries = mappings.flatMap((mapping) => [
-  mapping.startSecond,
-  mapping.endSecond,
-]).filter(Number.isFinite);
-const boundaries = [...new Set([
-  ...entries.map((entry) => entry.sourceSecond),
-  ...mappingBoundaries,
-  sourceDurationSeconds,
-])].sort((left, right) => left - right);
-
-const sourceSegments = [];
-let entryIndex = 0;
-for (let index = 0; index < boundaries.length - 1; index++) {
-  const start = boundaries[index];
-  const end = boundaries[index + 1];
-  while (entryIndex + 1 < entries.length && entries[entryIndex + 1].sourceSecond <= start) {
-    entryIndex++;
-  }
-  const entry = entries[entryIndex];
-  if (!entry || entry.sourceSecond > start || end <= start) continue;
-  sourceSegments.push({start, end, speaker: speakerFor(entry.label, start)});
-}
-
-const clipped = [];
-for (const segment of sourceSegments) {
-  for (const kept of keptSourceRanges()) {
-    const sourceStart = Math.max(segment.start, kept.start);
-    const sourceEnd = Math.min(segment.end, kept.end);
-    if (sourceEnd <= sourceStart) continue;
-
-    const reviewStart = sourceSecondToReviewSecond(sourceStart);
-    const reviewEnd = sourceSecondToReviewSecond(sourceEnd);
-    if (reviewStart === null || reviewEnd === null) throw new Error('Kept range mapped into a cut');
-
-    clipped.push({
-      start: Math.round(reviewStart * 1000) / 1000,
-      end: Math.round(reviewEnd * 1000) / 1000,
-      speaker: segment.speaker,
-    });
-  }
-}
-
-const segments = [];
-for (const segment of clipped) {
-  const previous = segments.at(-1);
-  if (previous && previous.speaker === segment.speaker && Math.abs(previous.end - segment.start) < 0.001) {
-    previous.end = segment.end;
-  } else {
-    segments.push({...segment});
-  }
-}
+const segments = timeline.map((segment) => ({
+  start: segment.startMs / 1000,
+  end: segment.endMs / 1000,
+  speaker: segment.speaker,
+}));
 
 if (segments.length === 0
-  || Math.abs(segments[0].start) > 0.001
-  || Math.abs(segments.at(-1).end - reviewDurationSeconds) > 0.001
-  || segments.some((segment, index) => index > 0
-    && Math.abs(segments[index - 1].end - segment.start) > 0.001)) {
+  || segments[0].start !== 0
+  || segments.at(-1).end * 1000 !== reviewDurationMs
+  || segments.some((segment, index) => index > 0 && segments[index - 1].end !== segment.start)) {
   throw new Error('Generated review speaker timeline contains a gap');
 }
 
 const generated = `${JSON.stringify({
-  generatedFrom: config.transcript,
+  generatedFrom: config.diarization,
+  sourceSha256: diarization.sourceSha256,
+  sourceTimeScale: config.timeScale,
   timeScale: 'review',
+  glitchThresholdMs: config.glitchThresholdMs,
   segments,
 }, null, 2)}\n`;
 

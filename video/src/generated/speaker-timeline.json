@@ -1,681 +1,629 @@
 {
-  "generatedFrom": "../episodes/841862-1payment/transcription.txt",
+  "generatedFrom": "../episodes/841862-1payment/speaker-diarization.final.json",
+  "sourceSha256": "3b7c8385ab2e850731984e838f05fd7c4f8181d0a57c4d158eccea7dfeb3aee9",
+  "sourceTimeScale": "final",
   "timeScale": "review",
+  "glitchThresholdMs": 1000,
   "segments": [
     {
       "start": 0,
-      "end": 0.98,
+      "end": 13.2,
       "speaker": "interviewer"
     },
     {
-      "start": 0.98,
-      "end": 1.98,
+      "start": 13.2,
+      "end": 64.72,
       "speaker": "mikhail"
     },
     {
-      "start": 1.98,
-      "end": 5.98,
+      "start": 64.72,
+      "end": 98.88,
       "speaker": "interviewer"
     },
     {
-      "start": 5.98,
-      "end": 7.98,
+      "start": 98.88,
+      "end": 148.1,
       "speaker": "mikhail"
     },
     {
-      "start": 7.98,
-      "end": 8.98,
+      "start": 148.1,
+      "end": 155.78,
       "speaker": "interviewer"
     },
     {
-      "start": 8.98,
-      "end": 63.98,
+      "start": 155.78,
+      "end": 160.14,
       "speaker": "mikhail"
     },
     {
-      "start": 63.98,
-      "end": 96.98,
+      "start": 160.14,
+      "end": 172.5,
       "speaker": "interviewer"
     },
     {
-      "start": 96.98,
-      "end": 146.98,
+      "start": 172.5,
+      "end": 187.6,
       "speaker": "mikhail"
     },
     {
-      "start": 146.98,
-      "end": 154.98,
+      "start": 187.6,
+      "end": 228.68,
       "speaker": "interviewer"
     },
     {
-      "start": 154.98,
-      "end": 159.98,
+      "start": 228.68,
+      "end": 243.92,
       "speaker": "mikhail"
     },
     {
-      "start": 159.98,
-      "end": 170.98,
+      "start": 243.92,
+      "end": 284.86,
       "speaker": "interviewer"
     },
     {
-      "start": 170.98,
-      "end": 185.98,
+      "start": 284.86,
+      "end": 309.68,
       "speaker": "mikhail"
     },
     {
-      "start": 185.98,
-      "end": 228.98,
+      "start": 309.68,
+      "end": 317.92,
       "speaker": "interviewer"
     },
     {
-      "start": 228.98,
-      "end": 239.98,
+      "start": 317.92,
+      "end": 329.6,
       "speaker": "mikhail"
     },
     {
-      "start": 239.98,
-      "end": 240.98,
+      "start": 329.6,
+      "end": 366.7,
       "speaker": "interviewer"
     },
     {
-      "start": 240.98,
-      "end": 241.98,
+      "start": 366.7,
+      "end": 376.88,
       "speaker": "mikhail"
     },
     {
-      "start": 241.98,
-      "end": 285.98,
+      "start": 376.88,
+      "end": 415.3,
       "speaker": "interviewer"
     },
     {
-      "start": 285.98,
-      "end": 307.98,
+      "start": 415.3,
+      "end": 428.3,
       "speaker": "mikhail"
     },
     {
-      "start": 307.98,
-      "end": 315.98,
+      "start": 428.3,
+      "end": 449.28,
       "speaker": "interviewer"
     },
     {
-      "start": 315.98,
-      "end": 328.98,
-      "speaker": "mikhail"
-    },
-    {
-      "start": 328.98,
-      "end": 365.98,
-      "speaker": "interviewer"
-    },
-    {
-      "start": 365.98,
-      "end": 375.98,
-      "speaker": "mikhail"
-    },
-    {
-      "start": 375.98,
-      "end": 413.98,
-      "speaker": "interviewer"
-    },
-    {
-      "start": 413.98,
-      "end": 427.98,
-      "speaker": "mikhail"
-    },
-    {
-      "start": 427.98,
-      "end": 448.98,
-      "speaker": "interviewer"
-    },
-    {
-      "start": 448.98,
+      "start": 449.28,
       "end": 526.98,
       "speaker": "mikhail"
     },
     {
       "start": 526.98,
-      "end": 540.98,
+      "end": 554.04,
       "speaker": "interviewer"
     },
     {
-      "start": 540.98,
-      "end": 541.98,
+      "start": 554.04,
+      "end": 560,
       "speaker": "mikhail"
     },
     {
-      "start": 541.98,
-      "end": 553.98,
+      "start": 560,
+      "end": 564.176,
       "speaker": "interviewer"
     },
     {
-      "start": 553.98,
-      "end": 558.98,
+      "start": 564.176,
+      "end": 606.336,
       "speaker": "mikhail"
     },
     {
-      "start": 558.98,
-      "end": 563.98,
+      "start": 606.336,
+      "end": 630.896,
       "speaker": "interviewer"
     },
     {
-      "start": 563.98,
-      "end": 598.98,
+      "start": 630.896,
+      "end": 660.896,
       "speaker": "mikhail"
     },
     {
-      "start": 598.98,
-      "end": 623.98,
+      "start": 660.896,
+      "end": 666.516,
       "speaker": "interviewer"
     },
     {
-      "start": 623.98,
-      "end": 624.98,
+      "start": 666.516,
+      "end": 675.616,
       "speaker": "mikhail"
     },
     {
-      "start": 624.98,
-      "end": 630.98,
+      "start": 675.616,
+      "end": 741.236,
       "speaker": "interviewer"
     },
     {
-      "start": 630.98,
-      "end": 643.98,
+      "start": 741.236,
+      "end": 746.516,
       "speaker": "mikhail"
     },
     {
-      "start": 643.98,
-      "end": 646.98,
+      "start": 746.516,
+      "end": 753.696,
       "speaker": "interviewer"
     },
     {
-      "start": 646.98,
-      "end": 659.98,
+      "start": 753.696,
+      "end": 853.596,
       "speaker": "mikhail"
     },
     {
-      "start": 659.98,
-      "end": 665.98,
+      "start": 853.596,
+      "end": 865.956,
       "speaker": "interviewer"
     },
     {
-      "start": 665.98,
-      "end": 674.98,
+      "start": 865.956,
+      "end": 871.536,
       "speaker": "mikhail"
     },
     {
-      "start": 674.98,
-      "end": 740.98,
+      "start": 871.536,
+      "end": 877.596,
       "speaker": "interviewer"
     },
     {
-      "start": 740.98,
-      "end": 745.98,
+      "start": 877.596,
+      "end": 945.336,
       "speaker": "mikhail"
     },
     {
-      "start": 745.98,
-      "end": 752.98,
+      "start": 945.336,
+      "end": 1009.816,
       "speaker": "interviewer"
     },
     {
-      "start": 752.98,
-      "end": 817.98,
+      "start": 1009.816,
+      "end": 1017.756,
       "speaker": "mikhail"
     },
     {
-      "start": 817.98,
-      "end": 818.98,
+      "start": 1017.756,
+      "end": 1032.076,
       "speaker": "interviewer"
     },
     {
-      "start": 818.98,
-      "end": 849.98,
+      "start": 1032.076,
+      "end": 1058.276,
       "speaker": "mikhail"
     },
     {
-      "start": 849.98,
-      "end": 855.98,
+      "start": 1058.276,
+      "end": 1145.636,
       "speaker": "interviewer"
     },
     {
-      "start": 855.98,
-      "end": 857.98,
+      "start": 1145.636,
+      "end": 1161.988,
       "speaker": "mikhail"
     },
     {
-      "start": 857.98,
-      "end": 865.98,
+      "start": 1161.988,
+      "end": 1183.208,
       "speaker": "interviewer"
     },
     {
-      "start": 865.98,
-      "end": 869.98,
+      "start": 1183.208,
+      "end": 1186.088,
       "speaker": "mikhail"
     },
     {
-      "start": 869.98,
-      "end": 877.98,
+      "start": 1186.088,
+      "end": 1219.708,
       "speaker": "interviewer"
     },
     {
-      "start": 877.98,
-      "end": 943.98,
+      "start": 1219.708,
+      "end": 1228.528,
       "speaker": "mikhail"
     },
     {
-      "start": 943.98,
-      "end": 1008.98,
+      "start": 1228.528,
+      "end": 1238.688,
       "speaker": "interviewer"
     },
     {
-      "start": 1008.98,
-      "end": 1016.98,
+      "start": 1238.688,
+      "end": 1318.948,
       "speaker": "mikhail"
     },
     {
-      "start": 1016.98,
-      "end": 1032.98,
+      "start": 1318.948,
+      "end": 1340.588,
       "speaker": "interviewer"
     },
     {
-      "start": 1032.98,
-      "end": 1034.98,
+      "start": 1340.588,
+      "end": 1393.208,
       "speaker": "mikhail"
     },
     {
-      "start": 1034.98,
-      "end": 1038.98,
+      "start": 1393.208,
+      "end": 1407.108,
       "speaker": "interviewer"
     },
     {
-      "start": 1038.98,
-      "end": 1057.98,
+      "start": 1407.108,
+      "end": 1448.248,
       "speaker": "mikhail"
     },
     {
-      "start": 1057.98,
-      "end": 1144.98,
+      "start": 1448.248,
+      "end": 1477.128,
       "speaker": "interviewer"
     },
     {
-      "start": 1144.98,
-      "end": 1160.98,
+      "start": 1477.128,
+      "end": 1482.348,
       "speaker": "mikhail"
     },
     {
-      "start": 1160.98,
-      "end": 1182.98,
+      "start": 1482.348,
+      "end": 1493.228,
       "speaker": "interviewer"
     },
     {
-      "start": 1182.98,
-      "end": 1184.98,
+      "start": 1493.228,
+      "end": 1517.308,
       "speaker": "mikhail"
     },
     {
-      "start": 1184.98,
-      "end": 1218.98,
+      "start": 1517.308,
+      "end": 1519.148,
       "speaker": "interviewer"
     },
     {
-      "start": 1218.98,
-      "end": 1233.98,
+      "start": 1519.148,
+      "end": 1552.248,
       "speaker": "mikhail"
     },
     {
-      "start": 1233.98,
-      "end": 1238.98,
+      "start": 1552.248,
+      "end": 1674.448,
       "speaker": "interviewer"
     },
     {
-      "start": 1238.98,
-      "end": 1326.98,
+      "start": 1674.448,
+      "end": 1720.788,
       "speaker": "mikhail"
     },
     {
-      "start": 1326.98,
-      "end": 1339.98,
+      "start": 1720.788,
+      "end": 1742.488,
       "speaker": "interviewer"
     },
     {
-      "start": 1339.98,
-      "end": 1355.98,
+      "start": 1742.488,
+      "end": 1746.128,
       "speaker": "mikhail"
     },
     {
-      "start": 1355.98,
-      "end": 1359.98,
+      "start": 1746.128,
+      "end": 1753.328,
       "speaker": "interviewer"
     },
     {
-      "start": 1359.98,
-      "end": 1392.98,
+      "start": 1753.328,
+      "end": 1757.588,
       "speaker": "mikhail"
     },
     {
-      "start": 1392.98,
-      "end": 1406.98,
+      "start": 1757.588,
+      "end": 1759.768,
       "speaker": "interviewer"
     },
     {
-      "start": 1406.98,
-      "end": 1468.98,
+      "start": 1759.768,
+      "end": 1785.344,
       "speaker": "mikhail"
     },
     {
-      "start": 1468.98,
-      "end": 1496.98,
+      "start": 1785.344,
+      "end": 1855.504,
       "speaker": "interviewer"
     },
     {
-      "start": 1496.98,
-      "end": 1641.98,
+      "start": 1855.504,
+      "end": 1877.864,
       "speaker": "mikhail"
     },
     {
-      "start": 1641.98,
-      "end": 1673.98,
+      "start": 1877.864,
+      "end": 1941.924,
       "speaker": "interviewer"
     },
     {
-      "start": 1673.98,
-      "end": 1718.98,
+      "start": 1941.924,
+      "end": 1959.884,
       "speaker": "mikhail"
     },
     {
-      "start": 1718.98,
-      "end": 1724.98,
+      "start": 1959.884,
+      "end": 1981.984,
       "speaker": "interviewer"
     },
     {
-      "start": 1724.98,
-      "end": 1783.98,
+      "start": 1981.984,
+      "end": 2019.604,
       "speaker": "mikhail"
     },
     {
-      "start": 1783.98,
-      "end": 1846.98,
+      "start": 2019.604,
+      "end": 2067.784,
       "speaker": "interviewer"
     },
     {
-      "start": 1846.98,
-      "end": 1889.98,
+      "start": 2067.784,
+      "end": 2071.304,
       "speaker": "mikhail"
     },
     {
-      "start": 1889.98,
-      "end": 1941.98,
+      "start": 2071.304,
+      "end": 2076.844,
       "speaker": "interviewer"
     },
     {
-      "start": 1941.98,
-      "end": 1959.98,
+      "start": 2076.844,
+      "end": 2105.004,
       "speaker": "mikhail"
     },
     {
-      "start": 1959.98,
-      "end": 1980.98,
+      "start": 2105.004,
+      "end": 2108.464,
       "speaker": "interviewer"
     },
     {
-      "start": 1980.98,
-      "end": 2018.98,
+      "start": 2108.464,
+      "end": 2115.404,
       "speaker": "mikhail"
     },
     {
-      "start": 2018.98,
-      "end": 2066.98,
+      "start": 2115.404,
+      "end": 2132.724,
       "speaker": "interviewer"
     },
     {
-      "start": 2066.98,
-      "end": 2070.98,
+      "start": 2132.724,
+      "end": 2173.444,
       "speaker": "mikhail"
     },
     {
-      "start": 2070.98,
-      "end": 2076.98,
+      "start": 2173.444,
+      "end": 2197.224,
       "speaker": "interviewer"
     },
     {
-      "start": 2076.98,
-      "end": 2103.98,
+      "start": 2197.224,
+      "end": 2209.684,
       "speaker": "mikhail"
     },
     {
-      "start": 2103.98,
-      "end": 2106.98,
+      "start": 2209.684,
+      "end": 2218.564,
       "speaker": "interviewer"
     },
     {
-      "start": 2106.98,
-      "end": 2114.98,
+      "start": 2218.564,
+      "end": 2230.904,
       "speaker": "mikhail"
     },
     {
-      "start": 2114.98,
-      "end": 2131.98,
+      "start": 2230.904,
+      "end": 2259.264,
       "speaker": "interviewer"
     },
     {
-      "start": 2131.98,
-      "end": 2172.98,
+      "start": 2259.264,
+      "end": 2265.044,
       "speaker": "mikhail"
     },
     {
-      "start": 2172.98,
-      "end": 2196.98,
+      "start": 2265.044,
+      "end": 2269.544,
       "speaker": "interviewer"
     },
     {
-      "start": 2196.98,
-      "end": 2203.98,
+      "start": 2269.544,
+      "end": 2272.104,
       "speaker": "mikhail"
     },
     {
-      "start": 2203.98,
-      "end": 2217.98,
+      "start": 2272.104,
+      "end": 2273.784,
       "speaker": "interviewer"
     },
     {
-      "start": 2217.98,
-      "end": 2229.98,
+      "start": 2273.784,
+      "end": 2364.296,
       "speaker": "mikhail"
     },
     {
-      "start": 2229.98,
-      "end": 2257.98,
+      "start": 2364.296,
+      "end": 2373.756,
       "speaker": "interviewer"
     },
     {
-      "start": 2257.98,
-      "end": 2262.98,
+      "start": 2373.756,
+      "end": 2378.216,
       "speaker": "mikhail"
     },
     {
-      "start": 2262.98,
-      "end": 2269.98,
+      "start": 2378.216,
+      "end": 2380.176,
       "speaker": "interviewer"
     },
     {
-      "start": 2269.98,
-      "end": 2270.98,
+      "start": 2380.176,
+      "end": 2382.356,
       "speaker": "mikhail"
     },
     {
-      "start": 2270.98,
-      "end": 2272.98,
+      "start": 2382.356,
+      "end": 2392.536,
       "speaker": "interviewer"
     },
     {
-      "start": 2272.98,
-      "end": 2362.98,
+      "start": 2392.536,
+      "end": 2394.236,
       "speaker": "mikhail"
     },
     {
-      "start": 2362.98,
-      "end": 2373.98,
+      "start": 2394.236,
+      "end": 2410.436,
       "speaker": "interviewer"
     },
     {
-      "start": 2373.98,
-      "end": 2377.98,
+      "start": 2410.436,
+      "end": 2414.056,
       "speaker": "mikhail"
     },
     {
-      "start": 2377.98,
-      "end": 2391.98,
+      "start": 2414.056,
+      "end": 2448.616,
       "speaker": "interviewer"
     },
     {
-      "start": 2391.98,
-      "end": 2394.98,
+      "start": 2448.616,
+      "end": 2470.936,
       "speaker": "mikhail"
     },
     {
-      "start": 2394.98,
-      "end": 2404.98,
+      "start": 2470.936,
+      "end": 2496.576,
       "speaker": "interviewer"
     },
     {
-      "start": 2404.98,
-      "end": 2406.98,
+      "start": 2496.576,
+      "end": 2498.556,
       "speaker": "mikhail"
     },
     {
-      "start": 2406.98,
-      "end": 2409.98,
+      "start": 2498.556,
+      "end": 2507.096,
       "speaker": "interviewer"
     },
     {
-      "start": 2409.98,
-      "end": 2413.98,
+      "start": 2507.096,
+      "end": 2509.436,
       "speaker": "mikhail"
     },
     {
-      "start": 2413.98,
-      "end": 2447.98,
+      "start": 2509.436,
+      "end": 2525.836,
       "speaker": "interviewer"
     },
     {
-      "start": 2447.98,
-      "end": 2470.98,
+      "start": 2525.836,
+      "end": 2529.536,
       "speaker": "mikhail"
     },
     {
-      "start": 2470.98,
-      "end": 2495.98,
+      "start": 2529.536,
+      "end": 2538.076,
       "speaker": "interviewer"
     },
     {
-      "start": 2495.98,
-      "end": 2498.98,
+      "start": 2538.076,
+      "end": 2587.836,
       "speaker": "mikhail"
     },
     {
-      "start": 2498.98,
-      "end": 2506.98,
+      "start": 2587.836,
+      "end": 2592.236,
       "speaker": "interviewer"
     },
     {
-      "start": 2506.98,
-      "end": 2508.98,
+      "start": 2592.236,
+      "end": 2598.496,
       "speaker": "mikhail"
     },
     {
-      "start": 2508.98,
-      "end": 2525.98,
+      "start": 2598.496,
+      "end": 2605.216,
       "speaker": "interviewer"
     },
     {
-      "start": 2525.98,
-      "end": 2528.98,
+      "start": 2605.216,
+      "end": 2632.596,
       "speaker": "mikhail"
     },
     {
-      "start": 2528.98,
-      "end": 2536.98,
+      "start": 2632.596,
+      "end": 2634.216,
       "speaker": "interviewer"
     },
     {
-      "start": 2536.98,
-      "end": 2586.98,
+      "start": 2634.216,
+      "end": 2638.896,
       "speaker": "mikhail"
     },
     {
-      "start": 2586.98,
-      "end": 2591.98,
+      "start": 2638.896,
+      "end": 2647.836,
       "speaker": "interviewer"
     },
     {
-      "start": 2591.98,
-      "end": 2597.98,
+      "start": 2647.836,
+      "end": 2671.876,
       "speaker": "mikhail"
     },
     {
-      "start": 2597.98,
-      "end": 2605.98,
+      "start": 2671.876,
+      "end": 2692.196,
       "speaker": "interviewer"
     },
     {
-      "start": 2605.98,
-      "end": 2631.98,
+      "start": 2692.196,
+      "end": 2695.356,
       "speaker": "mikhail"
     },
     {
-      "start": 2631.98,
-      "end": 2633.98,
+      "start": 2695.356,
+      "end": 2708.756,
       "speaker": "interviewer"
     },
     {
-      "start": 2633.98,
-      "end": 2638.98,
+      "start": 2708.756,
+      "end": 2738.476,
       "speaker": "mikhail"
     },
     {
-      "start": 2638.98,
-      "end": 2646.98,
+      "start": 2738.476,
+      "end": 2792.596,
       "speaker": "interviewer"
     },
     {
-      "start": 2646.98,
-      "end": 2670.98,
+      "start": 2792.596,
+      "end": 2793.636,
       "speaker": "mikhail"
     },
     {
-      "start": 2670.98,
-      "end": 2691.98,
+      "start": 2793.636,
+      "end": 2797.156,
       "speaker": "interviewer"
     },
     {
-      "start": 2691.98,
-      "end": 2695.98,
-      "speaker": "mikhail"
-    },
-    {
-      "start": 2695.98,
-      "end": 2697.98,
-      "speaker": "interviewer"
-    },
-    {
-      "start": 2697.98,
-      "end": 2699.98,
-      "speaker": "mikhail"
-    },
-    {
-      "start": 2699.98,
-      "end": 2708.98,
-      "speaker": "interviewer"
-    },
-    {
-      "start": 2708.98,
-      "end": 2737.98,
-      "speaker": "mikhail"
-    },
-    {
-      "start": 2737.98,
+      "start": 2797.156,
       "end": 2797.413,
-      "speaker": "interviewer"
+      "speaker": "mikhail"
     }
   ]
 }

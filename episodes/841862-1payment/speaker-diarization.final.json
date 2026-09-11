@@ -1,0 +1,3817 @@
+{
+  "importedFrom": "utterances.review.json",
+  "sourceSha256": "3b7c8385ab2e850731984e838f05fd7c4f8181d0a57c4d158eccea7dfeb3aee9",
+  "timeScale": "final",
+  "utterances": [
+    {
+      "speaker": "Михаил",
+      "startMs": 0,
+      "endMs": 4360
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 4360,
+      "endMs": 5500
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 6040,
+      "endMs": 8840
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 9940,
+      "endMs": 15740
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 15740,
+      "endMs": 16440
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 17760,
+      "endMs": 21200
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 21200,
+      "endMs": 26780
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 26780,
+      "endMs": 30200
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 31300,
+      "endMs": 36780
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 36780,
+      "endMs": 38560
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 51200,
+      "endMs": 55241
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 57460,
+      "endMs": 62600
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 62600,
+      "endMs": 64280
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 65280,
+      "endMs": 68940
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 69940,
+      "endMs": 75200
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 75200,
+      "endMs": 78100
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 79100,
+      "endMs": 81200
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 81560,
+      "endMs": 87480
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 87480,
+      "endMs": 90640
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 91880,
+      "endMs": 97480
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 97480,
+      "endMs": 101940
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 102720,
+      "endMs": 107240
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 107780,
+      "endMs": 108900
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 109120,
+      "endMs": 110940
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 112660,
+      "endMs": 116900
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 116900,
+      "endMs": 118360
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 118600,
+      "endMs": 119301
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 120920,
+      "endMs": 125960
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 126160,
+      "endMs": 130400
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 131680,
+      "endMs": 134240
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 136880,
+      "endMs": 139340
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 140080,
+      "endMs": 145920
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 145920,
+      "endMs": 147200
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 148280,
+      "endMs": 152480
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 153360,
+      "endMs": 159080
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 159080,
+      "endMs": 160440
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 162100,
+      "endMs": 166420
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 166980,
+      "endMs": 168700
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 169420,
+      "endMs": 172660
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 173440,
+      "endMs": 176280
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 176920,
+      "endMs": 182740
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 183100,
+      "endMs": 184380
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 186100,
+      "endMs": 186860
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 187660,
+      "endMs": 190480
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 193780,
+      "endMs": 197000
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 198140,
+      "endMs": 200180
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 202320,
+      "endMs": 206280
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 208240,
+      "endMs": 209640
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 210500,
+      "endMs": 216420
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 217000,
+      "endMs": 222700
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 222920,
+      "endMs": 223720
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 225600,
+      "endMs": 230800
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 231900,
+      "endMs": 235340
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 236200,
+      "endMs": 237440
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 238320,
+      "endMs": 240141
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 240640,
+      "endMs": 242100
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 243080,
+      "endMs": 244380
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 244820,
+      "endMs": 248260
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 249120,
+      "endMs": 251680
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 252120,
+      "endMs": 254560
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 255380,
+      "endMs": 256700
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 257180,
+      "endMs": 258120
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 259040,
+      "endMs": 261140
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 261940,
+      "endMs": 265240
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 266680,
+      "endMs": 267520
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 268940,
+      "endMs": 271160
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 271260,
+      "endMs": 276820
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 276820,
+      "endMs": 277520
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 278520,
+      "endMs": 279220
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 279600,
+      "endMs": 280440
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 281920,
+      "endMs": 284060
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 285760,
+      "endMs": 288700
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 289300,
+      "endMs": 291080
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 291640,
+      "endMs": 294600
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 296500,
+      "endMs": 298340
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 298580,
+      "endMs": 300820
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 303520,
+      "endMs": 304220
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 304680,
+      "endMs": 307260
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 307480,
+      "endMs": 308180
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 310560,
+      "endMs": 314280
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 315620,
+      "endMs": 317060
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 317340,
+      "endMs": 319120
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 319840,
+      "endMs": 321541
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 322200,
+      "endMs": 322860
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 322860,
+      "endMs": 323720
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 324860,
+      "endMs": 330740
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 331380,
+      "endMs": 334760
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 334760,
+      "endMs": 337460
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 338160,
+      "endMs": 340020
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 340460,
+      "endMs": 344460
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 344580,
+      "endMs": 346980
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 347680,
+      "endMs": 350640
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 355920,
+      "endMs": 358600
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 359020,
+      "endMs": 361760
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 361760,
+      "endMs": 364580
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 364580,
+      "endMs": 367600
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 367600,
+      "endMs": 371020
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 373340,
+      "endMs": 375660
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 376820,
+      "endMs": 378060
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 379320,
+      "endMs": 381740
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 383600,
+      "endMs": 386980
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 387140,
+      "endMs": 388980
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 388980,
+      "endMs": 393800
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 393800,
+      "endMs": 399740
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 399740,
+      "endMs": 400440
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 401520,
+      "endMs": 402220
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 404700,
+      "endMs": 408060
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 409860,
+      "endMs": 411980
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 412920,
+      "endMs": 414200
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 414880,
+      "endMs": 416000
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 416000,
+      "endMs": 421980
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 421980,
+      "endMs": 423001
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 423680,
+      "endMs": 426700
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 428040,
+      "endMs": 430140
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 430840,
+      "endMs": 432501
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 433100,
+      "endMs": 436040
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 437500,
+      "endMs": 442260
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 442460,
+      "endMs": 444140
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 444140,
+      "endMs": 446100
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 448300,
+      "endMs": 452480
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 453300,
+      "endMs": 457080
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 458260,
+      "endMs": 460880
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 461380,
+      "endMs": 463760
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 464440,
+      "endMs": 466300
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 466300,
+      "endMs": 468500
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 470960,
+      "endMs": 475900
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 476560,
+      "endMs": 477500
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 478220,
+      "endMs": 481020
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 482080,
+      "endMs": 483860
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 484920,
+      "endMs": 487280
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 487280,
+      "endMs": 493000
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 493000,
+      "endMs": 498000
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 498000,
+      "endMs": 500780
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 501400,
+      "endMs": 502100
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 502560,
+      "endMs": 507660
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 507660,
+      "endMs": 511560
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 511560,
+      "endMs": 517220
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 517220,
+      "endMs": 521160
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 522140,
+      "endMs": 527280
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 527280,
+      "endMs": 532980
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 532980,
+      "endMs": 538600
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 538600,
+      "endMs": 539940
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 540340,
+      "endMs": 541300
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 543280,
+      "endMs": 548580
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 548580,
+      "endMs": 550600
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 551520,
+      "endMs": 551960
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 551960,
+      "endMs": 552660
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 552800,
+      "endMs": 553500
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 554320,
+      "endMs": 557880
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 559600,
+      "endMs": 563260
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 564980,
+      "endMs": 568900
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 568900,
+      "endMs": 570400
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 571640,
+      "endMs": 572340
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 574800,
+      "endMs": 579200
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 581900,
+      "endMs": 583200
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 584120,
+      "endMs": 585800
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 586600,
+      "endMs": 588900
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 592040,
+      "endMs": 593740
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 594900,
+      "endMs": 595900
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 598000,
+      "endMs": 599920
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 602176,
+      "endMs": 605836
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 605836,
+      "endMs": 611096
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 611816,
+      "endMs": 616716
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 616716,
+      "endMs": 621116
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 621116,
+      "endMs": 625356
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 626956,
+      "endMs": 631436
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 631436,
+      "endMs": 636416
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 636416,
+      "endMs": 637516
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 644336,
+      "endMs": 646376
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 647436,
+      "endMs": 653176
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 653176,
+      "endMs": 656696
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 658936,
+      "endMs": 661856
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 663976,
+      "endMs": 664676
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 664776,
+      "endMs": 666296
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 668896,
+      "endMs": 674736
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 674736,
+      "endMs": 680136
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 680136,
+      "endMs": 680916
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 687676,
+      "endMs": 691936
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 691936,
+      "endMs": 697916
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 698896,
+      "endMs": 703056
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 703056,
+      "endMs": 704516
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 704516,
+      "endMs": 709216
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 709216,
+      "endMs": 713616
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 713616,
+      "endMs": 716856
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 718136,
+      "endMs": 723616
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 725596,
+      "endMs": 731056
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 731716,
+      "endMs": 732476
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 733156,
+      "endMs": 739096
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 739096,
+      "endMs": 742956
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 742956,
+      "endMs": 748636
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 750376,
+      "endMs": 756296
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 756296,
+      "endMs": 758796
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 759576,
+      "endMs": 761116
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 761116,
+      "endMs": 766876
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 769216,
+      "endMs": 770896
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 772876,
+      "endMs": 775896
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 779236,
+      "endMs": 781656
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 782896,
+      "endMs": 784516
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 784516,
+      "endMs": 789376
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 791696,
+      "endMs": 795836
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 795836,
+      "endMs": 801496
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 801496,
+      "endMs": 806576
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 806576,
+      "endMs": 812556
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 812556,
+      "endMs": 818196
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 818836,
+      "endMs": 824136
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 824716,
+      "endMs": 828976
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 829916,
+      "endMs": 831236
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 832576,
+      "endMs": 838056
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 838236,
+      "endMs": 839996
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 840756,
+      "endMs": 844956
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 846156,
+      "endMs": 846936
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 849676,
+      "endMs": 850936
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 851596,
+      "endMs": 852296
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 854996,
+      "endMs": 856776
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 858156,
+      "endMs": 861496
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 862516,
+      "endMs": 868256
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 868256,
+      "endMs": 873956
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 873956,
+      "endMs": 876716
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 876716,
+      "endMs": 880476
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 881716,
+      "endMs": 885176
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 891596,
+      "endMs": 893936
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 894516,
+      "endMs": 895216
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 896496,
+      "endMs": 897696
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 898436,
+      "endMs": 899896
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 903956,
+      "endMs": 908456
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 909536,
+      "endMs": 913356
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 915596,
+      "endMs": 921396
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 922336,
+      "endMs": 927196
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 927296,
+      "endMs": 927996
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 928896,
+      "endMs": 930936
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 931796,
+      "endMs": 936936
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 936936,
+      "endMs": 939036
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 940476,
+      "endMs": 945196
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 946016,
+      "endMs": 950916
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 950916,
+      "endMs": 952956
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 953896,
+      "endMs": 955916
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 955916,
+      "endMs": 961236
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 961236,
+      "endMs": 966576
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 966576,
+      "endMs": 968836
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 969596,
+      "endMs": 974956
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 974956,
+      "endMs": 979157
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 981316,
+      "endMs": 982436
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 983336,
+      "endMs": 987536
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 987536,
+      "endMs": 992556
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 992556,
+      "endMs": 995496
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 996816,
+      "endMs": 1002236
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1004696,
+      "endMs": 1010176
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1010176,
+      "endMs": 1013696
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1016396,
+      "endMs": 1022076
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1022076,
+      "endMs": 1026696
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1026696,
+      "endMs": 1029436
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1030596,
+      "endMs": 1031296
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1032376,
+      "endMs": 1034896
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1040096,
+      "endMs": 1040796
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1047816,
+      "endMs": 1051056
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1051056,
+      "endMs": 1053656
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1055756,
+      "endMs": 1060576
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1062336,
+      "endMs": 1065976
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1066856,
+      "endMs": 1070076
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1070076,
+      "endMs": 1070776
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1078536,
+      "endMs": 1083636
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1084456,
+      "endMs": 1089136
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1089336,
+      "endMs": 1090036
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1090236,
+      "endMs": 1095456
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1096276,
+      "endMs": 1101416
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1101416,
+      "endMs": 1107476
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1107476,
+      "endMs": 1110456
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1115596,
+      "endMs": 1121456
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1121456,
+      "endMs": 1123936
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1127256,
+      "endMs": 1133156
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1133156,
+      "endMs": 1134916
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1136476,
+      "endMs": 1141696
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1142496,
+      "endMs": 1145796
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1148116,
+      "endMs": 1148916
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1149736,
+      "endMs": 1154236
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1154236,
+      "endMs": 1159696
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1159696,
+      "endMs": 1165536
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1165876,
+      "endMs": 1171396
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1171396,
+      "endMs": 1176616
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1176616,
+      "endMs": 1178276
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1179916,
+      "endMs": 1183016
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1183636,
+      "endMs": 1188636
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1189436,
+      "endMs": 1195236
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1195236,
+      "endMs": 1196476
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1199988,
+      "endMs": 1202069
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1202768,
+      "endMs": 1208568
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1208568,
+      "endMs": 1209268
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1210168,
+      "endMs": 1213888
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1213888,
+      "endMs": 1215828
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1215828,
+      "endMs": 1219368
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1219548,
+      "endMs": 1221208
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1221208,
+      "endMs": 1221908
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1224088,
+      "endMs": 1225928
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1225928,
+      "endMs": 1229088
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1230328,
+      "endMs": 1231588
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1232208,
+      "endMs": 1236168
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1236168,
+      "endMs": 1237528
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1238128,
+      "endMs": 1242968
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1244008,
+      "endMs": 1246428
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1248388,
+      "endMs": 1249088
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1249808,
+      "endMs": 1250508
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1251508,
+      "endMs": 1253588
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1253788,
+      "endMs": 1254768
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1255948,
+      "endMs": 1256648
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1257708,
+      "endMs": 1260528
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1261768,
+      "endMs": 1265808
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1266528,
+      "endMs": 1268548
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1272268,
+      "endMs": 1273528
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1274008,
+      "endMs": 1274708
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1276688,
+      "endMs": 1279728
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1280688,
+      "endMs": 1284368
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1284648,
+      "endMs": 1288908
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1288908,
+      "endMs": 1293048
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1294988,
+      "endMs": 1299948
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1299948,
+      "endMs": 1300648
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1300888,
+      "endMs": 1302688
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1302928,
+      "endMs": 1305828
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1306488,
+      "endMs": 1310788
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1310788,
+      "endMs": 1312688
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1312688,
+      "endMs": 1314168
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1315288,
+      "endMs": 1316488
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1318788,
+      "endMs": 1320708
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1321168,
+      "endMs": 1324128
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1324428,
+      "endMs": 1329888
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1329888,
+      "endMs": 1330588
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1331328,
+      "endMs": 1335548
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1336408,
+      "endMs": 1341988
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1341988,
+      "endMs": 1343948
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1344368,
+      "endMs": 1347428
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1347668,
+      "endMs": 1353168
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1353168,
+      "endMs": 1355948
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1356248,
+      "endMs": 1356948
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1356948,
+      "endMs": 1362648
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1362708,
+      "endMs": 1363408
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1365188,
+      "endMs": 1367688
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1368268,
+      "endMs": 1372288
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1372288,
+      "endMs": 1375008
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1375488,
+      "endMs": 1378348
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1378348,
+      "endMs": 1378588
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1378588,
+      "endMs": 1384068
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1384068,
+      "endMs": 1389308
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1389468,
+      "endMs": 1393428
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1407788,
+      "endMs": 1408488
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1431208,
+      "endMs": 1434488
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1435508,
+      "endMs": 1436208
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1436868,
+      "endMs": 1439008
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1439608,
+      "endMs": 1442468
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1442908,
+      "endMs": 1444468
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1445108,
+      "endMs": 1449848
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1450508,
+      "endMs": 1455788
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1456688,
+      "endMs": 1461208
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1461208,
+      "endMs": 1467188
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1467188,
+      "endMs": 1471288
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1479748,
+      "endMs": 1484788
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1484948,
+      "endMs": 1485648
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1486248,
+      "endMs": 1486948
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1488128,
+      "endMs": 1493388
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1493388,
+      "endMs": 1498388
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1498388,
+      "endMs": 1502389
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1504968,
+      "endMs": 1506728
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1506728,
+      "endMs": 1508309
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1509148,
+      "endMs": 1512768
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1515128,
+      "endMs": 1516008
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1516808,
+      "endMs": 1517548
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1520348,
+      "endMs": 1525568
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1525848,
+      "endMs": 1531228
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1531228,
+      "endMs": 1531928
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1532268,
+      "endMs": 1536848
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1536848,
+      "endMs": 1541688
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1542348,
+      "endMs": 1545248
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1545768,
+      "endMs": 1551228
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1552468,
+      "endMs": 1554448
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1555308,
+      "endMs": 1557148
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1557148,
+      "endMs": 1562628
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1562928,
+      "endMs": 1568908
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1568908,
+      "endMs": 1573748
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1574408,
+      "endMs": 1575608
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1576608,
+      "endMs": 1581968
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1581968,
+      "endMs": 1587208
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1587208,
+      "endMs": 1588128
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1588408,
+      "endMs": 1590248
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1590248,
+      "endMs": 1594868
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1596668,
+      "endMs": 1602588
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1602588,
+      "endMs": 1605828
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1606528,
+      "endMs": 1607668
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1609088,
+      "endMs": 1614988
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1614988,
+      "endMs": 1616728
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1617068,
+      "endMs": 1618808
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1619728,
+      "endMs": 1624288
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1624288,
+      "endMs": 1629268
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1629268,
+      "endMs": 1634048
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1635068,
+      "endMs": 1637908
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1638288,
+      "endMs": 1642928
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1644068,
+      "endMs": 1648108
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1648108,
+      "endMs": 1650288
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1654628,
+      "endMs": 1660288
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1661688,
+      "endMs": 1665188
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1665728,
+      "endMs": 1669888
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1669888,
+      "endMs": 1671208
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1671428,
+      "endMs": 1677288
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1677288,
+      "endMs": 1680128
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1680828,
+      "endMs": 1683688
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1683688,
+      "endMs": 1689528
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1689528,
+      "endMs": 1695508
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1695848,
+      "endMs": 1697388
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1698028,
+      "endMs": 1699908
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1700588,
+      "endMs": 1701288
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1702268,
+      "endMs": 1703328
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1704188,
+      "endMs": 1707568
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1708168,
+      "endMs": 1709848
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1710948,
+      "endMs": 1712448
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1712448,
+      "endMs": 1713148
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1714048,
+      "endMs": 1719928
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1719928,
+      "endMs": 1724028
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1724988,
+      "endMs": 1727988
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1728968,
+      "endMs": 1732908
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1734788,
+      "endMs": 1735488
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1735868,
+      "endMs": 1741308
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1741988,
+      "endMs": 1747568
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1749468,
+      "endMs": 1750368
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1750428,
+      "endMs": 1752048
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1753248,
+      "endMs": 1755808
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1755808,
+      "endMs": 1756508
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1758788,
+      "endMs": 1760988
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1763588,
+      "endMs": 1765268
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1765668,
+      "endMs": 1767888
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1767888,
+      "endMs": 1768588
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1773208,
+      "endMs": 1774088
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1774088,
+      "endMs": 1777068
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1780488,
+      "endMs": 1782648
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1784128,
+      "endMs": 1788568
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1788568,
+      "endMs": 1789268
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1791328,
+      "endMs": 1795288
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1795588,
+      "endMs": 1797428
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1797768,
+      "endMs": 1799908
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1799964,
+      "endMs": 1805284
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1805724,
+      "endMs": 1811364
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1811524,
+      "endMs": 1817364
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1817364,
+      "endMs": 1822344
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1823344,
+      "endMs": 1829024
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1829024,
+      "endMs": 1830764
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1831004,
+      "endMs": 1833184
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1834564,
+      "endMs": 1839804
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1839804,
+      "endMs": 1841604
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1844524,
+      "endMs": 1846364
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1847084,
+      "endMs": 1848524
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1849624,
+      "endMs": 1851384
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1851624,
+      "endMs": 1855124
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1855124,
+      "endMs": 1859524
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1859524,
+      "endMs": 1860224
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1861764,
+      "endMs": 1863764
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1864764,
+      "endMs": 1869484
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1870464,
+      "endMs": 1872144
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1873344,
+      "endMs": 1874564
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1878184,
+      "endMs": 1881044
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1881624,
+      "endMs": 1884524
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1885764,
+      "endMs": 1887204
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1888324,
+      "endMs": 1890824
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1893504,
+      "endMs": 1895944
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1896924,
+      "endMs": 1900744
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1901004,
+      "endMs": 1906044
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1906284,
+      "endMs": 1908264
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1908264,
+      "endMs": 1908964
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1909864,
+      "endMs": 1910564
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1910664,
+      "endMs": 1914384
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1915864,
+      "endMs": 1917364
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1917364,
+      "endMs": 1919024
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1920104,
+      "endMs": 1921824
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1923104,
+      "endMs": 1927384
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1930404,
+      "endMs": 1934784
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1934784,
+      "endMs": 1936385
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1936464,
+      "endMs": 1939904
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1940104,
+      "endMs": 1941884
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1941884,
+      "endMs": 1945884
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1946104,
+      "endMs": 1948244
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1948804,
+      "endMs": 1950224
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1950224,
+      "endMs": 1950924
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1952104,
+      "endMs": 1956044
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1956444,
+      "endMs": 1959404
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1960044,
+      "endMs": 1961544
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1962104,
+      "endMs": 1963664
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1963924,
+      "endMs": 1965444
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1967464,
+      "endMs": 1970204
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1970204,
+      "endMs": 1972644
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1973144,
+      "endMs": 1974504
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1975744,
+      "endMs": 1976644
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1978064,
+      "endMs": 1978764
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1979924,
+      "endMs": 1981364
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1981744,
+      "endMs": 1986844
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1987424,
+      "endMs": 1990504
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 1992224,
+      "endMs": 1993524
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 1997884,
+      "endMs": 2000044
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2000164,
+      "endMs": 2002744
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2004004,
+      "endMs": 2006304
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2007744,
+      "endMs": 2008444
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2008524,
+      "endMs": 2010404
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2010584,
+      "endMs": 2012804
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2013384,
+      "endMs": 2014204
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2015404,
+      "endMs": 2018064
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2019984,
+      "endMs": 2024664
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2025024,
+      "endMs": 2026404
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2026604,
+      "endMs": 2029604
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2030384,
+      "endMs": 2031084
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2031104,
+      "endMs": 2034124
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2034324,
+      "endMs": 2036564
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2037564,
+      "endMs": 2042984
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2042984,
+      "endMs": 2044404
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2044604,
+      "endMs": 2047484
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2049284,
+      "endMs": 2053724
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2054104,
+      "endMs": 2057344
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2057604,
+      "endMs": 2058304
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2059484,
+      "endMs": 2060184
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2060344,
+      "endMs": 2064024
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2064404,
+      "endMs": 2066144
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2066504,
+      "endMs": 2069024
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2071344,
+      "endMs": 2075604
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2075604,
+      "endMs": 2078284
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2079284,
+      "endMs": 2080904
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2082984,
+      "endMs": 2085544
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2086564,
+      "endMs": 2089264
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2089764,
+      "endMs": 2091344
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2092344,
+      "endMs": 2093724
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2095024,
+      "endMs": 2097064
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2097344,
+      "endMs": 2099424
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2100464,
+      "endMs": 2102484
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2105784,
+      "endMs": 2106844
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2107524,
+      "endMs": 2108664
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2109304,
+      "endMs": 2110004
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2111584,
+      "endMs": 2114844
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2114844,
+      "endMs": 2115544
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2119424,
+      "endMs": 2122184
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2122624,
+      "endMs": 2124384
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2124724,
+      "endMs": 2127844
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2128244,
+      "endMs": 2131884
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2132324,
+      "endMs": 2134244
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2134244,
+      "endMs": 2135184
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2135924,
+      "endMs": 2138564
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2139024,
+      "endMs": 2140204
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2140444,
+      "endMs": 2141844
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2143004,
+      "endMs": 2145704
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2146464,
+      "endMs": 2150704
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2151044,
+      "endMs": 2153404
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2153404,
+      "endMs": 2154104
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2155644,
+      "endMs": 2157044
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2157124,
+      "endMs": 2158944
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2159084,
+      "endMs": 2159784
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2161604,
+      "endMs": 2163264
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2163344,
+      "endMs": 2167124
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2167984,
+      "endMs": 2170124
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2170724,
+      "endMs": 2176184
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2176444,
+      "endMs": 2180764
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2181084,
+      "endMs": 2183364
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2183904,
+      "endMs": 2186024
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2186024,
+      "endMs": 2189464
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2191024,
+      "endMs": 2194144
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2195344,
+      "endMs": 2197884
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2198424,
+      "endMs": 2200984
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2201804,
+      "endMs": 2204124
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2206404,
+      "endMs": 2207804
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2208624,
+      "endMs": 2210104
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2211444,
+      "endMs": 2214704
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2214704,
+      "endMs": 2218844
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2219084,
+      "endMs": 2225084
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2225084,
+      "endMs": 2227064
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2227864,
+      "endMs": 2231144
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2232064,
+      "endMs": 2234124
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2235224,
+      "endMs": 2240144
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2241704,
+      "endMs": 2243164
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2247684,
+      "endMs": 2250684
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2251484,
+      "endMs": 2256564
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2256564,
+      "endMs": 2260084
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2261524,
+      "endMs": 2267224
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2268904,
+      "endMs": 2270324
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2272184,
+      "endMs": 2277164
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2277164,
+      "endMs": 2278324
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2279984,
+      "endMs": 2280684
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2281484,
+      "endMs": 2282684
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2285124,
+      "endMs": 2288144
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2289204,
+      "endMs": 2290264
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2290804,
+      "endMs": 2294584
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2295344,
+      "endMs": 2296784
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2297264,
+      "endMs": 2297964
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2299384,
+      "endMs": 2300084
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2303044,
+      "endMs": 2307544
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2307544,
+      "endMs": 2309304
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2310104,
+      "endMs": 2311024
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2311784,
+      "endMs": 2317604
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2317604,
+      "endMs": 2320004
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2320204,
+      "endMs": 2320904
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2321964,
+      "endMs": 2323164
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2324424,
+      "endMs": 2325884
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2325884,
+      "endMs": 2327124
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2328044,
+      "endMs": 2332284
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2332284,
+      "endMs": 2333984
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2334464,
+      "endMs": 2336684
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2337904,
+      "endMs": 2342044
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2342044,
+      "endMs": 2345644
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2346624,
+      "endMs": 2351364
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2351364,
+      "endMs": 2355404
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2356824,
+      "endMs": 2362324
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2363944,
+      "endMs": 2367464
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2368184,
+      "endMs": 2368884
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2369104,
+      "endMs": 2370064
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2370064,
+      "endMs": 2373824
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2373824,
+      "endMs": 2378244
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2378244,
+      "endMs": 2379664
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2380664,
+      "endMs": 2381564
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2381864,
+      "endMs": 2386204
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2386984,
+      "endMs": 2392344
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2392344,
+      "endMs": 2397964
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2397964,
+      "endMs": 2399904
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2399976,
+      "endMs": 2401296
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2402296,
+      "endMs": 2403136
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2406116,
+      "endMs": 2409556
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2411756,
+      "endMs": 2416216
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2416216,
+      "endMs": 2418116
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2418176,
+      "endMs": 2419076
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2420356,
+      "endMs": 2421537
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2422696,
+      "endMs": 2427396
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2429416,
+      "endMs": 2430116
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2430536,
+      "endMs": 2432236
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2432236,
+      "endMs": 2432936
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2433656,
+      "endMs": 2435756
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2436436,
+      "endMs": 2438556
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2438876,
+      "endMs": 2443176
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2445196,
+      "endMs": 2448436
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2448436,
+      "endMs": 2450676
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2451756,
+      "endMs": 2452056
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2452056,
+      "endMs": 2456156
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2456376,
+      "endMs": 2459796
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2460136,
+      "endMs": 2463096
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2463976,
+      "endMs": 2464976
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2467656,
+      "endMs": 2470796
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2471776,
+      "endMs": 2477136
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2477556,
+      "endMs": 2479636
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2479636,
+      "endMs": 2484636
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2486616,
+      "endMs": 2491496
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2491696,
+      "endMs": 2492396
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2493016,
+      "endMs": 2495556
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2496736,
+      "endMs": 2500916
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2500916,
+      "endMs": 2504797
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2505336,
+      "endMs": 2507676
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2508936,
+      "endMs": 2513076
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2514696,
+      "endMs": 2515716
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2517496,
+      "endMs": 2522196
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2522456,
+      "endMs": 2525236
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2525976,
+      "endMs": 2530736
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2534576,
+      "endMs": 2536556
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2536556,
+      "endMs": 2540516
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2540936,
+      "endMs": 2543696
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2544096,
+      "endMs": 2545096
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2545096,
+      "endMs": 2546616
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2547436,
+      "endMs": 2551096
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2551756,
+      "endMs": 2552516
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2553296,
+      "endMs": 2556816
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2557316,
+      "endMs": 2558096
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2560896,
+      "endMs": 2562836
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2563836,
+      "endMs": 2566836
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2567536,
+      "endMs": 2572656
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2573296,
+      "endMs": 2574916
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2576076,
+      "endMs": 2579896
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2580636,
+      "endMs": 2583216
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2583676,
+      "endMs": 2588236
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2588236,
+      "endMs": 2594176
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2594176,
+      "endMs": 2595136
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2597176,
+      "endMs": 2599796
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2600496,
+      "endMs": 2604696
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2605276,
+      "endMs": 2608936
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2608936,
+      "endMs": 2609856
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2610316,
+      "endMs": 2611496
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2611496,
+      "endMs": 2616356
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2617036,
+      "endMs": 2620636
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2621096,
+      "endMs": 2623936
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2624556,
+      "endMs": 2625836
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2625836,
+      "endMs": 2626536
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2627136,
+      "endMs": 2629836
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2630236,
+      "endMs": 2633676
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2634036,
+      "endMs": 2635496
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2635496,
+      "endMs": 2636496
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2636496,
+      "endMs": 2637396
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2641756,
+      "endMs": 2643216
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2643216,
+      "endMs": 2644096
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2644996,
+      "endMs": 2647616
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2647916,
+      "endMs": 2651316
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2651456,
+      "endMs": 2653636
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2654336,
+      "endMs": 2657736
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2658516,
+      "endMs": 2660956
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2660956,
+      "endMs": 2661656
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2662256,
+      "endMs": 2666856
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2667336,
+      "endMs": 2669126
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2670596,
+      "endMs": 2672216
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2672216,
+      "endMs": 2675056
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2676896,
+      "endMs": 2678796
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2682016,
+      "endMs": 2685156
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2685836,
+      "endMs": 2686536
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2687096,
+      "endMs": 2691036
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2691036,
+      "endMs": 2694576
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2696116,
+      "endMs": 2696816
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2697656,
+      "endMs": 2699656
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2700836,
+      "endMs": 2703796
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2704536,
+      "endMs": 2708876
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2709876,
+      "endMs": 2710996
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2711256,
+      "endMs": 2711956
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2714136,
+      "endMs": 2717456
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2717696,
+      "endMs": 2719796
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2720396,
+      "endMs": 2722016
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2725516,
+      "endMs": 2727696
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2729176,
+      "endMs": 2729876
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2730196,
+      "endMs": 2730896
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2731136,
+      "endMs": 2731976
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2732996,
+      "endMs": 2733356
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2733356,
+      "endMs": 2734056
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2735176,
+      "endMs": 2735876
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2736036,
+      "endMs": 2737436
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2738536,
+      "endMs": 2740136
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2740416,
+      "endMs": 2742356
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2746756,
+      "endMs": 2749037
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2749256,
+      "endMs": 2753136
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2753136,
+      "endMs": 2758056
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2758056,
+      "endMs": 2760176
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2760656,
+      "endMs": 2763496
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2763616,
+      "endMs": 2768516
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2768976,
+      "endMs": 2770236
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2770636,
+      "endMs": 2772336
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2772336,
+      "endMs": 2775476
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2776476,
+      "endMs": 2777936
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2778216,
+      "endMs": 2780536
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2781616,
+      "endMs": 2783616
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2784896,
+      "endMs": 2787336
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2788696,
+      "endMs": 2789456
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2790136,
+      "endMs": 2791756
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2792916,
+      "endMs": 2796116
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2796676,
+      "endMs": 2798876
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2800996,
+      "endMs": 2803996
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2804096,
+      "endMs": 2806736
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2807916,
+      "endMs": 2808937
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2809336,
+      "endMs": 2810536
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2810756,
+      "endMs": 2815236
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2815976,
+      "endMs": 2817996
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2818616,
+      "endMs": 2819756
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2820856,
+      "endMs": 2821836
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2821896,
+      "endMs": 2823296
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2823976,
+      "endMs": 2825016
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2825156,
+      "endMs": 2826596
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2826596,
+      "endMs": 2828516
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2828656,
+      "endMs": 2830236
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2830256,
+      "endMs": 2830596
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2830596,
+      "endMs": 2831636
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2831636,
+      "endMs": 2833236
+    },
+    {
+      "speaker": "Интервьюер",
+      "startMs": 2833696,
+      "endMs": 2834716
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2835156,
+      "endMs": 2836336
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2836736,
+      "endMs": 2838876
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2838956,
+      "endMs": 2840156
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2841756,
+      "endMs": 2843536
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2843536,
+      "endMs": 2845956
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2845996,
+      "endMs": 2847357
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2850076,
+      "endMs": 2852036
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2852136,
+      "endMs": 2853316
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2853316,
+      "endMs": 2857276
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2858876,
+      "endMs": 2860676
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2860896,
+      "endMs": 2862036
+    },
+    {
+      "speaker": "Михаил",
+      "startMs": 2862356,
+      "endMs": 2865096
+    }
+  ]
+}

@@ -6,8 +6,10 @@ const INTRO_FIRST_SOURCE_START = 2.65;
 const INTRO_FIRST_SOURCE_END = 32.65;
 const INTRO_SECOND_SOURCE_START = 38.74;
 const INTRO_SECOND_SOURCE_END = 46.75;
-const OUTRO_SOURCE_START = 1.5;
-const OUTRO_SOURCE_END = 46.65;
+const OUTRO_FIRST_SOURCE_START = 1.5;
+const OUTRO_FIRST_SOURCE_END = 24.39;
+const OUTRO_SECOND_SOURCE_START = 39.32;
+const OUTRO_SECOND_SOURCE_END = 46.65;
 
 const secondsToFrames = (seconds: number, fps: number) => Math.round(seconds * fps);
 
@@ -15,7 +17,8 @@ export const finalInterviewDuration = (fps: number) =>
   secondsToFrames(INTRO_FIRST_SOURCE_END - INTRO_FIRST_SOURCE_START, fps)
   + secondsToFrames(INTRO_SECOND_SOURCE_END - INTRO_SECOND_SOURCE_START, fps)
   + secondsToFrames(FULL_REVIEW_DURATION, fps)
-  + secondsToFrames(OUTRO_SOURCE_END - OUTRO_SOURCE_START, fps);
+  + secondsToFrames(OUTRO_FIRST_SOURCE_END - OUTRO_FIRST_SOURCE_START, fps)
+  + secondsToFrames(OUTRO_SECOND_SOURCE_END - OUTRO_SECOND_SOURCE_START, fps);
 
 const FullFrameVideo = ({src, trimBefore}: {src: string; trimBefore: number}) => (
   <Video
@@ -32,7 +35,9 @@ export const FinalInterview = () => {
   const introSecondFrames = secondsToFrames(INTRO_SECOND_SOURCE_END - INTRO_SECOND_SOURCE_START, fps);
   const introFrames = introFirstFrames + introSecondFrames;
   const interviewFrames = secondsToFrames(FULL_REVIEW_DURATION, fps);
-  const outroFrames = secondsToFrames(OUTRO_SOURCE_END - OUTRO_SOURCE_START, fps);
+  const outroFirstFrames = secondsToFrames(OUTRO_FIRST_SOURCE_END - OUTRO_FIRST_SOURCE_START, fps);
+  const outroSecondFrames = secondsToFrames(OUTRO_SECOND_SOURCE_END - OUTRO_SECOND_SOURCE_START, fps);
+  const outroStartFrame = introFrames + interviewFrames;
 
   return (
     <AbsoluteFill style={{backgroundColor: '#000'}}>
@@ -55,14 +60,26 @@ export const FinalInterview = () => {
       </Sequence>
 
       <Sequence
-        name="Аутро"
-        from={introFrames + interviewFrames}
-        durationInFrames={outroFrames}
+        name="Аутро · часть 1"
+        from={outroStartFrame}
+        durationInFrames={outroFirstFrames}
         premountFor={fps}
       >
         <FullFrameVideo
           src="episode-841862/outro.mp4"
-          trimBefore={secondsToFrames(OUTRO_SOURCE_START, fps)}
+          trimBefore={secondsToFrames(OUTRO_FIRST_SOURCE_START, fps)}
+        />
+      </Sequence>
+
+      <Sequence
+        name="Аутро · часть 2"
+        from={outroStartFrame + outroFirstFrames}
+        durationInFrames={outroSecondFrames}
+        premountFor={fps}
+      >
+        <FullFrameVideo
+          src="episode-841862/outro.mp4"
+          trimBefore={secondsToFrames(OUTRO_SECOND_SOURCE_START, fps)}
         />
       </Sequence>
     </AbsoluteFill>

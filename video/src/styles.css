@@ -32,6 +32,9 @@
   --diagram-danger: #ff9ab2;
   --diagram-danger-border: var(--diagram-border-neutral);
   --diagram-danger-surface: rgba(108, 25, 55, .34);
+
+  /* Minimum readable sizes for secondary infographic copy at 1080p. */
+  --diagram-font-secondary: 18px;
 }
 
 * { box-sizing: border-box; }
@@ -468,3 +471,48 @@
 .composition--short .oop-trait-members { grid-template-columns: 1fr; }
 .composition--short .oop-trait-members code { padding: 15px; font-size: 22px; }
 .composition--short .oop-caption { font-size: 23px; text-align: center; }
+
+/* OOP diagrams predate the full-width infographic canvas. Keep the same
+   hierarchy, but give the wide composition enough visual weight. */
+.composition--wide .oop-diagram { gap: 24px; }
+.composition--wide .oop-node--root {
+  width: 790px;
+  padding: 25px 34px;
+  gap: 9px 22px;
+}
+.composition--wide .oop-node small { font-size: 20px; }
+.composition--wide .oop-node strong { font-size: 36px; }
+.composition--wide .oop-contract-method code {
+  padding: 15px 20px;
+  font-size: 25px;
+}
+.composition--wide .oop-branches { width: 1160px; gap: 68px; }
+.composition--wide .oop-branch > span { font-size: 20px; }
+.composition--wide .oop-branch .oop-node {
+  min-height: 92px;
+  padding: 19px 25px;
+}
+.composition--wide .oop-consumer {
+  width: 980px;
+  padding: 18px 28px;
+}
+.composition--wide .oop-consumer span { font-size: 21px; }
+.composition--wide .oop-consumer code { font-size: 24px; }
+.composition--wide .oop-node--abstract {
+  width: 1040px;
+  padding-bottom: 27px;
+}
+.composition--wide .oop-methods { gap: 18px; margin-top: 10px; }
+.composition--wide .oop-method { padding: 18px 21px; }
+.composition--wide .oop-method code { font-size: 24px; }
+.composition--wide .oop-method span { font-size: 20px; }
+.composition--wide .oop-node--trait { width: 1040px; }
+.composition--wide .oop-trait-members { gap: 16px; margin-top: 9px; }
+.composition--wide .oop-trait-members code {
+  padding: 14px 16px;
+  font-size: 24px;
+}
+.composition--wide .oop-caption {
+  padding: 13px 28px;
+  font-size: 24px;
+}

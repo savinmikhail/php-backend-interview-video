@@ -25,11 +25,11 @@
   top: 20px;
   right: 28px;
   padding: 9px 16px;
-  border: 2px solid var(--diagram-warning-border);
+  border: 2px solid var(--diagram-warning);
   border-radius: 999px;
   background: rgba(111, 73, 15, .78);
   color: #ffda76;
-  font-size: 17px;
+  font-size: var(--diagram-font-secondary);
   font-weight: 900;
   letter-spacing: .7px;
   text-transform: uppercase;
@@ -59,7 +59,7 @@
 .composition--wide .rr-slide--stack .rr-card { padding: 14px 28px; }
 .composition--wide .rr-slide--stack .rr-card__label {
   margin-bottom: 4px;
-  font-size: 16px;
+  font-size: var(--diagram-font-secondary);
   line-height: 1.1;
 }
 .composition--wide .rr-slide--stack .rr-card h2 {
@@ -111,7 +111,7 @@
 .enum-card__label {
   margin-bottom: 6px;
   color: #ff9ab2;
-  font-size: 17px;
+  font-size: var(--diagram-font-secondary);
   font-weight: 900;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -454,7 +454,7 @@
 
 .di-created-service > span {
   color: #8ff3c9;
-  font-size: 16px;
+  font-size: var(--diagram-font-secondary);
   font-weight: 900;
   letter-spacing: .8px;
   text-transform: uppercase;
@@ -493,7 +493,7 @@
 
 .di-build-step > span {
   color: var(--diagram-structure);
-  font-size: 16px;
+  font-size: var(--diagram-font-secondary);
   font-weight: 900;
   letter-spacing: .8px;
   text-transform: uppercase;
@@ -503,7 +503,7 @@
 .di-build-step--compile > span { color: var(--diagram-structure); }
 .di-build-step code { color: #f3eaff; white-space: pre; font: 650 20px/1.25 'JetBrains Mono', Menlo, monospace; }
 .di-build-step strong { color: #f7f3ff; font-size: 21px; line-height: 1.15; }
-.di-build-step p { margin: 0; color: #ded3e9; font-size: 17px; line-height: 1.2; }
+.di-build-step p { margin: 0; color: #ded3e9; font-size: var(--diagram-font-secondary); line-height: 1.2; }
 .di-build-arrow { display: grid; place-items: center; color: var(--diagram-structure); font-size: 30px; font-weight: 900; }
 
 .di-runtime-flow {
@@ -534,7 +534,7 @@
 
 .di-generated-container > span {
   color: #79e6ff;
-  font-size: 16px;
+  font-size: var(--diagram-font-secondary);
   font-weight: 900;
   letter-spacing: .7px;
   text-transform: uppercase;
@@ -543,7 +543,7 @@
 .di-generated-container code { color: #f3eaff; white-space: pre; font: 650 18px/1.28 'JetBrains Mono', Menlo, monospace; }
 .di-runtime-result { display: grid; gap: 5px; }
 .di-runtime-result strong { color: #8ff3c9; font-size: 27px; text-transform: uppercase; }
-.di-runtime-result span { color: #ded3e9; font-size: 17px; line-height: 1.2; }
+.di-runtime-result span { color: #ded3e9; font-size: var(--diagram-font-secondary); line-height: 1.2; }
 
 .rr-slide--flow .rr-card:not(:last-child)::after {
   content: '→';
@@ -583,7 +583,7 @@
 
 .rr-card__label {
   margin-bottom: 11px;
-  color: var(--diagram-text-muted);
+  color: var(--diagram-structure);
   font-size: 19px;
   font-weight: 900;
   letter-spacing: 1px;
@@ -911,8 +911,8 @@
 
 .transaction-panel-label,
 .transaction-cases__label {
-  color: #79e6ff;
-  font-size: 17px;
+  color: var(--diagram-structure);
+  font-size: var(--diagram-font-secondary);
   font-weight: 900;
   letter-spacing: .9px;
   text-transform: uppercase;
@@ -965,7 +965,7 @@
   border-radius: 11px;
   background: var(--diagram-structure-surface);
   color: var(--diagram-structure);
-  font: 850 17px 'JetBrains Mono', Menlo, monospace;
+  font: 850 18px 'JetBrains Mono', Menlo, monospace;
 }
 
 .transaction-trace__step--insert {
@@ -1072,8 +1072,8 @@
 .lazy-sql-panel--danger { border-color: var(--diagram-danger-border); }
 
 .lazy-sql-panel__label {
-  color: #ded3e9;
-  font-size: 17px;
+  color: var(--diagram-structure);
+  font-size: var(--diagram-font-secondary);
   font-weight: 900;
   letter-spacing: .9px;
   text-transform: uppercase;
@@ -1105,7 +1105,7 @@
 .lazy-sql-more {
   color: #ffb0c2;
   white-space: nowrap;
-  font: 700 16px/1.2 'JetBrains Mono', Menlo, monospace;
+  font: 700 18px/1.2 'JetBrains Mono', Menlo, monospace;
 }
 
 .lazy-query-count {
@@ -1173,8 +1173,8 @@
 }
 
 .cache-trace-panel__label {
-  color: #ded3e9;
-  font-size: 17px;
+  color: var(--diagram-structure);
+  font-size: var(--diagram-font-secondary);
   font-weight: 900;
   letter-spacing: .9px;
   text-transform: uppercase;
@@ -1211,7 +1211,7 @@
 }
 
 .cache-trace-step > div { min-width: 0; display: grid; gap: 4px; }
-.cache-trace-step small { font-size: 15px; font-weight: 900; letter-spacing: .7px; text-transform: uppercase; }
+.cache-trace-step small { font-size: var(--diagram-font-secondary); font-weight: 900; letter-spacing: .7px; text-transform: uppercase; }
 .cache-trace-step code { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 700 18px/1.25 'JetBrains Mono', Menlo, monospace; }
 .cache-trace-step--structure { border-color: var(--diagram-structure-border); background: var(--diagram-structure-surface); }
 .cache-trace-step--structure small,
@@ -1272,7 +1272,7 @@
 }
 
 .cache-axis small {
-  font-size: 14px;
+  font-size: var(--diagram-font-secondary);
   font-weight: 900;
   letter-spacing: 1px;
 }
@@ -1338,7 +1338,7 @@
 
 .cache-triangle-center small {
   color: #bfb1cf;
-  font-size: 14px;
+  font-size: var(--diagram-font-secondary);
   font-weight: 850;
   letter-spacing: .7px;
   text-transform: uppercase;
@@ -1369,7 +1369,7 @@
 
 .cache-edge span {
   color: #cfc4db;
-  font-size: 17px;
+  font-size: var(--diagram-font-secondary);
   font-weight: 700;
   line-height: 1.15;
 }
@@ -1472,12 +1472,16 @@
 .uuid-size-divider { width: 2px; height: 90%; align-self: center; background: linear-gradient(transparent, rgba(121,230,255,.45), transparent); }
 
 .uuid-anatomy-layout {
+  --uuid-time: #72e4ff;
+  --uuid-version: #a9efff;
+  --uuid-variant: #94bfdc;
+  --uuid-random: #cfc4db;
   min-height: 0;
   height: 100%;
   display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  grid-template-rows: auto auto auto auto;
   align-content: center;
-  gap: 18px;
+  gap: 22px;
 }
 
 .uuid-anatomy-value {
@@ -1489,11 +1493,11 @@
   text-align: center;
 }
 
-.uuid-anatomy-value code { white-space: nowrap; font: 800 34px/1.2 'JetBrains Mono', Menlo, monospace; letter-spacing: .4px; }
-.uuid-part--time { color: #72e4ff; }
-.uuid-part--version { color: #a9efff; }
-.uuid-part--variant { color: #94bfdc; }
-.uuid-part--random { color: #cfc4db; }
+.uuid-anatomy-value code { white-space: nowrap; font: 800 42px/1.2 'JetBrains Mono', Menlo, monospace; letter-spacing: .4px; }
+.uuid-part--time { color: var(--uuid-time); }
+.uuid-part--version { color: var(--uuid-version); }
+.uuid-part--variant { color: var(--uuid-variant); }
+.uuid-part--random { color: var(--uuid-random); }
 .uuid-separator { color: #766a83; }
 
 .uuid-anatomy-legend {
@@ -1504,7 +1508,7 @@
 
 .uuid-legend-item {
   min-width: 0;
-  padding: 13px 16px;
+  padding: 16px 18px;
   display: grid;
   gap: 3px;
   border-top: 4px solid;
@@ -1512,17 +1516,17 @@
   background: rgba(255,255,255,.05);
 }
 
-.uuid-legend-item span { color: #bdb1ca; font: 700 15px 'JetBrains Mono', Menlo, monospace; }
-.uuid-legend-item strong { font-size: 20px; }
-.uuid-legend-item small { color: #cfc4db; font-size: 16px; }
-.uuid-legend-item--time { border-color: var(--diagram-structure-border); }
-.uuid-legend-item--version { border-color: var(--diagram-structure-border); }
-.uuid-legend-item--variant { border-color: var(--diagram-structure-border); }
-.uuid-legend-item--random { border-color: var(--diagram-structure-border); }
+.uuid-legend-item span { color: #bdb1ca; font: 700 18px 'JetBrains Mono', Menlo, monospace; }
+.uuid-legend-item strong { font-size: 24px; }
+.uuid-legend-item small { color: #cfc4db; font-size: var(--diagram-font-secondary); }
+.uuid-legend-item--time { border-color: var(--uuid-time); }
+.uuid-legend-item--version { border-color: var(--uuid-version); }
+.uuid-legend-item--variant { border-color: var(--uuid-variant); }
+.uuid-legend-item--random { border-color: var(--uuid-random); }
 
 .uuid-datetime {
-  min-height: 90px;
-  padding: 15px 20px;
+  min-height: 132px;
+  padding: 21px 24px;
   display: grid;
   grid-template-columns: auto auto;
   align-items: center;
@@ -1533,10 +1537,10 @@
   background: rgba(24,103,79,.22);
 }
 
-.uuid-datetime code { color: #f7f3ff; font: 750 21px 'JetBrains Mono', Menlo, monospace; }
-.uuid-datetime > span { color: #8ff3c9; font-size: 21px; font-weight: 850; }
-.uuid-datetime small { grid-column: 1 / -1; color: #cfc4db; font-size: 16px; text-align: center; }
-.uuid-order-note { color: #d7cce2; font-size: 17px; font-weight: 650; text-align: center; }
+.uuid-datetime code { color: #f7f3ff; font: 750 25px 'JetBrains Mono', Menlo, monospace; }
+.uuid-datetime > span { color: #8ff3c9; font-size: 25px; font-weight: 850; }
+.uuid-datetime small { grid-column: 1 / -1; color: #cfc4db; font-size: 19px; text-align: center; }
+.uuid-order-note { color: #d7cce2; font-size: 19px; font-weight: 650; text-align: center; }
 
 .uuid-code-layout {
   min-height: 0;
@@ -1580,13 +1584,13 @@
 }
 
 .uuid-generators { min-width: 0; display: grid; gap: 16px; }
-.uuid-generator { min-width: 0; padding: 18px 20px; display: grid; gap: 7px; border: 2px solid; border-radius: 16px; }
+.uuid-generator { min-width: 0; padding: 22px 24px; display: grid; gap: 8px; border: 2px solid; border-radius: 16px; }
 .uuid-generator--structure { border-color: var(--diagram-structure-border); background: var(--diagram-structure-surface); }
-.uuid-generator small { color: #d8cce4; font-size: 17px; font-weight: 850; }
-.uuid-generator code { color: #f7f3ff; font: 750 22px 'JetBrains Mono', Menlo, monospace; }
-.uuid-generator span { color: #bdb1ca; font-size: 16px; }
+.uuid-generator small { color: var(--diagram-structure); font-size: var(--diagram-font-secondary); font-weight: 850; }
+.uuid-generator code { color: #f7f3ff; font: 750 24px 'JetBrains Mono', Menlo, monospace; }
+.uuid-generator span { color: #bdb1ca; font-size: var(--diagram-font-secondary); }
 .uuid-distributed-link { display: grid; justify-items: center; gap: 4px; color: #d8cce4; }
-.uuid-distributed-link span { max-width: 130px; font-size: 16px; font-weight: 750; text-align: center; }
+.uuid-distributed-link span { max-width: 145px; font-size: var(--diagram-font-secondary); font-weight: 750; text-align: center; }
 .uuid-distributed-link b { color: var(--diagram-structure); font-size: 40px; }
 
 .uuid-event-id {
@@ -1599,9 +1603,9 @@
   background: rgba(24,103,79,.26);
 }
 
-.uuid-event-id small { color: #8ff3c9; font-size: 16px; font-weight: 900; letter-spacing: .7px; text-transform: uppercase; }
-.uuid-event-id strong { font-size: 25px; line-height: 1.12; }
-.uuid-event-id code { color: #f7f3ff; font: 750 19px 'JetBrains Mono', Menlo, monospace; }
+.uuid-event-id small { color: #8ff3c9; font-size: var(--diagram-font-secondary); font-weight: 900; letter-spacing: .7px; text-transform: uppercase; }
+.uuid-event-id strong { font-size: 29px; line-height: 1.12; }
+.uuid-event-id code { color: #f7f3ff; font: 750 22px 'JetBrains Mono', Menlo, monospace; }
 .uuid-distributed-facts { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
 
 .composition--short .rr-slide { padding: 32px; gap: 20px; }
@@ -2032,8 +2036,8 @@
 .composition--wide .rr-slide--doctrine .identity-change-row > span,
 .composition--wide .rr-slide--doctrine .identity-change-row > strong { font-size: 18px; }
 
-.composition--wide .rr-slide--uuid .uuid-legend-item span { font-size: 17px; }
-.composition--wide .rr-slide--uuid .uuid-legend-item strong { font-size: 22px; }
+.composition--wide .rr-slide--uuid .uuid-legend-item span { font-size: 18px; }
+.composition--wide .rr-slide--uuid .uuid-legend-item strong { font-size: 24px; }
 .composition--wide .rr-slide--uuid .uuid-legend-item small,
 .composition--wide .rr-slide--uuid .uuid-datetime small,
 .composition--wide .rr-slide--uuid .uuid-code-result small,
@@ -2044,7 +2048,7 @@
 .composition--wide .rr-slide--uuid .uuid-distributed-link span { font-size: 18px; }
 .composition--wide .rr-slide--uuid .uuid-db-note code { font-size: 19px; }
 .composition--wide .rr-slide--uuid .uuid-code-layout .doctrine-code code { font-size: 22px; }
-.composition--wide .rr-slide--uuid .uuid-event-id code { font-size: 21px; }
+.composition--wide .rr-slide--uuid .uuid-event-id code { font-size: 22px; }
 
 .composition--wide .rr-slide--di-compile .di-build-step > span,
 .composition--wide .rr-slide--di-compile .di-generated-container > span { font-size: 18px; }
@@ -2200,12 +2204,42 @@
 .composition--short .rr-slide--29-lsp .rr-card p { font-size: 23px; }
 .composition--short .rr-slide--29-lsp .rr-card code { font-size: 23px; }
 
-/* Component outlines are structural, not semantic. Meaning stays in copy,
-   badges and surfaces; connectors keep their own color. */
-.visual :where(*) {
-  border-color: var(--diagram-border-neutral) !important;
+/* Compact layouts used to shrink secondary copy below the 1080p floor.
+   Preserve their composition, but keep meaningful labels and code readable. */
+.composition--short .enum-example > span,
+.composition--short .enum-example > span code,
+.composition--short .compiler-pass-example__label,
+.composition--short .compiler-pass-service code,
+.composition--short .compiler-pass-error span,
+.composition--short .compiler-pass-error code,
+.composition--short .di-build-step p,
+.composition--short .di-runtime-result span,
+.composition--short .doctrine-state span,
+.composition--short .doctrine-zero-sql span,
+.composition--short .change-set-output,
+.composition--short .change-set-index,
+.composition--short .audit-steps p,
+.composition--short .clear-state-flow span,
+.composition--short .identity-card .doctrine-code code,
+.composition--short .identity-result span,
+.composition--short .doctrine-footer--quiet,
+.composition--short .identity-service-card small,
+.composition--short .identity-service-card code,
+.composition--short .identity-change-row code,
+.composition--short .identity-change-row > span,
+.composition--short .identity-change-row > strong,
+.composition--short .transaction-entities span,
+.composition--short .transaction-trace__step,
+.composition--short .lazy-sql-row,
+.composition--short .lazy-sql-more,
+.composition--short .lazy-query-count span,
+.composition--short .cache-trace-step small,
+.composition--short .cache-trace-step code,
+.composition--short .cache-axis small,
+.composition--short .cache-axis span,
+.composition--short .telegram-case-observation small {
+  font-size: var(--diagram-font-secondary);
 }
 
-.visual :where(.rr-badge, .correction-badge) {
-  border-color: var(--diagram-warning) !important;
-}
+.composition--short .change-set-index { min-width: 90px; }
+.composition--short .uuid-event-id code { font-size: 22px; }

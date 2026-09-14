@@ -13,6 +13,12 @@ proxies/
 *.aep
 *.prproj
 
+# Immutable inputs required to reproduce episode 841862 are stored in Git LFS.
+!video/public/episode-841862/interview.mp4
+!video/public/episode-841862/intro.mp4
+!video/public/episode-841862/outro.mp4
+!episodes/841862-1payment/audio-for-restoration/interviewer-repaired-34m23s-42m36s.wav
+
 .DS_Store
 node_modules/
 video/public/generated/

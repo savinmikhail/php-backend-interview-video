@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SOURCE_VIDEO="${FULL_REVIEW_SOURCE:-/Users/mikhailsavin/Movies/2026-07-10 merged.mp4}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 VIDEO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 PROJECT_DIR="$(cd "$VIDEO_DIR/.." && pwd)"
+SOURCE_VIDEO="${FULL_REVIEW_SOURCE:-$VIDEO_DIR/public/episode-841862/interview.mp4}"
 OUTPUT="$VIDEO_DIR/public/generated/full-review-audio.m4a"
 LOUD_OUTPUT="$VIDEO_DIR/public/generated/full-review-audio-loud.wav"
 CUT_OUTPUT="$VIDEO_DIR/public/generated/full-review-audio-cut.m4a"
